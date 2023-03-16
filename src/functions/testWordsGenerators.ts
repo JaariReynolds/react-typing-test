@@ -21,6 +21,7 @@ const getRandomInt = (max: number): number => {
 export const testWordsGenerator = (testLength: number, numbers: boolean, punctuation: boolean): TestWords => {
     let randomWordArray: Word[] = []
     let randomWord: string | number;
+    let characterCount: number = 0
     for (let i = 0; i < testLength; i++) {
         let randomInt: number = getRandomInt(numberOfRandomWords) // get index for word list
         let randomNum: number = Math.random()
@@ -37,8 +38,9 @@ export const testWordsGenerator = (testLength: number, numbers: boolean, punctua
         }
     
         
+        characterCount += randomWord.length
         randomWordArray.push(new Word(randomWord))
     }
 
-    return {words: randomWordArray, errorCount: 0, timeElapsedMilliSeconds: 0}
+    return {words: randomWordArray, errorCountHard: 0, errorCountSoft: 0, timeElapsedMilliSeconds: 0, characterCount: characterCount, keystrokeCharacterCount: 0}
 }

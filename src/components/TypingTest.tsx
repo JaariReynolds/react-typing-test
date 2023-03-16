@@ -27,8 +27,8 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
 
     // randomise words, reset states if dependencies change
     useEffect(() => {
-        let testWordsObect: TestWords = testWordsGenerator(testLength, numbers, punctuation)
-        setTestWords(testWordsObect)
+      
+        setTestWords(testWordsGenerator(testLength, numbers, punctuation))
         if (inputRef.current) {
             inputRef.current.focus()
         }
@@ -54,7 +54,7 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
     }, [inputWordsArray.length])
 
 
-    const startTestStopWatch = () => {
+    const startTestStopWatch = (): void => {
         if (intervalId !== null) return
 
         setTestRunning(true)
@@ -64,14 +64,24 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
         setIntervalId(id)
     }
 
-    const stopTestStopWatch = () => {
+    const stopTestStopWatch = (): void => {
         if (intervalId === null) return
 
-        setTestWords({...testWords, timeElapsedMilliSeconds: testTimeMilliSeconds})
+        setTestWords({...testWords, timeElapsedMilliSeconds: testTimeMilliSeconds, errorCountHard: calculateTotalErrors()})
         clearInterval(intervalId)       
         setTestRunning(false)
         setIntervalId(null)
+        console.log(testWords)
+    }
 
+    const calculateTotalErrors = (): number => {
+       return testWords.words.reduce((total, word) => total + word.errorCount, 0)
+        
+    }
+
+    // check the status of each letter of the word without 'submitting', useful only for the final word in the test
+    const checkFinalWordStatus = (finalInputWord: string) => {
+        const finalTestWord = testWords.words[testLength]
     }
 
     const handleCtrlBackspace = () => {
@@ -158,13 +168,22 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
         const updatedWord = {...testWords.words[inputWordsArray.length]}
 
         let newStatus: CompletionStatus = CompletionStatus.None
-        if (character)  
-            newStatus = (currentInput.slice(-1) === currentLetter.letter) ? CompletionStatus.Correct : CompletionStatus.Incorrect   // slice(-1) gets the newest input character
+        let softError = testWords.errorCountSoft
+        if (character)
+        
+        if (currentInput.slice(-1) === currentLetter.letter) { // slice(-1) gets the newest input character
+            newStatus = CompletionStatus.Correct
+        }
+        else {
+            newStatus = CompletionStatus.Incorrect
+            softError += 1
+        }
+               
   
         updatedWord.word[currentWordLength] = {...updatedWord.word[currentWordLength], status: newStatus}
         const updatedTestWords = [...testWords.words]
         updatedTestWords[inputWordsArray.length] = updatedWord
-        setTestWords({...testWords, words: updatedTestWords})
+        setTestWords({...testWords, words: updatedTestWords, errorCountSoft: softError})
 
     }
 
@@ -175,14 +194,17 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
         const updatedWord = {...testWords.words[inputWordsArray.length]}
         const updatedTestWords = [...testWords.words]
 
-        if (character) 
+        let softError = testWords.errorCountSoft
+        if (character) {
             updatedWord.word.push(additionalLetter)
-        else 
+            softError += 1
+        }
+        else {
             updatedWord.word.pop()
-        
+        }
 
-        updatedTestWords[inputWordsArray.length] = updatedWord
-        setTestWords({...testWords, words: updatedTestWords})
+        updatedTestWords[inputWordsArray.length] = updatedWord  
+        setTestWords({...testWords, words: updatedTestWords, errorCountSoft: softError })
     }
 
     // figure out what to do based on input
@@ -233,7 +255,9 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
             handleAdditionalLetter(e.target.value, true)
         }
 
-       
+       if (inputWordsArray.length === testWords.words.length -1) {
+            checkFinalWordStatus(e.target.value)
+       }
     }
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -320,23 +344,16 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
                 {inputWordsArray.map(word => {return <span>{word} </span>})}
             </div>
             <div>
-                errorCount: {testWords.errorCount}
+                errorCount: {testWords.errorCountHard}
             </div>
             <div>
-                testTime: {testTimeMilliSeconds/1000}, testWordsTestTime: {testWords.timeElapsedMilliSeconds}
+                testTime: {testTimeMilliSeconds/1000}, 
             </div>
             <div>
                 testRunning: {testRunning.toString()}
             </div>
             <div>
-                <button onClick={startTestStopWatch}>start</button>
-            </div>
-            <div>
-                <button onClick={stopTestStopWatch}>stop</button>
-            </div>
-
-            <div>
-               
+                ErrorCountHard: {testWords.errorCountHard}, ErrorCountSoft: {testWords.errorCountSoft}, testWordsTestTime: {testWords.timeElapsedMilliSeconds}, CharacterCount: {testWords.characterCount}
             </div>
             <div>
                 {testWords.words.map(word => (
@@ -352,21 +369,7 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
                     </pre>
                 ))}
             </div>
-
-            <pre>
-                {testWords.words.map(word => (             
-                    <span>
-                        {word.word.map(letter => (
-                            <span>
-                                <span>{letter.letter}, {letter.status}</span>
-                            </span>
-                        ))}
-                    </span>   
-                ))}
-
-            </pre>
         </>  
-        
     )
 }
 

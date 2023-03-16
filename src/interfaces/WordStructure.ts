@@ -39,7 +39,10 @@ export class Word {
 // can add the test results to this e.g. accuracy, wpm, errors, typing consistency, etc.
 export interface TestWords {
     words: Word[]
-    errorCount: number
+    errorCountHard: number // ONLY submitted incorrect character strokes
+    errorCountSoft: number // submitted AND backspaced incorrect character strokes
+    characterCount: number
+    keystrokeCharacterCount: number
     timeElapsedMilliSeconds: number
 
     // // currently not used but might be useful in the future 
