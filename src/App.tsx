@@ -7,7 +7,7 @@ import NumberSelector from './components/NumberSelector';
 import { TestWords, Word, Letter, CompletionStatus } from './interfaces/WordStructure';
 
 function App() {
-  const [testWords, setTestWords] = useState<TestWords>(new TestWords)
+  const [testWords, setTestWords] = useState<TestWords>({words: [], errorCount: 0, timeElapsedMilliSeconds: 0});
   const [testLength, setTestLength] = useState<number>(25)
   const [includePunctuation, setIncludePunctuation] = useState<boolean>(false)
   const [includeNumbers, setIncludeNumbers] = useState<boolean>(false)

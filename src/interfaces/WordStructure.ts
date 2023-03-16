@@ -34,38 +34,18 @@ export class Word {
             this.word.push(new Letter(letter))
         }
     }
-
-    // // method to call when the word is "submitted" to the input array, calculates the overall completion based on each letter's completion
-    // CalculateWordCompletion = () => {
-    //     let completion: CompletionStatus = CompletionStatus.Correct
-
-    //     this.word.map(letterObject => {
-    //         switch (letterObject.status) {
-    //             case CompletionStatus.Correct:
-    //                 return 
-    //             case CompletionStatus.Incorrect:
-    //                 completion = CompletionStatus.Incorrect
-    //                 return
-    //             case CompletionStatus.None:
-    //                 completion = CompletionStatus.Incorrect
-    //                 letterObject.status = CompletionStatus.Incorrect
-    //                 return       
-    //         }
-    //     })
-
-    //     this.status = completion
-    // }
 }
 
 // can add the test results to this e.g. accuracy, wpm, errors, typing consistency, etc.
-export class TestWords {
-    words: Word[] = []
-    errorCount: number = 0
+export interface TestWords {
+    words: Word[]
+    errorCount: number
+    timeElapsedMilliSeconds: number
 
-    // currently not used but might be useful in the future 
-    constructor(wordArray?: Word[]) {
-        this.words = (wordArray === undefined) ? [] : wordArray
-    }
+    // // currently not used but might be useful in the future 
+    // constructor(wordArray?: Word[]) {
+    //     this.words = (wordArray === undefined) ? [] : wordArray
+    // }
     
 } 
 

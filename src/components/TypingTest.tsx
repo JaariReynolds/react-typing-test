@@ -18,7 +18,7 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
     const [inputWordsArray, setInputWordsArray] = useState<string[]>([])
 
     const [testRunning, setTestRunning] = useState<boolean>(false)
-    const [testTime, setTestTime] = useState<number>(0.00)
+    const [testTimeMilliSeconds, setTestTimeMilliSeconds] = useState<number>(0)
     const [intervalId, setIntervalId] = useState<NodeJS.Timer|null>(null)
     
     const [pressedKeys, setPressedKeys] = useState<string[]>([]) // array because more than 1 key can be held down at once
@@ -27,7 +27,8 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
 
     // randomise words, reset states if dependencies change
     useEffect(() => {
-        setTestWords(testWordsGenerator(testLength, numbers, punctuation))
+        let testWordsObect: TestWords = testWordsGenerator(testLength, numbers, punctuation)
+        setTestWords(testWordsObect)
         if (inputRef.current) {
             inputRef.current.focus()
         }
@@ -36,34 +37,41 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
         setCurrentInputWord("")
         setPressedKeys([])
         stopTestStopWatch()
-        setTestTime(0)
+        setTestTimeMilliSeconds(0)
 
         console.log("randomise test words, reset states")
         
     }, [testLength, numbers, punctuation, reset, quickReset])
 
+   
+    // TEST IS FINISHED
     useEffect(() => {
         if (inputWordsArray.length === testWords.words.length) {
+            console.log(`"Length of test = ${inputWordsArray.length}"`)
             stopTestStopWatch()
         }
+
     }, [inputWordsArray.length])
+
+
     const startTestStopWatch = () => {
         if (intervalId !== null) return
 
         setTestRunning(true)
         const id = setInterval(() => {
-            setTestTime(previousTime => previousTime + 1)
+            setTestTimeMilliSeconds(previousTime => previousTime + 10)
         }, 10)
         setIntervalId(id)
     }
 
     const stopTestStopWatch = () => {
-        console.log(`"stop test watch, ${intervalId}"`)
-        if (intervalId === null) 
-            return
+        if (intervalId === null) return
+
+        setTestWords({...testWords, timeElapsedMilliSeconds: testTimeMilliSeconds})
         clearInterval(intervalId)       
         setTestRunning(false)
         setIntervalId(null)
+
     }
 
     const handleCtrlBackspace = () => {
@@ -82,7 +90,7 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
             
             return {...wordObject, word: updatedLetters, status: CompletionStatus.None}
         })
-        setTestWords(new TestWords(updatedTestWords))
+        setTestWords({...testWords, words: updatedTestWords})
     }
 
     // when 'submitting' a word that has less characters than expected, assign a status to the remaining letters 
@@ -117,7 +125,7 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
         })
         
         
-        setTestWords(new TestWords(updatedTestWords))
+        setTestWords({...testWords, words: updatedTestWords})
     }
 
     // when backspacing to the previous word, fix the status of letters that were auto-assigned a status because a letter wasn't typed for them
@@ -138,7 +146,8 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
         updatedWord.word = updatedLetters
         const updatedTestWords = [...testWords.words]
         updatedTestWords[inputWordsArray.length] = {...updatedWord, status: CompletionStatus.None, errorCount: 0} // always reset the word completion status to None, recalculate it when 'submitting' again
-        setTestWords(new TestWords(updatedTestWords))
+        setTestWords({...testWords, words: updatedTestWords})
+
     }
 
     // update the completionStatus on the currently active letter object 
@@ -155,7 +164,8 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
         updatedWord.word[currentWordLength] = {...updatedWord.word[currentWordLength], status: newStatus}
         const updatedTestWords = [...testWords.words]
         updatedTestWords[inputWordsArray.length] = updatedWord
-        setTestWords(new TestWords(updatedTestWords))
+        setTestWords({...testWords, words: updatedTestWords})
+
     }
 
     // add or remove an additional letter object
@@ -172,7 +182,7 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
         
 
         updatedTestWords[inputWordsArray.length] = updatedWord
-        setTestWords(new TestWords(updatedTestWords))
+        setTestWords({...testWords, words: updatedTestWords})
     }
 
     // figure out what to do based on input
@@ -313,7 +323,7 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
                 errorCount: {testWords.errorCount}
             </div>
             <div>
-                testTime: {testTime/100}
+                testTime: {testTimeMilliSeconds/1000}, testWordsTestTime: {testWords.timeElapsedMilliSeconds}
             </div>
             <div>
                 testRunning: {testRunning.toString()}
@@ -326,9 +336,12 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
             </div>
 
             <div>
+               
+            </div>
+            <div>
                 {testWords.words.map(word => (
                     <pre>
-                        {/* {JSON.stringify(word, null, 2)} */}
+                       
                         <span>Word: {word.wordString}, Status: {word.status}, OriginalLength: {word.originalLength}, ErrorCount: {word.errorCount}</span>
                         {word.word.map(letter => (
                             <pre>
