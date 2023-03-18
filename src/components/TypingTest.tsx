@@ -75,7 +75,7 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
     }
 
     const calculateTotalErrors = (): number => {
-       return testWords.words.reduce((total, word) => total + word.errorCount, 0)
+       return testWords.words.reduce((total, word) => total + word.errorCountHard, 0)
         
     }
 
@@ -138,6 +138,16 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
         setTestWords({...testWords, words: updatedTestWords})
     }
 
+    // this should be run every time a letter is added/removed
+    const calculateActualWordCompletion = () => {
+        // for each letter in the word
+            // if it contains an incorrect, make word.status = incorrect
+            // if inputword.length === word.original length and no incorrects, word.status = correct
+            // if no incorrects but the word not finished yet, word.status = none
+
+    }
+
+
     // when backspacing to the previous word, fix the status of letters that were auto-assigned a status because a letter wasn't typed for them
     const recalculateWordCompletion = (recoveredWord: string) => {
         const updatedWord = {...testWords.words[inputWordsArray.length]};
@@ -155,7 +165,7 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
 
         updatedWord.word = updatedLetters
         const updatedTestWords = [...testWords.words]
-        updatedTestWords[inputWordsArray.length] = {...updatedWord, status: CompletionStatus.None, errorCount: 0} // always reset the word completion status to None, recalculate it when 'submitting' again
+        updatedTestWords[inputWordsArray.length] = {...updatedWord, status: CompletionStatus.None, errorCountHard: 0} // always reset the word completion status to None, recalculate it when 'submitting' again
         setTestWords({...testWords, words: updatedTestWords})
 
     }
@@ -178,11 +188,22 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
             newStatus = CompletionStatus.Incorrect
             softError += 1
         }
-               
-  
+
         updatedWord.word[currentWordLength] = {...updatedWord.word[currentWordLength], status: newStatus}
         const updatedTestWords = [...testWords.words]
-        updatedTestWords[inputWordsArray.length] = updatedWord
+
+        
+        // calculate current word completion status 
+        if (newStatus === CompletionStatus.Incorrect) {
+            updatedTestWords[inputWordsArray.length] = {...updatedWord, status: CompletionStatus.Incorrect}
+        } 
+        else if (currentWordLength === updatedWord.originalLength && newStatus === CompletionStatus.Correct) {
+            updatedTestWords[inputWordsArray.length] = {...updatedWord, status: CompletionStatus.Correct}
+        }
+        else {
+            updatedTestWords[inputWordsArray.length] = {...updatedWord, status: CompletionStatus.None}
+        }
+  
         setTestWords({...testWords, words: updatedTestWords, errorCountSoft: softError})
 
     }
@@ -359,7 +380,7 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
                 {testWords.words.map(word => (
                     <pre>
                        
-                        <span>Word: {word.wordString}, Status: {word.status}, OriginalLength: {word.originalLength}, ErrorCount: {word.errorCount}</span>
+                        <span>Word: {word.wordString}, Status: {word.status}, OriginalLength: {word.originalLength}, ErrorCount: {word.errorCountHard}</span>
                         {word.word.map(letter => (
                             <pre>
                                 {JSON.stringify(letter)}

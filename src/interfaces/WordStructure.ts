@@ -22,7 +22,7 @@ export class Word {
     wordString: string = ""
     status: CompletionStatus = CompletionStatus.None
     originalLength: number = 0
-    errorCount: number = 0
+    errorCountHard: number = 0
 
     // create a letter object for each character in the word
     constructor(word: string, status?: CompletionStatus) {
