@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 
 interface IProps {
     numbers: boolean,
@@ -6,26 +6,25 @@ interface IProps {
 }
 
 const NumberSelector = ({numbers, setNumbers}: IProps) => {
-
-    const renderOptions = () => {
-        return (
-            <>
-                <label>
+	const renderOptions = () => {
+		return (
+			<>
+				<label>
                     Numbers:
-                    <input
-                        type="checkbox"
-                        checked={numbers}
-                        onChange={() => setNumbers(!numbers)} 
-                    />
-                </label>
-            </>
-        )
-    }
-    return (
-        <div>
-            {renderOptions()}
-        </div>
-    )
-}
+					<input
+						type="checkbox"
+						checked={numbers}
+						onChange={() => setNumbers(!numbers)} 
+					/>
+				</label>
+			</>
+		);
+	};
+	return (
+		<div>
+			{renderOptions()}
+		</div>
+	);
+};
 
-export default NumberSelector
+export default NumberSelector;
