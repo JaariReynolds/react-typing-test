@@ -71,16 +71,19 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
 	const stopTestStopWatch = (): void => {
 		if (intervalId === null) return;
 
-		setTestWords({...testWords, timeElapsedMilliSeconds: testTimeMilliSeconds, errorCountHard: calculateTotalErrors()});
+		setTestWords({...testWords, timeElapsedMilliSeconds: testTimeMilliSeconds, errorCountHard: calculateTotalErrorsHard(), errorCountSoft: calculateTotalErrorsSoft()});
 		clearInterval(intervalId);       
 		setTestRunning(false);
 		setIntervalId(null);
 		console.log(testWords);
 	};
 
-	const calculateTotalErrors = (): number => {
+	const calculateTotalErrorsHard = (): number => {
 		return testWords.words.reduce((total, word) => total + word.errorCountHard, 0);
-        
+	};
+
+	const calculateTotalErrorsSoft = (): number => {
+		return testWords.words.reduce((total, word) => total + word.errorCountSoft, 0);
 	};
 
 	const handleCtrlBackspace = () => {
@@ -200,7 +203,8 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
 			return;
 		}     
 
-		if (e.target.value.slice(-1) === " ") {
+		// if i still somehow get passed the previous check, do another check :) 
+		if (e.target.value.slice(-1) === " ") { 
 			return;
 		}
 
