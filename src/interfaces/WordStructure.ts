@@ -24,6 +24,7 @@ export class Word {
 	status: CompletionStatus = CompletionStatus.None;
 	originalLength = 0;
 	errorCountHard = 0;
+	errorCountSoft = 0;
 
 	// create a letter object for each character in the word
 	constructor(word: string, status?: CompletionStatus) {

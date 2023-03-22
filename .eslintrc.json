@@ -10,8 +10,7 @@
         "plugin:@typescript-eslint/recommended",
         "plugin:react-hooks/recommended"
     ],
-    "overrides": [
-    ],
+    "overrides": [],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "ecmaVersion": "latest",
@@ -22,16 +21,49 @@
         "@typescript-eslint"
     ],
     "rules": {
-        "indent": ["error", "tab"],
-        "quotes": ["error", "double"],
-        "semi": ["error", "always"],
-        "comma-spacing": ["error", {"before": false, "after": true}],
-        "space-before-blocks": ["error", "always"],
-        "keyword-spacing": ["error", { "before": true }], // enforce consistent spacing before keywords
-        "arrow-spacing": ["error", { "before": true, "after": true }], // enforce consistent spacing around arrow function arrows
+        "indent": [
+            "error",
+            "tab"
+        ],
+        "quotes": [
+            "error",
+            "double"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ],
+        "comma-spacing": [
+            "error",
+            {
+                "before": false,
+                "after": true
+            }
+        ],
+        "space-before-blocks": [
+            "error",
+            "always"
+        ],
+        "keyword-spacing": [
+            "error",
+            {
+                "before": true
+            }
+        ], // enforce consistent spacing before keywords
+        "arrow-spacing": [
+            "error",
+            {
+                "before": true,
+                "after": true
+            }
+        ], // enforce consistent spacing around arrow function arrows
         "no-multi-spaces": "error", // disallow multiple spaces
-        
-        "linebreak-style": [0],
-        "react/prop-types":[0]
+        "no-empty": "off",
+        "linebreak-style": [
+            0
+        ],
+        "react/prop-types": [
+            0
+        ]
     }
 }

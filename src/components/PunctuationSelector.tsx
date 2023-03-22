@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 
 interface IProps {
     punctuation: boolean,
@@ -7,26 +7,26 @@ interface IProps {
 
 const PunctuationSelector = ({punctuation, setPunctuation}: IProps) => {
     
-    const renderOptions = () => {
-        return (
-            <>
-                <label>
+	const renderOptions = () => {
+		return (
+			<>
+				<label>
                     Punctuation:
-                    <input
-                        type="checkbox"
-                        checked={punctuation}
-                        onChange={() => setPunctuation(!punctuation)}
-                    />
-                </label>
-            </>
-        )
-    }
+					<input
+						type="checkbox"
+						checked={punctuation}
+						onChange={() => setPunctuation(!punctuation)}
+					/>
+				</label>
+			</>
+		);
+	};
 
-    return (
-        <div>
-            {renderOptions()}
-        </div>
-    )
-}
+	return (
+		<div>
+			{renderOptions()}
+		</div>
+	);
+};
 
-export default PunctuationSelector
+export default PunctuationSelector;
