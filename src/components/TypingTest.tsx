@@ -15,9 +15,10 @@ interface IProps {
     numbers: boolean,
     punctuation: boolean
     reset: boolean
+	setShowResultsComponent: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, reset}: IProps) => {
+const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, reset, setShowResultsComponent}: IProps) => {
 	const [currentInputWord, setCurrentInputWord] = useState<string>("");
 	const [inputWordsArray, setInputWordsArray] = useState<string[]>([]);
 
@@ -28,35 +29,46 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
 	const [pressedKeys, setPressedKeys] = useState<string[]>([]); // array because more than 1 key can be held down at once
 	const [quickReset, setQuickReset] = useState<boolean>(false);
 	const inputRef = useRef<HTMLInputElement>(null);
+	const [lastWord, setLastWord] = useState<boolean>(false);
 
 	// randomise words, reset states if dependencies change
 	useEffect(() => {
-      
+		stopTestStopWatch();
+		setTestTimeMilliSeconds(0);
+
 		setTestWords(testWordsGenerator(testLength, numbers, punctuation));
 		if (inputRef.current) {
 			inputRef.current.focus();
 		}
         
+		setShowResultsComponent(false);
 		setInputWordsArray([]);
 		setCurrentInputWord("");
 		setPressedKeys([]);
-		stopTestStopWatch();
-		setTestTimeMilliSeconds(0);
-
+		
 		console.log("randomise test words, reset states");
-        
 	}, [testLength, numbers, punctuation, reset, quickReset]);
 
    
-	// TEST IS FINISHED
+	// test is finished when pressing space on last word or if the last word is correct - using checkLastWord()
 	useEffect(() => {
 		if (inputWordsArray.length === testWords.words.length) {
 			console.log(`"Length of test = ${inputWordsArray.length}"`);
 			stopTestStopWatch();
+			return;
 		}
 
+		if (inputWordsArray.length === testWords.words.length - 1) 
+			setLastWord(true);			
+		else 
+			setLastWord(false);			
 	}, [inputWordsArray.length]);
 
+	const checkLastWord = () => {
+		const lastWord = testWords.words[testWords.words.length - 1];
+		if (lastWord.status === CompletionStatus.Correct) 
+			stopTestStopWatch();
+	};
 
 	const startTestStopWatch = (): void => {
 		if (intervalId !== null) return;
@@ -72,10 +84,73 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
 		if (intervalId === null) return;
 
 		setTestWords({...testWords, timeElapsedMilliSeconds: testTimeMilliSeconds, errorCountHard: calculateTotalErrorsHard(), errorCountSoft: calculateTotalErrorsSoft()});
+		setShowResultsComponent(true);
 		clearInterval(intervalId);       
 		setTestRunning(false);
 		setIntervalId(null);
 		console.log(testWords);
+	};
+
+	// calculate the total num of hard errors in a word after pressing 'space'
+	const calculateWordErrorsHard = (wordIndex: number) => {
+		const wordObject = testWords.words[wordIndex];
+
+		// if the word isn't finished, set remaining letters to incorrect 
+		wordObject.word = wordObject.word.map(letter => {
+			if (letter.status === CompletionStatus.None) {
+				wordObject.status = CompletionStatus.Incorrect;
+				return {...letter, status: CompletionStatus.Incorrect};
+			}
+			
+			return letter;
+		});
+
+		// tally total number of hard errors
+		const wordErrorCount = wordObject.word.reduce((total, letter) => {
+			if (letter.status === CompletionStatus.Incorrect) 
+				total += 1;
+			
+			return total;
+		}, 0);
+
+		const newWordObject: Word = {...wordObject, errorCountHard: wordErrorCount};
+		const newTestWords = testWords.words;
+		newTestWords[wordIndex] = newWordObject;
+		setTestWords(previousState => ({
+			...previousState, words: newTestWords
+		}));
+	};
+
+	// when going back to the previous incorrect word, recalculate the letter statuses IF less letters than the word
+	const recalculateLettersStatus = (inputWord: string, wordIndex: number) => {
+
+		// clear current status of letters in the word 
+		const wordObject = testWords.words[wordIndex];
+		wordObject.word = wordObject.word.map(letter => {
+			return {...letter, status: CompletionStatus.None};
+		});
+
+		// re-set the status of letters based on the recovered word
+		wordObject.word = wordObject.word.map((letterObject, letterIndex) => {
+			if (letterIndex >= inputWord.length) 
+				return letterObject;
+
+			if (inputWord[letterIndex] === letterObject.letter) 
+				return {...letterObject, status: CompletionStatus.Correct};
+			else 
+				return {...letterObject, status: CompletionStatus.Incorrect};
+			
+		});
+
+		// recalculate word correctness based on letters
+		wordObject.status = containsIncorrect(wordObject.word) ? CompletionStatus.Incorrect : CompletionStatus.None; 
+
+		const newTestWords = testWords.words;
+		newTestWords[wordIndex] = wordObject;
+		setTestWords(previousState => ({
+			...previousState, words: newTestWords
+		}));
+
 	};
 
 	const calculateTotalErrorsHard = (): number => {
@@ -86,6 +161,7 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
 		return testWords.words.reduce((total, word) => total + word.errorCountSoft, 0);
 	};
 
+	// should clear every character's status in the current word + remove additional letters
 	const handleCtrlBackspace = () => {
 		const updatedTestWords = testWords.words.map((wordObject, wordIndex) => {
 			if (wordIndex !== inputWordsArray.length) {
@@ -105,10 +181,12 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
 		setTestWords({...testWords, words: updatedTestWords});
 	};
 
+	// used when backspacing a letter and checking if the new word is correct/incorrect
 	const containsIncorrect = (letterArray: Letter[]): boolean => {
 		const isIncorrectWord = letterArray.reduce((accumulator, letterObject) => {
 			if (letterObject.status === CompletionStatus.Incorrect) 
 				return true;
+
 			return accumulator;
 		}, false);
 		
@@ -141,7 +219,7 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
 
 		const letterArray = wordObject.word;
 		letterArray[inputWord.length] = removedLetter;
-
+		
 		const wordStatus = containsIncorrect(letterArray) ? CompletionStatus.Incorrect : CompletionStatus.None;
 		return {...wordObject, word: letterArray, status: wordStatus};
 	};
@@ -196,7 +274,7 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
 
 		// if spacebar pressed, insert current word to array, clear current word, clear pressed keys just in case
 		if (pressedKeys[pressedKeys.length-1] === SPACEBAR && e.target.value.trim().length > 0) { // (.length - 1) means its the only character currently pressed at the time
-			//calculateWordCompletion();
+			calculateWordErrorsHard(inputWordsArray.length);
 			setInputWordsArray([...inputWordsArray, currentInputWord]);
 			setCurrentInputWord("");
 			setPressedKeys([]);
@@ -217,29 +295,26 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
 		}
 
 		let currentTestWord = testWords.words[inputWordsArray.length];
-
+		
+		// #region Character Handling Block
 		// if backspacing an existing character
 		if (pressedKeys[pressedKeys.length - 1] === "Backspace" && currentInputWord.length > 0 && currentInputWord.length <= testWords.words[inputWordsArray.length].originalLength) {
 			console.log("removing status on previous letter");
-			//handleExistingLetter(e.target.value, false);    
 			currentTestWord = removeExistingLetter(currentTestWord, e.target.value);
 		} 
 		// if backspacing an additional character    
 		else if (pressedKeys[pressedKeys.length - 1] === "Backspace" && currentInputWord.length > testWords.words[inputWordsArray.length].originalLength) {
 			console.log("backspacing an additional letter");
-			//handleAdditionalLetter(e.target.value, false);
 			currentTestWord = removeAdditionalLetter(currentTestWord);
 		} 
 		// if updating an existing character
 		else if (e.target.value.length <= testWords.words[inputWordsArray.length].originalLength) {
 			console.log("updating status on existing letter");
-			//handleExistingLetter(e.target.value, true);
 			currentTestWord = addExistingLetter(currentTestWord, e.target.value);
 		} 
 		// if adding/updating an additional character
 		else if (e.target.value.length > testWords.words[inputWordsArray.length].originalLength) {
 			console.log("adding additional letter");
-			//handleAdditionalLetter(e.target.value, true);
 			currentTestWord = addAdditionalLetter(currentTestWord, e.target.value.slice(-1));
 		}
 
@@ -249,6 +324,9 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
 		setTestWords(previousState => (
 			{...previousState, words: newTestWords}
 		));
+		// #endregion
+
+		if (lastWord) checkLastWord();
 	};
 
 	const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -283,6 +361,11 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
 			const recoveredWord: string = inputWordsCopy.pop()!;
 			setInputWordsArray([...inputWordsCopy]);
 			setCurrentInputWord(recoveredWord);
+			setLastWord(false);
+
+			if (recoveredWord.length < testWords.words[inputWordsCopy.length].originalLength) 
+				recalculateLettersStatus(recoveredWord, inputWordsCopy.length);		
+
 			e.preventDefault(); // disable backspace to not also delete the last letter of the inserted word
 			return;
 		}
@@ -342,9 +425,12 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
                 testRunning: {testRunning.toString()}
 			</div>
 			<div>
-                ErrorCountHard: {testWords.errorCountHard}, ErrorCountSoft: {testWords.errorCountSoft}, testWordsTestTime: {testWords.timeElapsedMilliSeconds}, CharacterCount: {testWords.characterCount}
+				lastWord: {lastWord.toString()}
 			</div>
 			<div>
+                ErrorCountHard: {testWords.errorCountHard}, ErrorCountSoft: {testWords.errorCountSoft}, testWordsTestTime: {testWords.timeElapsedMilliSeconds}, CharacterCount: {testWords.characterCount}
+			</div>
+			{/* <div>
 				{testWords.words.map(word => (
 					<pre>
                        
@@ -357,7 +443,7 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
                         
 					</pre>
 				))}
-			</div>
+			</div> */}
 		</>  
 	);
 };

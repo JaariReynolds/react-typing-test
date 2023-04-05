@@ -59,6 +59,7 @@
         ], // enforce consistent spacing around arrow function arrows
         "no-multi-spaces": "error", // disallow multiple spaces
         "no-empty": "off",
+        "no-mixed-spaces-and-tabs": "off",
         "linebreak-style": [
             0
         ],

@@ -4,6 +4,7 @@ import TypingTest from "./components/TypingTest";
 import TestLengthSelector from "./components/TestLengthSelector";
 import PunctuationSelector from "./components/PunctuationSelector";
 import NumberSelector from "./components/NumberSelector";
+import TypingTestResults from "./components/TypingTestResults";
 import { TestWords } from "./interfaces/WordStructure";
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
 	const [includePunctuation, setIncludePunctuation] = useState<boolean>(false);
 	const [includeNumbers, setIncludeNumbers] = useState<boolean>(false);
 	const [reset, setReset] = useState<boolean>(false);
+	const [showResultsComponent, setShowResultsComponent] = useState<boolean>(false);
 
 	return (
 		<div className="App">
@@ -30,9 +32,13 @@ function App() {
 						<button onClick={() => setReset(!reset)}>Reset</button>
 					</div>
 					<div className="col-span-full bg-blue-500 rounded h-96">
-						<TypingTest testWords={testWords} setTestWords={setTestWords} testLength={testLength} numbers={includeNumbers} punctuation={includePunctuation} reset={reset}/>
+						<TypingTest testWords={testWords} setTestWords={setTestWords} testLength={testLength} numbers={includeNumbers} punctuation={includePunctuation} reset={reset} setShowResultsComponent={setShowResultsComponent}/>
 					</div>
-         
+					{showResultsComponent && 
+						<div className="col-span-full bg-blue-500 rounded h-96">
+							<TypingTestResults testWords={testWords} setTestWords={setTestWords}/>
+						</div>
+					}
 				</div>
 			</div>
 		</div>

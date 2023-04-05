@@ -46,12 +46,6 @@ export interface TestWords {
     characterCount: number
     keystrokeCharacterCount: number
     timeElapsedMilliSeconds: number
-
-    // // currently not used but might be useful in the future 
-    // constructor(wordArray?: Word[]) {
-    //     this.words = (wordArray === undefined) ? [] : wordArray
-    // }
-    
 } 
 
 
