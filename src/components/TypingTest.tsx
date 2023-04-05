@@ -31,6 +31,8 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
 	const inputRef = useRef<HTMLInputElement>(null);
 	const [lastWord, setLastWord] = useState<boolean>(false);
 
+
+
 	// randomise words, reset states if dependencies change
 	useEffect(() => {
 		stopTestStopWatch();
@@ -286,6 +288,11 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
 			return;
 		}
 
+		// hard limit on word length to not clog up the screen with incorrect letters
+		if (e.target.value.length == 15) { 
+			return;
+		}
+
 		setCurrentInputWord(e.target.value);
         
 		// if holding control and then pressing a key that would have otherwise triggered this function call, return because it shouldnt ever count (i think)
@@ -388,11 +395,35 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
 		setPressedKeys(prevKeys => prevKeys.filter(key => key !== e.key ));
 	};
 
+	const letterColour = (completionStatus: CompletionStatus) => {
+		switch (completionStatus) {
+		case CompletionStatus.None:
+			return "text-zinc-400";
+		case CompletionStatus.Correct:
+			return "text-white";
+		case CompletionStatus.Incorrect:
+			return "text-red-600";
+		}
+	};
+
 	return (    
 		<>
-			<div>
-				{testWords.words.map(word => {return <span>{word.wordString} </span>;})}
+			<div className="flex flex-wrap pb-5">
+				{testWords.words.map(word => {
+					return (
+						<span className="text-3xl mr-3 tracking-widest">
+							{word.word.map(letter => {
+								return (
+									<span className={letterColour(letter.status)}>
+										{letter.letter}
+									</span>
+								);}
+							)}
+						</span> 
+					);
+				})}
 			</div>
+			
 
 			<div className="text-black">
 				<input 

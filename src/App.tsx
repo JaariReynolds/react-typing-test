@@ -31,7 +31,7 @@ function App() {
 					<div className="col-span-full bg-blue-500 rounded text-center">
 						<button onClick={() => setReset(!reset)}>Reset</button>
 					</div>
-					<div className="col-span-full bg-blue-500 rounded h-96">
+					<div className="col-span-full bg-zinc-600 rounded h-96">
 						<TypingTest testWords={testWords} setTestWords={setTestWords} testLength={testLength} numbers={includeNumbers} punctuation={includePunctuation} reset={reset} setShowResultsComponent={setShowResultsComponent}/>
 					</div>
 					{showResultsComponent && 
