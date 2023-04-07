@@ -32,10 +32,10 @@ function App() {
 					<div className={`col-span-1 text-center pr-4 select-none transition-opacity opacity-${componentOpacity} duration-${COMPONENT_FADE_DURATION}`}>
 						<TestLengthSelector testLength={testLength} setTestLength={setTestLength}/>
 					</div>
-					<div className={`col-span-1 text-center pr-4 transition-opacity opacity-${componentOpacity} duration-${COMPONENT_FADE_DURATION}`}>
+					<div className={`col-span-1 text-center select-none pr-4 transition-opacity opacity-${componentOpacity} duration-${COMPONENT_FADE_DURATION}`}>
 						<NumberSelector numbers={includeNumbers} setNumbers={setIncludeNumbers}/>
 					</div>
-					<div className={`col-span-1 text-center pr-4 transition-opacity opacity-${componentOpacity} duration-${COMPONENT_FADE_DURATION}`}>
+					<div className={`col-span-1 text-center select-none pr-4 transition-opacity opacity-${componentOpacity} duration-${COMPONENT_FADE_DURATION}`}>
 						<PunctuationSelector punctuation={includePunctuation} setPunctuation={setIncludePunctuation}/>
 					</div>
 					<div className="col-span-full bg-blue-500 rounded text-center">
