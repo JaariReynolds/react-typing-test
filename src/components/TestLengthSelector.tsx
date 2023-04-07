@@ -20,7 +20,7 @@ const TestLengthSelector = ({testLength, setTestLength}: IProps) => {
 			<>
 				{testLengthWords.map(length => {
 					return (
-						<label className={`${FONT_COLOURS.BASE_FONT_COLOUR}`}>							
+						<label className={`${FONT_COLOURS.BASE_FONT_COLOUR} hover:cursor-pointer`}>							
 							<input
 								type="radio"
 								value={length}

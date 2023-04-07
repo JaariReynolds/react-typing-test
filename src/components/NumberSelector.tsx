@@ -10,7 +10,7 @@ const NumberSelector = ({numbers, setNumbers}: IProps) => {
 	const renderOptions = () => {
 		return (
 			<>
-				<label className={`${FONT_COLOURS.BASE_FONT_COLOUR}`}>
+				<label className={`${FONT_COLOURS.BASE_FONT_COLOUR} hover:cursor-pointer`}>
                   
 					<input
 						type="checkbox"
