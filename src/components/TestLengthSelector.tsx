@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-key */
 import React from "react";
+import { FONT_COLOURS } from "../constants/constants";
 
 
 interface IProps {
@@ -17,17 +18,19 @@ const TestLengthSelector = ({testLength, setTestLength}: IProps) => {
 	const renderOptions = () => {
 		return (
 			<>
-                Words:
 				{testLengthWords.map(length => {
 					return (
-						<label>
-							{length}
+						<label className={`${FONT_COLOURS.BASE_FONT_COLOUR}`}>							
 							<input
 								type="radio"
 								value={length}
 								checked={testLength===length}
 								onChange={handleOptionChange}
+								className="hidden peer"
 							/>
+							<span className={`p-2 m-1 font-semibold peer-checked:${FONT_COLOURS.SELECTED_FONT_COLOUR} peer-checked:transition-colors duration-200`}>
+								{length}
+							</span>
 						</label>
 					);
 				})}

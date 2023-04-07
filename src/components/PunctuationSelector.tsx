@@ -1,4 +1,5 @@
 import React from "react";
+import { FONT_COLOURS } from "../constants/constants";
 
 interface IProps {
     punctuation: boolean,
@@ -10,13 +11,16 @@ const PunctuationSelector = ({punctuation, setPunctuation}: IProps) => {
 	const renderOptions = () => {
 		return (
 			<>
-				<label>
-                    Punctuation:
+				<label className={`${FONT_COLOURS.BASE_FONT_COLOUR}`}>
 					<input
 						type="checkbox"
 						checked={punctuation}
 						onChange={() => setPunctuation(!punctuation)}
+						className="hidden peer"
 					/>
+					<span className={`font-semibold peer-checked:${FONT_COLOURS.SELECTED_FONT_COLOUR} peer-checked:transition-colors duration-200`}>
+						Punctuation
+					</span>
 				</label>
 			</>
 		);

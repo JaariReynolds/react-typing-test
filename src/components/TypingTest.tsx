@@ -5,6 +5,7 @@
 import React, { useEffect, useState, useRef } from "react"; 
 import { testWordsGenerator } from "../functions/testWordsGenerators";
 import { CompletionStatus, Word, Letter, TestWords } from "../interfaces/WordStructure";
+import { FONT_COLOURS } from "../constants/constants";
 
 const SPACEBAR = "Spacebar";
 
@@ -13,16 +14,17 @@ interface IProps {
     setTestWords: React.Dispatch<React.SetStateAction<TestWords>>,	
     testLength: number,
     numbers: boolean,
-    punctuation: boolean
-    reset: boolean
-	setShowResultsComponent: React.Dispatch<React.SetStateAction<boolean>>
+    punctuation: boolean,
+    reset: boolean,
+	setShowResultsComponent: React.Dispatch<React.SetStateAction<boolean>>,
+	testRunning: boolean,
+	setTestRunning: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
-const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, reset, setShowResultsComponent}: IProps) => {
+const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, reset, setShowResultsComponent, testRunning, setTestRunning}: IProps) => {
 	const [currentInputWord, setCurrentInputWord] = useState<string>("");
 	const [inputWordsArray, setInputWordsArray] = useState<string[]>([]);
 
-	const [testRunning, setTestRunning] = useState<boolean>(false);
 	const [testTimeMilliSeconds, setTestTimeMilliSeconds] = useState<number>(0);
 	const [intervalId, setIntervalId] = useState<NodeJS.Timer|null>(null);
     
@@ -30,28 +32,33 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
 	const [quickReset, setQuickReset] = useState<boolean>(false);
 	const inputRef = useRef<HTMLInputElement>(null);
 	const [lastWord, setLastWord] = useState<boolean>(false);
-
-
+	const [opacity, setOpacity] = useState<number>(1);
 
 	// randomise words, reset states if dependencies change
 	useEffect(() => {
+		setOpacity(0);
 		stopTestStopWatch();
 		setTestTimeMilliSeconds(0);
-
-		setTestWords(testWordsGenerator(testLength, numbers, punctuation));
-		if (inputRef.current) {
-			inputRef.current.focus();
-		}
-        
+		
 		setShowResultsComponent(false);
 		setInputWordsArray([]);
 		setCurrentInputWord("");
-		setPressedKeys([]);
-		
-		console.log("randomise test words, reset states");
+		setPressedKeys([]);		
+
+		// small delay to have a opacity fade-in-out when the test is reset
+		setTimeout(() => {
+			setTestWords(testWordsGenerator(testLength, numbers, punctuation));
+			if (inputRef.current) {
+				inputRef.current.focus();
+			}
+			
+			setOpacity(1);
+			console.log("randomise test words, reset states");
+		}, 150);
+	
 	}, [testLength, numbers, punctuation, reset, quickReset]);
 
-   
+
 	// test is finished when pressing space on last word or if the last word is correct - using checkLastWord()
 	useEffect(() => {
 		if (inputWordsArray.length === testWords.words.length) {
@@ -340,7 +347,8 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
 		// if tab, disable
 		if (e.key === "Tab") {
 			e.preventDefault();
-			setPressedKeys([...pressedKeys, e.key]);        
+			if (!pressedKeys.includes("Tab"))
+				setPressedKeys([...pressedKeys, e.key]);        
 			return;   
 		}
 		// if tab + enter pressed (tab first), reset test
@@ -398,43 +406,47 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
 	const letterColour = (completionStatus: CompletionStatus) => {
 		switch (completionStatus) {
 		case CompletionStatus.None:
-			return "text-zinc-400";
+			return FONT_COLOURS.BASE_FONT_COLOUR;
 		case CompletionStatus.Correct:
-			return "text-white";
+			return FONT_COLOURS.CORRECT_LETTER_FONT_COLOUR;
 		case CompletionStatus.Incorrect:
-			return "text-red-600";
+			return FONT_COLOURS.INCORRECT_LETTER_FONT_COLOUR;
 		}
 	};
 
 	return (    
 		<>
-			<div className="flex flex-wrap pb-5">
-				{testWords.words.map(word => {
-					return (
-						<span className="text-3xl mr-3 tracking-widest">
-							{word.word.map(letter => {
-								return (
-									<span className={letterColour(letter.status)}>
-										{letter.letter}
-									</span>
-								);}
-							)}
-						</span> 
-					);
-				})}
+			<div className="h-150">
+				<div className="text-black">
+					<input 
+						type="text"
+						ref={inputRef}
+						value={currentInputWord}
+						onChange={handleChange}
+						onKeyDown={handleKeyDown}
+						onKeyUp={handleKeyUp}
+						className="w-full h-full"
+					/>
+				</div>
+				<div className={`flex flex-wrap pb-5 transition-opacity opacity-${opacity}`}>
+					{testWords.words.map(word => {
+						return (
+							<span className="text-3xl mr-3 tracking-widest">
+								{word.word.map(letter => {
+									return (
+										<span className={`transition-colors duration-100 ${letterColour(letter.status)}`}>
+											{letter.letter}
+										</span>
+									);}
+								)}
+							</span> 
+						);
+					})}
+				</div>				
+
+				
 			</div>
 			
-
-			<div className="text-black">
-				<input 
-					type="text"
-					ref={inputRef}
-					value={currentInputWord}
-					onChange={handleChange}
-					onKeyDown={handleKeyDown}
-					onKeyUp={handleKeyUp}
-				/>
-			</div>
 
 			<div>
                 PressedKeys: 
