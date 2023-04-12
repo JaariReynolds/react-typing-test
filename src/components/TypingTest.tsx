@@ -300,13 +300,14 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
 			return;
 		}
 
-		setCurrentInputWord(e.target.value);
-        
 		// if holding control and then pressing a key that would have otherwise triggered this function call, return because it shouldnt ever count (i think)
-		// ctrl + backspace handled in handleKeyDown()
+		// ctrl + backspace handled in handleKeyDown(), ctrl + z DISABLED
 		if (pressedKeys.includes("Control")) { 
 			return;
 		}
+
+		setCurrentInputWord(e.target.value);
+        
 
 		let currentTestWord = testWords.words[inputWordsArray.length];
 		
@@ -416,8 +417,8 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
 
 	return (    
 		<>
-			<div className="h-150">
-				<div className="text-black">
+			<div className="relative">
+				<div className="absolute flex w-full h-full">
 					<input 
 						type="text"
 						ref={inputRef}
@@ -425,10 +426,11 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
 						onChange={handleChange}
 						onKeyDown={handleKeyDown}
 						onKeyUp={handleKeyUp}
-						className="w-full h-full"
+						className="w-full bg-slate-100 bg-opacity-20 text-transparent focus:outline-none"
 					/>
 				</div>
-				<div className={`flex flex-wrap pb-5 transition-opacity opacity-${opacity}`}>
+
+				<div className={`flex flex-wrap pb-4 transition-opacity opacity-${opacity}`}>
 					{testWords.words.map(word => {
 						return (
 							<span className="text-3xl mr-3 tracking-widest">
@@ -442,12 +444,11 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
 							</span> 
 						);
 					})}
-				</div>				
-
-				
+				</div>
+						
 			</div>
 			
-
+			
 			<div>
                 PressedKeys: 
 				{pressedKeys.map(key => {return <span>{key} </span>;})}
