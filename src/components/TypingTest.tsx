@@ -426,7 +426,7 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
 						onChange={handleChange}
 						onKeyDown={handleKeyDown}
 						onKeyUp={handleKeyUp}
-						className="w-full bg-slate-100 bg-opacity-20 text-transparent focus:outline-none"
+						className="w-full bg-transparent text-transparent focus:outline-none"
 					/>
 				</div>
 

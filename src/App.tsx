@@ -45,7 +45,7 @@ function App() {
 						<TypingTest testWords={testWords} setTestWords={setTestWords} testLength={testLength} numbers={includeNumbers} punctuation={includePunctuation} reset={reset} setShowResultsComponent={setShowResultsComponent} testRunning={testRunning} setTestRunning={setTestRunning}/>
 					</div>
 					{showResultsComponent && 
-						<div className="col-span-full bg-blue-500 rounded h-96">
+						<div className="col-span-full bg-blue-500 rounded">
 							<TypingTestResults testWords={testWords} setTestWords={setTestWords}/>
 						</div>
 					}
