@@ -1,27 +1,29 @@
 import React from "react";
-import { FONT_COLOURS } from "../constants/constants";
 
 interface IProps {
     punctuation: boolean,
-    setPunctuation: (prop: boolean) => void
+    setPunctuation: (prop: boolean) => void,
+	opacityStyle: React.CSSProperties
 }
 
-const PunctuationSelector = ({punctuation, setPunctuation}: IProps) => {
+const PunctuationSelector = ({punctuation, setPunctuation, opacityStyle}: IProps) => {
     
 	return (
-		<>
-			<label className={`${FONT_COLOURS.BASE_FONT_COLOUR} hover:cursor-pointer`}>
+		<div style={opacityStyle} className="test-option-selector">
+			<span className="option-text">
 				<input
 					type="checkbox"
+					id="punctuation"
 					checked={punctuation}
 					onChange={() => setPunctuation(!punctuation)}
 					className="hidden peer"
 				/>
-				<span className={`font-semibold peer-checked:${FONT_COLOURS.SELECTED_FONT_COLOUR} peer-checked:transition-colors duration-200`}>
+				<label htmlFor="punctuation" className="selectable-label">
 					Punctuation
-				</span>
-			</label>
-		</>
+				</label>
+				
+			</span>
+		</div>
 	);
 };
 

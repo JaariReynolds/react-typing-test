@@ -1,28 +1,28 @@
 import React from "react";
-import { FONT_COLOURS } from "../constants/constants";
 
 interface IProps {
     numbers: boolean,
-    setNumbers: (prop: boolean) => void
+    setNumbers: (prop: boolean) => void,
+	opacityStyle: React.CSSProperties
 }
 
-const NumberSelector = ({numbers, setNumbers}: IProps) => {
+const NumberSelector = ({numbers, setNumbers, opacityStyle}: IProps) => {
 	const renderOptions = () => {
 		return (
-			<>
-				<label className={`${FONT_COLOURS.BASE_FONT_COLOUR} hover:cursor-pointer`}>
-                  
+			<div style={opacityStyle} className="test-option-selector">
+				<span className="option-text">
 					<input
 						type="checkbox"
+						id="numbers"
 						checked={numbers}
 						onChange={() => setNumbers(!numbers)} 
 						className="hidden peer"
 					/>
-					<span className={`font-semibold peer-checked:${FONT_COLOURS.SELECTED_FONT_COLOUR} peer-checked:transition-colors duration-200`}>
+					<label htmlFor="numbers" className="selectable-label">
 						Numbers
-					</span>
-				</label>
-			</>
+					</label>
+				</span>
+			</div>
 		);
 	};
 	return (

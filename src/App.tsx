@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import "./App.css";
+import "./App.scss";
 import TypingTest from "./components/TypingTest";
 import TestLengthSelector from "./components/TestLengthSelector";
 import PunctuationSelector from "./components/PunctuationSelector";
 import NumberSelector from "./components/NumberSelector";
 import TypingTestResults from "./components/TypingTestResults";
 import { TestWords } from "./interfaces/WordStructure";
-import { COMPONENT_FADE_DURATION } from "./constants/constants";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRefresh } from "@fortawesome/free-solid-svg-icons";
 
 
 function App() {
@@ -24,26 +25,27 @@ function App() {
 		setComponentOpacity(testRunning ? 0 : 1);
 	}, [testRunning]);
 
+	const opacityStyle = {
+		"--component-opacity": componentOpacity
+	  } as React.CSSProperties;
+
 	return (
 		<div className="App">
-			<div className="flex items-center justify-center">
-				<div className="grid grid-cols-3 gap-1 w-4/5">
-					<div className="col-span-full h-10"></div>
-					<div className={`col-span-1 text-center pr-4 select-none transition-opacity opacity-${componentOpacity} duration-${COMPONENT_FADE_DURATION}`}>
-						<TestLengthSelector testLength={testLength} setTestLength={setTestLength}/>
-					</div>
-					<div className={`col-span-1 text-center select-none pr-4 transition-opacity opacity-${componentOpacity} duration-${COMPONENT_FADE_DURATION}`}>
-						<NumberSelector numbers={includeNumbers} setNumbers={setIncludeNumbers}/>
-					</div>
-					<div className={`col-span-1 text-center select-none pr-4 transition-opacity opacity-${componentOpacity} duration-${COMPONENT_FADE_DURATION}`}>
-						<PunctuationSelector punctuation={includePunctuation} setPunctuation={setIncludePunctuation}/>
-					</div>
-					<div className="col-span-full bg-blue-500 rounded text-center">
-						<button onClick={() => setReset(!reset)}>Reset</button>
-					</div>
-					<div className="col-span-full select-none h-96">
-						<TypingTest testWords={testWords} setTestWords={setTestWords} testLength={testLength} numbers={includeNumbers} punctuation={includePunctuation} reset={reset} setShowResultsComponent={setShowResultsComponent} testRunning={testRunning} setTestRunning={setTestRunning}/>
-					</div>
+			<div className="main-container">
+				<div className="inner-container">
+					<div className="top-gap"></div>
+					
+					<TestLengthSelector testLength={testLength} setTestLength={setTestLength} opacityStyle={opacityStyle}/>
+					<NumberSelector numbers={includeNumbers} setNumbers={setIncludeNumbers} opacityStyle={opacityStyle}/>
+					<PunctuationSelector punctuation={includePunctuation} setPunctuation={setIncludePunctuation} opacityStyle={opacityStyle}/>
+				
+					<button type="reset" title="Reset" style={opacityStyle} className="reset-button"
+						onClick={() => setReset(!reset)}>
+						<FontAwesomeIcon icon={faRefresh} className="fa-spin-custom"/>
+					</button>
+
+					<TypingTest testWords={testWords} setTestWords={setTestWords} testLength={testLength} numbers={includeNumbers} punctuation={includePunctuation} reset={reset} setShowResultsComponent={setShowResultsComponent} testRunning={testRunning} setTestRunning={setTestRunning}/>
+				
 					{showResultsComponent && 
 						<div className="col-span-full bg-blue-500 rounded">
 							<TypingTestResults testWords={testWords} setTestWords={setTestWords}/>

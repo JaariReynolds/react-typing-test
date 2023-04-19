@@ -34,6 +34,10 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
 	const [lastWord, setLastWord] = useState<boolean>(false);
 	const [opacity, setOpacity] = useState<number>(1);
 
+	const opacityStyle = {
+		"--typing-test-opacity": opacity
+	} as React.CSSProperties;
+
 	// randomise words, reset states if dependencies change
 	useEffect(() => {
 		setOpacity(0);
@@ -62,7 +66,6 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
 	// test is finished when pressing space on last word or if the last word is correct - using checkLastWord()
 	useEffect(() => {
 		if (inputWordsArray.length === testWords.words.length) {
-			console.log(`"Length of test = ${inputWordsArray.length}"`);
 			stopTestStopWatch();
 			return;
 		}
@@ -240,7 +243,7 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
 		const currentInputLetterIndex = currentInputWord.length - 1; 
 
 		const updatedWord = wordObject.word.map((letterObject, letterIndex) => {
-			console.log(`compared ${letterObject.letter} to ${currentInputWord[currentInputLetterIndex]} at index ${currentInputLetterIndex}`);
+			//console.log(`compared ${letterObject.letter} to ${currentInputWord[currentInputLetterIndex]} at index ${currentInputLetterIndex}`);
 			// if not the index of current input character, return same object
 			if (letterIndex !== currentInputLetterIndex) {
 				return letterObject;
@@ -314,22 +317,22 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
 		// #region Character Handling Block
 		// if backspacing an existing character
 		if (pressedKeys[pressedKeys.length - 1] === "Backspace" && currentInputWord.length > 0 && currentInputWord.length <= testWords.words[inputWordsArray.length].originalLength) {
-			console.log("removing status on previous letter");
+			//console.log("removing status on previous letter");
 			currentTestWord = removeExistingLetter(currentTestWord, e.target.value);
 		} 
 		// if backspacing an additional character    
 		else if (pressedKeys[pressedKeys.length - 1] === "Backspace" && currentInputWord.length > testWords.words[inputWordsArray.length].originalLength) {
-			console.log("backspacing an additional letter");
+			//console.log("backspacing an additional letter");
 			currentTestWord = removeAdditionalLetter(currentTestWord);
 		} 
 		// if updating an existing character
 		else if (e.target.value.length <= testWords.words[inputWordsArray.length].originalLength) {
-			console.log("updating status on existing letter");
+			//console.log("updating status on existing letter");
 			currentTestWord = addExistingLetter(currentTestWord, e.target.value);
 		} 
 		// if adding/updating an additional character
 		else if (e.target.value.length > testWords.words[inputWordsArray.length].originalLength) {
-			console.log("adding additional letter");
+			//console.log("adding additional letter");
 			currentTestWord = addAdditionalLetter(currentTestWord, e.target.value.slice(-1));
 		}
 
@@ -407,49 +410,47 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
 	const letterColour = (completionStatus: CompletionStatus) => {
 		switch (completionStatus) {
 		case CompletionStatus.None:
-			return FONT_COLOURS.BASE_FONT_COLOUR;
+			return "base-text-colour";
 		case CompletionStatus.Correct:
-			return FONT_COLOURS.CORRECT_LETTER_FONT_COLOUR;
+			return "correct-text-colour";
 		case CompletionStatus.Incorrect:
-			return FONT_COLOURS.INCORRECT_LETTER_FONT_COLOUR;
-		}
+			return "incorrect-text-colour";
+		} 
 	};
 
 	return (    
-		<>
-			<div className="relative">
-				<div className="absolute flex w-full h-full">
-					<input 
-						type="text"
-						ref={inputRef}
-						value={currentInputWord}
-						onChange={handleChange}
-						onKeyDown={handleKeyDown}
-						onKeyUp={handleKeyUp}
-						className="w-full bg-transparent text-transparent focus:outline-none"
-					/>
-				</div>
-
-				<div className={`flex flex-wrap pb-4 transition-opacity opacity-${opacity}`}>
-					{testWords.words.map(word => {
-						return (
-							<span className="text-3xl mr-3 tracking-widest">
-								{word.word.map(letter => {
-									return (
-										<span className={`transition-colors duration-100 ${letterColour(letter.status)}`}>
-											{letter.letter}
-										</span>
-									);}
-								)}
-							</span> 
-						);
-					})}
-				</div>
-						
+		<div className="typing-test">
+			<div className="text-field-container">
+				<input 
+					type="text"
+					ref={inputRef}
+					value={currentInputWord}
+					onChange={handleChange}
+					onKeyDown={handleKeyDown}
+					onKeyUp={handleKeyUp}
+					className="text-field"
+				/>
 			</div>
+			<div style={opacityStyle} className="words-container">
+				{testWords.words.map(word => {
+					return (
+						<div className="word">
+							{word.word.map(letter => {
+								return (
+									<span className={`letter ${letterColour(letter.status)}`}>
+										{letter.letter}
+									</span>
+								);}
+							)}
+						</div> 
+					);
+				})}
+			</div>
+						
 			
 			
-			<div>
+			
+			{/* <div>
                 PressedKeys: 
 				{pressedKeys.map(key => {return <span>{key} </span>;})}
                 Len: {pressedKeys.length}
@@ -473,7 +474,7 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
 			</div>
 			<div>
                 ErrorCountHard: {testWords.errorCountHard}, ErrorCountSoft: {testWords.errorCountSoft}, testWordsTestTime: {testWords.timeElapsedMilliSeconds}, CharacterCount: {testWords.characterCount}
-			</div>
+			</div> */}
 			{/* <div>
 				{testWords.words.map(word => (
 					<pre>
@@ -488,7 +489,7 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
 					</pre>
 				))}
 			</div> */}
-		</>  
+		</div>  
 	);
 };
 

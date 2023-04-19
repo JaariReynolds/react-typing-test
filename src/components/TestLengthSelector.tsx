@@ -1,14 +1,13 @@
 /* eslint-disable react/jsx-key */
 import React from "react";
-import { FONT_COLOURS } from "../constants/constants";
-
 
 interface IProps {
     testLength: number,
-    setTestLength: (prop: number) => void
+    setTestLength: (prop: number) => void,
+	opacityStyle: React.CSSProperties
 }
 
-const TestLengthSelector = ({testLength, setTestLength}: IProps) => {
+const TestLengthSelector = ({testLength, setTestLength, opacityStyle}: IProps) => {
 	const testLengthWords: number[] = [5, 25, 50, 100];
 
 	const handleOptionChange = (event:React.ChangeEvent<HTMLInputElement>) => {
@@ -17,24 +16,25 @@ const TestLengthSelector = ({testLength, setTestLength}: IProps) => {
 
 	const renderOptions = () => {
 		return (
-			<>
+			<div style={opacityStyle} className="test-option-selector">
 				{testLengthWords.map(length => {
 					return (
-						<label className={`${FONT_COLOURS.BASE_FONT_COLOUR} hover:cursor-pointer`}>	
+						<span className="option-text">
 							<input
 								type="radio"
+								id={length.toString()}
 								value={length}							
 								checked={testLength===length}
 								onChange={handleOptionChange}
-								className="hidden peer"
+								className="hidden-radio-button"
 							/>
-							<span className={`p-2 m-1 font-semibold peer-checked:${FONT_COLOURS.SELECTED_FONT_COLOUR} peer-checked:transition-colors duration-200`}>
+							<label htmlFor={length.toString()} className="selectable-label">							
 								{length}
-							</span>
-						</label>
+							</label>
+						</span>											
 					);
 				})}
-			</>
+			</div>
 		);
 	};
 
