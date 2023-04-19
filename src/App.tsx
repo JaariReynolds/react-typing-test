@@ -18,7 +18,10 @@ function App() {
 	const [reset, setReset] = useState<boolean>(false);
 	const [showResultsComponent, setShowResultsComponent] = useState<boolean>(false);
 	const [testRunning, setTestRunning] = useState<boolean>(false);
+	const [testComplete, setTestComplete] = useState<boolean>(false);
 	const [componentOpacity, setComponentOpacity] = useState<number>(1);
+	const [testTimeMilliSeconds, setTestTimeMilliSeconds] = useState<number>(0);
+	const [testCompletionPercentage, setTestCompletionPercentage] = useState<number>(0);
 	
 	// hide distracting components when test is running
 	useEffect(() => {
@@ -28,6 +31,13 @@ function App() {
 	const opacityStyle = {
 		"--component-opacity": componentOpacity
 	  } as React.CSSProperties;
+
+	const completionBarOpacity = {
+		"--completion-bar-opacity": (componentOpacity == 0) ? 1 : 0 || (showResultsComponent) ? 1 : 0,
+		"--completion-percentage": testCompletionPercentage.toString() + "%"
+	} as React.CSSProperties;
+
+
 
 	return (
 		<div className="App">
@@ -39,13 +49,16 @@ function App() {
 					<NumberSelector numbers={includeNumbers} setNumbers={setIncludeNumbers} opacityStyle={opacityStyle}/>
 					<PunctuationSelector punctuation={includePunctuation} setPunctuation={setIncludePunctuation} opacityStyle={opacityStyle}/>
 				
-					<button type="reset" title="Reset" style={opacityStyle} className="reset-button"
+					<div style={completionBarOpacity} className="test-completion-bar"></div>
+
+					<TypingTest testWords={testWords} setTestWords={setTestWords} testLength={testLength} numbers={includeNumbers} punctuation={includePunctuation} reset={reset} setShowResultsComponent={setShowResultsComponent} testRunning={testRunning} setTestRunning={setTestRunning} testTimeMilliSeconds={testTimeMilliSeconds} setTestTimeMilliSeconds={setTestTimeMilliSeconds} setTestCompletionPercentage={setTestCompletionPercentage}
+						testComplete={testComplete} setTestComplete={setTestComplete}/>
+				
+					<button type="reset" title="Reset" className="reset-button"
 						onClick={() => setReset(!reset)}>
 						<FontAwesomeIcon icon={faRefresh} className="fa-spin-custom"/>
 					</button>
 
-					<TypingTest testWords={testWords} setTestWords={setTestWords} testLength={testLength} numbers={includeNumbers} punctuation={includePunctuation} reset={reset} setShowResultsComponent={setShowResultsComponent} testRunning={testRunning} setTestRunning={setTestRunning}/>
-				
 					{showResultsComponent && 
 						<div className="col-span-full bg-blue-500 rounded">
 							<TypingTestResults testWords={testWords} setTestWords={setTestWords}/>

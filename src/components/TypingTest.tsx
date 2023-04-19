@@ -18,15 +18,17 @@ interface IProps {
 	setShowResultsComponent: React.Dispatch<React.SetStateAction<boolean>>,
 	testRunning: boolean,
 	setTestRunning: React.Dispatch<React.SetStateAction<boolean>>,
+	testTimeMilliSeconds: number,
+	setTestTimeMilliSeconds: React.Dispatch<React.SetStateAction<number>>,
+	setTestCompletionPercentage: React.Dispatch<React.SetStateAction<number>>,
+	testComplete: boolean,
+	setTestComplete: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, reset, setShowResultsComponent, testRunning, setTestRunning}: IProps) => {
+const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, reset, setShowResultsComponent, testRunning, setTestRunning, testTimeMilliSeconds, setTestTimeMilliSeconds, setTestCompletionPercentage, testComplete, setTestComplete}: IProps) => {
 	const [currentInputWord, setCurrentInputWord] = useState<string>("");
 	const [inputWordsArray, setInputWordsArray] = useState<string[]>([]);
-
-	const [testTimeMilliSeconds, setTestTimeMilliSeconds] = useState<number>(0);
-	const [intervalId, setIntervalId] = useState<NodeJS.Timer|null>(null);
-    
+	const [intervalId, setIntervalId] = useState<NodeJS.Timer|null>(null);	
 	const [pressedKeys, setPressedKeys] = useState<string[]>([]); // array because more than 1 key can be held down at once
 	const [quickReset, setQuickReset] = useState<boolean>(false);
 	const inputRef = useRef<HTMLInputElement>(null);
@@ -34,7 +36,7 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
 	const [opacity, setOpacity] = useState<number>(1);
 
 	const opacityStyle = {
-		"--typing-test-opacity": opacity
+		"--typing-test-opacity": opacity,
 	} as React.CSSProperties;
 
 	// randomise words, reset states if dependencies change
@@ -42,6 +44,7 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
 		setOpacity(0);
 		stopTestStopWatch();
 		setTestTimeMilliSeconds(0);
+		setTestComplete(false);
 		
 		setShowResultsComponent(false);
 		setInputWordsArray([]);
@@ -61,6 +64,14 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
 	
 	}, [testLength, numbers, punctuation, reset, quickReset]);
 
+	useEffect(() => {
+		const totalInputLetters = inputWordsArray.reduce((total, word) => {
+			return total + word.length; 
+		}, currentInputWord.length + inputWordsArray.length);
+
+		setTestCompletionPercentage(totalInputLetters / (testWords.characterCount + inputWordsArray.length) * 100);
+
+	}, [inputWordsArray, currentInputWord]);
 
 	// test is finished when pressing space on last word or if the last word is correct - using checkLastWord()
 	useEffect(() => {
@@ -95,6 +106,7 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
 		if (intervalId === null) return;
 
 		setTestWords({...testWords, timeElapsedMilliSeconds: testTimeMilliSeconds, errorCountHard: calculateTotalErrorsHard(), errorCountSoft: calculateTotalErrorsSoft()});
+		setTestComplete(true);
 		setShowResultsComponent(true);
 		clearInterval(intervalId);       
 		setTestRunning(false);
@@ -428,6 +440,8 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
 					onKeyDown={handleKeyDown}
 					onKeyUp={handleKeyUp}
 					className="text-field"
+					disabled={testComplete}
+					
 				/>
 			</div>
 			<div style={opacityStyle} className="words-container">
@@ -446,7 +460,11 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
 				})}
 			</div>
 						
-			
+			<div>CharacterCount = {testWords.characterCount}</div>
+			<div>Current = 
+				
+
+			</div>
 			
 			
 			{/* <div>

@@ -3,6 +3,7 @@ $component-opacity-fade-duration: 200ms;
 $text-colour-transition-duration: 200ms;
 $letter-colour-transition-duration: 150ms;
 
+$background-colour: rgb(47, 50, 52);
 $base-font-colour: rgb(161 161 170);
 $selected-font-colour: rgb(253 224 71);
 $correct-font-colour: rgb(255 255 255);
@@ -12,7 +13,9 @@ $hover-font-colour: rgb(255 255 255);
 // VARIABLES CHANGED FROM REACT
 :root {
   --component-opacity: 1;
+  --completion-bar-opacity: 0;
   --typing-test-opacity: 1;
+  --completion-percentage: 0%;
 }
 
 @mixin transition-opacity {
@@ -32,8 +35,8 @@ $hover-font-colour: rgb(255 255 255);
   text-align: left;
   align-items: center;
   justify-content: center;
-  background-color: #3a3c40;
-  color: white;
+  background-color: $background-colour;
+  color: $base-font-colour;
   min-height: 100vh;
 }
 
@@ -56,11 +59,12 @@ $hover-font-colour: rgb(255 255 255);
 }
 
 .test-option-selector {
+  @include transition-opacity();
   grid-column: span 1 / span 1;
   text-align: center;
   -webkit-user-select: none;
   user-select: none;
-  @include transition-opacity();
+  margin-bottom: 2rem;
 
   .option-text {
     color: $base-font-colour;
@@ -75,10 +79,10 @@ $hover-font-colour: rgb(255 255 255);
     }
 
     .selectable-label {
+      @include transition-colors();
       padding: 0.5rem;
       margin: 0.25rem;
       font-weight: 600;
-      @include transition-colors();
     }
   }
 
@@ -91,17 +95,26 @@ $hover-font-colour: rgb(255 255 255);
   }
 }
 
+input[type="text"]::selection,
+input[type="text"]::placeholder,
+input[type="text"]::-moz-placeholder {
+  text-decoration: none;
+}
+
 .typing-test {
   grid-column: 1 / -1;
   -webkit-user-select: none;
   user-select: none;
   position: relative;
+  margin-top: 2rem;
 
   .text-field-container {
     position: absolute;
     display: flex;
     width: 100%;
     height: 100%;
+    -webkit-user-select: none;
+    user-select: none;
 
     .text-field {
       width: 100%;
@@ -116,10 +129,10 @@ $hover-font-colour: rgb(255 255 255);
   }
 
   .words-container {
+    @include transition-opacity();
     display: flex;
     flex-wrap: wrap;
     padding-bottom: 1rem;
-    @include transition-opacity();
     opacity: var(--typing-test-opacity);
 
     .word {
@@ -129,8 +142,8 @@ $hover-font-colour: rgb(255 255 255);
       letter-spacing: 0.1em;
 
       .letter {
-        transition-duration: $letter-colour-transition-duration;
         @include transition-colors();
+        transition-duration: $letter-colour-transition-duration;
       }
 
       // if these are changed, need to update letterColour() in TypingTest.tsx
@@ -150,23 +163,28 @@ $hover-font-colour: rgb(255 255 255);
 }
 
 .reset-button {
-  grid-column: 2;
   @include transition-opacity();
+  grid-column: 2;
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;
 }
 
+.reset-button:focus {
+  outline: none;
+}
+
 .reset-button:hover .fa-spin-custom {
-  color: $hover-font-colour;
   @include transition-colors();
+  color: $hover-font-colour;
 }
 
 .fa-spin-custom {
+  @include transition-colors();
   animation: fa-spin-custom 10s infinite linear;
   font-size: 3rem;
   color: $base-font-colour;
-  @include transition-colors();
   padding: 1rem;
+
 }
 
 @keyframes fa-spin-custom {
@@ -177,4 +195,16 @@ $hover-font-colour: rgb(255 255 255);
   to {
     transform: rotate(360deg);
   }
+}
+
+.test-completion-bar {
+  @include transition-colors();
+  grid-column: 1 / -1;
+  height: 0.5rem;
+  border-radius: 0.5rem;
+  background-color: $selected-font-colour;
+  width: var(--completion-percentage);
+  max-width: 100%;
+  transition: width 0.3s ease;
+
 }
