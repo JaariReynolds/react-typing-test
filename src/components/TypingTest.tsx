@@ -64,12 +64,13 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
 	
 	}, [testLength, numbers, punctuation, reset, quickReset]);
 
+	// calculates percentage of test completed (for completion bar) whenever the test is updated
 	useEffect(() => {
 		const totalInputLetters = inputWordsArray.reduce((total, word) => {
 			return total + word.length; 
 		}, currentInputWord.length + inputWordsArray.length);
 
-		setTestCompletionPercentage(totalInputLetters / (testWords.characterCount + inputWordsArray.length) * 100);
+		setTestCompletionPercentage(totalInputLetters / testWords.characterCount * 100);
 
 	}, [inputWordsArray, currentInputWord]);
 
@@ -460,11 +461,7 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
 				})}
 			</div>
 						
-			<div>CharacterCount = {testWords.characterCount}</div>
-			<div>Current = 
-				
-
-			</div>
+			{/* <div>CharacterCount = {testWords.characterCount}</div> */}
 			
 			
 			{/* <div>
