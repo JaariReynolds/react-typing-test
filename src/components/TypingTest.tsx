@@ -5,7 +5,6 @@
 import React, { useEffect, useState, useRef } from "react"; 
 import { testWordsGenerator } from "../functions/testWordsGenerators";
 import { CompletionStatus, Word, Letter, TestWords } from "../interfaces/WordStructure";
-import { FONT_COLOURS } from "../constants/constants";
 
 const SPACEBAR = "Spacebar";
 
