@@ -11,7 +11,7 @@ const SPACEBAR = "Spacebar";
 interface IProps {
     testWords: TestWords,
     setTestWords: React.Dispatch<React.SetStateAction<TestWords>>,	
-    testLength: number,
+    testLengthWords: number,
     numbers: boolean,
     punctuation: boolean,
     reset: boolean,
@@ -25,7 +25,7 @@ interface IProps {
 	setTestComplete: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, reset, setShowResultsComponent, testRunning, setTestRunning, testTimeMilliSeconds, setTestTimeMilliSeconds, setTestCompletionPercentage, testComplete, setTestComplete}: IProps) => {
+const TypingTest = ({testWords, setTestWords, testLengthWords, numbers, punctuation, reset, setShowResultsComponent, testRunning, setTestRunning, testTimeMilliSeconds, setTestTimeMilliSeconds, setTestCompletionPercentage, testComplete, setTestComplete}: IProps) => {
 	const [currentInputWord, setCurrentInputWord] = useState<string>("");
 	const [inputWordsArray, setInputWordsArray] = useState<string[]>([]);
 	const [intervalId, setIntervalId] = useState<NodeJS.Timer|null>(null);	
@@ -53,7 +53,7 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
 
 		// small delay to have a opacity fade-in-out when the test is reset
 		setTimeout(() => {
-			setTestWords(testWordsGenerator(testLength, numbers, punctuation));
+			setTestWords(testWordsGenerator(testLengthWords, numbers, punctuation));
 			if (inputRef.current) {
 				inputRef.current.focus();
 			}
@@ -62,11 +62,12 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
 			console.log("randomise test words, reset states");
 		}, 150);
 	
-	}, [testLength, numbers, punctuation, reset, quickReset]);
+	}, [testLengthWords, numbers, punctuation, reset, quickReset]);
 
 	// calculates percentage of test completed (for completion bar) whenever the test is updated
 	useEffect(() => {
 		const totalInputLetters = inputWordsArray.reduce((total, word) => {
+			
 			return total + word.length; 
 		}, currentInputWord.length + inputWordsArray.length);
 
@@ -463,8 +464,8 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
 						
 			{/* <div>CharacterCount = {testWords.characterCount}</div> */}
 			
-			
-			{/* <div>
+			{/* 			
+			<div>
                 PressedKeys: 
 				{pressedKeys.map(key => {return <span>{key} </span>;})}
                 Len: {pressedKeys.length}
@@ -485,8 +486,8 @@ const TypingTest = ({testWords, setTestWords, testLength, numbers, punctuation, 
 			</div>
 			<div>
 				lastWord: {lastWord.toString()}
-			</div>
-			<div>
+			</div> */}
+			{/* <div>
                 ErrorCountHard: {testWords.errorCountHard}, ErrorCountSoft: {testWords.errorCountSoft}, testWordsTestTime: {testWords.timeElapsedMilliSeconds}, CharacterCount: {testWords.characterCount}
 			</div> */}
 			{/* <div>

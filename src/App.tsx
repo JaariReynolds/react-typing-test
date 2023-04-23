@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./App.scss";
 import TypingTest from "./components/TypingTest";
-import TestLengthSelector from "./components/TestLengthSelector";
+import TestTypeSelector from "./components/TestTypeSelector";
+import TestLengthWordsSelector from "./components/TestLengthWordsSelector";
+import TestLengthSecondsSelector from "./components/TestLengthSecondsSelector";
 import PunctuationSelector from "./components/PunctuationSelector";
 import NumberSelector from "./components/NumberSelector";
 import TypingTestResults from "./components/TypingTestResults";
@@ -9,10 +11,18 @@ import { TestWords } from "./interfaces/WordStructure";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRefresh } from "@fortawesome/free-solid-svg-icons";
 
+export type TestType =
+	"Words" | "Time"
+
 
 function App() {
+
+
+
 	const [testWords, setTestWords] = useState<TestWords>({words: [], errorCountHard: 0, errorCountSoft: 0, timeElapsedMilliSeconds: 0, characterCount: 0, keystrokeCharacterCount: 0});
-	const [testLength, setTestLength] = useState<number>(25);
+	const [testLengthWords, setTestLengthWords] = useState<number>(25);
+	const [testLengthSeconds, setTestLengthSeconds] = useState<number>(15);
+	const [testType, setTestType] = useState<TestType>("Words");
 	const [includePunctuation, setIncludePunctuation] = useState<boolean>(false);
 	const [includeNumbers, setIncludeNumbers] = useState<boolean>(false);
 	const [reset, setReset] = useState<boolean>(false);
@@ -45,16 +55,22 @@ function App() {
 				<div className="inner-container">
 					<div className="top-gap"></div>
 					
-					<TestLengthSelector testLength={testLength} setTestLength={setTestLength} opacityStyle={opacityStyle}/>
+					<div>testType = {testType.toString()}</div>
+					<TestTypeSelector testType={testType} setTestType={setTestType} opacityStyle={opacityStyle}/>
+
+					<TestLengthWordsSelector testLengthWords={testLengthWords} setTestLengthWords={setTestLengthWords} opacityStyle={opacityStyle}/>
+
+					<TestLengthSecondsSelector testLengthSeconds={testLengthSeconds} setTestLengthSeconds={setTestLengthSeconds} opacityStyle={opacityStyle}/>
+
 					<NumberSelector numbers={includeNumbers} setNumbers={setIncludeNumbers} opacityStyle={opacityStyle}/>
 					<PunctuationSelector punctuation={includePunctuation} setPunctuation={setIncludePunctuation} opacityStyle={opacityStyle}/>
 				
 					<div style={completionBarOpacity} className="test-completion-bar"></div>
-					<div>{testCompletionPercentage}</div>
-					<TypingTest testWords={testWords} setTestWords={setTestWords} testLength={testLength} numbers={includeNumbers} punctuation={includePunctuation} reset={reset} setShowResultsComponent={setShowResultsComponent} testRunning={testRunning} setTestRunning={setTestRunning} testTimeMilliSeconds={testTimeMilliSeconds} setTestTimeMilliSeconds={setTestTimeMilliSeconds} setTestCompletionPercentage={setTestCompletionPercentage}
+					
+					<TypingTest testWords={testWords} setTestWords={setTestWords} testLengthWords={testLengthWords} numbers={includeNumbers} punctuation={includePunctuation} reset={reset} setShowResultsComponent={setShowResultsComponent} testRunning={testRunning} setTestRunning={setTestRunning} testTimeMilliSeconds={testTimeMilliSeconds} setTestTimeMilliSeconds={setTestTimeMilliSeconds} setTestCompletionPercentage={setTestCompletionPercentage}
 						testComplete={testComplete} setTestComplete={setTestComplete}/>
 				
-					<button type="reset" title="Reset" className="reset-button"
+					<button type="reset" title="Reset" style={opacityStyle} className="reset-button"
 						onClick={() => setReset(!reset)}>
 						<FontAwesomeIcon icon={faRefresh} className="fa-spin-custom"/>
 					</button>
