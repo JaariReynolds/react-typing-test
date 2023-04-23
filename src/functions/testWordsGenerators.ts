@@ -35,6 +35,8 @@ export const testWordsGenerator = (testLength: number, numbers: boolean, punctua
 		characterCount += randomWord.length;
 		randomWordArray.push(new Word(randomWord));
 	}
+	// num of words - 1 = minimum number of 'spacebars' needed to complete the test
+	characterCount += randomWordArray.length - 1;
 
 	return {words: randomWordArray, errorCountHard: 0, errorCountSoft: 0, timeElapsedMilliSeconds: 0, characterCount: characterCount, keystrokeCharacterCount: 0};
 };

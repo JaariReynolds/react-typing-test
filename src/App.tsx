@@ -50,7 +50,7 @@ function App() {
 					<PunctuationSelector punctuation={includePunctuation} setPunctuation={setIncludePunctuation} opacityStyle={opacityStyle}/>
 				
 					<div style={completionBarOpacity} className="test-completion-bar"></div>
-
+					<div>{testCompletionPercentage}</div>
 					<TypingTest testWords={testWords} setTestWords={setTestWords} testLength={testLength} numbers={includeNumbers} punctuation={includePunctuation} reset={reset} setShowResultsComponent={setShowResultsComponent} testRunning={testRunning} setTestRunning={setTestRunning} testTimeMilliSeconds={testTimeMilliSeconds} setTestTimeMilliSeconds={setTestTimeMilliSeconds} setTestCompletionPercentage={setTestCompletionPercentage}
 						testComplete={testComplete} setTestComplete={setTestComplete}/>
 				
