@@ -1,6 +1,6 @@
 // CONSTANTS
-$component-opacity-fade-duration: 200ms;
-$text-colour-transition-duration: 200ms;
+$component-opacity-fade-duration: 300ms;
+$text-colour-transition-duration: 300ms;
 $letter-colour-transition-duration: 150ms;
 
 $background-colour: rgb(47, 50, 52);
@@ -12,6 +12,8 @@ $hover-font-colour: rgb(255 255 255);
 
 // VARIABLES CHANGED FROM REACT
 :root {
+  --test-type-words-opacity: 1;
+  --test-type-time-opacity: 0;
   --component-opacity: 1;
   --completion-bar-opacity: 0;
   --typing-test-opacity: 1;
@@ -44,45 +46,67 @@ $hover-font-colour: rgb(255 255 255);
   display: flex;
   align-items: center;
   justify-content: center;
-}
 
-.inner-container {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.25rem;
-  width: 80%;
-}
+  .inner-container {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.25rem;
+    width: 80%;
 
-.top-gap {
-  grid-column: 1 / -1;
-  height: 2.5rem;
-}
-
-.test-option-selector {
-  @include transition-opacity();
-  grid-column: span 1 / span 1;
-  text-align: center;
-  -webkit-user-select: none;
-  user-select: none;
-  margin-bottom: 2rem;
-
-  .option-text {
-    color: $base-font-colour;
-
-    :hover {
-      cursor: pointer;
-      color: $hover-font-colour;
+    .top-gap {
+      grid-column: 1 / -1;
+      height: 2.5rem;
     }
 
-    .hidden-radio-button {
-      display: none;
-    }
+    .test-options {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
 
-    .selectable-label {
-      @include transition-colors();
-      padding: 0.5rem;
-      margin: 0.25rem;
-      font-weight: 600;
+      .test-option-selector {
+        @include transition-opacity();
+        grid-column: span 1 / span 1;
+        text-align: center;
+        -webkit-user-select: none;
+        user-select: none;
+        margin-bottom: 1rem;
+
+        &.uninteractable-selector {
+          pointer-events: none;
+        }
+
+        &.test-type-words {
+          opacity: var(--test-type-words-opacity);
+          grid-area: 2 / 1;
+
+        }
+
+        &.test-type-time {
+          opacity: var(--test-type-time-opacity);
+          grid-area: 2 / 1;
+
+        }
+
+        .option-text {
+          color: $base-font-colour;
+
+          :hover {
+            cursor: pointer;
+            color: $hover-font-colour;
+          }
+
+          .hidden-radio-button {
+            display: none;
+          }
+
+          .selectable-label {
+            @include transition-colors();
+            padding: 0.5rem;
+            margin: 0.25rem;
+            font-weight: 600;
+          }
+        }
+      }
     }
   }
 
@@ -106,7 +130,7 @@ input[type="text"]::-moz-placeholder {
   -webkit-user-select: none;
   user-select: none;
   position: relative;
-  margin-top: 2rem;
+  margin-top: 5rem;
 
   .text-field-container {
     position: absolute;
@@ -167,20 +191,19 @@ input[type="text"]::-moz-placeholder {
   grid-column: 2;
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;
-}
 
-.reset-button:focus {
-  outline: none;
+  :focus {
+    outline: none;
+  }
 }
 
 .reset-button:hover .fa-spin-custom {
-  @include transition-colors();
   color: $hover-font-colour;
+  animation: fa-spin-custom 10s infinite linear;
 }
 
 .fa-spin-custom {
   @include transition-colors();
-  animation: fa-spin-custom 10s infinite linear;
   font-size: 3rem;
   color: $base-font-colour;
   padding: 1rem;
@@ -206,5 +229,6 @@ input[type="text"]::-moz-placeholder {
   width: var(--completion-percentage);
   max-width: 100%;
   transition: width 0.3s ease;
+  margin-top: 3rem;
 
 }

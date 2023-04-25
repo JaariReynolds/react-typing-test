@@ -4,7 +4,7 @@ import { TestType } from "../App";
 
 interface IProps {
     testType: TestType,
-    setTestType: (prop: TestType) => void,
+    setTestType: React.Dispatch<React.SetStateAction<TestType>>,
 	opacityStyle: React.CSSProperties
 }
 
@@ -19,9 +19,9 @@ const TestTypeSelector = ({testType, setTestType, opacityStyle}: IProps) => {
 				<input
 					type="radio"
 					id="words"
-					value={"Words"}
+					value={TestType.Words}
 					name="testType"
-					checked={testType === "Words"}
+					checked={testType === TestType.Words}
 					onChange={handleOptionChange}
 					className="hidden-radio-button"
 				/>
@@ -34,9 +34,9 @@ const TestTypeSelector = ({testType, setTestType, opacityStyle}: IProps) => {
 				<input
 					type="radio"
 					id="time"
-					value={"Time"}
+					value={TestType.Time}
 					name="testType"
-					checked={testType === "Time"}
+					checked={testType === TestType.Time}
 					onChange={handleOptionChange}
 					className="hidden-radio-button"
 				/>

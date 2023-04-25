@@ -22,14 +22,16 @@ interface IProps {
 	setTestTimeMilliSeconds: React.Dispatch<React.SetStateAction<number>>,
 	setTestCompletionPercentage: React.Dispatch<React.SetStateAction<number>>,
 	testComplete: boolean,
-	setTestComplete: React.Dispatch<React.SetStateAction<boolean>>
+	setTestComplete: React.Dispatch<React.SetStateAction<boolean>>,
+	setTestFocused: React.Dispatch<React.SetStateAction<boolean>>,
+	pressedKeys: string[],
+	setPressedKeys: React.Dispatch<React.SetStateAction<string[]>>
 }
 
-const TypingTest = ({testWords, setTestWords, testLengthWords, numbers, punctuation, reset, setShowResultsComponent, testRunning, setTestRunning, testTimeMilliSeconds, setTestTimeMilliSeconds, setTestCompletionPercentage, testComplete, setTestComplete}: IProps) => {
+const TypingTest = ({testWords, setTestWords, testLengthWords, numbers, punctuation, reset, setShowResultsComponent, testRunning, setTestRunning, testTimeMilliSeconds, setTestTimeMilliSeconds, setTestCompletionPercentage, testComplete, setTestComplete, setTestFocused, pressedKeys, setPressedKeys}: IProps) => {
 	const [currentInputWord, setCurrentInputWord] = useState<string>("");
 	const [inputWordsArray, setInputWordsArray] = useState<string[]>([]);
 	const [intervalId, setIntervalId] = useState<NodeJS.Timer|null>(null);	
-	const [pressedKeys, setPressedKeys] = useState<string[]>([]); // array because more than 1 key can be held down at once
 	const [quickReset, setQuickReset] = useState<boolean>(false);
 	const inputRef = useRef<HTMLInputElement>(null);
 	const [lastWord, setLastWord] = useState<boolean>(false);
@@ -56,6 +58,7 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, numbers, punctuat
 			setTestWords(testWordsGenerator(testLengthWords, numbers, punctuation));
 			if (inputRef.current) {
 				inputRef.current.focus();
+				setTestFocused(true);
 			}
 			
 			setOpacity(1);
@@ -443,6 +446,7 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, numbers, punctuat
 					onKeyUp={handleKeyUp}
 					className="text-field"
 					disabled={testComplete}
+					onFocus={() => setTestFocused(true)}
 					
 				/>
 			</div>

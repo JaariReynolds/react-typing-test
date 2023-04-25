@@ -1,21 +1,25 @@
 /* eslint-disable react/jsx-key */
 import React from "react";
+import { TestType } from "../App";
 
 interface IProps {
     testLengthWords: number,
     setTestLengthWords: (prop: number) => void,
-	opacityStyle: React.CSSProperties
+	opacityStyle: React.CSSProperties,
+	testType: TestType
 }
 
-const TestLengthWordsSelector = ({testLengthWords, setTestLengthWords, opacityStyle}: IProps) => {
-	const numWords: number[] = [5, 25, 50, 100];
+const TestLengthWordsSelector = ({testLengthWords, setTestLengthWords, opacityStyle, testType}: IProps) => {
+	const numWords: number[] = [10, 25, 50, 75, 100];
 
 	const handleOptionChange = (event:React.ChangeEvent<HTMLInputElement>) => {
 		setTestLengthWords(parseInt(event.target.value));
 	};
 
+	const interactableStyle = (testType === TestType.Words) ? "" : "uninteractable-selector"; // css class
+
 	return (
-		<div style={opacityStyle} className="test-option-selector">
+		<div style={opacityStyle} className={`test-option-selector test-type-words ${interactableStyle}`}>
 			{numWords.map(length => {
 				return (
 					<span className="option-text">
