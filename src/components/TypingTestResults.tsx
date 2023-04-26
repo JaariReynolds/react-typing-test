@@ -13,9 +13,10 @@ const TypingTestResults = ({testWords, setTestWords}: IProps ) => {
 	// };
 
 	return (
-		<div>
-            This is the Typing Test Results
-		</div>
+		<>
+			<div>This is the Typing Test Results</div>
+			<div>ur wpm is slow lol</div>
+		</>
 	);
 };
 

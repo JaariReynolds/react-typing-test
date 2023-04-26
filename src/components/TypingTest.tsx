@@ -5,13 +5,17 @@
 import React, { useEffect, useState, useRef } from "react"; 
 import { testWordsGenerator } from "../functions/testWordsGenerators";
 import { CompletionStatus, Word, Letter, TestWords } from "../interfaces/WordStructure";
+import { TestType } from "../App";
 
 const SPACEBAR = "Spacebar";
+const TRANSITION_DELAY = 200;
 
 interface IProps {
     testWords: TestWords,
     setTestWords: React.Dispatch<React.SetStateAction<TestWords>>,	
     testLengthWords: number,
+	testLengthSeconds: number,
+	testType: TestType,
     numbers: boolean,
     punctuation: boolean,
     reset: boolean,
@@ -28,7 +32,8 @@ interface IProps {
 	setPressedKeys: React.Dispatch<React.SetStateAction<string[]>>
 }
 
-const TypingTest = ({testWords, setTestWords, testLengthWords, numbers, punctuation, reset, setShowResultsComponent, testRunning, setTestRunning, testTimeMilliSeconds, setTestTimeMilliSeconds, setTestCompletionPercentage, testComplete, setTestComplete, setTestFocused, pressedKeys, setPressedKeys}: IProps) => {
+
+const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds, testType, numbers, punctuation, reset, setShowResultsComponent, testRunning, setTestRunning, testTimeMilliSeconds, setTestTimeMilliSeconds, setTestCompletionPercentage, testComplete, setTestComplete, setTestFocused, pressedKeys, setPressedKeys}: IProps) => {
 	const [currentInputWord, setCurrentInputWord] = useState<string>("");
 	const [inputWordsArray, setInputWordsArray] = useState<string[]>([]);
 	const [intervalId, setIntervalId] = useState<NodeJS.Timer|null>(null);	
@@ -45,16 +50,26 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, numbers, punctuat
 	useEffect(() => {
 		setOpacity(0);
 		stopTestStopWatch();
-		setTestTimeMilliSeconds(0);
 		setTestComplete(false);
-		
-		setShowResultsComponent(false);
 		setInputWordsArray([]);
 		setCurrentInputWord("");
-		setPressedKeys([]);		
+		setPressedKeys([]);	
+		setShowResultsComponent(false);
+
+		switch (testType) {
+		case TestType.Words:
+			setTestTimeMilliSeconds(0);
+			setTestCompletionPercentage(0);
+			break;
+		case TestType.Time:
+			setTestTimeMilliSeconds(testLengthSeconds * 1000);
+			setTestCompletionPercentage(100);
+			break;
+		}
 
 		// small delay to have a opacity fade-in-out when the test is reset
 		setTimeout(() => {
+			
 			setTestWords(testWordsGenerator(testLengthWords, numbers, punctuation));
 			if (inputRef.current) {
 				inputRef.current.focus();
@@ -63,25 +78,38 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, numbers, punctuat
 			
 			setOpacity(1);
 			console.log("randomise test words, reset states");
-		}, 150);
+		}, 210);
 	
-	}, [testLengthWords, numbers, punctuation, reset, quickReset]);
+	}, [testLengthWords, testLengthSeconds, testType, numbers, punctuation, reset, quickReset]);
 
-	// calculates percentage of test completed (for completion bar) whenever the test is updated
+	// calculates percentage of test completed (FOR WORD-LENGTH TEST) whenever the test is updated
 	useEffect(() => {
-		const totalInputLetters = inputWordsArray.reduce((total, word) => {
-			
-			return total + word.length; 
-		}, currentInputWord.length + inputWordsArray.length);
-
-		setTestCompletionPercentage(totalInputLetters / testWords.characterCount * 100);
-
+		if (testType === TestType.Words) {
+			const totalInputLetters = inputWordsArray.reduce((total, word) => {
+				
+				return total + word.length; 
+			}, currentInputWord.length + inputWordsArray.length);
+	
+			setTestCompletionPercentage(totalInputLetters / testWords.characterCount * 100);
+		}
 	}, [inputWordsArray, currentInputWord]);
+
+	// calculates percentage of test completed (FOR TIME-LENGTH TEST)
+	useEffect(() => {
+		if (testType === TestType.Time) {
+			setTestCompletionPercentage(testTimeMilliSeconds / (testLengthSeconds * 1000) * 100);
+
+			if (testTimeMilliSeconds === 0) {
+				stopTestStopWatch();
+				setTestComplete(true);
+			}
+		}
+	}, [testTimeMilliSeconds]);
 
 	// test is finished when pressing space on last word or if the last word is correct - using checkLastWord()
 	useEffect(() => {
 		if (inputWordsArray.length === testWords.words.length) {
-			stopTestStopWatch();
+			setTestComplete(true);
 			return;
 		}
 
@@ -91,30 +119,56 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, numbers, punctuat
 			setLastWord(false);			
 	}, [inputWordsArray.length]);
 
+	// only show results component when the test is completed
+	useEffect(() => {
+		if (testComplete === true) {
+			stopTestStopWatch();
+			setTimeout(() => {
+				setShowResultsComponent(true);
+			}, TRANSITION_DELAY);
+		} else {
+			setShowResultsComponent(false);
+		}
+	}, [testComplete]);
+
 	const checkLastWord = () => {
 		const lastWord = testWords.words[testWords.words.length - 1];
-		if (lastWord.status === CompletionStatus.Correct) 
-			stopTestStopWatch();
+		if (lastWord.status === CompletionStatus.Correct) {
+			setTestComplete(true);
+		}
 	};
+
 
 	const startTestStopWatch = (): void => {
 		if (intervalId !== null) return;
-
+		
 		setTestRunning(true);
-		const id = setInterval(() => {
-			setTestTimeMilliSeconds(previousTime => previousTime + 10);
-		}, 10);
-		setIntervalId(id);
+		let id;
+
+		switch (testType) {
+		case TestType.Words:
+			id = setInterval(() => {
+				setTestTimeMilliSeconds(previousTime => previousTime + 50);
+			}, 50);
+			setIntervalId(id);
+			break;
+		case TestType.Time:	
+			id = setInterval(() => {
+				setTestTimeMilliSeconds(previousTime => previousTime - 50);
+			}, 50);
+			setIntervalId(id);
+			break;		
+		}
 	};
 
 	const stopTestStopWatch = (): void => {
 		if (intervalId === null) return;
 
 		setTestWords({...testWords, timeElapsedMilliSeconds: testTimeMilliSeconds, errorCountHard: calculateTotalErrorsHard(), errorCountSoft: calculateTotalErrorsSoft()});
-		setTestComplete(true);
-		setShowResultsComponent(true);
+		setTimeout(() => {
+			setTestRunning(false);
+		}, TRANSITION_DELAY);
 		clearInterval(intervalId);       
-		setTestRunning(false);
 		setIntervalId(null);
 		console.log(testWords);
 	};

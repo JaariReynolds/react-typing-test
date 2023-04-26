@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { CSSProperties, useEffect, useState } from "react";
 import "./App.scss";
 import TypingTest from "./components/TypingTest";
 import TestTypeSelector from "./components/TestTypeSelector";
@@ -51,6 +51,10 @@ function App() {
 		"--completion-percentage": testCompletionPercentage.toString() + "%"
 	} as React.CSSProperties;
 
+	const resultsCompoonentOpacity = {
+		"--results-component-opacity": (showResultsComponent && testComplete) ? 1 : 0
+	} as React.CSSProperties;
+
 	// moving the mouse while the test is running should show the test option selectors
 	const handleMouseMove = () => {
 		if (!testRunning) return;		
@@ -72,6 +76,9 @@ function App() {
 			<div className="main-container" onMouseMove={handleMouseMove}>
 				<div className="inner-container">
 					<div className="top-gap"></div>
+					<div>testtime={testTimeMilliSeconds}</div>
+					<div>testLength={testLengthSeconds}</div>
+					<div>showResults={showResultsComponent.toString()}</div>
 					<div className="test-options">
 						<TestTypeSelector testType={testType} setTestType={setTestType} opacityStyle={opacityStyle}/>
 
@@ -86,7 +93,7 @@ function App() {
 				
 					<div style={completionBarOpacity} className="test-completion-bar"></div>
 					
-					<TypingTest testWords={testWords} setTestWords={setTestWords} testLengthWords={testLengthWords} numbers={includeNumbers} punctuation={includePunctuation} reset={reset} setShowResultsComponent={setShowResultsComponent} testRunning={testRunning} setTestRunning={setTestRunning} testTimeMilliSeconds={testTimeMilliSeconds} setTestTimeMilliSeconds={setTestTimeMilliSeconds} setTestCompletionPercentage={setTestCompletionPercentage}
+					<TypingTest testWords={testWords} setTestWords={setTestWords} testLengthWords={testLengthWords} testLengthSeconds={testLengthSeconds} testType={testType} numbers={includeNumbers} punctuation={includePunctuation} reset={reset} setShowResultsComponent={setShowResultsComponent} testRunning={testRunning} setTestRunning={setTestRunning} testTimeMilliSeconds={testTimeMilliSeconds} setTestTimeMilliSeconds={setTestTimeMilliSeconds} setTestCompletionPercentage={setTestCompletionPercentage}
 						testComplete={testComplete} setTestComplete={setTestComplete} setTestFocused={setTestFocused} pressedKeys={pressedKeys} setPressedKeys={setPressedKeys}/>
 				
 					<button type="reset" title="Reset" style={opacityStyle} className="reset-button"
@@ -94,11 +101,11 @@ function App() {
 						<FontAwesomeIcon icon={faRefresh} className="fa-spin-custom"/>
 					</button>
 
-					{showResultsComponent && 
-						<div className="col-span-full bg-blue-500 rounded">
-							<TypingTestResults testWords={testWords} setTestWords={setTestWords}/>
-						</div>
-					}
+					<div style={resultsCompoonentOpacity} className="test-results-div">
+						<TypingTestResults testWords={testWords} setTestWords={setTestWords}/>
+					</div>
+					
+					
 				</div>
 			</div>
 		</div>

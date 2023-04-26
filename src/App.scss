@@ -1,5 +1,6 @@
 // CONSTANTS
 $component-opacity-fade-duration: 300ms;
+$completion-bar-transition-duration: 200ms;
 $text-colour-transition-duration: 300ms;
 $letter-colour-transition-duration: 150ms;
 
@@ -17,6 +18,7 @@ $hover-font-colour: rgb(255 255 255);
   --component-opacity: 1;
   --completion-bar-opacity: 0;
   --typing-test-opacity: 1;
+  --results-component-opacity: 0;
   --completion-percentage: 0%;
 }
 
@@ -228,7 +230,15 @@ input[type="text"]::-moz-placeholder {
   background-color: $selected-font-colour;
   width: var(--completion-percentage);
   max-width: 100%;
-  transition: width 0.3s ease;
+  transition: width $completion-bar-transition-duration linear;
   margin-top: 3rem;
+}
+
+.test-results-div {
+  transition-property: opacity;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: $component-opacity-fade-duration;
+  opacity: var(--results-component-opacity);
+  background-color: blue;
 
 }

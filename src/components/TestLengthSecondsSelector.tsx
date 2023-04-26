@@ -10,7 +10,7 @@ interface IProps {
 }
 
 const TestLengthSecondsSelector = ({testLengthSeconds, setTestLengthSeconds, opacityStyle, testType}: IProps) => {
-	const testLengthWords: number[] = [15, 30, 45, 60, 120];
+	const testLengthWords: number[] = [3, 15, 30, 45, 60, 120];
 
 	const handleOptionChange = (event:React.ChangeEvent<HTMLInputElement>) => {
 		setTestLengthSeconds(parseInt(event.target.value));

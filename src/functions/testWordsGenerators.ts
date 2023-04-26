@@ -12,11 +12,11 @@ const getRandomInt = (max: number): number => {
 };
 
 // function to randomise the words array 
-export const testWordsGenerator = (testLength: number, numbers: boolean, punctuation: boolean): TestWords => {
+export const testWordsGenerator = (testLengthWords: number, numbers: boolean, punctuation: boolean): TestWords => {
 	const randomWordArray: Word[] = [];
 	let randomWord: string | number;
 	let characterCount = 0;
-	for (let i = 0; i < testLength; i++) {
+	for (let i = 0; i < testLengthWords; i++) {
 		const randomInt: number = getRandomInt(numberOfRandomWords); // get index for word list
 		const randomNum: number = Math.random();
 
@@ -30,7 +30,6 @@ export const testWordsGenerator = (testLength: number, numbers: boolean, punctua
 			// just use the base word
 			randomWord = wordsArray[randomInt];
 		}
-    
         
 		characterCount += randomWord.length;
 		randomWordArray.push(new Word(randomWord));
