@@ -84,7 +84,7 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 
 	// calculates percentage of test completed (FOR WORD-LENGTH TEST) whenever the test is updated
 	useEffect(() => {
-		if (testType === TestType.Words) {
+		if (testType === TestType.Words && testRunning) {
 			const totalInputLetters = inputWordsArray.reduce((total, word) => {
 				
 				return total + word.length; 
@@ -96,7 +96,7 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 
 	// calculates percentage of test completed (FOR TIME-LENGTH TEST)
 	useEffect(() => {
-		if (testType === TestType.Time) {
+		if (testType === TestType.Time && testRunning) {
 			setTestCompletionPercentage(testTimeMilliSeconds / (testLengthSeconds * 1000) * 100);
 
 			if (testTimeMilliSeconds === 0) {
@@ -108,18 +108,20 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 
 	// test is finished when pressing space on last word or if the last word is correct - using checkLastWord()
 	useEffect(() => {
-		if (inputWordsArray.length === testWords.words.length) {
-			setTestComplete(true);
-			return;
-		}
+		if (testRunning) {
+			if (inputWordsArray.length === testWords.words.length) {
+				setTestComplete(true);
+				return;
+			}
 
-		if (inputWordsArray.length === testWords.words.length - 1) 
-			setLastWord(true);			
-		else 
-			setLastWord(false);			
+			if (inputWordsArray.length === testWords.words.length - 1) 
+				setLastWord(true);			
+			else 
+				setLastWord(false);		
+		}	
 	}, [inputWordsArray.length]);
 
-	// only show results component when the test is completed
+	// only show results component (after a short delay) when the test is completed
 	useEffect(() => {
 		if (testComplete === true) {
 			stopTestStopWatch();
@@ -137,7 +139,6 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 			setTestComplete(true);
 		}
 	};
-
 
 	const startTestStopWatch = (): void => {
 		if (intervalId !== null) return;

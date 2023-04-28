@@ -34,11 +34,20 @@ function App() {
 	const [testCompletionPercentage, setTestCompletionPercentage] = useState<number>(0);
 	const [testFocused, setTestFocused] = useState<boolean>(true);
 	const [pressedKeys, setPressedKeys] = useState<string[]>([]); // array because more than 1 key can be held down at once
-	
+
 	// hide distracting components when test is running
 	useEffect(() => {
 		setComponentOpacity(testRunning ? 0 : 1);
 	}, [testRunning]);
+
+	// if moved mouse while test running, BUT then you still continue the test after, hide test option selectors again
+	useEffect(() => {
+		if (testFocused === false && testRunning && pressedKeys.length > 0) {
+			setTestFocused(true);
+			setComponentOpacity(0);
+		}
+	}, [pressedKeys]);
+
 
 	const opacityStyle = {
 		"--component-opacity": componentOpacity,
@@ -47,7 +56,6 @@ function App() {
 	  } as React.CSSProperties;
 
 	const completionBarOpacity = {
-		"--completion-bar-opacity": (componentOpacity == 0) ? 1 : 0 || (showResultsComponent) ? 1 : 0,
 		"--completion-percentage": testCompletionPercentage.toString() + "%"
 	} as React.CSSProperties;
 
@@ -63,22 +71,18 @@ function App() {
 
 	};
 
-	// if moved mouse while test running, BUT then you still continue the test after, hide test option selectors again
-	useEffect(() => {
-		if (testFocused === false && testRunning && pressedKeys.length > 0) {
-			setTestFocused(true);
-			setComponentOpacity(0);
-		}
-	}, [pressedKeys]);
+
 
 	return (
 		<div className="App">
 			<div className="main-container" onMouseMove={handleMouseMove}>
 				<div className="inner-container">
 					<div className="top-gap"></div>
+					<div>testcomplete={testComplete.toString()}</div>
 					<div>testtime={testTimeMilliSeconds}</div>
 					<div>testLength={testLengthSeconds}</div>
 					<div>showResults={showResultsComponent.toString()}</div>
+					<div>completionPercentage={testCompletionPercentage}</div>
 					<div className="test-options">
 						<TestTypeSelector testType={testType} setTestType={setTestType} opacityStyle={opacityStyle}/>
 
