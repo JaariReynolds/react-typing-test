@@ -59,7 +59,7 @@ function App() {
 		"--completion-percentage": testCompletionPercentage.toString() + "%"
 	} as React.CSSProperties;
 
-	const resultsCompoonentOpacity = {
+	const resultsComponentOpacity = {
 		"--results-component-opacity": (showResultsComponent && testComplete) ? 1 : 0
 	} as React.CSSProperties;
 
@@ -98,14 +98,14 @@ function App() {
 					<div style={completionBarOpacity} className="test-completion-bar"></div>
 					
 					<TypingTest testWords={testWords} setTestWords={setTestWords} testLengthWords={testLengthWords} testLengthSeconds={testLengthSeconds} testType={testType} numbers={includeNumbers} punctuation={includePunctuation} reset={reset} setShowResultsComponent={setShowResultsComponent} testRunning={testRunning} setTestRunning={setTestRunning} testTimeMilliSeconds={testTimeMilliSeconds} setTestTimeMilliSeconds={setTestTimeMilliSeconds} setTestCompletionPercentage={setTestCompletionPercentage}
-						testComplete={testComplete} setTestComplete={setTestComplete} setTestFocused={setTestFocused} pressedKeys={pressedKeys} setPressedKeys={setPressedKeys}/>
+						testComplete={testComplete} setTestComplete={setTestComplete} testFocused={testFocused} setTestFocused={setTestFocused} pressedKeys={pressedKeys} setPressedKeys={setPressedKeys}/>
 				
 					<button type="reset" title="Reset" style={opacityStyle} className="reset-button"
 						onClick={() => setReset(!reset)}>
 						<FontAwesomeIcon icon={faRefresh} className="fa-spin-custom"/>
 					</button>
 
-					<div style={resultsCompoonentOpacity} className="test-results-div">
+					<div style={resultsComponentOpacity} className="test-results-div">
 						<TypingTestResults testWords={testWords} setTestWords={setTestWords}/>
 					</div>
 					

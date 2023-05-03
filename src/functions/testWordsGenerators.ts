@@ -1,4 +1,4 @@
-import { TestWords, Word } from "../interfaces/WordStructure";
+import { LetterActiveStatus, TestWords, Word } from "../interfaces/WordStructure";
 import { wordsArray } from "../wordsArray";
 import { punctuationGenerator } from "./punctuationGenerator";
 
@@ -34,6 +34,10 @@ export const testWordsGenerator = (testLengthWords: number, numbers: boolean, pu
 		characterCount += randomWord.length;
 		randomWordArray.push(new Word(randomWord));
 	}
+
+	randomWordArray[0].active = true;
+	randomWordArray[0].word[0].active = LetterActiveStatus.Active;
+
 	// num of words - 1 = minimum number of 'spacebars' needed to complete the test
 	characterCount += randomWordArray.length - 1;
 

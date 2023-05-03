@@ -5,14 +5,22 @@ export enum CompletionStatus {
     Correct = 1,
     Incorrect = 2
   }
+
+export enum LetterActiveStatus {
+	Inactive = 0,
+	Active = 1,
+	ActiveLast = 2 // when the word is complete and the current 'letter' is anticipating a 'spacebar'
+}
   
 // each letter has its own status that can be calculated after the letter has been compared
 export class Letter {
 	letter = "";
 	status: CompletionStatus = CompletionStatus.None;
+	active = LetterActiveStatus.Inactive;
 
-	constructor(letter: string, status?: CompletionStatus) {
+	constructor(letter: string, active: LetterActiveStatus, status?: CompletionStatus) {
 		this.letter = letter;
+		this.active = active;
 		this.status = (status === undefined) ? CompletionStatus.None : status;
 	}
 }
@@ -25,6 +33,7 @@ export class Word {
 	originalLength = 0;
 	errorCountHard = 0;
 	errorCountSoft = 0;
+	active = false;
 
 	// create a letter object for each character in the word
 	constructor(word: string, status?: CompletionStatus) {
@@ -33,7 +42,7 @@ export class Word {
 		this.status = (status === undefined) ? CompletionStatus.None : status;
 
 		for (const letter of word) {
-			this.word.push(new Letter(letter));
+			this.word.push(new Letter(letter, LetterActiveStatus.Inactive));
 		}
 	}
 }

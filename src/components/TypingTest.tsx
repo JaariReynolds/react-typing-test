@@ -6,6 +6,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { testWordsGenerator } from "../functions/testWordsGenerators";
 import { CompletionStatus, Word, Letter, TestWords } from "../interfaces/WordStructure";
 import { TestType } from "../App";
+import { LetterActiveStatus } from "../interfaces/WordStructure";
 
 const SPACEBAR = "Spacebar";
 const TRANSITION_DELAY = 200;
@@ -29,13 +30,14 @@ interface IProps {
 	setTestCompletionPercentage: React.Dispatch<React.SetStateAction<number>>,
 	testComplete: boolean,
 	setTestComplete: React.Dispatch<React.SetStateAction<boolean>>,
+	testFocused: boolean,
 	setTestFocused: React.Dispatch<React.SetStateAction<boolean>>,
 	pressedKeys: string[],
 	setPressedKeys: React.Dispatch<React.SetStateAction<string[]>>
 }
 
 
-const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds, testType, numbers, punctuation, reset, setShowResultsComponent, testRunning, setTestRunning, testTimeMilliSeconds, setTestTimeMilliSeconds, setTestCompletionPercentage, testComplete, setTestComplete, setTestFocused, pressedKeys, setPressedKeys}: IProps) => {
+const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds, testType, numbers, punctuation, reset, setShowResultsComponent, testRunning, setTestRunning, testTimeMilliSeconds, setTestTimeMilliSeconds, setTestCompletionPercentage, testComplete, setTestComplete, testFocused, setTestFocused, pressedKeys, setPressedKeys}: IProps) => {
 	const [currentInputWord, setCurrentInputWord] = useState<string>("");
 	const [inputWordsArray, setInputWordsArray] = useState<string[]>([]);
 	const [intervalId, setIntervalId] = useState<NodeJS.Timer|null>(null);	
@@ -91,8 +93,8 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 	
 	}, [testLengthWords, testLengthSeconds, testType, numbers, punctuation, reset, quickReset]);
 
-	// calculates percentage of test completed (FOR WORD-LENGTH TEST) whenever the test is updated
 	useEffect(() => {
+		// calculates percentage of test completed (FOR WORD-LENGTH TEST) whenever the test is updated
 		if (testType === TestType.Words && testRunning) {
 			const totalInputLetters = inputWordsArray.reduce((total, word) => {
 				
@@ -101,17 +103,50 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 	
 			setTestCompletionPercentage(totalInputLetters / testWords.characterCount * 100);
 		}
+
+		// setting the currently active letter, used for the text caret
+		const newTestWords = testWords.words.map((wordObject, wordIndex) => {
+			const newTestWord = wordObject.word.map((letterObject, letterIndex) => {
+				if (letterIndex === currentInputWord.length && wordIndex === inputWordsArray.length) {
+					return {...letterObject, active: LetterActiveStatus.Active}; // caret on left of letter
+				} 
+				else if (letterIndex === currentInputWord.length - 1 && wordIndex === inputWordsArray.length && currentInputWord.length >= wordObject.originalLength) {
+					return {...letterObject, active: LetterActiveStatus.ActiveLast}; // caret on right of letter
+				}
+				else {
+					return {...letterObject, active: LetterActiveStatus.Inactive}; // no caret
+				}
+			});
+
+			if (wordIndex === inputWordsArray.length) {
+				return {...wordObject, word: newTestWord, active: true};
+			}
+			else {
+				return {...wordObject, word: newTestWord, active: false};
+			}
+		});
+
+		setTestWords({...testWords, words: newTestWords});
 	}, [inputWordsArray, currentInputWord]);
 
-	// calculates percentage of test completed (FOR TIME-LENGTH TEST)
 	useEffect(() => {
-		if (testType === TestType.Time && testRunning) {
+		if (!testRunning) return;
+		// calculates percentage of test completed (FOR TIME-LENGTH TEST)
+		if (testType === TestType.Time) {
 			setTestCompletionPercentage(testTimeMilliSeconds / (testLengthSeconds * 1000) * 100);
 
 			if (testTimeMilliSeconds <= 0) {
 				stopTestStopWatch();
 				setTestComplete(true);
 			}
+		}
+
+		// calculate WPM every second
+		if (testType === TestType.Words && testTimeMilliSeconds % 1000 === 0) {
+			console.log(testTimeMilliSeconds);
+		}
+		else if (testType === TestType.Time && testTimeMilliSeconds % 1000 === 0) {
+			console.log(testLengthSeconds * 1000 - testTimeMilliSeconds);
 		}
 	}, [testTimeMilliSeconds]);
 
@@ -153,8 +188,13 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 		}
 	}, [testComplete]);
 
+	// const calculateWPM = (): void => {
+
+
+	// };
+
 	// test can also be finished if last word in the test is fully correct (FOR WORD-LENGTH TEST)
-	const checkLastWord = () => {
+	const checkLastWord = (): void => {
 		if (testType !== TestType.Words) return;
 		const lastWord = testWords.words[testWords.words.length - 1];
 		if (lastWord.status === CompletionStatus.Correct) {
@@ -173,15 +213,14 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 			id = setInterval(() => {
 				setTestTimeMilliSeconds(previousTime => previousTime + 50);
 			}, 50);
-			setIntervalId(id);
 			break;
 		case TestType.Time:	
 			id = setInterval(() => {
 				setTestTimeMilliSeconds(previousTime => previousTime - 50);
 			}, 50);
-			setIntervalId(id);
 			break;		
 		}
+		setIntervalId(id);
 	};
 
 	const stopTestStopWatch = (): void => {
@@ -301,7 +340,7 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 
 	// add additional letter to letter array, set wordstatus to incorrect
 	const addAdditionalLetter = (wordObject: Word, character: string): Word => {
-		const newLetter: Letter = {letter: character, status: CompletionStatus.Incorrect};
+		const newLetter: Letter = {letter: character, status: CompletionStatus.Incorrect, active: LetterActiveStatus.Active};
 		const letterArray = wordObject.word;
 		letterArray.push(newLetter);
 		return {...wordObject, word: letterArray, status: CompletionStatus.Incorrect, errorCountSoft: wordObject.errorCountSoft + 1};
@@ -512,6 +551,25 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 		} 
 	};
 
+	const letterActive = (activeStatus: LetterActiveStatus) => {
+		switch (activeStatus) {
+		case LetterActiveStatus.Active:
+			return "active";
+		case LetterActiveStatus.Inactive:
+			return "";
+		case LetterActiveStatus.ActiveLast:
+			return "active-last";
+		}
+	};
+
+	const blinkingCaret = () => {
+		if (!testRunning || (testRunning && !testFocused)) {
+			return "awaiting-input";
+		} else 
+			return "";
+		
+	};
+
 	return (    
 		<div className="typing-test">
 			<div className="text-field-container">
@@ -534,7 +592,7 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 						<div className="word">
 							{word.word.map(letter => {
 								return (
-									<span className={`letter ${letterColour(letter.status)}`}>
+									<span className={`letter ${letterColour(letter.status)} ${letterActive(letter.active)} ${letter.active ? blinkingCaret() : ""}`}>
 										{letter.letter}
 									</span>
 								);}
@@ -543,6 +601,7 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 					);
 				})}
 			</div>
+			<div>testTimeMilliSeconds:{testTimeMilliSeconds}</div>
 						
 			{/* <div>CharacterCount = {testWords.characterCount}</div> */}
 			
