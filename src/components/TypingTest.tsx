@@ -9,6 +9,8 @@ import { TestType } from "../App";
 
 const SPACEBAR = "Spacebar";
 const TRANSITION_DELAY = 200;
+const TIMED_TEST_LENGTH = 40;
+const WORDS_TO_ADD = 10;
 
 interface IProps {
     testWords: TestWords,
@@ -69,8 +71,15 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 
 		// small delay to have a opacity fade-in-out when the test is reset
 		setTimeout(() => {
-			
-			setTestWords(testWordsGenerator(testLengthWords, numbers, punctuation));
+			switch (testType) {
+			case TestType.Words:
+				setTestWords(testWordsGenerator(testLengthWords, numbers, punctuation));
+				break;
+			case TestType.Time:
+				setTestWords(testWordsGenerator(TIMED_TEST_LENGTH, numbers, punctuation));
+				break;
+			}
+
 			if (inputRef.current) {
 				inputRef.current.focus();
 				setTestFocused(true);
@@ -99,26 +108,37 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 		if (testType === TestType.Time && testRunning) {
 			setTestCompletionPercentage(testTimeMilliSeconds / (testLengthSeconds * 1000) * 100);
 
-			if (testTimeMilliSeconds === 0) {
+			if (testTimeMilliSeconds <= 0) {
 				stopTestStopWatch();
 				setTestComplete(true);
 			}
 		}
 	}, [testTimeMilliSeconds]);
 
-	// test is finished when pressing space on last word or if the last word is correct - using checkLastWord()
 	useEffect(() => {
-		if (testRunning) {
+		if (testRunning && testType === TestType.Words) {
+			// test is finished when pressing space on last word (FOR WORD-LENGTH TEST)
 			if (inputWordsArray.length === testWords.words.length) {
 				setTestComplete(true);
 				return;
 			}
 
-			if (inputWordsArray.length === testWords.words.length - 1) 
+			if (inputWordsArray.length === testWords.words.length - WORDS_TO_ADD) 
 				setLastWord(true);			
 			else 
 				setLastWord(false);		
-		}	
+		}
+		else if (testRunning && testType === TestType.Time) {
+			// add words to the end of the word array if reaching the current limit (FOR TIME-LENGTH TEST)
+			if (inputWordsArray.length === testWords.words.length - WORDS_TO_ADD) {
+				const extraTestWords = testWordsGenerator(WORDS_TO_ADD, numbers, punctuation);
+				setTestWords(prevTestWords => ({ 
+					...prevTestWords,
+					words: [...prevTestWords.words, ...extraTestWords.words],
+					characterCount: prevTestWords.characterCount + extraTestWords.characterCount
+				}));
+			}
+		}
 	}, [inputWordsArray.length]);
 
 	// only show results component (after a short delay) when the test is completed
@@ -133,7 +153,9 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 		}
 	}, [testComplete]);
 
+	// test can also be finished if last word in the test is fully correct (FOR WORD-LENGTH TEST)
 	const checkLastWord = () => {
+		if (testType !== TestType.Words) return;
 		const lastWord = testWords.words[testWords.words.length - 1];
 		if (lastWord.status === CompletionStatus.Correct) {
 			setTestComplete(true);
@@ -166,9 +188,11 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 		if (intervalId === null) return;
 
 		setTestWords({...testWords, timeElapsedMilliSeconds: testTimeMilliSeconds, errorCountHard: calculateTotalErrorsHard(), errorCountSoft: calculateTotalErrorsSoft()});
+
 		setTimeout(() => {
 			setTestRunning(false);
 		}, TRANSITION_DELAY);
+
 		clearInterval(intervalId);       
 		setIntervalId(null);
 		console.log(testWords);
@@ -233,7 +257,6 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 		setTestWords(previousState => ({
 			...previousState, words: newTestWords
 		}));
-
 	};
 
 	const calculateTotalErrorsHard = (): number => {
