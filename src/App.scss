@@ -2,7 +2,7 @@
 $component-opacity-fade-duration: 300ms;
 $completion-bar-transition-duration: 200ms;
 $text-colour-transition-duration: 300ms;
-$letter-colour-transition-duration: 150ms;
+$letter-colour-transition-duration: 200ms;
 
 $background-colour: rgb(47, 50, 52);
 $base-font-colour: rgb(161 161 170);
@@ -177,9 +177,9 @@ input[type="text"]::-moz-placeholder {
         transition-duration: $letter-colour-transition-duration;
         border-left: 3px solid transparent;
 
+
         &.active {
           border-left: 3px solid $selected-font-colour;
-
 
           &.awaiting-input {
             animation: blinking-caret-left 1.5s linear infinite;
@@ -193,21 +193,22 @@ input[type="text"]::-moz-placeholder {
             animation: blinking-caret-right 1.5s linear infinite;
           }
         }
+
+        // if these are changed, need to update letterColour() in TypingTest.tsx
+        &.base-text-colour {
+          color: $base-font-colour;
+        }
+
+        &.correct-text-colour {
+          color: $correct-font-colour;
+        }
+
+        &.incorrect-text-colour {
+          color: $incorrect-font-colour;
+        }
       }
 
 
-      // if these are changed, need to update letterColour() in TypingTest.tsx
-      .base-text-colour {
-        color: $base-font-colour;
-      }
-
-      .correct-text-colour {
-        color: $correct-font-colour;
-      }
-
-      .incorrect-text-colour {
-        color: $incorrect-font-colour;
-      }
     }
   }
 }

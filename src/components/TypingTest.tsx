@@ -12,6 +12,7 @@ const SPACEBAR = "Spacebar";
 const TRANSITION_DELAY = 200;
 const TIMED_TEST_LENGTH = 40;
 const WORDS_TO_ADD = 10;
+const AVERAGE_WORD_LENGTH = 5; // standard length used to calculate WPM
 
 interface IProps {
     testWords: TestWords,
@@ -33,11 +34,13 @@ interface IProps {
 	testFocused: boolean,
 	setTestFocused: React.Dispatch<React.SetStateAction<boolean>>,
 	pressedKeys: string[],
-	setPressedKeys: React.Dispatch<React.SetStateAction<string[]>>
+	setPressedKeys: React.Dispatch<React.SetStateAction<string[]>>,
+	testWPMArray: number[],
+	setTestWPMArray: React.Dispatch<React.SetStateAction<number[]>>
 }
 
 
-const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds, testType, numbers, punctuation, reset, setShowResultsComponent, testRunning, setTestRunning, testTimeMilliSeconds, setTestTimeMilliSeconds, setTestCompletionPercentage, testComplete, setTestComplete, testFocused, setTestFocused, pressedKeys, setPressedKeys}: IProps) => {
+const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds, testType, numbers, punctuation, reset, setShowResultsComponent, testRunning, setTestRunning, testTimeMilliSeconds, setTestTimeMilliSeconds, setTestCompletionPercentage, testComplete, setTestComplete, testFocused, setTestFocused, pressedKeys, setPressedKeys, testWPMArray, setTestWPMArray}: IProps) => {
 	const [currentInputWord, setCurrentInputWord] = useState<string>("");
 	const [inputWordsArray, setInputWordsArray] = useState<string[]>([]);
 	const [intervalId, setIntervalId] = useState<NodeJS.Timer|null>(null);	
@@ -45,6 +48,7 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 	const inputRef = useRef<HTMLInputElement>(null);
 	const [lastWord, setLastWord] = useState<boolean>(false);
 	const [opacity, setOpacity] = useState<number>(1);
+
 
 	const opacityStyle = {
 		"--typing-test-opacity": opacity,
@@ -60,6 +64,7 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 		setPressedKeys([]);	
 		setShowResultsComponent(false);
 		setLastWord(false);
+		setTestWPMArray([]);
 
 		switch (testType) {
 		case TestType.Words:
@@ -144,10 +149,11 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 
 		// calculate WPM every second
 		if (testType === TestType.Words && testTimeMilliSeconds % 1000 === 0) {
-			console.log(testTimeMilliSeconds);
+			calculateWPM(testTimeMilliSeconds / 1000);
 		}
 		else if (testType === TestType.Time && testTimeMilliSeconds % 1000 === 0) {
-			console.log(testLengthSeconds * 1000 - testTimeMilliSeconds);
+			//console.log(testLengthSeconds * 1000 - testTimeMilliSeconds)
+			calculateWPM(testLengthSeconds - (testTimeMilliSeconds / 1000));
 		}
 	}, [testTimeMilliSeconds]);
 
@@ -165,7 +171,7 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 				setLastWord(false);		
 		}
 		else if (testRunning && testType === TestType.Time) {
-			// add words to the end of the word array if reaching the current limit (FOR TIME-LENGTH TEST)
+			// add words to the end of the word array if almost reaching the current limit (FOR TIME-LENGTH TEST)
 			if (inputWordsArray.length === testWords.words.length - WORDS_TO_ADD) {
 				const extraTestWords = testWordsGenerator(WORDS_TO_ADD, numbers, punctuation);
 				setTestWords(prevTestWords => ({ 
@@ -189,10 +195,23 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 		}
 	}, [testComplete]);
 
-	// const calculateWPM = (): void => {
+	const calculateWPM = (timeElapsedSeconds: number): void => {
+		// gets the nuumber of correct letters in each word in the test
+		let totalCorrectLetters = 0;
+		testWords.words.map(wordObject => {
+			const totalForWord = wordObject.word.reduce((total, letter) => {
+				if (letter.status === CompletionStatus.Correct) 
+					total += 1;
+				return total;
+			}, 0);
+			totalCorrectLetters += totalForWord;
+		});
 
-
-	// };
+		// WPM calculation
+		const currentWPM = (totalCorrectLetters + inputWordsArray.length) / AVERAGE_WORD_LENGTH / timeElapsedSeconds * 60;
+		
+		setTestWPMArray([...testWPMArray, currentWPM]);
+	};
 
 	// test can also be finished if last word in the test is fully correct (FOR WORD-LENGTH TEST)
 	const checkLastWord = (): void => {
@@ -444,28 +463,23 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 
 		setCurrentInputWord(e.target.value);
         
-
 		let currentTestWord = testWords.words[inputWordsArray.length];
 		
 		// #region Character Handling Block
 		// if backspacing an existing character
 		if (pressedKeys[pressedKeys.length - 1] === "Backspace" && currentInputWord.length > 0 && currentInputWord.length <= testWords.words[inputWordsArray.length].originalLength) {
-			//console.log("removing status on previous letter");
 			currentTestWord = removeExistingLetter(currentTestWord, e.target.value);
 		} 
 		// if backspacing an additional character    
 		else if (pressedKeys[pressedKeys.length - 1] === "Backspace" && currentInputWord.length > testWords.words[inputWordsArray.length].originalLength) {
-			//console.log("backspacing an additional letter");
 			currentTestWord = removeAdditionalLetter(currentTestWord);
 		} 
 		// if updating an existing character
 		else if (e.target.value.length <= testWords.words[inputWordsArray.length].originalLength) {
-			//console.log("updating status on existing letter");
 			currentTestWord = addExistingLetter(currentTestWord, e.target.value);
 		} 
 		// if adding/updating an additional character
 		else if (e.target.value.length > testWords.words[inputWordsArray.length].originalLength) {
-			//console.log("adding additional letter");
 			currentTestWord = addAdditionalLetter(currentTestWord, e.target.value.slice(-1));
 		}
 
@@ -564,11 +578,14 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 		}
 	};
 
-	const blinkingCaret = () => {
-		if (!testRunning || (testRunning && !testFocused)) {
-			return "awaiting-input";
-		} else 
-			return "";		
+	const blinkingCaret = (letter: Letter) => {
+		if (letter.active === LetterActiveStatus.Active || letter.active === LetterActiveStatus.ActiveLast) {
+			if (!testRunning || (testRunning && !testFocused)) {
+				return "awaiting-input";
+			}
+			return "";
+		}		
+		return "";			
 	};
 
 	return (    
@@ -587,7 +604,7 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 					
 				/>
 			</div>
-			<div>lastword={lastWord.toString()}</div>
+			<div>wpmarray={testWPMArray.join(",")}</div>
 			
 			<div style={opacityStyle} className="words-container">
 				{testWords.words.map(word => {
@@ -596,11 +613,8 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 							{word.word.map(letter => {
 								return (
 									
-									<span className={`
-										letter 
-										${letterColour(letter.status)} 
-										${letterActive(letter.active)} 
-										${blinkingCaret()}`}>
+									<span className={`letter ${letterColour(letter.status)} ${blinkingCaret(letter)} ${letterActive(letter.active)} 
+										`}>
 										{letter.letter}
 									</span>
 									
