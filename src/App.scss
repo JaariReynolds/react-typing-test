@@ -179,16 +179,22 @@ input[type="text"]::-moz-placeholder {
 
         &.active {
           border-left: 3px solid $selected-font-colour;
-        }
 
-        &.awaiting-input {
-          animation: blinking-caret 1.5s linear infinite;
+
+          &.awaiting-input {
+            animation: blinking-caret-left 1.5s linear infinite;
+          }
         }
 
         &.active-last {
           border-right: 3px solid $selected-font-colour;
+
+          &.awaiting-input {
+            animation: blinking-caret-right 1.5s linear infinite;
+          }
         }
       }
+
 
       // if these are changed, need to update letterColour() in TypingTest.tsx
       .base-text-colour {
@@ -264,16 +270,30 @@ input[type="text"]::-moz-placeholder {
 }
 
 
-@keyframes blinking-caret {
+@keyframes blinking-caret-left {
   0% {
-    border-color: $selected-font-colour;
+    border-left-color: $selected-font-colour;
   }
 
   50% {
-    border-color: transparent;
+    border-left-color: transparent;
   }
 
   100% {
-    border-color: $selected-font-colour;
+    border-left-color: $selected-font-colour;
+  }
+}
+
+@keyframes blinking-caret-right {
+  0% {
+    border-right-color: $selected-font-colour;
+  }
+
+  50% {
+    border-right-color: transparent;
+  }
+
+  100% {
+    border-right-color: $selected-font-colour;
   }
 }
