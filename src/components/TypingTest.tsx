@@ -59,6 +59,7 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 		setCurrentInputWord("");
 		setPressedKeys([]);	
 		setShowResultsComponent(false);
+		setLastWord(false);
 
 		switch (testType) {
 		case TestType.Words:
@@ -158,7 +159,7 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 				return;
 			}
 
-			if (inputWordsArray.length === testWords.words.length - WORDS_TO_ADD) 
+			if (inputWordsArray.length === testWords.words.length - 1) 
 				setLastWord(true);			
 			else 
 				setLastWord(false);		
@@ -269,7 +270,6 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 
 	// when going back to the previous incorrect word, recalculate the letter statuses IF less letters than the word
 	const recalculateLettersStatus = (inputWord: string, wordIndex: number) => {
-
 		// clear current status of letters in the word 
 		const wordObject = testWords.words[wordIndex];
 		wordObject.word = wordObject.word.map(letter => {
@@ -552,6 +552,8 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 	};
 
 	const letterActive = (activeStatus: LetterActiveStatus) => {
+		if (testComplete) return ""; // hide caret when test finished
+
 		switch (activeStatus) {
 		case LetterActiveStatus.Active:
 			return "active";
@@ -566,8 +568,7 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 		if (!testRunning || (testRunning && !testFocused)) {
 			return "awaiting-input";
 		} else 
-			return "";
-		
+			return "";		
 	};
 
 	return (    
@@ -586,15 +587,23 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 					
 				/>
 			</div>
+			<div>lastword={lastWord.toString()}</div>
+			
 			<div style={opacityStyle} className="words-container">
 				{testWords.words.map(word => {
 					return (
 						<div className="word">
 							{word.word.map(letter => {
 								return (
-									<span className={`letter ${letterColour(letter.status)} ${letterActive(letter.active)} ${letter.active ? blinkingCaret() : ""}`}>
+									
+									<span className={`
+										letter 
+										${letterColour(letter.status)} 
+										${letterActive(letter.active)} 
+										${blinkingCaret()}`}>
 										{letter.letter}
 									</span>
+									
 								);}
 							)}
 						</div> 
