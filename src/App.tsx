@@ -34,7 +34,7 @@ function App() {
 	const [testCompletionPercentage, setTestCompletionPercentage] = useState<number>(0);
 	const [testFocused, setTestFocused] = useState<boolean>(true);
 	const [pressedKeys, setPressedKeys] = useState<string[]>([]); // array because more than 1 key can be held down at once
-	const [testWPMArray, setTestWPMArray] = useState<number[]>([]);
+
 
 	// hide distracting components when test is running
 	useEffect(() => {
@@ -99,7 +99,7 @@ function App() {
 					<div style={completionBarOpacity} className="test-completion-bar"></div>
 					
 					<TypingTest testWords={testWords} setTestWords={setTestWords} testLengthWords={testLengthWords} testLengthSeconds={testLengthSeconds} testType={testType} numbers={includeNumbers} punctuation={includePunctuation} reset={reset} setShowResultsComponent={setShowResultsComponent} testRunning={testRunning} setTestRunning={setTestRunning} testTimeMilliSeconds={testTimeMilliSeconds} setTestTimeMilliSeconds={setTestTimeMilliSeconds} setTestCompletionPercentage={setTestCompletionPercentage}
-						testComplete={testComplete} setTestComplete={setTestComplete} testFocused={testFocused} setTestFocused={setTestFocused} pressedKeys={pressedKeys} setPressedKeys={setPressedKeys} testWPMArray={testWPMArray} setTestWPMArray={setTestWPMArray}/>
+						testComplete={testComplete} setTestComplete={setTestComplete} testFocused={testFocused} setTestFocused={setTestFocused} pressedKeys={pressedKeys} setPressedKeys={setPressedKeys}/>
 				
 					<button type="reset" title="Reset" style={opacityStyle} className="reset-button"
 						onClick={() => setReset(!reset)}>
