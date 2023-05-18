@@ -8,27 +8,29 @@ interface IProps {
 }
 
 const TypingTestResults = ({testWords, setTestWords, showResults}: IProps ) => {
-
-	const [accuracy, setAccuracy] = useState<number>(0);
 	
+	// once results screen shown, calculate extra info to show 
 	useEffect(() => {
-		if (showResults) {
-			calculateAccuracy();
+		if (showResults) {	
+			const acc = calculateAccuracy();
 	
 			setTestWords({
 				...testWords,
-				accuracy: accuracy	
+				accuracy: acc
 			});
 		}
 	}, [showResults]);
 
 	// accuracy = (num characters in test - hard errors) / num characters in test
-	const calculateAccuracy = (): void => {
+	const calculateAccuracy = (): number => {
 		//NEED TO FIX : NOT WORKING AS INTENDED FOR SOME REASON
-		const acc = parseFloat(((testWords.characterCount - testWords.errorCountHard) / testWords.characterCount).toFixed(4));
-
-		setAccuracy(acc);
+		const correctCharacters = testWords.characterCount - testWords.errorCountSoft;
+		const acc = correctCharacters / testWords.characterCount;
+		console.log("correct:" + correctCharacters);
+		console.log("acc:" + acc);
+		return acc;
 	};
+
 
 	return (
 		<>
