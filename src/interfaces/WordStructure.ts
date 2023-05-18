@@ -52,9 +52,12 @@ export interface TestWords {
     words: Word[]
     errorCountHard: number // ONLY submitted incorrect character strokes
     errorCountSoft: number // submitted AND backspaced incorrect character strokes
-    characterCount: number
-    keystrokeCharacterCount: number
+    characterCount: number // number of characters (including spaces) in the test
+	keyPressCount: number // number of (actually pressed) character-contributing keys for the test
     timeElapsedMilliSeconds: number
+	wpmArray: number[] // WPM (not averaged) at each second of the test
+	averageWPM: number // wpmArray averaged
+	accuracy: number // (characterCount - errorCountHard) / characterCount
 } 
 
 

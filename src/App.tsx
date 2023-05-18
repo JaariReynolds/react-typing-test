@@ -17,7 +17,7 @@ export enum TestType {
 }
 function App() {
 
-	const [testWords, setTestWords] = useState<TestWords>({words: [], errorCountHard: 0, errorCountSoft: 0, timeElapsedMilliSeconds: 0, characterCount: 0, keystrokeCharacterCount: 0});
+	const [testWords, setTestWords] = useState<TestWords>({words: [], errorCountHard: 0, errorCountSoft: 0, timeElapsedMilliSeconds: 0, characterCount: 0, keyPressCount: 0, wpmArray: [], averageWPM: 0, accuracy: 0});
 	const [testLengthWords, setTestLengthWords] = useState<number>(25);
 	const [testLengthSeconds, setTestLengthSeconds] = useState<number>(15);
 	const [testType, setTestType] = useState<TestType>(TestType.Words);
@@ -27,18 +27,21 @@ function App() {
 	const [showResultsComponent, setShowResultsComponent] = useState<boolean>(false);
 	const [testRunning, setTestRunning] = useState<boolean>(false);
 	const [testComplete, setTestComplete] = useState<boolean>(false);
-
 	const [componentOpacity, setComponentOpacity] = useState<number>(1);
 
 	const [testTimeMilliSeconds, setTestTimeMilliSeconds] = useState<number>(0);
 	const [testCompletionPercentage, setTestCompletionPercentage] = useState<number>(0);
 	const [testFocused, setTestFocused] = useState<boolean>(true);
 	const [pressedKeys, setPressedKeys] = useState<string[]>([]); // array because more than 1 key can be held down at once
+	const [averageWPM, setAverageWPM] = useState<number>(0);
+	const [WPMOpacity, setWPMOpacity] = useState<number>(0);
+
 
 
 	// hide distracting components when test is running
 	useEffect(() => {
 		setComponentOpacity(testRunning ? 0 : 1);
+		setWPMOpacity(testRunning ? 1 : 0);
 	}, [testRunning]);
 
 	// if moved mouse while test running, BUT then you still continue the test after, hide test option selectors again
@@ -52,6 +55,7 @@ function App() {
 
 	const opacityStyle = {
 		"--component-opacity": componentOpacity,
+		"--WPM-opacity": WPMOpacity,
 		"--test-type-words-opacity": (testType === TestType.Words && !testRunning) || (testRunning && testType === TestType.Words && testFocused === false && pressedKeys.length === 0) ? 1 : 0,
 		"--test-type-time-opacity": (testType === TestType.Time && !testRunning) || (testRunning && testType === TestType.Time && testFocused === false && pressedKeys.length === 0) ? 1 : 0,
 	  } as CSSProperties;
@@ -71,8 +75,6 @@ function App() {
 		setComponentOpacity(1);
 
 	};
-
-
 
 	return (
 		<div className="App">
@@ -97,9 +99,11 @@ function App() {
 
 				
 					<div style={completionBarOpacity} className="test-completion-bar"></div>
+
+					<div style={opacityStyle} className="WPM-div">{averageWPM == null || isNaN(averageWPM) || !Number.isFinite(averageWPM) ? 0 : averageWPM}</div>
 					
 					<TypingTest testWords={testWords} setTestWords={setTestWords} testLengthWords={testLengthWords} testLengthSeconds={testLengthSeconds} testType={testType} numbers={includeNumbers} punctuation={includePunctuation} reset={reset} setShowResultsComponent={setShowResultsComponent} testRunning={testRunning} setTestRunning={setTestRunning} testTimeMilliSeconds={testTimeMilliSeconds} setTestTimeMilliSeconds={setTestTimeMilliSeconds} setTestCompletionPercentage={setTestCompletionPercentage}
-						testComplete={testComplete} setTestComplete={setTestComplete} testFocused={testFocused} setTestFocused={setTestFocused} pressedKeys={pressedKeys} setPressedKeys={setPressedKeys}/>
+						testComplete={testComplete} setTestComplete={setTestComplete} testFocused={testFocused} setTestFocused={setTestFocused} pressedKeys={pressedKeys} setPressedKeys={setPressedKeys} averageWPM={averageWPM} setAverageWPM={setAverageWPM} setWPMOpacity={setWPMOpacity}/>
 				
 					<button type="reset" title="Reset" style={opacityStyle} className="reset-button"
 						onClick={() => setReset(!reset)}>
@@ -107,7 +111,7 @@ function App() {
 					</button>
 
 					<div style={resultsComponentOpacity} className="test-results-div">
-						<TypingTestResults testWords={testWords} setTestWords={setTestWords}/>
+						<TypingTestResults testWords={testWords} setTestWords={setTestWords} showResults={showResultsComponent}/>
 					</div>
 					
 					

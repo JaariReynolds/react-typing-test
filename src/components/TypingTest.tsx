@@ -35,10 +35,13 @@ interface IProps {
 	setTestFocused: React.Dispatch<React.SetStateAction<boolean>>,
 	pressedKeys: string[],
 	setPressedKeys: React.Dispatch<React.SetStateAction<string[]>>,
+	averageWPM: number,
+	setAverageWPM: React.Dispatch<React.SetStateAction<number>>,
+	setWPMOpacity: React.Dispatch<React.SetStateAction<number>>
 }
 
 
-const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds, testType, numbers, punctuation, reset, setShowResultsComponent, testRunning, setTestRunning, testTimeMilliSeconds, setTestTimeMilliSeconds, setTestCompletionPercentage, testComplete, setTestComplete, testFocused, setTestFocused, pressedKeys, setPressedKeys}: IProps) => {
+const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds, testType, numbers, punctuation, reset, setShowResultsComponent, testRunning, setTestRunning, testTimeMilliSeconds, setTestTimeMilliSeconds, setTestCompletionPercentage, testComplete, setTestComplete, testFocused, setTestFocused, pressedKeys, setPressedKeys, averageWPM, setAverageWPM, setWPMOpacity}: IProps) => {
 	const [currentInputWord, setCurrentInputWord] = useState<string>("");
 	const [inputWordsArray, setInputWordsArray] = useState<string[]>([]);
 	const [intervalId, setIntervalId] = useState<NodeJS.Timer|null>(null);	
@@ -49,7 +52,7 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 	const totalCorrectCharactersRef = useRef(0);
 	const previousSecondCorrectCharactersRef = useRef(0);
 	const [testWPMArray, setTestWPMArray] = useState<number[]>([]);
-	const [averageWPM, setAverageWPM] = useState<number>(0);
+	const [keyPressCount, setKeyPressCount] = useState<number>(0);
 
 	const opacityStyle = {
 		"--typing-test-opacity": opacity,
@@ -68,9 +71,9 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 		setShowResultsComponent(false);
 		setLastWord(false);
 		setAverageWPM(0);
+		setWPMOpacity(0);
+		setKeyPressCount(0);
 
-
-	
 		switch (testType) {
 		case TestType.Words:
 			setTestTimeMilliSeconds(0);
@@ -211,6 +214,7 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 	useEffect(() => {
 		if (testComplete === true) {
 			stopTestStopWatch();
+			finaliseTest();
 			setTimeout(() => {
 				setShowResultsComponent(true);
 			}, TRANSITION_DELAY);
@@ -219,8 +223,21 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 		}
 	}, [testComplete]);
 
+	const finaliseTest = (): void => {
+		// store values into the test object that have been calculated here before sending to Results component
+		setTestWords({
+			...testWords,
+			errorCountHard: calculateTotalErrorsHard(),
+			errorCountSoft: calculateTotalErrorsSoft(),
+			timeElapsedMilliSeconds: (testType === TestType.Time ? testLengthSeconds * 1000 : testTimeMilliSeconds),
+			keyPressCount: keyPressCount,
+			wpmArray: testWPMArray,
+			averageWPM:	averageWPM
+		});
+	};
+
 	const calculateCorrectCharacters = (): void => {
-		// gets the nuumber of correct letters in each word in the test
+		// gets the number of correct letters in each word in the test
 		let totalCorrectLetters = 0;
 		testWords.words.map(wordObject => {
 			const totalForWord = wordObject.word.reduce((total, letter) => {
@@ -384,6 +401,9 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 		const newLetter: Letter = {letter: character, status: CompletionStatus.Incorrect, active: LetterActiveStatus.Active};
 		const letterArray = wordObject.word;
 		letterArray.push(newLetter);
+		
+		setKeyPressCount(prev => prev + 1);
+
 		return {...wordObject, word: letterArray, status: CompletionStatus.Incorrect, errorCountSoft: wordObject.errorCountSoft + 1};
 	};
 
@@ -405,9 +425,11 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 
 		const letterArray = wordObject.word;
 		letterArray[inputWord.length] = removedLetter;
+
 		
 		const wordStatus = containsIncorrect(letterArray) ? CompletionStatus.Incorrect : CompletionStatus.None;
 		return {...wordObject, word: letterArray, status: wordStatus};
+
 	};
 
 	// update existing letter status from letter array, set new wordstatus accordingly 
@@ -449,6 +471,8 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 			
 		});
 
+		setKeyPressCount(prev => prev + 1);
+
 		return {...wordObject, word: updatedWord, status: wordStatus, errorCountSoft: wordObject.errorCountSoft + softErrors};
 	};
 
@@ -464,6 +488,7 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 			setInputWordsArray([...inputWordsArray, currentInputWord]);
 			setCurrentInputWord("");
 			setPressedKeys([]);
+			setKeyPressCount(prev => prev + 1);
 			return;
 		}     
 
@@ -626,11 +651,11 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 					
 				/>
 			</div>
-			<div>wpmarray={testWPMArray.join(",")}</div>
-			<div>averageWPM={averageWPM}</div>
+			<div>keypresscount: {keyPressCount}</div>
+			{/* <div>wpmarray={testWPMArray.join(",")}</div>
 			<div>totalCorrectCharactersRef={totalCorrectCharactersRef.current}</div>
-			<div>previousSecondCorrectCharactersRef={previousSecondCorrectCharactersRef.current}</div>
-			
+			<div>previousSecondCorrectCharactersRef={previousSecondCorrectCharactersRef.current}</div> */}
+	
 			<div style={opacityStyle} className="words-container">
 				{testWords.words.map(word => {
 					return (
@@ -649,7 +674,7 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 					);
 				})}
 			</div>
-			<div>testTimeMilliSeconds:{testTimeMilliSeconds}</div>
+			{/* <div>testTimeMilliSeconds:{testTimeMilliSeconds}</div> */}
 						
 			{/* <div>CharacterCount = {testWords.characterCount}</div> */}
 			

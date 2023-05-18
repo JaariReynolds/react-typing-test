@@ -20,6 +20,7 @@ $hover-font-colour: rgb(255 255 255);
   --typing-test-opacity: 1;
   --results-component-opacity: 0;
   --completion-percentage: 0%;
+  --WPM-opacity: 0
 }
 
 @mixin transition-opacity {
@@ -256,7 +257,14 @@ input[type="text"]::-moz-placeholder {
   transition-duration: $component-opacity-fade-duration;
   opacity: var(--results-component-opacity);
   background-color: blue;
+}
 
+.WPM-div {
+  text-align: center;
+  grid-column: 2;
+  font-size: 4rem;
+  color: $base-font-colour;
+  opacity: var(--WPM-opacity);
 }
 
 
