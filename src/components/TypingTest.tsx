@@ -3,11 +3,17 @@
 /* eslint-disable react/jsx-key */
 /* eslint-disable linebreak-style */
 import React, { useEffect, useState, useRef } from "react"; 
-import { testWordsGenerator } from "../functions/testWordsGenerators";
-import { CompletionStatus, Word, Letter, TestWords, NumberPair } from "../interfaces/WordStructure";
+import { testWordsGenerator } from "../functions/wordGeneration/testWordsGenerators";
+import { CompletionStatus, Letter, TestWords, NumberPair } from "../interfaces/WordStructure";
 import { TestType } from "../App";
 import { LetterActiveStatus } from "../interfaces/WordStructure";
-import { calculateCorrectCharacters } from "../functions/calculateCorrectCharacters";
+import { calculateCorrectCharacters } from "../functions/calculations/calculateCorrectCharacters";
+import { calculateTotalErrorsHard, calculateTotalErrorsSoft, calculateWordErrorsHard } from "../functions/calculations/calculateErrors";
+import { removeAdditionalLetter, removeExistingLetter} from "../functions/letterHandling/removeLetter";
+import { addExistingLetter, addAdditionalLetter } from "../functions/letterHandling/addLetter";
+import { calculateLettersStatus } from "../functions/calculations/calculateLetterStatus";
+import { ctrlBackspace } from "../functions/letterHandling/ctrlBackspace";
+import { updateActiveLetter } from "../functions/letterHandling/updateActiveLetter";
 
 const SPACEBAR = "Spacebar";
 const TRANSITION_DELAY = 200;
@@ -55,7 +61,6 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 	const [keyPressCount, setKeyPressCount] = useState<number>(0);
 	const [testWPMArray, setTestWPMArray] = useState<NumberPair[]>([]);
 	const [currentAverageWPMArray, setCurrentAverageWPMArray] = useState<NumberPair[]>([]);
-
 
 	const opacityStyle = {
 		"--typing-test-opacity": opacity,
@@ -127,27 +132,8 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 			setTestCompletionPercentage(totalInputLetters / testWords.characterCount * 100);
 		}
 
-		// setting the currently active letter, used for the text caret
-		const newTestWords = testWords.words.map((wordObject, wordIndex) => {
-			const newTestWord = wordObject.word.map((letterObject, letterIndex) => {
-				if (letterIndex === currentInputWord.length && wordIndex === inputWordsArray.length) {
-					return {...letterObject, active: LetterActiveStatus.Active}; // caret on left of letter
-				} 
-				else if (letterIndex === currentInputWord.length - 1 && wordIndex === inputWordsArray.length && currentInputWord.length >= wordObject.originalLength) {
-					return {...letterObject, active: LetterActiveStatus.ActiveLast}; // caret on right of letter
-				}
-				else {
-					return {...letterObject, active: LetterActiveStatus.Inactive}; // no caret
-				}
-			});
-
-			if (wordIndex === inputWordsArray.length) {
-				return {...wordObject, word: newTestWord, active: true};
-			}
-			else {
-				return {...wordObject, word: newTestWord, active: false};
-			}
-		});
+		// setting the currently active letter, used for the text caret	
+		const newTestWords = updateActiveLetter(testWords, currentInputWord, inputWordsArray);
 
 		setTestWords({...testWords, words: newTestWords});
 	}, [inputWordsArray, currentInputWord]);
@@ -234,12 +220,12 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 		}
 	}, [testComplete]);
 
+	// store values into the test object that have been calculated here before sending to Results component
 	const finaliseTest = (): void => {
-		// store values into the test object that have been calculated here before sending to Results component
 		setTestWords({
 			...testWords,
-			errorCountHard: calculateTotalErrorsHard(),
-			errorCountSoft: calculateTotalErrorsSoft(),
+			errorCountHard: calculateTotalErrorsHard(testWords),
+			errorCountSoft: calculateTotalErrorsSoft(testWords),
 			timeElapsedMilliSeconds: (testType === TestType.Time ? testLengthSeconds * 1000 : testTimeMilliSeconds),
 			keyPressCount: keyPressCount,
 			wpmArray: testWPMArray,
@@ -248,21 +234,6 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 		});
 	};
 
-	// const calculateCorrectCharacters = (): void => {
-	// 	// gets the number of correct letters in each word in the test
-	// 	let totalCorrectLetters = 0;
-	// 	testWords.words.map(wordObject => {
-	// 		const totalForWord = wordObject.word.reduce((total, letter) => {
-	// 			if (letter.status === CompletionStatus.Correct) 
-	// 				total += 1;
-	// 			return total;
-	// 		}, 0);
-	// 		totalCorrectLetters += totalForWord;
-	// 	});
-
-		
-	// };
-	
 	// test can also be finished if last word in the test is fully correct (FOR WORD-LENGTH TEST)
 	const checkLastWord = (): void => {
 		if (testType !== TestType.Words) return;
@@ -296,8 +267,6 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 	const stopTestStopWatch = (): void => {
 		if (intervalId === null) return;
 
-		setTestWords({...testWords, timeElapsedMilliSeconds: testTimeMilliSeconds, errorCountHard: calculateTotalErrorsHard(), errorCountSoft: calculateTotalErrorsSoft()});
-
 		setTimeout(() => {
 			setTestRunning(false);
 		}, TRANSITION_DELAY);
@@ -308,30 +277,9 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 	};
 
 	// calculate the total num of hard errors in a word after pressing 'space'
-	const calculateWordErrorsHard = (wordIndex: number) => {
-		const wordObject = testWords.words[wordIndex];
-
-		// if the word isn't finished, set remaining letters to incorrect 
-		wordObject.word = wordObject.word.map(letter => {
-			if (letter.status === CompletionStatus.None) {
-				wordObject.status = CompletionStatus.Incorrect;
-				return {...letter, status: CompletionStatus.Incorrect};
-			}
-			
-			return letter;
-		});
-
-		// tally total number of hard errors
-		const wordErrorCount = wordObject.word.reduce((total, letter) => {
-			if (letter.status === CompletionStatus.Incorrect) 
-				total += 1;
-			
-			return total;
-		}, 0);
-
-		const newWordObject: Word = {...wordObject, errorCountHard: wordErrorCount};
+	const updateWordErrorsHard = (wordIndex: number) => {
 		const newTestWords = testWords.words;
-		newTestWords[wordIndex] = newWordObject;
+		newTestWords[wordIndex] = calculateWordErrorsHard(wordIndex, testWords);
 		setTestWords(previousState => ({
 			...previousState, words: newTestWords
 		}));
@@ -339,152 +287,14 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 
 	// when going back to the previous incorrect word, recalculate the letter statuses IF less letters than the word
 	const recalculateLettersStatus = (inputWord: string, wordIndex: number) => {
-		// clear current status of letters in the word 
-		const wordObject = testWords.words[wordIndex];
-		wordObject.word = wordObject.word.map(letter => {
-			return {...letter, status: CompletionStatus.None};
-		});
-
-		// re-set the status of letters based on the recovered word
-		wordObject.word = wordObject.word.map((letterObject, letterIndex) => {
-			if (letterIndex >= inputWord.length) 
-				return letterObject;
-
-			if (inputWord[letterIndex] === letterObject.letter) 
-				return {...letterObject, status: CompletionStatus.Correct};
-			else 
-				return {...letterObject, status: CompletionStatus.Incorrect};
-			
-		});
-
-		// recalculate word correctness based on letters
-		wordObject.status = containsIncorrect(wordObject.word) ? CompletionStatus.Incorrect : CompletionStatus.None; 
-
-		const newTestWords = testWords.words;
-		newTestWords[wordIndex] = wordObject;
 		setTestWords(previousState => ({
-			...previousState, words: newTestWords
+			...previousState, words: calculateLettersStatus(inputWord, wordIndex, testWords)
 		}));
-	};
-
-	const calculateTotalErrorsHard = (): number => {
-		return testWords.words.reduce((total, word) => total + word.errorCountHard, 0);
-	};
-
-	const calculateTotalErrorsSoft = (): number => {
-		return testWords.words.reduce((total, word) => total + word.errorCountSoft, 0);
 	};
 
 	// should clear every character's status in the current word + remove additional letters
 	const handleCtrlBackspace = () => {
-		const updatedTestWords = testWords.words.map((wordObject, wordIndex) => {
-			if (wordIndex !== inputWordsArray.length) {
-				return wordObject;
-			}
-
-			const updatedLetters = wordObject.word
-				.filter((letter, index) => {
-					return index < wordObject.originalLength;
-				})
-				.map(letterObject => {
-					return {...letterObject, status: CompletionStatus.None};
-				});
-            
-			return {...wordObject, word: updatedLetters, status: CompletionStatus.None};
-		});
-		setTestWords({...testWords, words: updatedTestWords});
-	};
-
-	// used when backspacing a letter and checking if the new word is correct/incorrect
-	const containsIncorrect = (letterArray: Letter[]): boolean => {
-		const isIncorrectWord = letterArray.reduce((accumulator, letterObject) => {
-			if (letterObject.status === CompletionStatus.Incorrect) 
-				return true;
-
-			return accumulator;
-		}, false);
-		
-		return isIncorrectWord;
-	};
-
-	// add additional letter to letter array, set wordstatus to incorrect
-	const addAdditionalLetter = (wordObject: Word, character: string): Word => {
-		const newLetter: Letter = {letter: character, status: CompletionStatus.Incorrect, active: LetterActiveStatus.Active};
-		const letterArray = wordObject.word;
-		letterArray.push(newLetter);
-		
-		setKeyPressCount(prev => prev + 1);
-
-		return {...wordObject, word: letterArray, status: CompletionStatus.Incorrect, errorCountSoft: wordObject.errorCountSoft + 1};
-	};
-
-	// remove additional letter from letter array, set new wordstatus accordingly 
-	const removeAdditionalLetter = (wordObject: Word): Word => {
-		const letterArray = wordObject.word;
-		if (letterArray.length > 0) 
-			letterArray.pop();
-
-		const wordStatus = containsIncorrect(letterArray) ? CompletionStatus.Incorrect : CompletionStatus.Correct;
-
-		return {...wordObject, word: letterArray, status: wordStatus};
-	};
-
-	// remove existing letter status from letter array, set new wordstatus accordingly 
-	const removeExistingLetter = (wordObject: Word, inputWord: string): Word => {
-		const removedLetter = {...wordObject.word[inputWord.length]};
-		removedLetter.status = CompletionStatus.None;
-
-		const letterArray = wordObject.word;
-		letterArray[inputWord.length] = removedLetter;
-
-		
-		const wordStatus = containsIncorrect(letterArray) ? CompletionStatus.Incorrect : CompletionStatus.None;
-		return {...wordObject, word: letterArray, status: wordStatus};
-
-	};
-
-	// update existing letter status from letter array, set new wordstatus accordingly 
-	const addExistingLetter = (wordObject: Word, currentInputWord: string): Word => {
-		let wordStatus = CompletionStatus.None;
-		let softErrors = 0;
-		const currentInputLetterIndex = currentInputWord.length - 1; 
-
-		const updatedWord = wordObject.word.map((letterObject, letterIndex) => {
-			//console.log(`compared ${letterObject.letter} to ${currentInputWord[currentInputLetterIndex]} at index ${currentInputLetterIndex}`);
-			// if not the index of current input character, return same object
-			if (letterIndex !== currentInputLetterIndex) {
-				return letterObject;
-			}
-
-			// if end of the word and every letter before that is correct, set wordstatus to correct aswell
-			if (letterObject.letter === currentInputWord[letterIndex] && wordObject.originalLength === currentInputWord.length && wordObject.status === CompletionStatus.None) {
-				wordStatus = CompletionStatus.Correct;
-				return {...letterObject, status: CompletionStatus.Correct};
-			}
-
-			// if letter is correct, set corrrect letter. if word previously set to incorrect, keep it as incorrect
-			if (letterObject.letter === currentInputWord[letterIndex]) {
-				if (wordObject.status === CompletionStatus.Incorrect) 
-					wordStatus = CompletionStatus.Incorrect;
-		
-				return {...letterObject, status: CompletionStatus.Correct};
-			}
-
-			// if letter, at any point in the word, is typed incorrectly, set wordstatus to incorrect as well
-			if (letterObject.letter !== currentInputWord[letterIndex]) {
-				wordStatus = CompletionStatus.Incorrect;
-				softErrors += 1;				
-				return {...letterObject, status: CompletionStatus.Incorrect};			
-			}
-
-			// hopefully will never hit this, but need it because i have no default return and am just unsure if the above cases cover everything
-			return letterObject;
-			
-		});
-
-		setKeyPressCount(prev => prev + 1);
-
-		return {...wordObject, word: updatedWord, status: wordStatus, errorCountSoft: wordObject.errorCountSoft + softErrors};
+		setTestWords({...testWords, words: ctrlBackspace(testWords, inputWordsArray)});
 	};
 
 	// figure out what to do based on input
@@ -495,7 +305,7 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 
 		// if spacebar pressed, insert current word to array, clear current word, clear pressed keys just in case
 		if (pressedKeys[pressedKeys.length-1] === SPACEBAR && e.target.value.trim().length > 0) { // (.length - 1) means its the only character currently pressed at the time
-			calculateWordErrorsHard(inputWordsArray.length);
+			updateWordErrorsHard(inputWordsArray.length);
 			setInputWordsArray([...inputWordsArray, currentInputWord]);
 			setCurrentInputWord("");
 			setPressedKeys([]);
@@ -535,10 +345,12 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 		// if updating an existing character
 		else if (e.target.value.length <= testWords.words[inputWordsArray.length].originalLength) {
 			currentTestWord = addExistingLetter(currentTestWord, e.target.value);
+			setKeyPressCount(prev => prev + 1);
 		} 
 		// if adding/updating an additional character
 		else if (e.target.value.length > testWords.words[inputWordsArray.length].originalLength) {
 			currentTestWord = addAdditionalLetter(currentTestWord, e.target.value.slice(-1));
+			setKeyPressCount(prev => prev + 1);
 		}
 
 		const newTestWords = testWords.words;
@@ -659,20 +471,8 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 					className="text-field"
 					disabled={testComplete}
 					onFocus={() => setTestFocused(true)}
-					
 				/>
 			</div>
-			{/* <div>keypresscount: {keyPressCount}</div>
-			<div>totalCorrectCharactersRef={totalCorrectCharactersRef.current}</div>
-			<div>previousSecondCorrectCharactersRef={previousSecondCorrectCharactersRef.current}</div>
-	
-			
-			<div>test1: {testWPMArray.map(numberPair => {
-				return (
-					<div>{numberPair.interval}: {numberPair.wpm}</div>
-				);
-			})}
-			</div> */}
 
 			<div style={opacityStyle} className="words-container">
 				{testWords.words.map(word => {
@@ -680,7 +480,6 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 						<div className="word">
 							{word.word.map(letter => {
 								return (
-									
 									<span className={`letter ${letterColour(letter.status)} ${blinkingCaret(letter)} ${letterActive(letter.active)} 
 										`}>
 										{letter.letter}
@@ -692,50 +491,6 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 					);
 				})}
 			</div>
-			{/* <div>testTimeMilliSeconds:{testTimeMilliSeconds}</div> */}
-						
-			{/* <div>CharacterCount = {testWords.characterCount}</div> */}
-			
-			{/* 			
-			<div>
-                PressedKeys: 
-				{pressedKeys.map(key => {return <span>{key} </span>;})}
-                Len: {pressedKeys.length}
-			</div>
-			<div>currentInputWord: {currentInputWord}</div>
-			<div>
-                inputWordsArray:
-				{inputWordsArray.map(word => {return <span>{word} </span>;})}
-			</div>
-			<div>
-                errorCount: {testWords.errorCountHard}
-			</div>
-			<div>
-                testTime: {testTimeMilliSeconds/1000}, 
-			</div>
-			<div>
-                testRunning: {testRunning.toString()}
-			</div>
-			<div>
-				lastWord: {lastWord.toString()}
-			</div> */}
-			{/* <div>
-                ErrorCountHard: {testWords.errorCountHard}, ErrorCountSoft: {testWords.errorCountSoft}, testWordsTestTime: {testWords.timeElapsedMilliSeconds}, CharacterCount: {testWords.characterCount}
-			</div> */}
-			{/* <div>
-				{testWords.words.map(word => (
-					<pre>
-                       
-						<span>Word: {word.wordString}, Status: {word.status}, OriginalLength: {word.originalLength},  ErrorCountSoft: {word.errorCountSoft}, ErrorCountHard: {word.errorCountHard}</span>
-						{word.word.map(letter => (
-							<pre>
-								{JSON.stringify(letter)}
-							</pre>
-						))}
-                        
-					</pre>
-				))}
-			</div> */}
 		</div>  
 	);
 };

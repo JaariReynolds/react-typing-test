@@ -7,7 +7,7 @@ import TestLengthSecondsSelector from "./components/TestLengthSecondsSelector";
 import PunctuationSelector from "./components/PunctuationSelector";
 import NumberSelector from "./components/NumberSelector";
 import TypingTestResults from "./components/TypingTestResults";
-import { NumberPair, TestWords } from "./interfaces/WordStructure";
+import { TestWords } from "./interfaces/WordStructure";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRefresh } from "@fortawesome/free-solid-svg-icons";
 

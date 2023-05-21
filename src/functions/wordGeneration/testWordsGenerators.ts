@@ -1,5 +1,5 @@
-import { LetterActiveStatus, TestWords, Word } from "../interfaces/WordStructure";
-import { wordsArray } from "../wordsArray";
+import { LetterActiveStatus, TestWords, Word } from "../../interfaces/WordStructure";
+import { wordsArray } from "../../wordsArray";
 import { punctuationGenerator } from "./punctuationGenerator";
 
 // percentages shouldn't add to more than 1.0 or else you get no "normal" words
