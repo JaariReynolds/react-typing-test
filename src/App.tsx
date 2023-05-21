@@ -7,7 +7,7 @@ import TestLengthSecondsSelector from "./components/TestLengthSecondsSelector";
 import PunctuationSelector from "./components/PunctuationSelector";
 import NumberSelector from "./components/NumberSelector";
 import TypingTestResults from "./components/TypingTestResults";
-import { TestWords } from "./interfaces/WordStructure";
+import { NumberPair, TestWords } from "./interfaces/WordStructure";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRefresh } from "@fortawesome/free-solid-svg-icons";
 
@@ -17,7 +17,7 @@ export enum TestType {
 }
 function App() {
 
-	const [testWords, setTestWords] = useState<TestWords>({words: [], errorCountHard: 0, errorCountSoft: 0, timeElapsedMilliSeconds: 0, characterCount: 0, keyPressCount: 0, wpmArray: [], averageWPM: 0, accuracy: 0});
+	const [testWords, setTestWords] = useState<TestWords>({words: [], errorCountHard: 0, errorCountSoft: 0, timeElapsedMilliSeconds: 0, characterCount: 0, keyPressCount: 0, wpmArray: [], currentAverageWPMArray: [], averageWPM: 0, accuracy: 0});
 	const [testLengthWords, setTestLengthWords] = useState<number>(25);
 	const [testLengthSeconds, setTestLengthSeconds] = useState<number>(15);
 	const [testType, setTestType] = useState<TestType>(TestType.Words);
@@ -37,6 +37,7 @@ function App() {
 	const [WPMOpacity, setWPMOpacity] = useState<number>(0);
 
 
+	
 
 	// hide distracting components when test is running
 	useEffect(() => {
@@ -73,7 +74,6 @@ function App() {
 		if (!testRunning) return;		
 		setTestFocused(false);
 		setComponentOpacity(1);
-
 	};
 
 	return (
@@ -96,7 +96,6 @@ function App() {
 
 						<TestLengthSecondsSelector testLengthSeconds={testLengthSeconds} setTestLengthSeconds={setTestLengthSeconds} opacityStyle={opacityStyle} testType={testType}/>
 					</div>
-
 				
 					<div style={completionBarOpacity} className="test-completion-bar"></div>
 

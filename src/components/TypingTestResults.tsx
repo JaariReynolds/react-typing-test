@@ -1,5 +1,8 @@
+/* eslint-disable react/jsx-key */
+
 import React, { useEffect, useState } from "react";
 import { TestWords } from "../interfaces/WordStructure";
+import MyChartComponent from "./TypingTestResultsWPMGraph";
 
 interface IProps {
     testWords: TestWords, 
@@ -17,7 +20,7 @@ const TypingTestResults = ({testWords, setTestWords, showResults}: IProps ) => {
 			setTestWords({
 				...testWords,
 				accuracy: acc
-			});
+			});	
 		}
 	}, [showResults]);
 
@@ -26,17 +29,31 @@ const TypingTestResults = ({testWords, setTestWords, showResults}: IProps ) => {
 		//NEED TO FIX : NOT WORKING AS INTENDED FOR SOME REASON
 		const correctCharacters = testWords.characterCount - testWords.errorCountSoft;
 		const acc = correctCharacters / testWords.characterCount;
-		console.log("correct:" + correctCharacters);
-		console.log("acc:" + acc);
+		console.log(testWords.wpmArray);
 		return acc;
 	};
 
 
 	return (
 		<>
+			<div className="results-chart">
+				<MyChartComponent wpmArray={testWords.wpmArray}/>
+			</div>
+			<div>currentAverage: {testWords.currentAverageWPMArray.map(numberPair => {
+				return (
+					<div>{numberPair.interval}: {numberPair.wpm}</div>
+				);
+			})}
+			</div>
+
+			<div>raw: {testWords.wpmArray.map(numberPair => {
+				return (
+					<div>{numberPair.interval}: {numberPair.wpm}</div>
+				);
+			})}
+			</div>
 			<div>Test Time: {testWords.timeElapsedMilliSeconds / 1000}</div>
 			<div>Average WPM: {testWords.averageWPM}</div>
-			<div>WPM Array: {testWords.wpmArray.join(",")}</div>
 			<div>Error Count Hard: {testWords.errorCountHard}</div>
 			<div>Error Count Soft: {testWords.errorCountSoft}</div>
 			<div>Total Character Count: {testWords.characterCount}</div>

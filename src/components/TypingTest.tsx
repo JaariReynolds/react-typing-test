@@ -4,9 +4,10 @@
 /* eslint-disable linebreak-style */
 import React, { useEffect, useState, useRef } from "react"; 
 import { testWordsGenerator } from "../functions/testWordsGenerators";
-import { CompletionStatus, Word, Letter, TestWords } from "../interfaces/WordStructure";
+import { CompletionStatus, Word, Letter, TestWords, NumberPair } from "../interfaces/WordStructure";
 import { TestType } from "../App";
 import { LetterActiveStatus } from "../interfaces/WordStructure";
+import { calculateCorrectCharacters } from "../functions/calculateCorrectCharacters";
 
 const SPACEBAR = "Spacebar";
 const TRANSITION_DELAY = 200;
@@ -37,7 +38,7 @@ interface IProps {
 	setPressedKeys: React.Dispatch<React.SetStateAction<string[]>>,
 	averageWPM: number,
 	setAverageWPM: React.Dispatch<React.SetStateAction<number>>,
-	setWPMOpacity: React.Dispatch<React.SetStateAction<number>>
+	setWPMOpacity: React.Dispatch<React.SetStateAction<number>>,
 }
 
 
@@ -51,8 +52,10 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 	const [opacity, setOpacity] = useState<number>(1);
 	const totalCorrectCharactersRef = useRef(0);
 	const previousSecondCorrectCharactersRef = useRef(0);
-	const [testWPMArray, setTestWPMArray] = useState<number[]>([]);
 	const [keyPressCount, setKeyPressCount] = useState<number>(0);
+	const [testWPMArray, setTestWPMArray] = useState<NumberPair[]>([]);
+	const [currentAverageWPMArray, setCurrentAverageWPMArray] = useState<NumberPair[]>([]);
+
 
 	const opacityStyle = {
 		"--typing-test-opacity": opacity,
@@ -99,6 +102,7 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 			totalCorrectCharactersRef.current = 0;
 			previousSecondCorrectCharactersRef.current = 0;
 			setTestWPMArray([]);
+			setCurrentAverageWPMArray([]);
 
 
 			if (inputRef.current) {
@@ -162,25 +166,32 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 
 		// every second, calculate and store in an array the WPM for THAT second only (not averaged yet)
 		if (testTimeMilliSeconds % 1000 === 0) {
-			calculateCorrectCharacters();
 
+			previousSecondCorrectCharactersRef.current = totalCorrectCharactersRef.current;
+			totalCorrectCharactersRef.current = calculateCorrectCharacters(testWords) + inputWordsArray.length;
+		
 			const currentSecondCorrectCharacters = totalCorrectCharactersRef.current - previousSecondCorrectCharactersRef.current;
 			const currentSecondWPM = currentSecondCorrectCharacters / AVERAGE_WORD_LENGTH * 60;
-			setTestWPMArray([...testWPMArray, currentSecondWPM]);	
+			setTestWPMArray([...testWPMArray, {interval: (testTimeMilliSeconds/1000), wpm: currentSecondWPM}]);	
 		}
 	}, [testTimeMilliSeconds]);
 
-	// calculates the current average WPM every time the WPMArray is updated
 	useEffect(() => {
+		// calculates the average WPM every time a new (raw) wpm is stored for that second
+		if (testWPMArray.length === 0) return; // no average to store on the 0th second
+
 		const elapsedTimeSeconds = testTimeMilliSeconds / 1000;
 		
+		// 
 		if (testType === TestType.Time) {
-			setAverageWPM(
-				Math.round(testWPMArray.reduce((total, current) => total + current, 0) / (testLengthSeconds - elapsedTimeSeconds)));
+			const averageWPM = Math.round(testWPMArray.reduce((total, current) => total + current.wpm, 0) / (testLengthSeconds - elapsedTimeSeconds));
+			setAverageWPM(averageWPM);
+			setCurrentAverageWPMArray([...currentAverageWPMArray, {interval: elapsedTimeSeconds, wpm: averageWPM}]);
 		}
 		else if (testType === TestType.Words) {
-			setAverageWPM(
-				Math.round(testWPMArray.reduce((total, current) => total + current, 0) / elapsedTimeSeconds));
+			const averageWPM = Math.round(testWPMArray.reduce((total, current) => total + current.wpm, 0) / elapsedTimeSeconds);
+			setAverageWPM(averageWPM);
+			setCurrentAverageWPMArray([...currentAverageWPMArray, {interval: elapsedTimeSeconds, wpm: averageWPM}]);
 		}
 	}, [testWPMArray]);
 
@@ -232,25 +243,25 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 			timeElapsedMilliSeconds: (testType === TestType.Time ? testLengthSeconds * 1000 : testTimeMilliSeconds),
 			keyPressCount: keyPressCount,
 			wpmArray: testWPMArray,
+			currentAverageWPMArray: currentAverageWPMArray,
 			averageWPM:	averageWPM
 		});
 	};
 
-	const calculateCorrectCharacters = (): void => {
-		// gets the number of correct letters in each word in the test
-		let totalCorrectLetters = 0;
-		testWords.words.map(wordObject => {
-			const totalForWord = wordObject.word.reduce((total, letter) => {
-				if (letter.status === CompletionStatus.Correct) 
-					total += 1;
-				return total;
-			}, 0);
-			totalCorrectLetters += totalForWord;
-		});
+	// const calculateCorrectCharacters = (): void => {
+	// 	// gets the number of correct letters in each word in the test
+	// 	let totalCorrectLetters = 0;
+	// 	testWords.words.map(wordObject => {
+	// 		const totalForWord = wordObject.word.reduce((total, letter) => {
+	// 			if (letter.status === CompletionStatus.Correct) 
+	// 				total += 1;
+	// 			return total;
+	// 		}, 0);
+	// 		totalCorrectLetters += totalForWord;
+	// 	});
 
-		previousSecondCorrectCharactersRef.current = totalCorrectCharactersRef.current;
-		totalCorrectCharactersRef.current = totalCorrectLetters + inputWordsArray.length;
-	};
+		
+	// };
 	
 	// test can also be finished if last word in the test is fully correct (FOR WORD-LENGTH TEST)
 	const checkLastWord = (): void => {
@@ -651,11 +662,18 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 					
 				/>
 			</div>
-			<div>keypresscount: {keyPressCount}</div>
-			{/* <div>wpmarray={testWPMArray.join(",")}</div>
+			{/* <div>keypresscount: {keyPressCount}</div>
 			<div>totalCorrectCharactersRef={totalCorrectCharactersRef.current}</div>
-			<div>previousSecondCorrectCharactersRef={previousSecondCorrectCharactersRef.current}</div> */}
+			<div>previousSecondCorrectCharactersRef={previousSecondCorrectCharactersRef.current}</div>
 	
+			
+			<div>test1: {testWPMArray.map(numberPair => {
+				return (
+					<div>{numberPair.interval}: {numberPair.wpm}</div>
+				);
+			})}
+			</div> */}
+
 			<div style={opacityStyle} className="words-container">
 				{testWords.words.map(word => {
 					return (

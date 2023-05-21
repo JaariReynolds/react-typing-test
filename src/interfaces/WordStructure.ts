@@ -47,6 +47,11 @@ export class Word {
 	}
 }
 
+export interface NumberPair {
+	interval: number;
+	wpm: number;
+}
+
 // can add the test results to this e.g. accuracy, wpm, errors, typing consistency, etc.
 export interface TestWords {
     words: Word[]
@@ -55,7 +60,8 @@ export interface TestWords {
     characterCount: number // number of characters (including spaces) in the test
 	keyPressCount: number // number of (actually pressed) character-contributing keys for the test
     timeElapsedMilliSeconds: number
-	wpmArray: number[] // WPM (not averaged) at each second of the test
+	wpmArray: NumberPair[] // WPM (not averaged) at each second of the test
+	currentAverageWPMArray: NumberPair[]
 	averageWPM: number // wpmArray averaged
 	accuracy: number // (characterCount - errorCountHard) / characterCount
 } 
