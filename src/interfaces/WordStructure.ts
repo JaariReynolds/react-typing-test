@@ -60,7 +60,7 @@ export interface TestWords {
     characterCount: number // number of characters (including spaces) in the test
 	keyPressCount: number // number of (actually pressed) character-contributing keys for the test
     timeElapsedMilliSeconds: number
-	wpmArray: NumberPair[] // WPM (not averaged) at each second of the test
+	rawWPMArray: NumberPair[] // WPM (not averaged) at each second of the test
 	currentAverageWPMArray: NumberPair[]
 	averageWPM: number // wpmArray averaged
 	accuracy: number // (characterCount - errorCountHard) / characterCount

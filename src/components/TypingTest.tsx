@@ -158,21 +158,20 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 		
 			const currentSecondCorrectCharacters = totalCorrectCharactersRef.current - previousSecondCorrectCharactersRef.current;
 			const currentSecondWPM = currentSecondCorrectCharacters / AVERAGE_WORD_LENGTH * 60;
-			setTestWPMArray([...testWPMArray, {interval: (testTimeMilliSeconds/1000), wpm: currentSecondWPM}]);	
+			setTestWPMArray([...testWPMArray, {interval: testLengthSeconds - (testTimeMilliSeconds/1000), wpm: currentSecondWPM}]);	
 		}
 	}, [testTimeMilliSeconds]);
 
+	// calculates the average WPM every time a new (raw) wpm is stored for that second
 	useEffect(() => {
-		// calculates the average WPM every time a new (raw) wpm is stored for that second
+		
 		if (testWPMArray.length === 0) return; // no average to store on the 0th second
-
 		const elapsedTimeSeconds = testTimeMilliSeconds / 1000;
 		
-		// 
 		if (testType === TestType.Time) {
 			const averageWPM = Math.round(testWPMArray.reduce((total, current) => total + current.wpm, 0) / (testLengthSeconds - elapsedTimeSeconds));
 			setAverageWPM(averageWPM);
-			setCurrentAverageWPMArray([...currentAverageWPMArray, {interval: elapsedTimeSeconds, wpm: averageWPM}]);
+			setCurrentAverageWPMArray([...currentAverageWPMArray, {interval: testLengthSeconds - elapsedTimeSeconds, wpm: averageWPM}]);
 		}
 		else if (testType === TestType.Words) {
 			const averageWPM = Math.round(testWPMArray.reduce((total, current) => total + current.wpm, 0) / elapsedTimeSeconds);
@@ -228,7 +227,7 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 			errorCountSoft: calculateTotalErrorsSoft(testWords),
 			timeElapsedMilliSeconds: (testType === TestType.Time ? testLengthSeconds * 1000 : testTimeMilliSeconds),
 			keyPressCount: keyPressCount,
-			wpmArray: testWPMArray,
+			rawWPMArray: testWPMArray,
 			currentAverageWPMArray: currentAverageWPMArray,
 			averageWPM:	averageWPM
 		});
@@ -488,6 +487,21 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 								);}
 							)}
 						</div> 
+					);
+				})}
+			</div>
+
+			<div>
+				wordarray: {testWPMArray.map(pair => {
+					return (
+						<span>{pair.interval}: {pair.wpm}, </span>
+					);
+				})}
+			</div>
+			<div>
+				currentaveragearray: {currentAverageWPMArray.map(pair => {
+					return (
+						<span>{pair.interval}: {pair.wpm}, </span>
 					);
 				})}
 			</div>

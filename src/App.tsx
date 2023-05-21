@@ -17,7 +17,7 @@ export enum TestType {
 }
 function App() {
 
-	const [testWords, setTestWords] = useState<TestWords>({words: [], errorCountHard: 0, errorCountSoft: 0, timeElapsedMilliSeconds: 0, characterCount: 0, keyPressCount: 0, wpmArray: [], currentAverageWPMArray: [], averageWPM: 0, accuracy: 0});
+	const [testWords, setTestWords] = useState<TestWords>({words: [], errorCountHard: 0, errorCountSoft: 0, timeElapsedMilliSeconds: 0, characterCount: 0, keyPressCount: 0, rawWPMArray: [], currentAverageWPMArray: [], averageWPM: 0, accuracy: 0});
 	const [testLengthWords, setTestLengthWords] = useState<number>(25);
 	const [testLengthSeconds, setTestLengthSeconds] = useState<number>(15);
 	const [testType, setTestType] = useState<TestType>(TestType.Words);
@@ -53,7 +53,7 @@ function App() {
 		}
 	}, [pressedKeys]);
 
-
+	// #region CSS properties
 	const opacityStyle = {
 		"--component-opacity": componentOpacity,
 		"--WPM-opacity": WPMOpacity,
@@ -68,6 +68,7 @@ function App() {
 	const resultsComponentOpacity = {
 		"--results-component-opacity": (showResultsComponent && testComplete) ? 1 : 0
 	} as CSSProperties;
+	// #endregion
 
 	// moving the mouse while the test is running should show the test option selectors
 	const handleMouseMove = () => {
@@ -96,24 +97,27 @@ function App() {
 
 						<TestLengthSecondsSelector testLengthSeconds={testLengthSeconds} setTestLengthSeconds={setTestLengthSeconds} opacityStyle={opacityStyle} testType={testType}/>
 					</div>
-				
+									
 					<div style={completionBarOpacity} className="test-completion-bar"></div>
-
-					<div style={opacityStyle} className="WPM-div">{averageWPM == null || isNaN(averageWPM) || !Number.isFinite(averageWPM) ? 0 : averageWPM}</div>
 					
-					<TypingTest testWords={testWords} setTestWords={setTestWords} testLengthWords={testLengthWords} testLengthSeconds={testLengthSeconds} testType={testType} numbers={includeNumbers} punctuation={includePunctuation} reset={reset} setShowResultsComponent={setShowResultsComponent} testRunning={testRunning} setTestRunning={setTestRunning} testTimeMilliSeconds={testTimeMilliSeconds} setTestTimeMilliSeconds={setTestTimeMilliSeconds} setTestCompletionPercentage={setTestCompletionPercentage}
-						testComplete={testComplete} setTestComplete={setTestComplete} testFocused={testFocused} setTestFocused={setTestFocused} pressedKeys={pressedKeys} setPressedKeys={setPressedKeys} averageWPM={averageWPM} setAverageWPM={setAverageWPM} setWPMOpacity={setWPMOpacity}/>
-				
-					<button type="reset" title="Reset" style={opacityStyle} className="reset-button"
-						onClick={() => setReset(!reset)}>
-						<FontAwesomeIcon icon={faRefresh} className="fa-spin-custom"/>
-					</button>
+					<div className="results-overlap-container">
+						<TypingTest testWords={testWords} setTestWords={setTestWords} testLengthWords={testLengthWords} testLengthSeconds={testLengthSeconds} testType={testType} numbers={includeNumbers} punctuation={includePunctuation} reset={reset} setShowResultsComponent={setShowResultsComponent} testRunning={testRunning} setTestRunning={setTestRunning} testTimeMilliSeconds={testTimeMilliSeconds} setTestTimeMilliSeconds={setTestTimeMilliSeconds} setTestCompletionPercentage={setTestCompletionPercentage}
+							testComplete={testComplete} setTestComplete={setTestComplete} testFocused={testFocused} setTestFocused={setTestFocused} pressedKeys={pressedKeys} setPressedKeys={setPressedKeys} averageWPM={averageWPM} setAverageWPM={setAverageWPM} setWPMOpacity={setWPMOpacity}/>
 
+						{ showResultsComponent && 
 					<div style={resultsComponentOpacity} className="test-results-div">
 						<TypingTestResults testWords={testWords} setTestWords={setTestWords} showResults={showResultsComponent}/>
+					</div> }
 					</div>
-					
-					
+
+					<div style={opacityStyle} className="WPM-div">{averageWPM == null || isNaN(averageWPM) || !Number.isFinite(averageWPM) ? 0 : averageWPM}</div>
+						
+					<div className="reset-container">
+						<button type="reset" title="Reset" style={opacityStyle} className="reset-button"
+							onClick={() => setReset(!reset)}>
+							<FontAwesomeIcon icon={faRefresh} className="fa-spin-custom"/>
+						</button>
+					</div>
 				</div>
 			</div>
 		</div>
