@@ -29,15 +29,17 @@ const TypingTestResults = ({testWords, setTestWords, showResults}: IProps ) => {
 		//NEED TO FIX : NOT WORKING AS INTENDED FOR SOME REASON
 		const correctCharacters = testWords.characterCount - testWords.errorCountSoft;
 		const acc = correctCharacters / testWords.characterCount;
-		console.log(testWords.rawWPMArray);
+		//console.log(testWords.rawWPMArray);
 		return acc;
 	};
 
 	return (
 		<>
+			{ showResults && 
 			<div className="results-chart">
 				<MyChartComponent rawWPMArray={testWords.rawWPMArray} averageWPMArray={testWords.currentAverageWPMArray}/> 
 			</div>
+			}
 			{/* <div>currentAverage: {testWords.currentAverageWPMArray.map(numberPair => {
 				return (
 					<div>{numberPair.interval}: {numberPair.wpm}</div>

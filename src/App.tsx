@@ -1,4 +1,4 @@
-import React, { CSSProperties, useEffect, useState } from "react";
+import React, { CSSProperties, useEffect, useRef, useState } from "react";
 import "./App.scss";
 import TypingTest from "./components/TypingTest";
 import TestTypeSelector from "./components/TestTypeSelector";
@@ -35,9 +35,6 @@ function App() {
 	const [pressedKeys, setPressedKeys] = useState<string[]>([]); // array because more than 1 key can be held down at once
 	const [averageWPM, setAverageWPM] = useState<number>(0);
 	const [WPMOpacity, setWPMOpacity] = useState<number>(0);
-
-
-	
 
 	// hide distracting components when test is running
 	useEffect(() => {
@@ -76,6 +73,7 @@ function App() {
 		setTestFocused(false);
 		setComponentOpacity(1);
 	};
+	
 
 	return (
 		<div className="App">
