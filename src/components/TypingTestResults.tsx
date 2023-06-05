@@ -16,7 +16,7 @@ const TypingTestResults = ({testWords, setTestWords, showResults}: IProps ) => {
 	useEffect(() => {
 		if (showResults) {	
 			const acc = calculateAccuracy();
-	
+				
 			setTestWords({
 				...testWords,
 				accuracy: acc
@@ -34,25 +34,11 @@ const TypingTestResults = ({testWords, setTestWords, showResults}: IProps ) => {
 	};
 
 	return (
-		<>
-			{ showResults && 
+		<>	
 			<div className="results-chart">
-				<MyChartComponent rawWPMArray={testWords.rawWPMArray} averageWPMArray={testWords.currentAverageWPMArray}/> 
-			</div>
-			}
-			{/* <div>currentAverage: {testWords.currentAverageWPMArray.map(numberPair => {
-				return (
-					<div>{numberPair.interval}: {numberPair.wpm}</div>
-				);
-			})}
+				<MyChartComponent rawWPMArray={testWords.rawWPMArray} averageWPMArray={testWords.currentAverageWPMArray} /> 
 			</div>
 
-			<div>raw: {testWords.rawWPMArray.map(numberPair => {
-				return (
-					<div>{numberPair.interval}: {numberPair.wpm}</div>
-				);
-			})}
-			</div> */}
 			<div>Test Time: {testWords.timeElapsedMilliSeconds / 1000}</div>
 			<div>Average WPM: {testWords.averageWPM}</div>
 			<div>Error Count Hard: {testWords.errorCountHard}</div>
