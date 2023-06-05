@@ -1,6 +1,7 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { NumberPair } from "../interfaces/WordStructure";
+
 
 interface DataPoint {
 	interval: number,
@@ -10,7 +11,7 @@ interface DataPoint {
 
 interface IProps {
 	rawWPMArray: NumberPair[],
-	averageWPMArray: NumberPair[]
+	averageWPMArray: NumberPair[],
 }
 
 const MyChartComponent = ({rawWPMArray, averageWPMArray}: IProps) => {
@@ -19,17 +20,15 @@ const MyChartComponent = ({rawWPMArray, averageWPMArray}: IProps) => {
 	const graphData = (): DataPoint[] => {
 		console.log(rawWPMArray);
 		console.log(averageWPMArray);
-
-
+	
 		const combinedArray = rawWPMArray.map((rawWPM, index) => {
 			console.log(index + ": " + rawWPM.wpm + ", " + averageWPMArray[index].wpm);
 			return {interval: rawWPM.interval, rawWPM: rawWPM.wpm, averageWPM: averageWPMArray[index].wpm};
 		});
 		console.log("combined:" + combinedArray);
 		return combinedArray;
-
 	};
-
+	
 	return (
 		<ResponsiveContainer width="90%" height={300}>
 			<LineChart data={graphData()}>

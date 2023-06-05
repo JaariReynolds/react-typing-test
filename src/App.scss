@@ -21,7 +21,9 @@ $hover-font-colour: rgb(255 255 255);
   --typing-test-opacity: 1;
   --results-component-opacity: 0;
   --completion-percentage: 0%;
-  --WPM-opacity: 0
+  --WPM-opacity: 0;
+  --test-words-display: block;
+  --results-component-display: none;
 }
 
 @mixin transition-opacity {
@@ -45,6 +47,11 @@ $hover-font-colour: rgb(255 255 255);
   color: $base-font-colour;
   min-height: 100vh;
 }
+
+// .chart-transition {
+//   transition: all 0.3s ease-in-out;
+//   transition-delay: 0.5s;
+// }
 
 .main-container {
   display: flex;
@@ -130,6 +137,7 @@ input[type="text"]::-moz-placeholder {
   grid-area: 1 / 1;
   margin-top: 5rem;
   position: relative;
+  display: var(--test-words-display);
 
   .text-field-container {
     position: absolute;
@@ -263,6 +271,7 @@ input[type="text"]::-moz-placeholder {
   border-radius: 0.5rem;
   grid-area: 1 / 1;
   max-width: 100%;
+  display: var(--results-component-display);
 
   .results-chart {
     display: flex;

@@ -14,9 +14,10 @@ import { addExistingLetter, addAdditionalLetter } from "../functions/letterHandl
 import { calculateLettersStatus } from "../functions/calculations/calculateLetterStatus";
 import { ctrlBackspace } from "../functions/letterHandling/ctrlBackspace";
 import { updateActiveLetter } from "../functions/letterHandling/updateActiveLetter";
+import { TRANSITION_DELAY } from "../App";
 
 const SPACEBAR = "Spacebar";
-const TRANSITION_DELAY = 200;
+
 const TIMED_TEST_LENGTH = 40;
 const WORDS_TO_ADD = 10;
 const AVERAGE_WORD_LENGTH = 5; // standard length used to calculate WPM
@@ -30,6 +31,7 @@ interface IProps {
     numbers: boolean,
     punctuation: boolean,
     reset: boolean,
+	showResultsComponent: boolean,
 	setShowResultsComponent: React.Dispatch<React.SetStateAction<boolean>>,
 	testRunning: boolean,
 	setTestRunning: React.Dispatch<React.SetStateAction<boolean>>,
@@ -48,7 +50,7 @@ interface IProps {
 }
 
 
-const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds, testType, numbers, punctuation, reset, setShowResultsComponent, testRunning, setTestRunning, testTimeMilliSeconds, setTestTimeMilliSeconds, setTestCompletionPercentage, testComplete, setTestComplete, testFocused, setTestFocused, pressedKeys, setPressedKeys, averageWPM, setAverageWPM, setWPMOpacity}: IProps) => {
+const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds, testType, numbers, punctuation, reset, showResultsComponent, setShowResultsComponent, testRunning, setTestRunning, testTimeMilliSeconds, setTestTimeMilliSeconds, setTestCompletionPercentage, testComplete, setTestComplete, testFocused, setTestFocused, pressedKeys, setPressedKeys, averageWPM, setAverageWPM, setWPMOpacity}: IProps) => {
 	const [currentInputWord, setCurrentInputWord] = useState<string>("");
 	const [inputWordsArray, setInputWordsArray] = useState<string[]>([]);
 	const [intervalId, setIntervalId] = useState<NodeJS.Timer|null>(null);	
@@ -61,10 +63,24 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 	const [keyPressCount, setKeyPressCount] = useState<number>(0);
 	const [testWPMArray, setTestWPMArray] = useState<NumberPair[]>([]);
 	const [currentAverageWPMArray, setCurrentAverageWPMArray] = useState<NumberPair[]>([]);
+	const [showWords, setShowWords] = useState<string>("block");
 
 	const opacityStyle = {
 		"--typing-test-opacity": opacity,
+		"--test-words-display": showWords
 	} as React.CSSProperties;
+
+	useEffect(() => {
+		if (!testComplete) {		
+			setShowWords("block");		
+		}
+		if (testComplete) {
+			setOpacity(0);
+			setTimeout(() => {
+				setShowWords("none");
+			}, 200);
+		}	
+	}, [showResultsComponent, testComplete]);
 
 	// randomise words, reset states if dependencies change
 	useEffect(() => {
@@ -117,7 +133,7 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 			
 			setOpacity(1);
 			console.log("randomise test words, reset states");
-		}, 210);
+		}, TRANSITION_DELAY + 10);
 	
 	}, [testLengthWords, testLengthSeconds, testType, numbers, punctuation, reset, quickReset]);
 
@@ -457,7 +473,7 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 	};
 
 	return (    
-		<div className="typing-test">
+		<div style={opacityStyle} className="typing-test">
 			<div className="text-field-container">
 				<input 
 					type="text"
@@ -472,7 +488,7 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 				/>
 			</div>
 
-			<div style={opacityStyle} className="words-container">
+			<div className="words-container">
 				{testWords.words.map(word => {
 					return (
 						<div className="word">

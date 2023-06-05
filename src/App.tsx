@@ -11,10 +11,13 @@ import { TestWords } from "./interfaces/WordStructure";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRefresh } from "@fortawesome/free-solid-svg-icons";
 
+
 export enum TestType {
 	Words = "Words",
 	Time = "Time"
 }
+export const TRANSITION_DELAY = 200;
+
 function App() {
 
 	const [testWords, setTestWords] = useState<TestWords>({words: [], errorCountHard: 0, errorCountSoft: 0, timeElapsedMilliSeconds: 0, characterCount: 0, keyPressCount: 0, rawWPMArray: [], currentAverageWPMArray: [], averageWPM: 0, accuracy: 0});
@@ -24,7 +27,11 @@ function App() {
 	const [includePunctuation, setIncludePunctuation] = useState<boolean>(false);
 	const [includeNumbers, setIncludeNumbers] = useState<boolean>(false);
 	const [reset, setReset] = useState<boolean>(false);
+
 	const [showResultsComponent, setShowResultsComponent] = useState<boolean>(false);
+	const [resultsComponentOpacity, setResultsComponentOpacity] = useState<number>(0);
+	const [resultsComponentDisplay, setResultsComponentDisplay] = useState<string>("none");
+
 	const [testRunning, setTestRunning] = useState<boolean>(false);
 	const [testComplete, setTestComplete] = useState<boolean>(false);
 	const [componentOpacity, setComponentOpacity] = useState<number>(1);
@@ -50,6 +57,26 @@ function App() {
 		}
 	}, [pressedKeys]);
 
+
+	useEffect(() => {
+		if (testComplete) { // show results, hide wpm, set opacity after delay
+			setResultsComponentDisplay("block");
+			setShowResultsComponent(true);
+			setWPMOpacity(0);
+			setTimeout(() => {
+				setResultsComponentOpacity(1);
+			}, TRANSITION_DELAY + 100);
+		}
+
+		if (!testComplete) { // hide results, set display after delay
+			setShowResultsComponent(false);
+			setResultsComponentOpacity(0);
+			setTimeout(() => {
+				setResultsComponentDisplay("none");
+			}, TRANSITION_DELAY + 100);
+		}
+	}, [testComplete]);
+
 	// #region CSS properties
 	const opacityStyle = {
 		"--component-opacity": componentOpacity,
@@ -62,10 +89,11 @@ function App() {
 		"--completion-percentage": testCompletionPercentage.toString() + "%"
 	} as CSSProperties;
 
-	const resultsComponentOpacity = {
-		"--results-component-opacity": (showResultsComponent && testComplete) ? 1 : 0
+	const resultsComponentStyling = {
+		"--results-component-opacity": resultsComponentOpacity,
+		"--results-component-display": resultsComponentDisplay
 	} as CSSProperties;
-	// #endregion
+	//#endregion;
 
 	// moving the mouse while the test is running should show the test option selectors
 	const handleMouseMove = () => {
@@ -97,15 +125,18 @@ function App() {
 					</div>
 									
 					<div style={completionBarOpacity} className="test-completion-bar"></div>
-					
-					<div className="results-overlap-container">
-						<TypingTest testWords={testWords} setTestWords={setTestWords} testLengthWords={testLengthWords} testLengthSeconds={testLengthSeconds} testType={testType} numbers={includeNumbers} punctuation={includePunctuation} reset={reset} setShowResultsComponent={setShowResultsComponent} testRunning={testRunning} setTestRunning={setTestRunning} testTimeMilliSeconds={testTimeMilliSeconds} setTestTimeMilliSeconds={setTestTimeMilliSeconds} setTestCompletionPercentage={setTestCompletionPercentage}
-							testComplete={testComplete} setTestComplete={setTestComplete} testFocused={testFocused} setTestFocused={setTestFocused} pressedKeys={pressedKeys} setPressedKeys={setPressedKeys} averageWPM={averageWPM} setAverageWPM={setAverageWPM} setWPMOpacity={setWPMOpacity}/>
 
-						{ showResultsComponent && 
-					<div style={resultsComponentOpacity} className="test-results-div">
-						<TypingTestResults testWords={testWords} setTestWords={setTestWords} showResults={showResultsComponent}/>
-					</div> }
+					<div className="results-overlap-container">
+						
+						<TypingTest testWords={testWords} setTestWords={setTestWords} testLengthWords={testLengthWords} testLengthSeconds={testLengthSeconds} testType={testType} numbers={includeNumbers} punctuation={includePunctuation} reset={reset} showResultsComponent={showResultsComponent} setShowResultsComponent={setShowResultsComponent} testRunning={testRunning} setTestRunning={setTestRunning} testTimeMilliSeconds={testTimeMilliSeconds} setTestTimeMilliSeconds={setTestTimeMilliSeconds} setTestCompletionPercentage={setTestCompletionPercentage}
+							testComplete={testComplete} setTestComplete={setTestComplete} testFocused={testFocused} setTestFocused={setTestFocused} pressedKeys={pressedKeys} setPressedKeys={setPressedKeys} averageWPM={averageWPM} setAverageWPM={setAverageWPM} setWPMOpacity={setWPMOpacity}/>
+						
+						
+						<div style={resultsComponentStyling} className="test-results-div">
+							<TypingTestResults testWords={testWords} setTestWords={setTestWords} showResults={showResultsComponent}/>
+						</div> 
+						
+						
 					</div>
 
 					<div style={opacityStyle} className="WPM-div">{averageWPM == null || isNaN(averageWPM) || !Number.isFinite(averageWPM) ? 0 : averageWPM}</div>
