@@ -24,6 +24,7 @@ $hover-font-colour: rgb(255 255 255);
   --WPM-opacity: 0;
   --test-words-display: block;
   --results-component-display: none;
+  --test-words-max-height: 0px;
 }
 
 @mixin transition-opacity {
@@ -47,11 +48,6 @@ $hover-font-colour: rgb(255 255 255);
   color: $base-font-colour;
   min-height: 100vh;
 }
-
-// .chart-transition {
-//   transition: all 0.3s ease-in-out;
-//   transition-delay: 0.5s;
-// }
 
 .main-container {
   display: flex;
@@ -159,17 +155,19 @@ input[type="text"]::-moz-placeholder {
     }
   }
 
-
   .words-container {
     @include transition-opacity();
     display: flex;
     flex-wrap: wrap;
-    padding-bottom: 1rem;
+    padding-bottom: .5rem;
     opacity: var(--typing-test-opacity);
+    max-height: var(--test-words-max-height);
+    border: 2px solid black;
+    overflow: hidden;
+    font-size: 2rem;
+    line-height: 3rem;
 
     .word {
-      font-size: 2rem;
-      line-height: 3rem;
       margin-right: 1rem;
       letter-spacing: 0.1em;
 
@@ -237,6 +235,10 @@ input[type="text"]::-moz-placeholder {
     color: $hover-font-colour;
     animation: fa-spin-custom 10s infinite linear;
   }
+
+  .fa-spin-custom .results-screen {
+    animation: fa-spin-custom 10s infinite linear;
+  }
 }
 
 .fa-spin-custom {
@@ -277,7 +279,6 @@ input[type="text"]::-moz-placeholder {
     display: flex;
     justify-content: center;
     align-items: center;
-    //margin-left: -20px;
   }
 }
 

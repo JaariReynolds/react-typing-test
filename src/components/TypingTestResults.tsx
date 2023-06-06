@@ -35,18 +35,24 @@ const TypingTestResults = ({testWords, setTestWords, showResults}: IProps ) => {
 
 	return (
 		<>	
-			<div className="results-chart">
-				<MyChartComponent rawWPMArray={testWords.rawWPMArray} averageWPMArray={testWords.currentAverageWPMArray} /> 
-			</div>
+			{showResults && // do not rerender until test is done
+			<div>
+				<div className="results-chart">
+					<MyChartComponent rawWPMArray={testWords.rawWPMArray} averageWPMArray={testWords.currentAverageWPMArray} /> 
+				</div>
 
-			<div>Test Time: {testWords.timeElapsedMilliSeconds / 1000}</div>
-			<div>Average WPM: {testWords.averageWPM}</div>
-			<div>Error Count Hard: {testWords.errorCountHard}</div>
-			<div>Error Count Soft: {testWords.errorCountSoft}</div>
-			<div>Total Character Count: {testWords.characterCount}</div>
-			<div>Key Press Count: {testWords.keyPressCount}</div>
-			<div>Accuracy: {testWords.accuracy}</div>
+				<div>Test Time: {testWords.timeElapsedMilliSeconds / 1000}</div>
+				<div>Average WPM: {testWords.averageWPM}</div>
+				<div>Error Count Hard: {testWords.errorCountHard}</div>
+				<div>Error Count Soft: {testWords.errorCountSoft}</div>
+				<div>Total Character Count: {testWords.characterCount}</div>
+				<div>Key Press Count: {testWords.keyPressCount}</div>
+				<div>Accuracy: {testWords.accuracy}</div>
+
+			</div>
+			}
 		</>
+		
 	);
 };
 

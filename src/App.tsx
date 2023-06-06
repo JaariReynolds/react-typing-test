@@ -1,4 +1,4 @@
-import React, { CSSProperties, useEffect, useRef, useState } from "react";
+import React, { CSSProperties, useEffect, useState } from "react";
 import "./App.scss";
 import TypingTest from "./components/TypingTest";
 import TestTypeSelector from "./components/TestTypeSelector";
@@ -144,7 +144,7 @@ function App() {
 					<div className="reset-container">
 						<button type="reset" title="Reset" style={opacityStyle} className="reset-button"
 							onClick={() => setReset(!reset)}>
-							<FontAwesomeIcon icon={faRefresh} className="fa-spin-custom"/>
+							<FontAwesomeIcon icon={faRefresh} className="fa-spin-custom results-screen"/>
 						</button>
 					</div>
 				</div>

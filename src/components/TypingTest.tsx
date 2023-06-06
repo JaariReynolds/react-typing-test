@@ -15,6 +15,8 @@ import { calculateLettersStatus } from "../functions/calculations/calculateLette
 import { ctrlBackspace } from "../functions/letterHandling/ctrlBackspace";
 import { updateActiveLetter } from "../functions/letterHandling/updateActiveLetter";
 import { TRANSITION_DELAY } from "../App";
+import { TypingTestWords } from "./TypingTestWords";
+import { TypingTestInput } from "./TypingTestInput";
 
 const SPACEBAR = "Spacebar";
 
@@ -438,75 +440,14 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 		setPressedKeys(prevKeys => prevKeys.filter(key => key !== e.key ));
 	};
 
-	const letterColour = (completionStatus: CompletionStatus) => {
-		switch (completionStatus) {
-		case CompletionStatus.None:
-			return "base-text-colour";
-		case CompletionStatus.Correct:
-			return "correct-text-colour";
-		case CompletionStatus.Incorrect:
-			return "incorrect-text-colour";
-		} 
-	};
-
-	const letterActive = (activeStatus: LetterActiveStatus) => {
-		if (testComplete) return ""; // hide caret when test finished
-
-		switch (activeStatus) {
-		case LetterActiveStatus.Active:
-			return "active";
-		case LetterActiveStatus.Inactive:
-			return "";
-		case LetterActiveStatus.ActiveLast:
-			return "active-last";
-		}
-	};
-
-	const blinkingCaret = (letter: Letter) => {
-		if (letter.active === LetterActiveStatus.Active || letter.active === LetterActiveStatus.ActiveLast) {
-			if (!testRunning || (testRunning && !testFocused)) {
-				return "awaiting-input";
-			}
-			return "";
-		}		
-		return "";			
-	};
-
 	return (    
 		<div style={opacityStyle} className="typing-test">
-			<div className="text-field-container">
-				<input 
-					type="text"
-					ref={inputRef}
-					value={currentInputWord}
-					onChange={handleChange}
-					onKeyDown={handleKeyDown}
-					onKeyUp={handleKeyUp}
-					className="text-field"
-					disabled={testComplete}
-					onFocus={() => setTestFocused(true)}
-				/>
-			</div>
 
-			<div className="words-container">
-				{testWords.words.map(word => {
-					return (
-						<div className="word">
-							{word.word.map(letter => {
-								return (
-									<span className={`letter ${letterColour(letter.status)} ${blinkingCaret(letter)} ${letterActive(letter.active)} 
-										`}>
-										{letter.letter}
-									</span>
-									
-								);}
-							)}
-						</div> 
-					);
-				})}
-			</div>
+			<TypingTestInput inputRef={inputRef} currentInputWord={currentInputWord} handleChange={handleChange} handleKeyDown={handleKeyDown} handleKeyUp={handleKeyUp} testComplete={testComplete} setTestFocused={setTestFocused}/>
 
-			<div>
+			<TypingTestWords testWords={testWords} testRunning={testRunning} testComplete={testComplete} testFocused={testFocused}/>
+
+			{/* <div>
 				wordarray: {testWPMArray.map(pair => {
 					return (
 						<span>{pair.interval}: {pair.wpm}, </span>
@@ -519,7 +460,7 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 						<span>{pair.interval}: {pair.wpm}, </span>
 					);
 				})}
-			</div>
+			</div> */}
 		</div>  
 	);
 };
