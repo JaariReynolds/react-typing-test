@@ -22,9 +22,12 @@ $hover-font-colour: rgb(255 255 255);
   --results-component-opacity: 0;
   --completion-percentage: 0%;
   --WPM-opacity: 0;
+  --WPM-transition: "opacity";
   --test-words-display: block;
   --results-component-display: none;
   --test-words-max-height: 0px;
+  --test-words-filler-height: 0px;
+
 }
 
 @mixin transition-opacity {
@@ -56,6 +59,7 @@ $hover-font-colour: rgb(255 255 255);
 
   .inner-container {
     width: 80%;
+    position: relative;
 
     .top-gap {
       height: 2.5rem;
@@ -159,17 +163,18 @@ input[type="text"]::-moz-placeholder {
     @include transition-opacity();
     display: flex;
     flex-wrap: wrap;
-    padding-bottom: .5rem;
+    padding-bottom: 0.5rem;
     opacity: var(--typing-test-opacity);
     max-height: var(--test-words-max-height);
-    border: 2px solid black;
+    //border: 2px solid black;
     overflow: hidden;
     font-size: 2rem;
     line-height: 3rem;
+    letter-spacing: 0.1em;
+
 
     .word {
       margin-right: 1rem;
-      letter-spacing: 0.1em;
 
       :last-child {
         border-right: 3px solid transparent;
@@ -210,21 +215,25 @@ input[type="text"]::-moz-placeholder {
           color: $incorrect-font-colour;
         }
       }
-
-
     }
+  }
+
+  .words-filler-height-div {
+    min-height: 0px;
+    height: var(--test-words-filler-height);
   }
 }
 
+
 .reset-container {
-  display: grid;
-  place-items: center;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 7rem;
 
   .reset-button {
     @include transition-opacity();
-    margin-top: 1.5rem;
-    margin-bottom: 1.5rem;
-    width: 30%;
+    width: 25%;
 
     :focus {
       outline: none;
@@ -283,6 +292,9 @@ input[type="text"]::-moz-placeholder {
 }
 
 .WPM-div {
+  transition-property: var(--WPM-transition);
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: $component-opacity-fade-duration;
   margin-top: 3rem;
   text-align: center;
   font-size: 4rem;

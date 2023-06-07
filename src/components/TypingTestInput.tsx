@@ -16,6 +16,7 @@ export const TypingTestInput = ({inputRef, currentInputWord, handleChange, handl
 		<div className="text-field-container">
 			<input 
 				type="text"
+				spellCheck="false"
 				ref={inputRef}
 				value={currentInputWord}
 				onChange={handleChange}

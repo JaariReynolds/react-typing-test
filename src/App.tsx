@@ -26,7 +26,9 @@ function App() {
 	const [testType, setTestType] = useState<TestType>(TestType.Words);
 	const [includePunctuation, setIncludePunctuation] = useState<boolean>(false);
 	const [includeNumbers, setIncludeNumbers] = useState<boolean>(false);
+
 	const [reset, setReset] = useState<boolean>(false);
+	const [resetOpacity, setResetOpacity] = useState<number>(0);
 
 	const [showResultsComponent, setShowResultsComponent] = useState<boolean>(false);
 	const [resultsComponentOpacity, setResultsComponentOpacity] = useState<number>(0);
@@ -57,7 +59,6 @@ function App() {
 		}
 	}, [pressedKeys]);
 
-
 	useEffect(() => {
 		if (testComplete) { // show results, hide wpm, set opacity after delay
 			setResultsComponentDisplay("block");
@@ -77,12 +78,15 @@ function App() {
 		}
 	}, [testComplete]);
 
+	const currentWPM = averageWPM == null || isNaN(averageWPM) || !Number.isFinite(averageWPM) ? 0 : averageWPM;
+
 	// #region CSS properties
 	const opacityStyle = {
 		"--component-opacity": componentOpacity,
 		"--WPM-opacity": WPMOpacity,
 		"--test-type-words-opacity": (testType === TestType.Words && !testRunning) || (testRunning && testType === TestType.Words && testFocused === false && pressedKeys.length === 0) ? 1 : 0,
 		"--test-type-time-opacity": (testType === TestType.Time && !testRunning) || (testRunning && testType === TestType.Time && testFocused === false && pressedKeys.length === 0) ? 1 : 0,
+		"--WPM-transition": testComplete ? "none" : "opacity" // transition in but not out
 	  } as CSSProperties;
 
 	const completionBarOpacity = {
@@ -113,6 +117,7 @@ function App() {
 					<div>testLength={testLengthSeconds}</div>
 					<div>showResults={showResultsComponent.toString()}</div>
 					<div>completionPercentage={testCompletionPercentage}</div>
+					<div>reset={reset.toString()}</div>
 					<div className="test-options">
 						<TestTypeSelector testType={testType} setTestType={setTestType} opacityStyle={opacityStyle}/>
 
@@ -135,11 +140,11 @@ function App() {
 						<div style={resultsComponentStyling} className="test-results-div">
 							<TypingTestResults testWords={testWords} setTestWords={setTestWords} showResults={showResultsComponent}/>
 						</div> 
-						
-						
 					</div>
 
-					<div style={opacityStyle} className="WPM-div">{averageWPM == null || isNaN(averageWPM) || !Number.isFinite(averageWPM) ? 0 : averageWPM}</div>
+					<div style={opacityStyle} className="WPM-div">
+						{currentWPM}
+					</div>
 						
 					<div className="reset-container">
 						<button type="reset" title="Reset" style={opacityStyle} className="reset-button"
