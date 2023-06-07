@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-key */
 import React, { useEffect, useRef, useState } from "react";
 import { TestWords, Letter, LetterActiveStatus, CompletionStatus } from "../interfaces/WordStructure";
+import { testWordsGenerator } from "../functions/wordGeneration/testWordsGenerators";
 
 interface Props {
     testWords: TestWords,
@@ -25,8 +26,6 @@ export const TypingTestWords = ({testWords, testRunning, testComplete, testFocus
 
 	const testWordsRef = useRef<HTMLDivElement>(null);
 	const [testWordsMaxHeight, setTestWordsMaxHeight] = useState<number>(0);
-	const [testWordsFillerHeight, setTestWordsFillerHeight] = useState<number>(0);
-	const [characterCount, setCharacterCount] = useState<number>(0);
 	const [windowSize, setWindowSize] = useState<NumberPair>({width: window.innerWidth, height: window.innerHeight});
 
 
@@ -52,7 +51,6 @@ export const TypingTestWords = ({testWords, testRunning, testComplete, testFocus
 
 	// only check to change test height when window height is changed
 	useEffect(() => {
-		//if (testWords.characterCount == characterCount) return;
 		
 		const computedStyle = window.getComputedStyle(testWordsRef.current!); 
 		const lineHeight = parseInt(computedStyle.getPropertyValue("line-height"), 10);
@@ -60,15 +58,20 @@ export const TypingTestWords = ({testWords, testRunning, testComplete, testFocus
 		const currentHeight = parseInt(computedStyle.getPropertyValue("height"), 10);
 		console.log("currentHeight" + currentHeight);
 
-		const currentTestWordsMaxHeight = Math.round((lineHeight * MAX_LINES) + PADDING_BOTTOM);
+		const currentTestWordsMaxHeight = (lineHeight * MAX_LINES) + PADDING_BOTTOM;
 
 		setTestWordsMaxHeight(currentTestWordsMaxHeight);
-		setTestWordsFillerHeight(currentTestWordsMaxHeight - Math.round(currentHeight));
-		setCharacterCount(testWords.characterCount);
 
 		console.log("filler height: " + (currentTestWordsMaxHeight - currentHeight));
 		
 	}, [windowSize.height, testWords.characterCount]);
+
+	useEffect(() => {
+		const computedStyle = window.getComputedStyle(testWordsRef.current!);
+		const width = parseInt(computedStyle.getPropertyValue("width"), 10);
+		const divs = 
+		console.log(width);
+	}, [testWords]);
 
 	const letterColour = (completionStatus: CompletionStatus) => {
 		switch (completionStatus) {
@@ -108,10 +111,6 @@ export const TypingTestWords = ({testWords, testRunning, testComplete, testFocus
 		"--test-words-max-height": testWordsMaxHeight + "px",
 	} as React.CSSProperties;
 
-	const testWordsFillerDivHeight = {
-		"--test-words-filler-height": testWordsFillerHeight + "px"
-	} as React.CSSProperties;
-
 
 	return (
 		<>
@@ -129,9 +128,7 @@ export const TypingTestWords = ({testWords, testRunning, testComplete, testFocus
 						</div> 
 					);
 				})}
-			</div>
-			<div style={testWordsFillerDivHeight} className="words-filler-height-div"></div>
-		</>
-		
+			</div>		
+		</>		
 	);
 };

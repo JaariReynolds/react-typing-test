@@ -142,10 +142,13 @@ input[type="text"]::-moz-placeholder {
   .text-field-container {
     position: absolute;
     display: flex;
+    top: -5rem;
     width: 100%;
-    height: 100%;
+
     -webkit-user-select: none;
     user-select: none;
+    border: 4px solid green;
+    margin-bottom: 5rem;
 
     .text-field {
       width: 100%;
@@ -163,15 +166,16 @@ input[type="text"]::-moz-placeholder {
     @include transition-opacity();
     display: flex;
     flex-wrap: wrap;
-    padding-bottom: 0.5rem;
+    //padding-bottom: 0.5rem;
     opacity: var(--typing-test-opacity);
     max-height: var(--test-words-max-height);
-    //border: 2px solid black;
     overflow: hidden;
     font-size: 2rem;
     line-height: 3rem;
     letter-spacing: 0.1em;
-
+    top: -3rem;
+    position: absolute;
+    border: 2px solid black;
 
     .word {
       margin-right: 1rem;
@@ -218,10 +222,13 @@ input[type="text"]::-moz-placeholder {
     }
   }
 
-  .words-filler-height-div {
-    min-height: 0px;
-    height: var(--test-words-filler-height);
-  }
+  // .words-filler-height-div {
+  //   min-height: 0px;
+  //   position: relative;
+  //   top: 100%;
+  //   border: 3px solid red;
+  //   height: var(--test-words-filler-height);
+  // }
 }
 
 
@@ -271,6 +278,7 @@ input[type="text"]::-moz-placeholder {
 .results-overlap-container {
   display: grid;
   grid-template-areas: 1 / 1;
+  height: 20rem;
 }
 
 .test-results-div {
@@ -292,16 +300,12 @@ input[type="text"]::-moz-placeholder {
 }
 
 .WPM-div {
-  transition-property: var(--WPM-transition);
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: $component-opacity-fade-duration;
-  margin-top: 3rem;
+  position: relative;
   text-align: center;
   font-size: 4rem;
   color: $base-font-colour;
   opacity: var(--WPM-opacity);
 }
-
 
 @keyframes fa-spin-custom {
   from {
@@ -312,7 +316,6 @@ input[type="text"]::-moz-placeholder {
     transform: rotate(360deg);
   }
 }
-
 
 @keyframes blinking-caret-left {
   0% {

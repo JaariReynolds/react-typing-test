@@ -28,7 +28,6 @@ function App() {
 	const [includeNumbers, setIncludeNumbers] = useState<boolean>(false);
 
 	const [reset, setReset] = useState<boolean>(false);
-	const [resetOpacity, setResetOpacity] = useState<number>(0);
 
 	const [showResultsComponent, setShowResultsComponent] = useState<boolean>(false);
 	const [resultsComponentOpacity, setResultsComponentOpacity] = useState<number>(0);
@@ -48,7 +47,7 @@ function App() {
 	// hide distracting components when test is running
 	useEffect(() => {
 		setComponentOpacity(testRunning ? 0 : 1);
-		setWPMOpacity(testRunning ? 1 : 0);
+		setWPMOpacity(testRunning || testComplete ? 1 : 0);
 	}, [testRunning]);
 
 	// if moved mouse while test running, BUT then you still continue the test after, hide test option selectors again
@@ -63,7 +62,7 @@ function App() {
 		if (testComplete) { // show results, hide wpm, set opacity after delay
 			setResultsComponentDisplay("block");
 			setShowResultsComponent(true);
-			setWPMOpacity(0);
+			//setWPMOpacity(0);
 			setTimeout(() => {
 				setResultsComponentOpacity(1);
 			}, TRANSITION_DELAY + 100);
@@ -79,14 +78,14 @@ function App() {
 	}, [testComplete]);
 
 	const currentWPM = averageWPM == null || isNaN(averageWPM) || !Number.isFinite(averageWPM) ? 0 : averageWPM;
-
+	
 	// #region CSS properties
 	const opacityStyle = {
 		"--component-opacity": componentOpacity,
 		"--WPM-opacity": WPMOpacity,
 		"--test-type-words-opacity": (testType === TestType.Words && !testRunning) || (testRunning && testType === TestType.Words && testFocused === false && pressedKeys.length === 0) ? 1 : 0,
 		"--test-type-time-opacity": (testType === TestType.Time && !testRunning) || (testRunning && testType === TestType.Time && testFocused === false && pressedKeys.length === 0) ? 1 : 0,
-		"--WPM-transition": testComplete ? "none" : "opacity" // transition in but not out
+		
 	  } as CSSProperties;
 
 	const completionBarOpacity = {
