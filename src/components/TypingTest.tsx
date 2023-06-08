@@ -443,7 +443,7 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 	return (    
 		<div style={opacityStyle} className="typing-test">
 
-			<TypingTestInput inputRef={inputRef} currentInputWord={currentInputWord} handleChange={handleChange} handleKeyDown={handleKeyDown} handleKeyUp={handleKeyUp} testComplete={testComplete} setTestFocused={setTestFocused}/>
+			{/* <TypingTestInput inputRef={inputRef} currentInputWord={currentInputWord} handleChange={handleChange} handleKeyDown={handleKeyDown} handleKeyUp={handleKeyUp} testComplete={testComplete} setTestFocused={setTestFocused}/> */}
 
 			<TypingTestWords testWords={testWords} testRunning={testRunning} testComplete={testComplete} testFocused={testFocused}/>
 

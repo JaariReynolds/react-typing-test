@@ -1,7 +1,6 @@
 /* eslint-disable react/jsx-key */
 import React, { useEffect, useRef, useState } from "react";
 import { TestWords, Letter, LetterActiveStatus, CompletionStatus } from "../interfaces/WordStructure";
-import { testWordsGenerator } from "../functions/wordGeneration/testWordsGenerators";
 
 interface Props {
     testWords: TestWords,
@@ -17,26 +16,31 @@ interface NumberPair {
 
 const MAX_LINES = 3;
 let PADDING_BOTTOM = 0;
-let LINE_HEIGHT = 0;
-let FONT_SIZE = 0;
-let LETTER_SPACING = 0;
+let MARGIN_RIGHT = 0;
 
 
 export const TypingTestWords = ({testWords, testRunning, testComplete, testFocused}: Props) => {
 
-	const testWordsRef = useRef<HTMLDivElement>(null);
+	const testWordsDivRef = useRef<HTMLDivElement>(null);
+	const testWordObjectRef = useRef<HTMLDivElement[]>([]) ;
+	const widths = useRef<number[]>([]);
 	const [testWordsMaxHeight, setTestWordsMaxHeight] = useState<number>(0);
 	const [windowSize, setWindowSize] = useState<NumberPair>({width: window.innerWidth, height: window.innerHeight});
 
 
 	useEffect(() => {
 		// grab css sizing properties on mount
-		const computedStyle = window.getComputedStyle(testWordsRef.current!);
-		PADDING_BOTTOM = parseInt(computedStyle.getPropertyValue("padding-bottom"), 10);
-		LINE_HEIGHT = parseInt(computedStyle.getPropertyValue("line-height"), 10);
-		FONT_SIZE = parseInt(computedStyle.getPropertyValue("font-size"), 10);
-		LETTER_SPACING = parseInt(computedStyle.getPropertyValue("letter-spacing"), 10);
+		const computedStyle = window.getComputedStyle(testWordsDivRef.current!);
+		
+		if (testWordObjectRef.current.length > 0) {
+			const singleWordObject = testWordObjectRef.current[0];
+			const otherComputedStyle = window.getComputedStyle(singleWordObject);
+			MARGIN_RIGHT = parseInt(otherComputedStyle.getPropertyValue("margin-right"), 10);
+		}
 
+		PADDING_BOTTOM = parseInt(computedStyle.getPropertyValue("padding-bottom"), 10);
+		
+		console.log("margin right is " + MARGIN_RIGHT);
 		// add listener to window size
 		const handleResize = () => {
 			setWindowSize({width: window.innerWidth, height: window.innerHeight});
@@ -52,7 +56,7 @@ export const TypingTestWords = ({testWords, testRunning, testComplete, testFocus
 	// only check to change test height when window height is changed
 	useEffect(() => {
 		
-		const computedStyle = window.getComputedStyle(testWordsRef.current!); 
+		const computedStyle = window.getComputedStyle(testWordsDivRef.current!); 
 		const lineHeight = parseInt(computedStyle.getPropertyValue("line-height"), 10);
 
 		const currentHeight = parseInt(computedStyle.getPropertyValue("height"), 10);
@@ -67,10 +71,36 @@ export const TypingTestWords = ({testWords, testRunning, testComplete, testFocus
 	}, [windowSize.height, testWords.characterCount]);
 
 	useEffect(() => {
-		const computedStyle = window.getComputedStyle(testWordsRef.current!);
-		const width = parseInt(computedStyle.getPropertyValue("width"), 10);
-		const divs = 
-		console.log(width);
+		if (testWordObjectRef.current === null) return;
+
+		const computedStyle = window.getComputedStyle(testWordsDivRef.current!);
+		const divWidth = parseInt(computedStyle.getPropertyValue("width"), 10);
+		console.log("div width:" + divWidth);
+
+		testWordObjectRef.current.forEach((word, index) => {
+			if (word)
+				widths.current[index] = word.getBoundingClientRect().width;
+		});
+
+
+
+		let lineWidthCurrentTotal = 0;
+		const finalLineIndexes = widths.current.map((wordDiv, index) => {
+			const wordWidth = wordDiv + MARGIN_RIGHT;
+			if (lineWidthCurrentTotal + wordWidth <= divWidth) { // if new word can fit on the same line
+				
+				lineWidthCurrentTotal += wordWidth; // add it to the current
+				console.log("new lineWidth is " + lineWidthCurrentTotal);
+			}
+			else { // if new word can't fit on the same line
+				lineWidthCurrentTotal = wordWidth; // reset line starting with this word length
+				return index - 1; /// add that inde to the list 
+			}
+		});
+
+		const realFinalLinesIndexes = finalLineIndexes.slice(0, testWords.words.length);
+
+		console.log(realFinalLinesIndexes);
 	}, [testWords]);
 
 	const letterColour = (completionStatus: CompletionStatus) => {
@@ -114,10 +144,10 @@ export const TypingTestWords = ({testWords, testRunning, testComplete, testFocus
 
 	return (
 		<>
-			<div style={testWordsLineHeight} ref={testWordsRef} className="words-container">
-				{testWords.words.map(word => {
+			<div style={testWordsLineHeight} ref={testWordsDivRef} className="words-container">
+				{testWords.words.map((word, index) => {
 					return (
-						<div className="word">
+						<div className="word" ref={(ref) => (testWordObjectRef.current[index] = ref as HTMLDivElement)}>
 							{word.word.map(letter => {
 								return (
 									<span className={`letter ${letterColour(letter.status)} ${blinkingCaret(letter)} ${letterActive(letter.active)}`}>
