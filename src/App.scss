@@ -25,8 +25,9 @@ $hover-font-colour: rgb(255 255 255);
   --WPM-transition: "opacity";
   --test-words-display: block;
   --results-component-display: none;
-  --test-words-max-height: 0px;
-  --test-words-filler-height: 0px;
+  --test-words-max-height: 144px;
+  --test-words-div-offset: 0px;
+  --test-words-top-transition: none;
 
 }
 
@@ -35,6 +36,12 @@ $hover-font-colour: rgb(255 255 255);
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: $component-opacity-fade-duration;
   opacity: var(--component-opacity);
+}
+
+@mixin transition-words {
+  transition-property: opacity, top;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1), ease-in-out;
+  transition-duration: $component-opacity-fade-duration, 0.15s;
 }
 
 @mixin transition-colors {
@@ -62,14 +69,14 @@ $hover-font-colour: rgb(255 255 255);
     position: relative;
 
     .top-gap {
-      height: 2.5rem;
+      height: 10rem;
     }
 
     .test-options {
       grid-column: 1 / -1;
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      margin-bottom: 2rem;
+      margin-bottom: 3rem;
 
       .test-option-selector {
         @include transition-opacity();
@@ -131,103 +138,109 @@ input[type="text"]::-moz-placeholder {
   text-decoration: none;
 }
 
-.typing-test {
-  -webkit-user-select: none;
-  user-select: none;
-  grid-area: 1 / 1;
-  margin-top: 5rem;
-  position: relative;
-  display: var(--test-words-display);
+.results-overlap-container {
+  display: grid;
+  grid-template-areas: 1 / 1;
+  height: 20rem;
+  margin-top: 3rem;
 
-  .text-field-container {
-    position: absolute;
-    display: flex;
-    top: -4rem;
-    width: 100%;
-    height: 11rem;
+  .typing-test {
     -webkit-user-select: none;
     user-select: none;
-    margin-bottom: 5rem;
-    //border: 2px solid green;
-    z-index: 1;
-
-    .text-field {
-      width: 100%;
-      background-color: transparent;
-      color: transparent;
-      border: none;
-    }
-
-    input:focus {
-      outline: none;
-    }
-  }
-
-  .words-container {
-    @include transition-opacity();
-    display: flex;
-    flex-wrap: wrap;
-    opacity: var(--typing-test-opacity);
-    max-height: var(--test-words-max-height);
-    //overflow: hidden;
-    font-size: 2rem;
-    line-height: 3rem;
-    letter-spacing: 0.1em;
-    top: -3rem;
+    grid-area: 1 / 1;
+    //margin-top: 5rem;
+    width: 100%;
+    height: var(--test-words-max-height);
+    overflow: hidden;
     position: absolute;
+    display: var(--test-words-display);
+    ///border: 2px solid green;
 
-    .word {
-      margin-right: 1rem;
+    .text-field-container {
+      position: absolute;
+      display: flex;
+      //top: -4rem;
+      width: 100%;
+      height: var(--test-words-max-height);
+      -webkit-user-select: none;
+      user-select: none;
+      margin-bottom: 5rem;
+      //border: 2px solid green;
+      z-index: 10;
 
-      :last-child {
-        border-right: 3px solid transparent;
+      .text-field {
+        width: 100%;
+        background-color: transparent;
+        color: transparent;
+        border: none;
       }
 
-      .letter {
-        @include transition-colors();
-        transition-duration: $letter-colour-transition-duration;
-        border-left: 3px solid transparent;
+      input:focus {
+        outline: none;
+      }
+    }
+
+    .words-container {
+      @include transition-words();
+      display: flex;
+      flex-wrap: wrap;
+      opacity: var(--typing-test-opacity);
+      max-height: var(--test-words-max-height);
+      font-size: 2rem;
+      line-height: 3rem;
+      letter-spacing: 0.1em;
+      top: var(--test-words-div-offset);
+      position: absolute;
+
+      .word {
+        margin-right: 1rem;
+
+        &.last-word {
+          text-decoration: underline;
+        }
+
+        :last-child {
+          border-right: 3px solid transparent;
+        }
+
+        .letter {
+          @include transition-colors();
+          transition-duration: $letter-colour-transition-duration;
+          border-left: 3px solid transparent;
 
 
-        &.active {
-          border-left: 3px solid $selected-font-colour;
+          &.active {
+            border-left: 3px solid $selected-font-colour;
 
-          &.awaiting-input {
-            animation: blinking-caret-left 1.5s linear infinite;
+            &.awaiting-input {
+              animation: blinking-caret-left 1.5s linear infinite;
+            }
           }
-        }
 
-        &.active-last {
-          border-right: 3px solid $selected-font-colour;
+          &.active-last {
+            border-right: 3px solid $selected-font-colour;
 
-          &.awaiting-input {
-            animation: blinking-caret-right 1.5s linear infinite;
+            &.awaiting-input {
+              animation: blinking-caret-right 1.5s linear infinite;
+            }
           }
-        }
 
-        // if these are changed, need to update letterColour() in TypingTest.tsx
-        &.base-text-colour {
-          color: $base-font-colour;
-        }
+          // if these are changed, need to update letterColour() in TypingTest.tsx
+          &.base-text-colour {
+            color: $base-font-colour;
+          }
 
-        &.correct-text-colour {
-          color: $correct-font-colour;
-        }
+          &.correct-text-colour {
+            color: $correct-font-colour;
+          }
 
-        &.incorrect-text-colour {
-          color: $incorrect-font-colour;
+          &.incorrect-text-colour {
+            color: $incorrect-font-colour;
+          }
         }
       }
     }
   }
-
-  // .words-filler-height-div {
-  //   min-height: 0px;
-  //   position: relative;
-  //   top: 100%;
-  //   border: 3px solid red;
-  //   height: var(--test-words-filler-height);
-  // }
 }
 
 
@@ -274,11 +287,7 @@ input[type="text"]::-moz-placeholder {
   transition: width $completion-bar-transition-duration linear;
 }
 
-.results-overlap-container {
-  display: grid;
-  grid-template-areas: 1 / 1;
-  height: 20rem;
-}
+
 
 .test-results-div {
   transition-property: opacity;

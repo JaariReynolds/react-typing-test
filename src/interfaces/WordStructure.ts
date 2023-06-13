@@ -34,6 +34,7 @@ export class Word {
 	errorCountHard = 0;
 	errorCountSoft = 0;
 	active = false;
+	isLastWordInLine = false;
 
 	// create a letter object for each character in the word
 	constructor(word: string, status?: CompletionStatus) {

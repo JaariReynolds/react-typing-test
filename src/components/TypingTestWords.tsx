@@ -1,12 +1,15 @@
 /* eslint-disable react/jsx-key */
 import React, { useEffect, useRef, useState } from "react";
-import { TestWords, Letter, LetterActiveStatus, CompletionStatus } from "../interfaces/WordStructure";
+import { TestWords, Letter, LetterActiveStatus, CompletionStatus, Word } from "../interfaces/WordStructure";
+import { calculateTestWordsDivOffset } from "../functions/calculations/calculateTestWordsDivOffset";
 
 interface Props {
     testWords: TestWords,
+	setTestWords: React.Dispatch<React.SetStateAction<TestWords>>,
     testRunning: boolean,
     testComplete: boolean,
-    testFocused: boolean
+    testFocused: boolean,
+	potentialSpanShiftCount: number
 }
 
 interface NumberPair {
@@ -16,31 +19,27 @@ interface NumberPair {
 
 const MAX_LINES = 3;
 let PADDING_BOTTOM = 0;
-let MARGIN_RIGHT = 0;
+const MARGIN_RIGHT = 16;
 
 
-export const TypingTestWords = ({testWords, testRunning, testComplete, testFocused}: Props) => {
+export const TypingTestWords = ({testWords, setTestWords, testRunning, testComplete, testFocused, potentialSpanShiftCount}: Props) => {
 
 	const testWordsDivRef = useRef<HTMLDivElement>(null);
 	const testWordObjectRef = useRef<HTMLDivElement[]>([]) ;
 	const widths = useRef<number[]>([]);
 	const [testWordsMaxHeight, setTestWordsMaxHeight] = useState<number>(0);
 	const [windowSize, setWindowSize] = useState<NumberPair>({width: window.innerWidth, height: window.innerHeight});
-
+	const [offsetLines, setOffsetLines] = useState<number>(0);
+	const [wordsArrayCopy, setWordsArrayCopy] = useState<Word[]>([]);
 
 	useEffect(() => {
 		// grab css sizing properties on mount
 		const computedStyle = window.getComputedStyle(testWordsDivRef.current!);
-		
-		if (testWordObjectRef.current.length > 0) {
-			const singleWordObject = testWordObjectRef.current[0];
-			const otherComputedStyle = window.getComputedStyle(singleWordObject);
-			MARGIN_RIGHT = parseInt(otherComputedStyle.getPropertyValue("margin-right"), 10);
-		}
 
 		PADDING_BOTTOM = parseInt(computedStyle.getPropertyValue("padding-bottom"), 10);
+		setOffsetLines(0);
+		setWordsArrayCopy([]);
 		
-		console.log("margin right is " + MARGIN_RIGHT);
 		// add listener to window size
 		const handleResize = () => {
 			setWindowSize({width: window.innerWidth, height: window.innerHeight});
@@ -55,27 +54,20 @@ export const TypingTestWords = ({testWords, testRunning, testComplete, testFocus
 
 	// only check to change test height when window height is changed
 	useEffect(() => {
-		
 		const computedStyle = window.getComputedStyle(testWordsDivRef.current!); 
 		const lineHeight = parseInt(computedStyle.getPropertyValue("line-height"), 10);
-
-		const currentHeight = parseInt(computedStyle.getPropertyValue("height"), 10);
-		console.log("currentHeight" + currentHeight);
-
 		const currentTestWordsMaxHeight = (lineHeight * MAX_LINES) + PADDING_BOTTOM;
-
 		setTestWordsMaxHeight(currentTestWordsMaxHeight);
-
-		console.log("filler height: " + (currentTestWordsMaxHeight - currentHeight));
-		
 	}, [windowSize.height, testWords.characterCount]);
 
+	// calculate the new end-of-line words when screenwidth changes OR 
 	useEffect(() => {
 		if (testWordObjectRef.current === null) return;
-
+		//if (testWords.words[0] == wordsArrayCopy[0]) return;
+		
 		const computedStyle = window.getComputedStyle(testWordsDivRef.current!);
 		const divWidth = parseInt(computedStyle.getPropertyValue("width"), 10);
-		console.log("div width:" + divWidth);
+		widths.current.slice(0, testWords.words.length);
 
 		testWordObjectRef.current.forEach((word, index) => {
 			if (word)
@@ -83,25 +75,42 @@ export const TypingTestWords = ({testWords, testRunning, testComplete, testFocus
 		});
 
 
-
 		let lineWidthCurrentTotal = 0;
 		const finalLineIndexes = widths.current.map((wordDiv, index) => {
 			const wordWidth = wordDiv + MARGIN_RIGHT;
-			if (lineWidthCurrentTotal + wordWidth <= divWidth) { // if new word can fit on the same line
-				
+			
+			if (lineWidthCurrentTotal + wordWidth <= divWidth) { // if new word can fit on the same line		
 				lineWidthCurrentTotal += wordWidth; // add it to the current
-				console.log("new lineWidth is " + lineWidthCurrentTotal);
 			}
 			else { // if new word can't fit on the same line
 				lineWidthCurrentTotal = wordWidth; // reset line starting with this word length
 				return index - 1; /// add that inde to the list 
 			}
+		}).slice(0, testWords.words.length);	
+
+		const newTestWords = testWords.words.map((word, wordIndex) => {
+			if (finalLineIndexes.includes(wordIndex)) {
+				return {...word, isLastWordInLine: true};
+			}
+			else 
+				return {...word, isLastWordInLine: false};
 		});
 
-		const realFinalLinesIndexes = finalLineIndexes.slice(0, testWords.words.length);
+		setWordsArrayCopy(newTestWords);
 
-		console.log(realFinalLinesIndexes);
-	}, [testWords]);
+	}, [potentialSpanShiftCount, windowSize.width, wordsArrayCopy]);
+
+	useEffect(() => {
+		let numOffsetLines = calculateTestWordsDivOffset(wordsArrayCopy);
+		if (numOffsetLines == 1) numOffsetLines = 0;
+		else if (numOffsetLines > 1) numOffsetLines -=1;
+		setOffsetLines(numOffsetLines);
+		//console.log(offsetLines * testWordsMaxHeight / MAX_LINES + "px");
+	}, [wordsArrayCopy]);
+	
+	useEffect(() => {
+		setTestWords({...testWords, words: wordsArrayCopy});
+	}, [testComplete]);
 
 	const letterColour = (completionStatus: CompletionStatus) => {
 		switch (completionStatus) {
@@ -137,17 +146,33 @@ export const TypingTestWords = ({testWords, testRunning, testComplete, testFocus
 		return "";			
 	};
 
-	const testWordsLineHeight = {
+	const lastWordStyle = (word: Word) => {
+		if (word.isLastWordInLine) return "last-word";
+		else return "";
+	};
+
+	const testWordsStyling = {
 		"--test-words-max-height": testWordsMaxHeight + "px",
+		"--test-words-div-offset": -(offsetLines * testWordsMaxHeight / MAX_LINES) + "px"
 	} as React.CSSProperties;
 
 
 	return (
 		<>
-			<div style={testWordsLineHeight} ref={testWordsDivRef} className="words-container">
-				{testWords.words.map((word, index) => {
+			{/* <div>
+			testWordsMaxHeight = {offsetLines * testWordsMaxHeight / MAX_LINES}
+			</div> */}
+			{/* <div>
+				lastWords: {testWords.words.map(word => {
 					return (
-						<div className="word" ref={(ref) => (testWordObjectRef.current[index] = ref as HTMLDivElement)}>
+						<div>word: {word.isLastWordInLine.toString()}</div>
+					);
+				})}
+			</div> */}
+			<div style={testWordsStyling} ref={testWordsDivRef} className="words-container">
+				{wordsArrayCopy.map((word, index) => {
+					return (
+						<div className={`word ${lastWordStyle(word)}`} ref={(ref) => (testWordObjectRef.current[index] = ref as HTMLDivElement)}>
 							{word.word.map(letter => {
 								return (
 									<span className={`letter ${letterColour(letter.status)} ${blinkingCaret(letter)} ${letterActive(letter.active)}`}>

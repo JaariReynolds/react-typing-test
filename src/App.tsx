@@ -111,12 +111,12 @@ function App() {
 			<div className="main-container" onMouseMove={handleMouseMove}>
 				<div className="inner-container">
 					<div className="top-gap"></div>
-					<div>testcomplete={testComplete.toString()}</div>
+					{/* <div>testcomplete={testComplete.toString()}</div>
 					<div>testtime={testTimeMilliSeconds}</div>
 					<div>testLength={testLengthSeconds}</div>
 					<div>showResults={showResultsComponent.toString()}</div>
 					<div>completionPercentage={testCompletionPercentage}</div>
-					<div>reset={reset.toString()}</div>
+					<div>reset={reset.toString()}</div> */}
 					<div className="test-options">
 						<TestTypeSelector testType={testType} setTestType={setTestType} opacityStyle={opacityStyle}/>
 
