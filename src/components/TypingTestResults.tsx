@@ -27,8 +27,8 @@ const TypingTestResults = ({testWords, setTestWords, showResults}: IProps ) => {
 	// accuracy = (num characters in test - hard errors) / num characters in test
 	const calculateAccuracy = (): number => {
 		//NEED TO FIX : NOT WORKING AS INTENDED FOR SOME REASON
-		const correctCharacters = testWords.characterCount - testWords.errorCountSoft;
-		const acc = correctCharacters / testWords.characterCount;
+		const correctCharacters = testWords.keyPressCount - testWords.errorCountSoft;
+		const acc = correctCharacters / testWords.keyPressCount;
 		//console.log(testWords.rawWPMArray);
 		return acc;
 	};

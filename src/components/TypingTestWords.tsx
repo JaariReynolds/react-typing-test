@@ -63,8 +63,7 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 	// calculate the new end-of-line words when screenwidth changes OR 
 	useEffect(() => {
 		if (testWordObjectRef.current === null) return;
-		//if (testWords.words[0] == wordsArrayCopy[0]) return;
-		
+
 		const computedStyle = window.getComputedStyle(testWordsDivRef.current!);
 		const divWidth = parseInt(computedStyle.getPropertyValue("width"), 10);
 		widths.current.slice(0, testWords.words.length);
@@ -73,7 +72,6 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 			if (word)
 				widths.current[index] = word.getBoundingClientRect().width;
 		});
-
 
 		let lineWidthCurrentTotal = 0;
 		const finalLineIndexes = widths.current.map((wordDiv, index) => {
@@ -99,6 +97,7 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 		setWordsArrayCopy(newTestWords);
 
 	}, [potentialSpanShiftCount, windowSize.width, wordsArrayCopy]);
+
 
 	useEffect(() => {
 		let numOffsetLines = calculateTestWordsDivOffset(wordsArrayCopy);
@@ -147,8 +146,8 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 	};
 
 	const lastWordStyle = (word: Word) => {
-		if (word.isLastWordInLine) return "last-word";
-		else return "";
+		// if (word.isLastWordInLine) return "last-word";
+		// else return "";
 	};
 
 	const testWordsStyling = {

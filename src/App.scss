@@ -41,7 +41,7 @@ $hover-font-colour: rgb(255 255 255);
 @mixin transition-words {
   transition-property: opacity, top;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1), ease-in-out;
-  transition-duration: $component-opacity-fade-duration, 0.15s;
+  transition-duration: $component-opacity-fade-duration, 0.1s;
 }
 
 @mixin transition-colors {
@@ -65,7 +65,7 @@ $hover-font-colour: rgb(255 255 255);
   justify-content: center;
 
   .inner-container {
-    width: 80%;
+    width: 70%;
     position: relative;
 
     .top-gap {
@@ -211,6 +211,7 @@ input[type="text"]::-moz-placeholder {
 
           &.active {
             border-left: 3px solid $selected-font-colour;
+            inset: 4px;
 
             &.awaiting-input {
               animation: blinking-caret-left 1.5s linear infinite;
