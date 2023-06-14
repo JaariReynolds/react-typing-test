@@ -145,11 +145,17 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 	useEffect(() => {
 		// calculates percentage of test completed (FOR WORD-LENGTH TEST) whenever the test is updated
 		if (testType === TestType.Words && testRunning) {
-			const totalInputLetters = inputWordsArray.reduce((total, word) => {
-				
+			const currentOriginalWordLength = testWords.words[inputWordsArray.length].originalLength;
+			const currentWordLength = (currentInputWord.length > currentOriginalWordLength) ? currentOriginalWordLength : currentInputWord.length;
+
+			// need to not include extra (wrong) letters towards the test completion percentage
+			const totalInputLetters = inputWordsArray.reduce((total, word, wordIndex) => {
+				// if the stored word length > length of the actual word, return the actual length
+				if (inputWordsArray[wordIndex].length > testWords.words[wordIndex].originalLength)
+					return total + testWords.words[wordIndex].originalLength;
 				return total + word.length; 
-			}, currentInputWord.length + inputWordsArray.length);
-	
+			}, currentWordLength + inputWordsArray.length); // inputwordsarray.length = spacebar presses (included in keypresscount)
+			
 			setTestCompletionPercentage(totalInputLetters / testWords.characterCount * 100);
 		}
 

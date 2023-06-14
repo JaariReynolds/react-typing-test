@@ -96,7 +96,7 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 
 		setWordsArrayCopy(newTestWords);
 
-	}, [potentialSpanShiftCount, windowSize.width, wordsArrayCopy]);
+	}, [potentialSpanShiftCount, windowSize.width, testWords]);
 
 
 	useEffect(() => {
