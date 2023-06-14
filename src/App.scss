@@ -6,7 +6,7 @@ $letter-colour-transition-duration: 200ms;
 
 $background-colour: rgb(47, 50, 52);
 $base-font-colour: rgb(161 161 170);
-$results-background-colour: rgb(161, 161, 170, 0.5);
+$results-background-colour: rgb(161, 161, 170, .7);
 $selected-font-colour: rgb(253 224 71);
 $correct-font-colour: rgb(255 255 255);
 $incorrect-font-colour: rgb(220 38 38);
@@ -31,11 +31,11 @@ $hover-font-colour: rgb(255 255 255);
 
 }
 
-@mixin transition-opacity {
+@mixin transition-opacity($opacity) {
   transition-property: opacity;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: $component-opacity-fade-duration;
-  opacity: var(--component-opacity);
+  opacity: $opacity;
 }
 
 @mixin transition-words {
@@ -79,7 +79,7 @@ $hover-font-colour: rgb(255 255 255);
       margin-bottom: 3rem;
 
       .test-option-selector {
-        @include transition-opacity();
+        @include transition-opacity(var(--component-opacity));
         grid-column: span 1 / span 1;
         text-align: center;
         -webkit-user-select: none;
@@ -142,9 +142,20 @@ input[type="text"]::-moz-placeholder {
   display: grid;
   grid-template-areas: 1 / 1;
   height: 20rem;
-  margin-top: 3rem;
+  //margin-top: 3rem;
+
+  .WPM-div {
+    //@include transition-opacity(var(--WPM-opacity));
+    grid-area: 7/1;
+    position: relative;
+    text-align: center;
+    font-size: 4rem;
+    color: $base-font-colour;
+    opacity: var(--WPM-opacity);
+  }
 
   .typing-test {
+    margin-top: 3rem;
     -webkit-user-select: none;
     user-select: none;
     grid-area: 1 / 1;
@@ -211,7 +222,6 @@ input[type="text"]::-moz-placeholder {
 
           &.active {
             border-left: 3px solid $selected-font-colour;
-            inset: 4px;
 
             &.awaiting-input {
               animation: blinking-caret-left 1.5s linear infinite;
@@ -252,7 +262,7 @@ input[type="text"]::-moz-placeholder {
   height: 7rem;
 
   .reset-button {
-    @include transition-opacity();
+    @include transition-opacity(var(--component-opacity));
     width: 25%;
 
     :focus {
@@ -281,7 +291,7 @@ input[type="text"]::-moz-placeholder {
   @include transition-colors();
   grid-area: 1 / 1;
   height: 0.5rem;
-  border-radius: 0.5rem;
+  border-radius: 0.25rem;
   background-color: $selected-font-colour;
   width: var(--completion-percentage);
   max-width: 100%;
@@ -295,11 +305,13 @@ input[type="text"]::-moz-placeholder {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: $component-opacity-fade-duration;
   opacity: var(--results-component-opacity);
+  margin-top: -0.5rem;
   background-color: $results-background-colour;
-  border-radius: 0.5rem;
+  border-radius: 0.25rem;
   grid-area: 1 / 1;
   max-width: 100%;
   display: var(--results-component-display);
+  padding-top: 1.5rem;
 
   .results-chart {
     display: flex;
@@ -308,13 +320,7 @@ input[type="text"]::-moz-placeholder {
   }
 }
 
-.WPM-div {
-  position: relative;
-  text-align: center;
-  font-size: 4rem;
-  color: $base-font-colour;
-  opacity: var(--WPM-opacity);
-}
+
 
 @keyframes fa-spin-custom {
   from {

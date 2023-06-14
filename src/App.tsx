@@ -47,7 +47,8 @@ function App() {
 	// hide distracting components when test is running
 	useEffect(() => {
 		setComponentOpacity(testRunning ? 0 : 1);
-		setWPMOpacity(testRunning || testComplete ? 1 : 0);
+		if (testRunning) setWPMOpacity(1);
+		//setWPMOpacity(testRunning ? 1 : 0);
 	}, [testRunning]);
 
 	// if moved mouse while test running, BUT then you still continue the test after, hide test option selectors again
@@ -62,7 +63,7 @@ function App() {
 		if (testComplete) { // show results, hide wpm, set opacity after delay
 			setResultsComponentDisplay("block");
 			setShowResultsComponent(true);
-			//setWPMOpacity(0);
+			setWPMOpacity(0);
 			setTimeout(() => {
 				setResultsComponentOpacity(1);
 			}, TRANSITION_DELAY + 100);
@@ -139,11 +140,11 @@ function App() {
 						<div style={resultsComponentStyling} className="test-results-div">
 							<TypingTestResults testWords={testWords} setTestWords={setTestWords} showResults={showResultsComponent}/>
 						</div> 
+						<div style={opacityStyle} className="WPM-div">
+							{currentWPM}
+						</div>
 					</div>
 
-					<div style={opacityStyle} className="WPM-div">
-						{currentWPM}
-					</div>
 						
 					<div className="reset-container">
 						<button type="reset" title="Reset" style={opacityStyle} className="reset-button"

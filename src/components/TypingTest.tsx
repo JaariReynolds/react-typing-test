@@ -145,6 +145,8 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 	useEffect(() => {
 		// calculates percentage of test completed (FOR WORD-LENGTH TEST) whenever the test is updated
 		if (testType === TestType.Words && testRunning) {
+			if (lastWord && currentInputWord.length == 0) return; // don't run this useEffect after pressing 'space' pretty much
+
 			const currentOriginalWordLength = testWords.words[inputWordsArray.length].originalLength;
 			const currentWordLength = (currentInputWord.length > currentOriginalWordLength) ? currentOriginalWordLength : currentInputWord.length;
 
