@@ -30,17 +30,19 @@ const MyChartComponent = ({rawWPMArray, averageWPMArray}: IProps) => {
 	};
 	
 	return (
-		<ResponsiveContainer width="90%" height={300}>
-			<LineChart data={graphData()}>
-				<XAxis dataKey="interval" label={{value: "Seconds", dy: 20}}/>
-				<YAxis dataKey="rawWPM" label={{value: "Words per Minute", dx: -20, angle: -90}}/>
-				<CartesianGrid stroke="#eee" />
-				<Line type="monotone" dataKey="rawWPM" stroke="#8884d8" />
-				<Line type="monotone" dataKey="averageWPM" stroke="#FFFF00" />
-				<Tooltip />
-				
-			</LineChart>
-		</ResponsiveContainer>
+		<div className="results-chart">
+			<ResponsiveContainer width="90%" height={300}>
+				<LineChart data={graphData()}>
+					<XAxis dataKey="interval" label={{value: "Seconds", dy: 20}}/>
+					<YAxis dataKey="rawWPM" label={{value: "Words per Minute", dx: -20, angle: -90}}/>
+					<CartesianGrid stroke="#eee" />
+					<Line type="monotone" dataKey="rawWPM" stroke="#8884d8" />
+					<Line type="monotone" dataKey="averageWPM" stroke="#FFFF00" />
+					<Tooltip />
+					
+				</LineChart>
+			</ResponsiveContainer>
+		</div>
 	);
 };
 

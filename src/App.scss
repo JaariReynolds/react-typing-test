@@ -22,12 +22,14 @@ $hover-font-colour: rgb(255 255 255);
   --results-component-opacity: 0;
   --completion-percentage: 0%;
   --WPM-opacity: 0;
-  --WPM-transition: "opacity";
+  --WPM-transition: opacity;
+  --WPM-display: block;
   --test-words-display: block;
   --results-component-display: none;
   --test-words-max-height: 144px;
   --test-words-div-offset: 0px;
   --test-words-top-transition: none;
+  --reset-div-margin: 0px;
 
 }
 
@@ -152,6 +154,7 @@ input[type="text"]::-moz-placeholder {
     font-size: 4rem;
     color: $base-font-colour;
     opacity: var(--WPM-opacity);
+    display: var(--WPM-display);
   }
 
   .typing-test {
@@ -256,16 +259,19 @@ input[type="text"]::-moz-placeholder {
 
 
 .reset-container {
+  transition: margin 0.3s ease-in-out;
   display: flex;
   justify-content: center;
   width: 100%;
   height: 7rem;
+  margin-top: var(--reset-div-margin);
+
 
   .reset-button {
     @include transition-opacity(var(--component-opacity));
     width: 25%;
 
-    :focus {
+    &:focus {
       outline: none;
     }
   }
@@ -296,6 +302,7 @@ input[type="text"]::-moz-placeholder {
   width: var(--completion-percentage);
   max-width: 100%;
   transition: width $completion-bar-transition-duration linear;
+  //transition: opacity 0.3s ease-in-out;
 }
 
 

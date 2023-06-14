@@ -28,26 +28,36 @@ function App() {
 	const [includeNumbers, setIncludeNumbers] = useState<boolean>(false);
 
 	const [reset, setReset] = useState<boolean>(false);
+	const [resetDivMargin, setResetDivMargin] = useState<string>("0px");
 
 	const [showResultsComponent, setShowResultsComponent] = useState<boolean>(false);
 	const [resultsComponentOpacity, setResultsComponentOpacity] = useState<number>(0);
 	const [resultsComponentDisplay, setResultsComponentDisplay] = useState<string>("none");
 
+	const [testFocused, setTestFocused] = useState<boolean>(true);
 	const [testRunning, setTestRunning] = useState<boolean>(false);
 	const [testComplete, setTestComplete] = useState<boolean>(false);
 	const [componentOpacity, setComponentOpacity] = useState<number>(1);
 
 	const [testTimeMilliSeconds, setTestTimeMilliSeconds] = useState<number>(0);
 	const [testCompletionPercentage, setTestCompletionPercentage] = useState<number>(0);
-	const [testFocused, setTestFocused] = useState<boolean>(true);
 	const [pressedKeys, setPressedKeys] = useState<string[]>([]); // array because more than 1 key can be held down at once
 	const [averageWPM, setAverageWPM] = useState<number>(0);
+
 	const [WPMOpacity, setWPMOpacity] = useState<number>(0);
+	const [WPMDisplay, setWPMDisplay] = useState<string>("block");
+	
 
 	// hide distracting components when test is running
 	useEffect(() => {
 		setComponentOpacity(testRunning ? 0 : 1);
-		if (testRunning) setWPMOpacity(1);
+		if (testRunning) {
+			setWPMDisplay("block");
+			setWPMOpacity(1);
+		}
+		else {
+			setWPMDisplay("none");
+		}
 		//setWPMOpacity(testRunning ? 1 : 0);
 	}, [testRunning]);
 
@@ -62,6 +72,7 @@ function App() {
 	useEffect(() => {
 		if (testComplete) { // show results, hide wpm, set opacity after delay
 			setResultsComponentDisplay("block");
+			setResetDivMargin("144px");
 			setShowResultsComponent(true);
 			setWPMOpacity(0);
 			setTimeout(() => {
@@ -71,6 +82,8 @@ function App() {
 
 		if (!testComplete) { // hide results, set display after delay
 			setShowResultsComponent(false);
+			setResetDivMargin("0px");
+
 			setResultsComponentOpacity(0);
 			setTimeout(() => {
 				setResultsComponentDisplay("none");
@@ -84,6 +97,8 @@ function App() {
 	const opacityStyle = {
 		"--component-opacity": componentOpacity,
 		"--WPM-opacity": WPMOpacity,
+		"--WPM-display": WPMDisplay,
+		"--reset-div-margin": resetDivMargin,
 		"--test-type-words-opacity": (testType === TestType.Words && !testRunning) || (testRunning && testType === TestType.Words && testFocused === false && pressedKeys.length === 0) ? 1 : 0,
 		"--test-type-time-opacity": (testType === TestType.Time && !testRunning) || (testRunning && testType === TestType.Time && testFocused === false && pressedKeys.length === 0) ? 1 : 0,
 		
@@ -118,6 +133,7 @@ function App() {
 					<div>showResults={showResultsComponent.toString()}</div>
 					<div>completionPercentage={testCompletionPercentage}</div>
 					<div>reset={reset.toString()}</div> */}
+					<div>resetDivMargin: {resetDivMargin}</div>
 					<div className="test-options">
 						<TestTypeSelector testType={testType} setTestType={setTestType} opacityStyle={opacityStyle}/>
 
@@ -146,8 +162,8 @@ function App() {
 					</div>
 
 						
-					<div className="reset-container">
-						<button type="reset" title="Reset" style={opacityStyle} className="reset-button"
+					<div style={opacityStyle} className="reset-container">
+						<button type="reset" title="Reset" className="reset-button"
 							onClick={() => setReset(!reset)}>
 							<FontAwesomeIcon icon={faRefresh} className="fa-spin-custom results-screen"/>
 						</button>
