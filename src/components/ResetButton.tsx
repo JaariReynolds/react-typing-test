@@ -19,6 +19,7 @@ const ResetButton = ({buttonRef, opacityStyle, reset, setReset, resultsComponent
 				onClick={() => setReset(!reset)}>
 				<FontAwesomeIcon icon={faRefresh} className={`reset-icon ${spinningStyle}`}/>
 			</button>
+			
 		</div>
 	);
 };

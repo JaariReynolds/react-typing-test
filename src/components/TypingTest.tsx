@@ -49,15 +49,14 @@ interface IProps {
 	averageWPM: number,
 	setAverageWPM: React.Dispatch<React.SetStateAction<number>>,
 	setWPMOpacity: React.Dispatch<React.SetStateAction<number>>,
+	setComponentOpacity: React.Dispatch<React.SetStateAction<number>>
 }
 
 
-const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds, testType, numbers, punctuation, reset, inputRef, showResultsComponent, setShowResultsComponent, testRunning, setTestRunning, testTimeMilliSeconds, setTestTimeMilliSeconds, setTestCompletionPercentage, testComplete, setTestComplete, testFocused, setTestFocused, pressedKeys, setPressedKeys, averageWPM, setAverageWPM, setWPMOpacity}: IProps) => {
+const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds, testType, numbers, punctuation, reset, inputRef, showResultsComponent, setShowResultsComponent, testRunning, setTestRunning, testTimeMilliSeconds, setTestTimeMilliSeconds, setTestCompletionPercentage, testComplete, setTestComplete, testFocused, setTestFocused, pressedKeys, setPressedKeys, averageWPM, setAverageWPM, setWPMOpacity, setComponentOpacity}: IProps) => {
 	const [currentInputWord, setCurrentInputWord] = useState<string>("");
 	const [inputWordsArray, setInputWordsArray] = useState<string[]>([]);
 	const [intervalId, setIntervalId] = useState<NodeJS.Timer|null>(null);	
-	const [quickReset, setQuickReset] = useState<boolean>(false);
-	
 	const [lastWord, setLastWord] = useState<boolean>(false);
 	const [opacity, setOpacity] = useState<number>(1);
 	const totalCorrectCharactersRef = useRef(0);
@@ -140,7 +139,7 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 			console.log("randomise test words, reset states");
 		}, TRANSITION_DELAY + 10);
 	
-	}, [testLengthWords, testLengthSeconds, testType, numbers, punctuation, reset, quickReset]);
+	}, [testLengthWords, testLengthSeconds, testType, numbers, punctuation, reset]);
 
 	useEffect(() => {
 		// calculates percentage of test completed (FOR WORD-LENGTH TEST) whenever the test is updated
@@ -200,8 +199,6 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 				setAverageWPM(averageWPM);
 				setCurrentAverageWPMArray([...currentAverageWPMArray, {interval: elapsedTimeSeconds, wpm: averageWPM}]);
 			}
-
-
 		}
 	}, [testTimeMilliSeconds]);
 
@@ -323,6 +320,7 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 
 	// should clear every character's status in the current word + remove additional letters
 	const handleCtrlBackspace = () => {
+		setCurrentInputWord("");
 		setTestWords({...testWords, words: ctrlBackspace(testWords, inputWordsArray)});
 	};
 
@@ -396,23 +394,18 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 	};
 
 	const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-		// if tab, disable
 		if (e.key === "Tab") {
-			if (!pressedKeys.includes("Tab"))
-				setPressedKeys([...pressedKeys, e.key]);        
+			setComponentOpacity(1);   
+			if (!pressedKeys.includes("Tab")) 
+				setPressedKeys([...pressedKeys, e.key]);     
+			
 			return;   
 		}
-		// if tab + enter pressed (tab first), reset test
-		if (pressedKeys.length === 1 && pressedKeys.includes("Tab") && e.key === "Enter" ) {
-			console.log("tab + enter pressed");
-			setQuickReset(() => !quickReset);
-			return;
-		}
+
 		// if shift + backspace pressed (shift first), clear the status on all letters in the input/word
 		if (pressedKeys.length === 1 && pressedKeys.includes("Control") && e.key === "Backspace" && currentInputWord.length > 0) {
 			console.log("ctrl + backspace pressed");
 			handleCtrlBackspace();
-			setCurrentInputWord("");
 			return;
 		}
 		// if spacebar, need a special case as its key is an empty string ("")

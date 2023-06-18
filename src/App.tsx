@@ -143,7 +143,6 @@ function App() {
 		setComponentOpacity(1);
 	};
 	
-
 	return (
 		<div className="App">
 			<div className="main-container" onMouseMove={handleMouseMove}>
@@ -167,7 +166,7 @@ function App() {
 					<div className="results-overlap-container">
 						
 						<TypingTest testWords={testWords} setTestWords={setTestWords} testLengthWords={testLengthWords} testLengthSeconds={testLengthSeconds} testType={testType} numbers={includeNumbers} punctuation={includePunctuation} reset={reset} inputRef={inputRef} showResultsComponent={showResultsComponent} setShowResultsComponent={setShowResultsComponent} testRunning={testRunning} setTestRunning={setTestRunning} testTimeMilliSeconds={testTimeMilliSeconds} setTestTimeMilliSeconds={setTestTimeMilliSeconds} setTestCompletionPercentage={setTestCompletionPercentage}
-							testComplete={testComplete} setTestComplete={setTestComplete} testFocused={testFocused} setTestFocused={setTestFocused} pressedKeys={pressedKeys} setPressedKeys={setPressedKeys} averageWPM={averageWPM} setAverageWPM={setAverageWPM} setWPMOpacity={setWPMOpacity}/>
+							testComplete={testComplete} setTestComplete={setTestComplete} testFocused={testFocused} setTestFocused={setTestFocused} pressedKeys={pressedKeys} setPressedKeys={setPressedKeys} averageWPM={averageWPM} setAverageWPM={setAverageWPM} setWPMOpacity={setWPMOpacity} setComponentOpacity={setComponentOpacity}/>
 						
 						
 						<TypingTestResults testWords={testWords} setTestWords={setTestWords} showResults={showResultsComponent} styling={resultsComponentStyling}/>
