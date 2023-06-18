@@ -37,7 +37,7 @@ const TypingTestResults = ({testWords, setTestWords, showResults, styling}: Prop
 	return (
 		<>	
 			<div style={styling} className="test-results-div">
-				<MyChartComponent rawWPMArray={testWords.rawWPMArray} averageWPMArray={testWords.currentAverageWPMArray} /> 
+				{showResults && <MyChartComponent rawWPMArray={testWords.rawWPMArray} averageWPMArray={testWords.currentAverageWPMArray}/> }
 				<div>Test Time: {testWords.timeElapsedMilliSeconds / 1000}</div>
 				<div>Average WPM: {testWords.averageWPM}</div>
 				<div>Error Count Hard: {testWords.errorCountHard}</div>

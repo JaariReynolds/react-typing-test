@@ -5,15 +5,18 @@ import { faRefresh } from "@fortawesome/free-solid-svg-icons";
 interface Props {
     opacityStyle: React.CSSProperties,
     reset: boolean,
-    setReset: React.Dispatch<React.SetStateAction<boolean>>
+    setReset: React.Dispatch<React.SetStateAction<boolean>>,
+	resultsComponentOpacity: number
 }
 
-const ResetButton = ({opacityStyle, reset, setReset}: Props) => {
+const ResetButton = ({opacityStyle, reset, setReset, resultsComponentOpacity}: Props) => {
+
+	const spinningStyle = (resultsComponentOpacity == 1) ? "spinning-icon" : "";
 	return (
-		<div style={opacityStyle} className="reset-container">
+		<div style={opacityStyle} className="reset-container" tabIndex={-1}>
 			<button type="reset" title="Reset" className="reset-button"
 				onClick={() => setReset(!reset)}>
-				<FontAwesomeIcon icon={faRefresh} className="fa-spin-custom results-screen"/>
+				<FontAwesomeIcon icon={faRefresh} className={`reset-icon ${spinningStyle}`}/>
 			</button>
 		</div>
 	);

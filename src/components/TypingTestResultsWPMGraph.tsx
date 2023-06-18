@@ -16,23 +16,29 @@ interface IProps {
 
 const MyChartComponent = ({rawWPMArray, averageWPMArray}: IProps) => {
 	
+	const [graphData, setGraphData] = useState<DataPoint[]>([]);
+
 	// combines raw and average datapoints at each interval into 1 type
-	const graphData = (): DataPoint[] => {
-		console.log(rawWPMArray);
-		console.log(averageWPMArray);
-	
+
+	useEffect(() => {
+		console.log("results graph mounted");
+		// console.log(rawWPMArray);
+		// console.log(averageWPMArray);
+			
 		const combinedArray = rawWPMArray.map((rawWPM, index) => {
-			console.log(index + ": " + rawWPM.wpm + ", " + averageWPMArray[index].wpm);
+			//console.log(index + ": " + rawWPM.wpm + ", " + averageWPMArray[index].wpm);
 			return {interval: rawWPM.interval, rawWPM: rawWPM.wpm, averageWPM: averageWPMArray[index].wpm};
 		});
-		console.log("combined:" + combinedArray);
-		return combinedArray;
-	};
+		//console.log("combined:" + combinedArray);
+		setGraphData(combinedArray);
+		//console.log("results chart component loaded");
+		
+	}, []);
 	
 	return (
 		<div className="results-chart">
 			<ResponsiveContainer width="90%" height={300}>
-				<LineChart data={graphData()}>
+				<LineChart data={graphData}>
 					<XAxis dataKey="interval" label={{value: "Seconds", dy: 20}}/>
 					<YAxis dataKey="rawWPM" label={{value: "Words per Minute", dx: -20, angle: -90}}/>
 					<CartesianGrid stroke="#eee" />

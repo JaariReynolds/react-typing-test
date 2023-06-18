@@ -44,6 +44,18 @@ function App() {
 	const [WPMOpacity, setWPMOpacity] = useState<number>(0);
 	const [WPMDisplay, setWPMDisplay] = useState<string>("block");
 	
+	// useEffect(() => {
+
+	// 	const handleTab = () => {
+			
+	// 		console.log(window.onkeydown);
+	// 	};
+	// 	window.addEventListener("keydown", handleTab);
+
+	// 	return () => {
+	// 		window.removeEventListener("keydown", handleTab);
+	// 	};
+	// }, []);
 
 	// hide distracting components when test is running
 	useEffect(() => {
@@ -149,7 +161,7 @@ function App() {
 						<WordsPerMinute WPMOpacity={opacityStyle} currentWPM={currentWPM}/>
 					</div>
 
-					<ResetButton opacityStyle={opacityStyle} reset={reset} setReset={setReset}/>
+					<ResetButton opacityStyle={opacityStyle} reset={reset} setReset={setReset} resultsComponentOpacity={resultsComponentOpacity}/>
 					
 				</div>
 			</div>

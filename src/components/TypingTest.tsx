@@ -4,9 +4,8 @@
 /* eslint-disable linebreak-style */
 import React, { useEffect, useState, useRef } from "react"; 
 import { testWordsGenerator } from "../functions/wordGeneration/testWordsGenerators";
-import { CompletionStatus, Letter, TestWords, NumberPair } from "../interfaces/WordStructure";
+import { CompletionStatus, TestWords, NumberPair } from "../interfaces/WordStructure";
 import { TestType } from "../App";
-import { LetterActiveStatus } from "../interfaces/WordStructure";
 import { calculateCorrectCharacters } from "../functions/calculations/calculateCorrectCharacters";
 import { calculateTotalErrorsHard, calculateTotalErrorsSoft, calculateWordErrorsHard } from "../functions/calculations/calculateErrors";
 import { removeAdditionalLetter, removeExistingLetter} from "../functions/letterHandling/removeLetter";
@@ -398,7 +397,7 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 	const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
 		// if tab, disable
 		if (e.key === "Tab") {
-			e.preventDefault();
+			
 			if (!pressedKeys.includes("Tab"))
 				setPressedKeys([...pressedKeys, e.key]);        
 			return;   
