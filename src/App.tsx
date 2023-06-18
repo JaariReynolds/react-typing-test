@@ -154,9 +154,8 @@ function App() {
 							testComplete={testComplete} setTestComplete={setTestComplete} testFocused={testFocused} setTestFocused={setTestFocused} pressedKeys={pressedKeys} setPressedKeys={setPressedKeys} averageWPM={averageWPM} setAverageWPM={setAverageWPM} setWPMOpacity={setWPMOpacity}/>
 						
 						
-						<div style={resultsComponentStyling} className="test-results-div">
-							<TypingTestResults testWords={testWords} setTestWords={setTestWords} showResults={showResultsComponent}/>
-						</div> 
+						<TypingTestResults testWords={testWords} setTestWords={setTestWords} showResults={showResultsComponent} styling={resultsComponentStyling}/>
+						
 						<div style={opacityStyle} className="WPM-div">
 							{currentWPM}
 						</div>

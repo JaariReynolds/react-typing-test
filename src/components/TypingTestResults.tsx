@@ -4,13 +4,14 @@ import React, { useEffect, useState } from "react";
 import { TestWords } from "../interfaces/WordStructure";
 import MyChartComponent from "./TypingTestResultsWPMGraph";
 
-interface IProps {
+interface Props {
     testWords: TestWords, 
     setTestWords: React.Dispatch<React.SetStateAction<TestWords>>,
 	showResults: boolean,
+	styling: React.CSSProperties
 }
 
-const TypingTestResults = ({testWords, setTestWords, showResults}: IProps ) => {
+const TypingTestResults = ({testWords, setTestWords, showResults, styling}: Props ) => {
 	
 	// once results screen shown, calculate extra info to show 
 	useEffect(() => {
@@ -35,7 +36,7 @@ const TypingTestResults = ({testWords, setTestWords, showResults}: IProps ) => {
 
 	return (
 		<>	
-			<div>
+			<div style={styling} className="test-results-div">
 				<MyChartComponent rawWPMArray={testWords.rawWPMArray} averageWPMArray={testWords.currentAverageWPMArray} /> 
 				<div>Test Time: {testWords.timeElapsedMilliSeconds / 1000}</div>
 				<div>Average WPM: {testWords.averageWPM}</div>
