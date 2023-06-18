@@ -12,6 +12,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRefresh } from "@fortawesome/free-solid-svg-icons";
 import ResetButton from "./components/ResetButton";
 import TestOptions from "./components/TestOptions";
+import CompletionBar from "./components/CompletionBar";
 
 
 export enum TestType {
@@ -140,8 +141,8 @@ function App() {
 					<TestOptions 
 						opacityStyle={opacityStyle} testType={testType} setTestType={setTestType} includeNumbers={includeNumbers} setIncludeNumbers={setIncludeNumbers} includePunctuation={includePunctuation} setIncludePunctuation={setIncludePunctuation} testLengthWords={testLengthWords} setTestLengthWords={setTestLengthWords} testLengthSeconds={testLengthSeconds} setTestLengthSeconds={setTestLengthSeconds}
 					/>
-									
-					<div style={completionBarOpacity} className="test-completion-bar"></div>
+
+					<CompletionBar completionBarOpacity={completionBarOpacity}/>		
 
 					<div className="results-overlap-container">
 						
