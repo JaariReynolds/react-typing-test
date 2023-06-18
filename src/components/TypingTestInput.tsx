@@ -25,6 +25,7 @@ export const TypingTestInput = ({inputRef, currentInputWord, handleChange, handl
 				className="text-field"
 				disabled={testComplete}
 				onFocus={() => setTestFocused(true)}
+				onBlur={() => setTestFocused(false)}
 				tabIndex={-1}
 			/>
 		</div>

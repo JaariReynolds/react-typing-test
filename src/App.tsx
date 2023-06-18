@@ -1,4 +1,4 @@
-import React, { CSSProperties, useEffect, useState } from "react";
+import React, { CSSProperties, useEffect, useState, useRef } from "react";
 import "./App.scss";
 import TypingTest from "./components/TypingTest";
 import TypingTestResults from "./components/TypingTestResults";
@@ -43,19 +43,32 @@ function App() {
 
 	const [WPMOpacity, setWPMOpacity] = useState<number>(0);
 	const [WPMDisplay, setWPMDisplay] = useState<string>("block");
+
+	const inputRef = useRef<HTMLInputElement>(null);
+	const resetButtonRef = useRef<HTMLButtonElement>(null);
+
 	
-	// useEffect(() => {
+	const handleSiteKeyDown = (event: any) => {
+		// prevent default tab functionality when test is not focused, set focus instead to the 'reset' button
+		if (inputRef.current != document.activeElement) {
+			if (event.type == "keydown" && event.key == "Tab") {
+				console.log("prevented tab");
+				const tabKey = event as React.KeyboardEvent<HTMLInputElement>;
+				tabKey.preventDefault();
+				resetButtonRef.current!.focus();
+			}
+		}
+	};
 
-	// 	const handleTab = () => {
+	useEffect(() => {
 			
-	// 		console.log(window.onkeydown);
-	// 	};
-	// 	window.addEventListener("keydown", handleTab);
+		
+		window.addEventListener("keydown", handleSiteKeyDown);
 
-	// 	return () => {
-	// 		window.removeEventListener("keydown", handleTab);
-	// 	};
-	// }, []);
+		return () => {
+			window.removeEventListener("keydown", handleSiteKeyDown);
+		};
+	}, []);
 
 	// hide distracting components when test is running
 	useEffect(() => {
@@ -142,6 +155,7 @@ function App() {
 					<div>showResults={showResultsComponent.toString()}</div>
 					<div>completionPercentage={testCompletionPercentage}</div>
 					<div>reset={reset.toString()}</div> */}
+					<div>testFocused:{testFocused.toString()}</div>
 					<div>resetDivMargin: {resetDivMargin}</div>
 
 					<TestOptions 
@@ -152,7 +166,7 @@ function App() {
 
 					<div className="results-overlap-container">
 						
-						<TypingTest testWords={testWords} setTestWords={setTestWords} testLengthWords={testLengthWords} testLengthSeconds={testLengthSeconds} testType={testType} numbers={includeNumbers} punctuation={includePunctuation} reset={reset} showResultsComponent={showResultsComponent} setShowResultsComponent={setShowResultsComponent} testRunning={testRunning} setTestRunning={setTestRunning} testTimeMilliSeconds={testTimeMilliSeconds} setTestTimeMilliSeconds={setTestTimeMilliSeconds} setTestCompletionPercentage={setTestCompletionPercentage}
+						<TypingTest testWords={testWords} setTestWords={setTestWords} testLengthWords={testLengthWords} testLengthSeconds={testLengthSeconds} testType={testType} numbers={includeNumbers} punctuation={includePunctuation} reset={reset} inputRef={inputRef} showResultsComponent={showResultsComponent} setShowResultsComponent={setShowResultsComponent} testRunning={testRunning} setTestRunning={setTestRunning} testTimeMilliSeconds={testTimeMilliSeconds} setTestTimeMilliSeconds={setTestTimeMilliSeconds} setTestCompletionPercentage={setTestCompletionPercentage}
 							testComplete={testComplete} setTestComplete={setTestComplete} testFocused={testFocused} setTestFocused={setTestFocused} pressedKeys={pressedKeys} setPressedKeys={setPressedKeys} averageWPM={averageWPM} setAverageWPM={setAverageWPM} setWPMOpacity={setWPMOpacity}/>
 						
 						
@@ -161,7 +175,7 @@ function App() {
 						<WordsPerMinute WPMOpacity={opacityStyle} currentWPM={currentWPM}/>
 					</div>
 
-					<ResetButton opacityStyle={opacityStyle} reset={reset} setReset={setReset} resultsComponentOpacity={resultsComponentOpacity}/>
+					<ResetButton buttonRef={resetButtonRef} opacityStyle={opacityStyle} reset={reset} setReset={setReset} resultsComponentOpacity={resultsComponentOpacity}/>
 					
 				</div>
 			</div>

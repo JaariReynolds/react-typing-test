@@ -190,9 +190,9 @@ input[type="text"]::-moz-placeholder {
 
       }
 
-      // input:focus {
-      //   outline: none;
-      // }
+      input:focus {
+        outline: none;
+      }
     }
 
     .words-container {
@@ -260,7 +260,7 @@ input[type="text"]::-moz-placeholder {
 
 
 .reset-container {
-  transition: margin 0.3s ease-in-out;
+  //transition: margin 0.3s ease-in-out;
   display: flex;
   justify-content: center;
   width: 100%;
@@ -269,14 +269,18 @@ input[type="text"]::-moz-placeholder {
 
   .reset-button {
     @include transition-opacity(var(--component-opacity));
-    transition: background-color 0.15s ease-in-out;
+    transition: background-color 0.25s ease-in-out;
     width: 25%;
     border-radius: 0.5rem;
 
     &:focus {
-      outline: dotted;
-    }
+      background-color: $base-font-colour;
+      outline: none;
 
+      .reset-icon {
+        color: $background-colour;
+      }
+    }
 
     &:hover {
       background-color: $base-font-colour;
@@ -284,7 +288,6 @@ input[type="text"]::-moz-placeholder {
       .reset-icon {
         color: $background-colour;
       }
-
     }
 
     .reset-icon {
@@ -296,14 +299,7 @@ input[type="text"]::-moz-placeholder {
         animation: fa-spin-custom 3s infinite;
       }
     }
-
-
   }
-
-  // &:focus {
-  //   outline: none;
-  // }
-
 
 }
 

@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable react/jsx-key */
 /* eslint-disable linebreak-style */
-import React, { useEffect, useState, useRef } from "react"; 
+import React, { useEffect, useState, useRef, RefObject } from "react"; 
 import { testWordsGenerator } from "../functions/wordGeneration/testWordsGenerators";
 import { CompletionStatus, TestWords, NumberPair } from "../interfaces/WordStructure";
 import { TestType } from "../App";
@@ -32,6 +32,7 @@ interface IProps {
     numbers: boolean,
     punctuation: boolean,
     reset: boolean,
+	inputRef: RefObject<HTMLInputElement>,
 	showResultsComponent: boolean,
 	setShowResultsComponent: React.Dispatch<React.SetStateAction<boolean>>,
 	testRunning: boolean,
@@ -51,12 +52,12 @@ interface IProps {
 }
 
 
-const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds, testType, numbers, punctuation, reset, showResultsComponent, setShowResultsComponent, testRunning, setTestRunning, testTimeMilliSeconds, setTestTimeMilliSeconds, setTestCompletionPercentage, testComplete, setTestComplete, testFocused, setTestFocused, pressedKeys, setPressedKeys, averageWPM, setAverageWPM, setWPMOpacity}: IProps) => {
+const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds, testType, numbers, punctuation, reset, inputRef, showResultsComponent, setShowResultsComponent, testRunning, setTestRunning, testTimeMilliSeconds, setTestTimeMilliSeconds, setTestCompletionPercentage, testComplete, setTestComplete, testFocused, setTestFocused, pressedKeys, setPressedKeys, averageWPM, setAverageWPM, setWPMOpacity}: IProps) => {
 	const [currentInputWord, setCurrentInputWord] = useState<string>("");
 	const [inputWordsArray, setInputWordsArray] = useState<string[]>([]);
 	const [intervalId, setIntervalId] = useState<NodeJS.Timer|null>(null);	
 	const [quickReset, setQuickReset] = useState<boolean>(false);
-	const inputRef = useRef<HTMLInputElement>(null);
+	
 	const [lastWord, setLastWord] = useState<boolean>(false);
 	const [opacity, setOpacity] = useState<number>(1);
 	const totalCorrectCharactersRef = useRef(0);
@@ -397,7 +398,6 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 	const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
 		// if tab, disable
 		if (e.key === "Tab") {
-			
 			if (!pressedKeys.includes("Tab"))
 				setPressedKeys([...pressedKeys, e.key]);        
 			return;   
