@@ -1,18 +1,12 @@
 import React, { CSSProperties, useEffect, useState } from "react";
 import "./App.scss";
 import TypingTest from "./components/TypingTest";
-import TestTypeSelector from "./components/TestTypeSelector";
-import TestLengthWordsSelector from "./components/TestLengthWordsSelector";
-import TestLengthSecondsSelector from "./components/TestLengthSecondsSelector";
-import PunctuationSelector from "./components/PunctuationSelector";
-import NumberSelector from "./components/NumberSelector";
 import TypingTestResults from "./components/TypingTestResults";
 import { TestWords } from "./interfaces/WordStructure";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRefresh } from "@fortawesome/free-solid-svg-icons";
 import ResetButton from "./components/ResetButton";
 import TestOptions from "./components/TestOptions";
 import CompletionBar from "./components/CompletionBar";
+import WordsPerMinute from "./components/WordsPerMinute";
 
 
 export enum TestType {
@@ -152,9 +146,7 @@ function App() {
 						
 						<TypingTestResults testWords={testWords} setTestWords={setTestWords} showResults={showResultsComponent} styling={resultsComponentStyling}/>
 						
-						<div style={opacityStyle} className="WPM-div">
-							{currentWPM}
-						</div>
+						<WordsPerMinute WPMOpacity={opacityStyle} currentWPM={currentWPM}/>
 					</div>
 
 					<ResetButton opacityStyle={opacityStyle} reset={reset} setReset={setReset}/>
