@@ -10,7 +10,6 @@ interface Props {
 
 const ResetButton = ({opacityStyle, reset, setReset}: Props) => {
 	return (
-			
 		<div style={opacityStyle} className="reset-container">
 			<button type="reset" title="Reset" className="reset-button"
 				onClick={() => setReset(!reset)}>
