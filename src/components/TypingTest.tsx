@@ -150,12 +150,9 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 			const currentOriginalWordLength = testWords.words[inputWordsArray.length].originalLength;
 			const currentWordLength = (currentInputWord.length > currentOriginalWordLength) ? currentOriginalWordLength : currentInputWord.length;
 
-			// need to not include extra (wrong) letters towards the test completion percentage
+			// for stored words, return the original length regardless if the user-pressed character count is different
 			const totalInputLetters = inputWordsArray.reduce((total, word, wordIndex) => {
-				// if the stored word length > length of the actual word, return the actual length
-				if (inputWordsArray[wordIndex].length > testWords.words[wordIndex].originalLength)
-					return total + testWords.words[wordIndex].originalLength;
-				return total + word.length; 
+				return total + testWords.words[wordIndex].originalLength; 
 			}, currentWordLength + inputWordsArray.length); // inputwordsarray.length = spacebar presses (included in keypresscount)
 			
 			setTestCompletionPercentage(totalInputLetters / testWords.characterCount * 100);
@@ -237,6 +234,10 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 
 	// only show results component (after a short delay) when the test is completed
 	useEffect(() => {
+		if (testType == TestType.Words && testComplete) {
+			setTestCompletionPercentage(100);
+		}
+
 		if (testComplete === true) {
 			stopTestStopWatch();
 			finaliseTest();

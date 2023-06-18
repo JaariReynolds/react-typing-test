@@ -265,25 +265,33 @@ input[type="text"]::-moz-placeholder {
   width: 100%;
   height: 7rem;
   margin-top: var(--reset-div-margin);
+  color: green;
+
+
 
 
   .reset-button {
     @include transition-opacity(var(--component-opacity));
     width: 25%;
 
-    &:focus {
-      outline: none;
+    &:hover {
+      background-color: $base-font-colour;
+      color: green;
+
     }
+
+
   }
 
-  .reset-button:hover .fa-spin-custom {
-    color: $hover-font-colour;
-    animation: fa-spin-custom 10s infinite linear;
-  }
+  // &:focus {
+  //   outline: none;
+  // }
 
-  .fa-spin-custom .results-screen {
-    animation: fa-spin-custom 10s infinite linear;
-  }
+
+}
+
+.fa-spin-custom .results-screen {
+  animation: fa-spin-custom 10s infinite linear;
 }
 
 .fa-spin-custom {

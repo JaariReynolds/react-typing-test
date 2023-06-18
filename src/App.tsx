@@ -10,6 +10,7 @@ import TypingTestResults from "./components/TypingTestResults";
 import { TestWords } from "./interfaces/WordStructure";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRefresh } from "@fortawesome/free-solid-svg-icons";
+import ResetButton from "./components/ResetButton";
 
 
 export enum TestType {
@@ -161,13 +162,8 @@ function App() {
 						</div>
 					</div>
 
-						
-					<div style={opacityStyle} className="reset-container">
-						<button type="reset" title="Reset" className="reset-button"
-							onClick={() => setReset(!reset)}>
-							<FontAwesomeIcon icon={faRefresh} className="fa-spin-custom results-screen"/>
-						</button>
-					</div>
+					<ResetButton opacityStyle={opacityStyle} reset={reset} setReset={setReset}/>
+					
 				</div>
 			</div>
 		</div>

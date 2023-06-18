@@ -136,7 +136,7 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 	};
 
 	const blinkingCaret = (letter: Letter) => {
-		if (letter.active === LetterActiveStatus.Active || letter.active === LetterActiveStatus.ActiveLast) {
+		if (letter.active != LetterActiveStatus.Inactive) {
 			if (!testRunning || (testRunning && !testFocused)) {
 				return "awaiting-input";
 			}
