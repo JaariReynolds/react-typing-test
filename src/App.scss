@@ -29,7 +29,7 @@ $hover-font-colour: rgb(255 255 255);
   --test-words-max-height: 144px;
   --test-words-div-offset: 0px;
   --test-words-top-transition: none;
-  --reset-div-margin: 0px;
+  --reset-div-margin: 0rem;
 
 }
 
@@ -58,21 +58,19 @@ $hover-font-colour: rgb(255 255 255);
   justify-content: center;
   background-color: $background-colour;
   color: $base-font-colour;
-  min-height: 100vh;
+  height: 100vh;
 }
 
 .main-container {
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 90%;
+  position: relative;
 
   .inner-container {
     width: 70%;
     position: relative;
-
-    .top-gap {
-      height: 10rem;
-    }
 
     .test-options {
       grid-column: 1 / -1;
@@ -123,6 +121,26 @@ $hover-font-colour: rgb(255 255 255);
         }
       }
     }
+
+  }
+
+  .key-tips {
+    @include transition-opacity(var(--component-opacity));
+    opacity: var(--component-opacity);
+    font-size: 1.25rem;
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+    letter-spacing: 0.1rem;
+
+    .key-highlight {
+      background-color: $base-font-colour;
+      color: $background-colour;
+      border-radius: 0.3rem;
+      padding: 0.2rem 0.5rem;
+      font-weight: 600;
+
+    }
   }
 
   input[type="radio"]:checked+label {
@@ -144,7 +162,6 @@ input[type="text"]::-moz-placeholder {
   display: grid;
   grid-template-areas: 1 / 1;
   height: 20rem;
-  //margin-top: 3rem;
 
   .WPM-div {
     //@include transition-opacity(var(--WPM-opacity));
@@ -260,16 +277,17 @@ input[type="text"]::-moz-placeholder {
 
 
 .reset-container {
-  //transition: margin 0.3s ease-in-out;
+  transition: margin 0.3s ease-in-out;
   display: flex;
   justify-content: center;
   width: 100%;
   height: 7rem;
   margin-top: var(--reset-div-margin);
+  @include transition-opacity(var(--component-opacity));
+
 
   .reset-button {
-    @include transition-opacity(var(--component-opacity));
-    transition: background-color 0.25s ease-in-out;
+    transition: background-color 0.1s ease-in-out;
     width: 25%;
     border-radius: 0.5rem;
 
@@ -336,6 +354,8 @@ input[type="text"]::-moz-placeholder {
     align-items: center;
   }
 }
+
+
 
 
 

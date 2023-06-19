@@ -7,6 +7,7 @@ import ResetButton from "./components/ResetButton";
 import TestOptions from "./components/TestOptions";
 import CompletionBar from "./components/CompletionBar";
 import WordsPerMinute from "./components/WordsPerMinute";
+import KeyTips from "./components/KeyTips";
 
 
 export enum TestType {
@@ -25,7 +26,7 @@ function App() {
 	const [includeNumbers, setIncludeNumbers] = useState<boolean>(false);
 
 	const [reset, setReset] = useState<boolean>(false);
-	const [resetDivMargin, setResetDivMargin] = useState<string>("0px");
+	const [resetDivMargin, setResetDivMargin] = useState<string>("0rem");
 
 	const [showResultsComponent, setShowResultsComponent] = useState<boolean>(false);
 	const [resultsComponentOpacity, setResultsComponentOpacity] = useState<number>(0);
@@ -94,7 +95,7 @@ function App() {
 	useEffect(() => {
 		if (testComplete) { // show results, hide wpm, set opacity after delay
 			setResultsComponentDisplay("block");
-			setResetDivMargin("144px");
+			setResetDivMargin("11rem");
 			setShowResultsComponent(true);
 			setWPMOpacity(0);
 			setTimeout(() => {
@@ -104,7 +105,7 @@ function App() {
 
 		if (!testComplete) { // hide results, set display after delay
 			setShowResultsComponent(false);
-			setResetDivMargin("0px");
+			setResetDivMargin("0rem");
 
 			setResultsComponentOpacity(0);
 			setTimeout(() => {
@@ -154,8 +155,8 @@ function App() {
 					<div>showResults={showResultsComponent.toString()}</div>
 					<div>completionPercentage={testCompletionPercentage}</div>
 					<div>reset={reset.toString()}</div> */}
-					<div>testFocused:{testFocused.toString()}</div>
-					<div>resetDivMargin: {resetDivMargin}</div>
+					{/* <div>testFocused:{testFocused.toString()}</div>
+					<div>resetDivMargin: {resetDivMargin}</div> */}
 
 					<TestOptions 
 						opacityStyle={opacityStyle} testType={testType} setTestType={setTestType} includeNumbers={includeNumbers} setIncludeNumbers={setIncludeNumbers} includePunctuation={includePunctuation} setIncludePunctuation={setIncludePunctuation} testLengthWords={testLengthWords} setTestLengthWords={setTestLengthWords} testLengthSeconds={testLengthSeconds} setTestLengthSeconds={setTestLengthSeconds}
@@ -175,8 +176,9 @@ function App() {
 					</div>
 
 					<ResetButton buttonRef={resetButtonRef} opacityStyle={opacityStyle} reset={reset} setReset={setReset} resultsComponentOpacity={resultsComponentOpacity}/>
-					
+
 				</div>
+				<KeyTips opacityStyle={opacityStyle}/>
 			</div>
 		</div>
    
