@@ -30,7 +30,7 @@ $hover-font-colour: rgb(255 255 255);
   --test-words-div-offset: 0px;
   --test-words-top-transition: none;
   --reset-div-margin: 0rem;
-
+  --reset-button-text-opacity: 0;
 }
 
 @mixin transition-opacity($opacity) {
@@ -185,7 +185,6 @@ input[type="text"]::-moz-placeholder {
     overflow: hidden;
     position: absolute;
     display: var(--test-words-display);
-    ///border: 2px solid green;
 
     .text-field-container {
       position: absolute;
@@ -196,7 +195,6 @@ input[type="text"]::-moz-placeholder {
       -webkit-user-select: none;
       user-select: none;
       margin-bottom: 5rem;
-      //border: 2px solid green;
       z-index: 10;
 
       .text-field {
@@ -204,7 +202,6 @@ input[type="text"]::-moz-placeholder {
         background-color: transparent;
         color: transparent;
         border: none;
-
       }
 
       input:focus {
@@ -280,14 +277,21 @@ input[type="text"]::-moz-placeholder {
   transition: margin 0.3s ease-in-out;
   display: flex;
   justify-content: center;
-  width: 100%;
-  height: 7rem;
+  height: 5.5rem;
   margin-top: var(--reset-div-margin);
   @include transition-opacity(var(--component-opacity));
 
+  .reset-button-text {
+    transition: opacity 0.15s ease-in-out;
+    padding: 0 1rem;
+    opacity: var(--reset-button-text-opacity);
+    position: absolute;
+    bottom: -1.75rem;
+    font-weight: 500;
+  }
 
   .reset-button {
-    transition: background-color 0.1s ease-in-out;
+    transition: background-color 0.15s ease-in-out;
     width: 25%;
     border-radius: 0.5rem;
 
