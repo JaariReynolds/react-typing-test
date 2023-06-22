@@ -117,10 +117,10 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 		setTimeout(() => {
 			switch (testType) {
 			case TestType.Words:
-				setTestWords(testWordsGenerator(testLengthWords, numbers, punctuation));
+				setTestWords(testWordsGenerator(testLengthWords, numbers, punctuation, TestType.Words));
 				break;
 			case TestType.Time:
-				setTestWords(testWordsGenerator(TIMED_TEST_LENGTH, numbers, punctuation));
+				setTestWords(testWordsGenerator(TIMED_TEST_LENGTH, numbers, punctuation, TestType.Time));
 				break;
 			}
 
@@ -221,7 +221,7 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 		else if (testRunning && testType === TestType.Time) {
 			// add words to the end of the word array if almost reaching the current limit (FOR TIME-LENGTH TEST)
 			if (inputWordsArray.length === testWords.words.length - WORDS_TO_ADD) {
-				const extraTestWords = testWordsGenerator(WORDS_TO_ADD, numbers, punctuation);
+				const extraTestWords = testWordsGenerator(WORDS_TO_ADD, numbers, punctuation, TestType.Time);
 				setTestWords(prevTestWords => ({ 
 					...prevTestWords,
 					words: [...prevTestWords.words, ...extraTestWords.words],
@@ -235,7 +235,7 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 	// only show results component (after a short delay) when the test is completed
 	useEffect(() => {
 		if (testType == TestType.Words && testComplete) {
-			setTestCompletionPercentage(100);
+			setTestCompletionPercentage(100); // force to 100 incase of rounding errors 
 		}
 
 		if (testComplete === true) {

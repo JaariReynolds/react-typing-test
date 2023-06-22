@@ -1,4 +1,7 @@
 /* eslint-disable linebreak-style */
+
+import { TestType } from "../App";
+
 // each letter/word can have an associated completion status
 export enum CompletionStatus {
     None = 0, 
@@ -65,6 +68,7 @@ export interface TestWords {
 	currentAverageWPMArray: NumberPair[]
 	averageWPM: number // wpmArray averaged
 	accuracy: number // (characterCount - errorCountHard) / characterCount
+	testType: TestType
 } 
 
 

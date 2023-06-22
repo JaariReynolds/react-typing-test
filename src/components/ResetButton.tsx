@@ -1,6 +1,6 @@
-import React, {RefObject, useEffect, useState} from "react";
+import React, {RefObject, useState} from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRefresh, faRotateRight } from "@fortawesome/free-solid-svg-icons";
+import { faRotateRight } from "@fortawesome/free-solid-svg-icons";
 
 interface Props {
 	buttonRef: RefObject<HTMLButtonElement>,

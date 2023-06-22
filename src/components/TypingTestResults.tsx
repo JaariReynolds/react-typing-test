@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-key */
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { TestWords } from "../interfaces/WordStructure";
 import MyChartComponent from "./TypingTestResultsWPMGraph";
 
@@ -36,16 +36,62 @@ const TypingTestResults = ({testWords, setTestWords, showResults, styling}: Prop
 
 	return (
 		<>	
+			{showResults &&
 			<div style={styling} className="test-results-div">
-				{showResults && <MyChartComponent rawWPMArray={testWords.rawWPMArray} averageWPMArray={testWords.currentAverageWPMArray}/> }
-				<div>Test Time: {testWords.timeElapsedMilliSeconds / 1000}</div>
-				<div>Average WPM: {testWords.averageWPM}</div>
-				<div>Error Count Hard: {testWords.errorCountHard}</div>
-				<div>Error Count Soft: {testWords.errorCountSoft}</div>
-				<div>Total Character Count: {testWords.characterCount}</div>
-				<div>Key Press Count: {testWords.keyPressCount}</div>
-				<div>Accuracy: {testWords.accuracy}</div>
+				 <MyChartComponent rawWPMArray={testWords.rawWPMArray} averageWPMArray={testWords.currentAverageWPMArray}/> 
+				<div className="test-results-statistics">
+
+					<div className="regular-grid-item">
+						<span className="score">
+							{testWords.timeElapsedMilliSeconds / 1000}s
+						</span>
+						<br/>
+						<span className="label">
+							elapsed 
+						</span>
+					</div>
+
+					<div className="regular-grid-item">
+						<span className="score">
+							{(testWords.accuracy * 100).toFixed(2)}%
+						</span>
+						<br/>
+						<span className="label">
+							accuracy
+						</span>
+					</div>
+
+					<div className="regular-grid-item wpm">
+						{testWords.averageWPM}
+						<br/>
+						<span className="wpm-title">
+							wpm
+						</span>
+					</div>
+
+					<div className="regular-grid-item">
+						<span className="score">
+							{testWords.testType.toString()}
+						</span>
+						<br/>
+						<span className="label">
+							test type
+						</span>
+					</div>
+					
+					<div className="regular-grid-item">
+						<span className="score">
+							{testWords.errorCountHard}/{testWords.errorCountSoft}
+						</span>
+						<br/>
+						<span className="label">
+							hard/soft errors
+						</span>
+						
+					</div>
+				</div>
 			</div>
+			}
 		</>
 		
 	);

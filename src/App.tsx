@@ -18,7 +18,7 @@ export const TRANSITION_DELAY = 200;
 
 function App() {
 
-	const [testWords, setTestWords] = useState<TestWords>({words: [], errorCountHard: 0, errorCountSoft: 0, timeElapsedMilliSeconds: 0, characterCount: 0, keyPressCount: 0, rawWPMArray: [], currentAverageWPMArray: [], averageWPM: 0, accuracy: 0});
+	const [testWords, setTestWords] = useState<TestWords>({words: [], errorCountHard: 0, errorCountSoft: 0, timeElapsedMilliSeconds: 0, characterCount: 0, keyPressCount: 0, rawWPMArray: [], currentAverageWPMArray: [], averageWPM: 0, accuracy: 0, testType: TestType.Words});
 	const [testLengthWords, setTestLengthWords] = useState<number>(25);
 	const [testLengthSeconds, setTestLengthSeconds] = useState<number>(15);
 	const [testType, setTestType] = useState<TestType>(TestType.Words);
@@ -149,15 +149,6 @@ function App() {
 			<div className="main-container" onMouseMove={handleMouseMove}>
 				<div className="inner-container">
 					<div className="top-gap"></div>
-					{/* <div>testcomplete={testComplete.toString()}</div>
-					<div>testtime={testTimeMilliSeconds}</div>
-					<div>testLength={testLengthSeconds}</div>
-					<div>showResults={showResultsComponent.toString()}</div>
-					<div>completionPercentage={testCompletionPercentage}</div>
-					<div>reset={reset.toString()}</div> */}
-					{/* <div>testFocused:{testFocused.toString()}</div>
-					<div>resetDivMargin: {resetDivMargin}</div> */}
-
 					<TestOptions 
 						opacityStyle={opacityStyle} testType={testType} setTestType={setTestType} includeNumbers={includeNumbers} setIncludeNumbers={setIncludeNumbers} includePunctuation={includePunctuation} setIncludePunctuation={setIncludePunctuation} testLengthWords={testLengthWords} setTestLengthWords={setTestLengthWords} testLengthSeconds={testLengthSeconds} setTestLengthSeconds={setTestLengthSeconds}
 					/>
