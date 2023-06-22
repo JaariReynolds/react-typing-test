@@ -1,6 +1,9 @@
 /* eslint-disable react/jsx-key */
 import React from "react";
 import { TestType } from "../App";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClock } from "@fortawesome/free-regular-svg-icons";
+import { faFont, faHourglassStart, faW } from "@fortawesome/free-solid-svg-icons";
 
 interface IProps {
     testType: TestType,
@@ -26,11 +29,13 @@ const TestTypeSelector = ({testType, setTestType, opacityStyle}: IProps) => {
 					className="hidden-radio-button"
 				/>
 				<label htmlFor="words" className="selectable-label">
+					<FontAwesomeIcon icon={faFont} className="test-options-icon"/>
                     Words
 				</label>
 			</span>
 
 			<span className="option-text">
+				
 				<input
 					type="radio"
 					id="time"
@@ -41,6 +46,7 @@ const TestTypeSelector = ({testType, setTestType, opacityStyle}: IProps) => {
 					className="hidden-radio-button"
 				/>
 				<label htmlFor="time" className="selectable-label">
+					<FontAwesomeIcon icon={faClock} className="test-options-icon"/>
                     Time
 				</label>
 			</span>

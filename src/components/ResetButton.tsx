@@ -1,8 +1,6 @@
 import React, {RefObject, useEffect, useState} from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRefresh } from "@fortawesome/free-solid-svg-icons";
-import { hover } from "@testing-library/user-event/dist/hover";
-import { Tooltip } from "recharts";
+import { faRefresh, faRotateRight } from "@fortawesome/free-solid-svg-icons";
 
 interface Props {
 	buttonRef: RefObject<HTMLButtonElement>,
@@ -29,10 +27,8 @@ const ResetButton = ({buttonRef, opacityStyle, reset, setReset, resultsComponent
 				onClick={() => setReset(!reset)}
 				onMouseEnter={() => setToolTipOpacity(1)}
 				onMouseLeave={() => setToolTipOpacity(0)}
-				// onFocus={() => setToolTipOpacity(1)}
-				// onBlur={() => setToolTipOpacity(0)}
 			>
-				<FontAwesomeIcon icon={faRefresh} className={`reset-icon ${spinningStyle}`}/>
+				<FontAwesomeIcon icon={faRotateRight} className={`reset-icon ${spinningStyle}`}/>
 			</button>
 			<div style={hoverTextStyling} className="reset-button-text">
 				reset test

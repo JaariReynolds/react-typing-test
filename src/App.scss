@@ -70,13 +70,19 @@ $hover-font-colour: rgb(255 255 255);
 
   .inner-container {
     width: 70%;
+    height: 80%;
     position: relative;
+    margin-top: 10rem;
 
     .test-options {
       grid-column: 1 / -1;
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       margin-bottom: 3rem;
+
+      .test-options-icon {
+        padding-right: 0.25rem;
+      }
 
       .test-option-selector {
         @include transition-opacity(var(--component-opacity));
@@ -277,6 +283,9 @@ input[type="text"]::-moz-placeholder {
   transition: margin 0.3s ease-in-out;
   display: flex;
   justify-content: center;
+  //bottom: -5rem;
+  position: relative;
+  //position: absolute;
   height: 5.5rem;
   margin-top: var(--reset-div-margin);
   @include transition-opacity(var(--component-opacity));

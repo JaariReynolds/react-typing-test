@@ -1,3 +1,5 @@
+import { faHashtag } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 
 interface IProps {
@@ -19,6 +21,7 @@ const NumberSelector = ({numbers, setNumbers, opacityStyle}: IProps) => {
 						className="hidden peer"
 					/>
 					<label htmlFor="numbers" className="selectable-label">
+						<FontAwesomeIcon icon={faHashtag} className="test-options-icon" />
 						Numbers
 					</label>
 				</span>

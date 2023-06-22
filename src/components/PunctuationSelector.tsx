@@ -1,3 +1,5 @@
+import { faAt } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 
 interface IProps {
@@ -19,6 +21,7 @@ const PunctuationSelector = ({punctuation, setPunctuation, opacityStyle}: IProps
 					className="hidden peer"
 				/>
 				<label htmlFor="punctuation" className="selectable-label">
+					<FontAwesomeIcon icon={faAt} className="test-options-icon"/>
 					Punctuation
 				</label>
 				
