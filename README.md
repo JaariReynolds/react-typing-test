@@ -1,3 +1,6 @@
+
+## https://jaarireynolds.github.io/react-typing-test/ ##
+
 Monkeytype-inspired minimal typing test app created with React and Typescript. Still a work in progress.
 
 - Currently contains:
