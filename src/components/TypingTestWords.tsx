@@ -171,10 +171,10 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 			<div style={testWordsStyling} ref={testWordsDivRef} className="words-container">
 				{wordsArrayCopy.map((word, index) => {
 					return (
-						<div className={`word ${lastWordStyle(word)}`} ref={(ref) => (testWordObjectRef.current[index] = ref as HTMLDivElement)}>
-							{word.word.map(letter => {
+						<div key={index} className={`word ${lastWordStyle(word)}`} ref={(ref) => (testWordObjectRef.current[index] = ref as HTMLDivElement)}>
+							{word.word.map((letter, index) => {
 								return (
-									<span className={`letter ${letterColour(letter.status)} ${blinkingCaret(letter)} ${letterActive(letter.active)}`}>
+									<span key={index} className={`letter ${letterColour(letter.status)} ${blinkingCaret(letter)} ${letterActive(letter.active)}`}>
 										{letter.letter}
 									</span>
 								);}

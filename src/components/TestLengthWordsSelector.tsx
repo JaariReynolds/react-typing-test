@@ -20,9 +20,9 @@ const TestLengthWordsSelector = ({testLengthWords, setTestLengthWords, opacitySt
 
 	return (
 		<div style={opacityStyle} className={`test-option-selector test-type-words ${interactableStyle}`}>
-			{numWords.map(length => {
+			{numWords.map((length, index) => {
 				return (
-					<span className="option-text">
+					<span key={index} className="option-text">
 						<input
 							type="radio"
 							id={length.toString()}

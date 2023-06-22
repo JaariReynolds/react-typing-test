@@ -184,17 +184,20 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 			const currentSecondCorrectCharacters = totalCorrectCharactersRef.current - previousSecondCorrectCharactersRef.current;
 			const currentSecondWPM = currentSecondCorrectCharacters / AVERAGE_WORD_LENGTH * 60;
 			// store new wpm array in variable here so we can also use it in the if else below
-			const newTestWPMArray = [...testWPMArray, {interval: testLengthSeconds - (testTimeMilliSeconds/1000), wpm: currentSecondWPM}];
-			setTestWPMArray(newTestWPMArray);	
-
+			
 			const elapsedTimeSeconds = testTimeMilliSeconds / 1000;
-
+			
 			if (testType === TestType.Time) {
+				const newTestWPMArray = [...testWPMArray, {interval: testLengthSeconds - (testTimeMilliSeconds/1000), wpm: currentSecondWPM}];
+				setTestWPMArray(newTestWPMArray);	
 				const averageWPM = Math.round(newTestWPMArray.reduce((total, current) => total + current.wpm, 0) / (testLengthSeconds - elapsedTimeSeconds));
 				setAverageWPM(averageWPM);
 				setCurrentAverageWPMArray([...currentAverageWPMArray, {interval: testLengthSeconds - elapsedTimeSeconds, wpm: averageWPM}]);
 			}
 			else if (testType === TestType.Words) {
+				const newTestWPMArray = [...testWPMArray, {interval: elapsedTimeSeconds, wpm: currentSecondWPM}];
+				setTestWPMArray(newTestWPMArray);	
+				//console.log("stored for " + elapsedTimeSeconds);
 				const averageWPM = Math.round(newTestWPMArray.reduce((total, current) => total + current.wpm, 0) / elapsedTimeSeconds);
 				setAverageWPM(averageWPM);
 				setCurrentAverageWPMArray([...currentAverageWPMArray, {interval: elapsedTimeSeconds, wpm: averageWPM}]);

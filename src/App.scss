@@ -6,7 +6,7 @@ $letter-colour-transition-duration: 200ms;
 
 $background-colour: rgb(47, 50, 52);
 $base-font-colour: rgb(161 161 170);
-$results-background-colour: rgb(161, 161, 170, .7);
+$results-background-colour: rgb(161, 161, 170, .5);
 $selected-font-colour: rgb(253 224 71);
 $correct-font-colour: rgb(255 255 255);
 $incorrect-font-colour: rgb(220 38 38);
@@ -365,6 +365,7 @@ input[type="text"]::-moz-placeholder {
     display: flex;
     justify-content: center;
     align-items: center;
+    //margin-bottom: 20px;
   }
 }
 
