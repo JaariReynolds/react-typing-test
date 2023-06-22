@@ -1,4 +1,5 @@
 {
+  "homepage": "https://JaariReynolds.github.io/react-typing-test",
   "name": "typing-test",
   "version": "0.1.0",
   "private": true,
@@ -28,7 +29,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -54,6 +57,7 @@
     "@typescript-eslint/parser": "^5.55.0",
     "autoprefixer": "10.0",
     "eslint-plugin-react": "^7.32.2",
+    "gh-pages": "^5.0.0",
     "postcss": "8.2",
     "tailwindcss": "^3.3.1"
   }
