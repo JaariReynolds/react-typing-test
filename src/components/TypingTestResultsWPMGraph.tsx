@@ -28,6 +28,7 @@ const MyChartComponent = ({rawWPMArray, averageWPMArray}: IProps) => {
 		console.log(combinedArray);
 	}, []);
 	
+	
 	return (
 		<div className="results-chart">
 			<ResponsiveContainer width="90%" height={300}>
