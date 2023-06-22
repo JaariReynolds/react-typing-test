@@ -27,7 +27,7 @@ const MyChartComponent = ({rawWPMArray, averageWPMArray}: IProps) => {
 		setGraphData(combinedArray);	
 		console.log(combinedArray);
 	}, []);
-	
+
 	
 	return (
 		<div className="results-chart">
@@ -37,7 +37,7 @@ const MyChartComponent = ({rawWPMArray, averageWPMArray}: IProps) => {
 						tick={{fill: "rgb(47, 50, 52)"}}
 
 						type="number"
-						//tickCount={23}
+						tickCount={23}
 						domain={[1, "dataMax"]}
 						dataKey="interval" 
 						height={40}
