@@ -1,4 +1,4 @@
-Monkey-type inspired typing test app created with React and Typescript. Still a work in progress.
+Monkeytype-inspired minimal typing test app created with React and Typescript. Still a work in progress.
 
 - Currently contains:
   * Word length and timed tests
