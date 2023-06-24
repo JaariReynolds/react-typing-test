@@ -138,7 +138,7 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 			
 			setOpacity(1);
 			console.log("randomise test words, reset states");
-		}, TRANSITION_DELAY + 10);
+		}, TRANSITION_DELAY + 50);
 	
 	}, [testLengthWords, testLengthSeconds, testType, numbers, punctuation, reset]);
 

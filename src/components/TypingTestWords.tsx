@@ -30,6 +30,7 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 	const [testWordsMaxHeight, setTestWordsMaxHeight] = useState<number>(0);
 	const [windowSize, setWindowSize] = useState<NumberPair>({width: window.innerWidth, height: window.innerHeight});
 	const [offsetLines, setOffsetLines] = useState<number>(0);
+	const [wordScrollTransitionProperty, setWordScrollTransitionProperty] = useState<string>("top");
 	const [wordsArrayCopy, setWordsArrayCopy] = useState<Word[]>([]);
 
 	useEffect(() => {
@@ -51,6 +52,11 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 			window.removeEventListener("resize", handleResize);
 		};
 	}, []);
+
+	useEffect(() => {
+		if (testRunning) setWordScrollTransitionProperty("top");
+		else setWordScrollTransitionProperty("bottom");
+	}, [testRunning]);
 
 	// only check to change test height when window height is changed
 	useEffect(() => {
@@ -104,7 +110,6 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 		if (numOffsetLines == 1) numOffsetLines = 0;
 		else if (numOffsetLines > 1) numOffsetLines -=1;
 		setOffsetLines(numOffsetLines);
-		//console.log(offsetLines * testWordsMaxHeight / MAX_LINES + "px");
 	}, [wordsArrayCopy]);
 	
 	useEffect(() => {
@@ -145,12 +150,8 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 		return "";			
 	};
 
-	const lastWordStyle = (word: Word) => {
-		// if (word.isLastWordInLine) return "last-word";
-		// else return "";
-	};
-
 	const testWordsStyling = {
+		"--word-scroll-transition-property": wordScrollTransitionProperty,
 		"--test-words-max-height": testWordsMaxHeight + "px",
 		"--test-words-div-offset": -(offsetLines * testWordsMaxHeight / MAX_LINES) + "px"
 	} as React.CSSProperties;
@@ -171,7 +172,7 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 			<div style={testWordsStyling} ref={testWordsDivRef} className="words-container">
 				{wordsArrayCopy.map((word, index) => {
 					return (
-						<div key={index} className={`word ${lastWordStyle(word)}`} ref={(ref) => (testWordObjectRef.current[index] = ref as HTMLDivElement)}>
+						<div key={index} className="word" ref={(ref) => (testWordObjectRef.current[index] = ref as HTMLDivElement)}>
 							{word.word.map((letter, index) => {
 								return (
 									<span key={index} className={`letter ${letterColour(letter.status)} ${blinkingCaret(letter)} ${letterActive(letter.active)}`}>

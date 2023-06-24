@@ -31,6 +31,7 @@ $hover-font-colour: rgb(255 255 255);
   --test-words-top-transition: none;
   --reset-div-margin: 0rem;
   --reset-button-text-opacity: 0;
+  --word-scroll-transition-property: top;
 }
 
 @mixin transition-opacity($opacity) {
@@ -41,9 +42,9 @@ $hover-font-colour: rgb(255 255 255);
 }
 
 @mixin transition-words {
-  transition-property: opacity, top;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1), ease-in-out;
-  transition-duration: $component-opacity-fade-duration, 0.1s;
+  transition-property: opacity, var(--word-scroll-transition-property);
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1), cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: $component-opacity-fade-duration, 0.2s;
 }
 
 @mixin transition-text-color {
@@ -221,7 +222,7 @@ input[type="text"]::-moz-placeholder {
       flex-wrap: wrap;
       opacity: var(--typing-test-opacity);
       max-height: var(--test-words-max-height);
-      font-size: 2rem;
+      font-size: 2rem; // 'scroll transition' amount is dependent on the text properties in this class
       line-height: 3rem;
       letter-spacing: 0.1em;
       top: var(--test-words-div-offset);
