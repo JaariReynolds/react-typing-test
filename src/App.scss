@@ -354,7 +354,6 @@ input[type="text"]::-moz-placeholder {
   transition-duration: $component-opacity-fade-duration;
   opacity: var(--results-component-opacity);
   margin-top: -0.5rem;
-  //background-color: $results-background-colour;
   border-radius: 0.25rem;
   grid-area: 1 / 1;
   max-width: 100%;

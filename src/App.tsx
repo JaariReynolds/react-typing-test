@@ -48,7 +48,6 @@ function App() {
 	const inputRef = useRef<HTMLInputElement>(null);
 	const resetButtonRef = useRef<HTMLButtonElement>(null);
 
-	
 	const handleSiteKeyDown = (event: any) => {
 		// prevent default tab functionality when test is not focused, set focus instead to the 'reset' button
 		if (inputRef.current != document.activeElement) {
@@ -62,8 +61,6 @@ function App() {
 	};
 
 	useEffect(() => {
-			
-		
 		window.addEventListener("keydown", handleSiteKeyDown);
 
 		return () => {
@@ -104,11 +101,11 @@ function App() {
 		}
 
 		if (!testComplete) { // hide results, set display after delay
-			setShowResultsComponent(false);
 			setResetDivMargin("0rem");
-
+			
 			setResultsComponentOpacity(0);
 			setTimeout(() => {
+				setShowResultsComponent(false);
 				setResultsComponentDisplay("none");
 			}, TRANSITION_DELAY + 100);
 		}
@@ -148,6 +145,9 @@ function App() {
 		<div className="App">
 			<div className="main-container" onMouseMove={handleMouseMove}>
 				<div className="inner-container">
+
+					<div>showResults={showResultsComponent.toString()}</div>
+					<div>testComplete={testComplete.toString()}</div>
 					<div className="top-gap"></div>
 					<TestOptions 
 						opacityStyle={opacityStyle} testType={testType} setTestType={setTestType} includeNumbers={includeNumbers} setIncludeNumbers={setIncludeNumbers} includePunctuation={includePunctuation} setIncludePunctuation={setIncludePunctuation} testLengthWords={testLengthWords} setTestLengthWords={setTestLengthWords} testLengthSeconds={testLengthSeconds} setTestLengthSeconds={setTestLengthSeconds}

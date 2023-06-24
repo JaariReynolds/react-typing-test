@@ -95,7 +95,6 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 		setInputWordsArray([]);
 		setCurrentInputWord("");
 		setPressedKeys([]);	
-		setShowResultsComponent(false);
 		setLastWord(false);
 		setAverageWPM(0);
 		setWPMOpacity(0);
@@ -129,6 +128,8 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 			setTestWPMArray([]);
 			setCurrentAverageWPMArray([]);
 			setPotentialSpanShiftCount(1);
+			setShowResultsComponent(false);
+
 
 			if (inputRef.current) {
 				inputRef.current.focus();
@@ -238,15 +239,10 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 			setTestCompletionPercentage(100); // force to 100 incase of rounding errors 
 		}
 
-		if (testComplete === true) {
+		if (testComplete) {
 			stopTestStopWatch();
-			finaliseTest();
-			setTimeout(() => {
-				setShowResultsComponent(true);
-			}, TRANSITION_DELAY);
-		} else {
-			setShowResultsComponent(false);
-		}
+			finaliseTest();		
+		} 
 	}, [testComplete]);
 
 	// store values into the test object that have been calculated here before sending to Results component
