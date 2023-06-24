@@ -146,8 +146,7 @@ function App() {
 			<div className="main-container" onMouseMove={handleMouseMove}>
 				<div className="inner-container">
 
-					<div>showResults={showResultsComponent.toString()}</div>
-					<div>testComplete={testComplete.toString()}</div>
+					
 					<div className="top-gap"></div>
 					<TestOptions 
 						opacityStyle={opacityStyle} testType={testType} setTestType={setTestType} includeNumbers={includeNumbers} setIncludeNumbers={setIncludeNumbers} includePunctuation={includePunctuation} setIncludePunctuation={setIncludePunctuation} testLengthWords={testLengthWords} setTestLengthWords={setTestLengthWords} testLengthSeconds={testLengthSeconds} setTestLengthSeconds={setTestLengthSeconds}
