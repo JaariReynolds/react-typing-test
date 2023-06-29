@@ -3,6 +3,7 @@ $component-opacity-fade-duration: 300ms;
 $completion-bar-transition-duration: 200ms;
 $text-colour-transition-duration: 300ms;
 $letter-colour-transition-duration: 200ms;
+$base-font-size: 1.3rem;
 
 $background-colour: rgb(47, 50, 52);
 $base-font-colour: rgb(161 161 170);
@@ -73,13 +74,13 @@ $hover-font-colour: rgb(255 255 255);
     width: 70%;
     height: 80%;
     position: relative;
-    margin-top: 10rem;
 
     .test-options {
       grid-column: 1 / -1;
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       margin-bottom: 3rem;
+      font-size: $base-font-size;
 
       .test-options-icon {
         padding-right: 0.25rem;
@@ -134,7 +135,7 @@ $hover-font-colour: rgb(255 255 255);
   .key-tips {
     @include transition-opacity(var(--component-opacity));
     opacity: var(--component-opacity);
-    font-size: 1.25rem;
+    font-size: $base-font-size;
     position: absolute;
     bottom: 0;
     text-align: center;
@@ -168,7 +169,7 @@ input[type="text"]::-moz-placeholder {
 .results-overlap-container {
   display: grid;
   grid-template-areas: 1 / 1;
-  height: 20rem;
+  height: 25rem;
 
   .WPM-div {
     //@include transition-opacity(var(--WPM-opacity));
@@ -284,9 +285,7 @@ input[type="text"]::-moz-placeholder {
   transition: margin 0.3s ease-in-out;
   display: flex;
   justify-content: center;
-  //bottom: -5rem;
   position: relative;
-  //position: absolute;
   height: 5.5rem;
   margin-top: var(--reset-div-margin);
   @include transition-opacity(var(--component-opacity));
@@ -296,8 +295,9 @@ input[type="text"]::-moz-placeholder {
     padding: 0 1rem;
     opacity: var(--reset-button-text-opacity);
     position: absolute;
-    bottom: -1.75rem;
+    bottom: -2rem;
     font-weight: 500;
+    font-size: $base-font-size;
   }
 
   .reset-button {
@@ -360,6 +360,7 @@ input[type="text"]::-moz-placeholder {
   max-width: 100%;
   display: var(--results-component-display);
   padding-top: 1.5rem;
+  font-size: $base-font-size;
 
   .results-chart {
     display: flex;
@@ -371,37 +372,40 @@ input[type="text"]::-moz-placeholder {
     margin-top: 1rem;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, 4.5rem);
+    grid-template-rows: repeat(2, 5rem);
 
-    .regular-grid-item {
+    .grid-item {
       display: grid;
       text-align: center;
+      //padding-bottom: 1rem;
 
       .label {
-        margin-top: -2rem;
+        margin-top: -2.6rem;
         color: $base-font-colour;
+        //padding-bottom: 2rem;
       }
 
       .score {
         color: $selected-font-colour;
-        font-size: 2rem;
+        font-size: 2.3rem;
       }
-    }
 
-    .wpm {
-      display: grid;
-      grid-row: span 2;
-      grid-column: 3;
-      text-align: center;
-      font-size: 5rem;
-      color: $selected-font-colour;
+      &.wpm {
+        display: grid;
+        grid-row: span 2;
+        grid-column: 3;
+        text-align: center;
+        font-size: 5.5rem;
+        color: $selected-font-colour;
 
-      .wpm-title {
-        color: $base-font-colour;
-        grid-area: 2/1;
-        margin-top: -2rem;
-        font-size: 1rem;
+        .wpm-label {
+          color: $base-font-colour;
+          grid-area: 2/1;
+          margin-top: -2.2rem;
+          font-size: $base-font-size;
+        }
       }
+
     }
   }
 }

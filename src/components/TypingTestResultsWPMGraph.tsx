@@ -59,10 +59,10 @@ const MyChartComponent = ({rawWPMArray, averageWPMArray}: Props) => {
 						tick={{fill:"rgb(161 161 170)"}} 
 						dataKey="rawWPM"
 						domain={[0, "dataMax + 10"]}
-						width={40}
+						//width={}
 						label={{
 							value: "Words per Minute", 
-							dx: -20, 
+							dx: -25, 
 							angle: -90,
 							fill:"rgb(161 161 170)"
 							 

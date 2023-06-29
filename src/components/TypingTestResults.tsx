@@ -41,7 +41,7 @@ const TypingTestResults = ({testWords, setTestWords, showResults, styling}: Prop
 				 <MyChartComponent rawWPMArray={testWords.rawWPMArray} averageWPMArray={testWords.currentAverageWPMArray}/> 
 				<div className="test-results-statistics">
 
-					<div className="regular-grid-item">
+					<div className="grid-item">
 						<span className="score">
 							{testWords.timeElapsedMilliSeconds / 1000}s
 						</span>
@@ -51,7 +51,7 @@ const TypingTestResults = ({testWords, setTestWords, showResults, styling}: Prop
 						</span>
 					</div>
 
-					<div className="regular-grid-item">
+					<div className="grid-item">
 						<span className="score">
 							{(testWords.accuracy * 100).toFixed(2)}%
 						</span>
@@ -61,15 +61,15 @@ const TypingTestResults = ({testWords, setTestWords, showResults, styling}: Prop
 						</span>
 					</div>
 
-					<div className="regular-grid-item wpm">
+					<div className="grid-item wpm">
 						{testWords.averageWPM}
 						<br/>
-						<span className="wpm-title">
+						<span className="wpm-label">
 							wpm
 						</span>
 					</div>
 
-					<div className="regular-grid-item">
+					<div className="grid-item">
 						<span className="score">
 							{testWords.testType.toString()}
 						</span>
@@ -79,7 +79,7 @@ const TypingTestResults = ({testWords, setTestWords, showResults, styling}: Prop
 						</span>
 					</div>
 					
-					<div className="regular-grid-item">
+					<div className="grid-item">
 						<span className="score">
 							{testWords.errorCountHard}/{testWords.errorCountSoft}
 						</span>
