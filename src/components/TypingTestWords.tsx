@@ -31,7 +31,6 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 	const [windowSize, setWindowSize] = useState<NumberPair>({width: window.innerWidth, height: window.innerHeight});
 	const [offsetLines, setOffsetLines] = useState<number>(0);
 	const [wordScrollTransitionProperty, setWordScrollTransitionProperty] = useState<string>("top");
-	const [wordsArrayCopy, setWordsArrayCopy] = useState<Word[]>([]);
 
 	useEffect(() => {
 		// grab css sizing properties on mount
@@ -39,7 +38,6 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 
 		PADDING_BOTTOM = parseInt(computedStyle.getPropertyValue("padding-bottom"), 10);
 		setOffsetLines(0);
-		setWordsArrayCopy([]);
 		
 		// add listener to window size
 		const handleResize = () => {
@@ -70,6 +68,8 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 	useEffect(() => {
 		if (testWordObjectRef.current === null) return;
 
+		console.log("recalculating edge words");
+
 		const computedStyle = window.getComputedStyle(testWordsDivRef.current!);
 		const divWidth = parseInt(computedStyle.getPropertyValue("width"), 10);
 		widths.current.slice(0, testWords.words.length);
@@ -99,23 +99,18 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 			else 
 				return {...word, isLastWordInLine: false};
 		});
+		setTestWords({...testWords, words: newTestWords});
 
-		setWordsArrayCopy(newTestWords);
-
-	}, [potentialSpanShiftCount, windowSize.width, testWords]);
+	}, [potentialSpanShiftCount, windowSize.width]);
 
 
 	useEffect(() => {
-		let numOffsetLines = calculateTestWordsDivOffset(wordsArrayCopy);
+		let numOffsetLines = calculateTestWordsDivOffset(testWords.words);
 		if (numOffsetLines == 1) numOffsetLines = 0;
 		else if (numOffsetLines > 1) numOffsetLines -=1;
 		setOffsetLines(numOffsetLines);
-	}, [wordsArrayCopy]);
+	}, [testWords.words]);
 	
-	useEffect(() => {
-		setTestWords({...testWords, words: wordsArrayCopy});
-	}, [testComplete]);
-
 	const letterColour = (completionStatus: CompletionStatus) => {
 		switch (completionStatus) {
 		case CompletionStatus.None:
@@ -156,7 +151,6 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 		"--test-words-div-offset": -(offsetLines * testWordsMaxHeight / MAX_LINES) + "px"
 	} as React.CSSProperties;
 
-
 	return (
 		<>
 			{/* <div>
@@ -170,7 +164,7 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 				})}
 			</div> */}
 			<div style={testWordsStyling} ref={testWordsDivRef} className="words-container">
-				{wordsArrayCopy.map((word, index) => {
+				{testWords.words.map((word, index) => {
 					return (
 						<div key={index} className="word" ref={(ref) => (testWordObjectRef.current[index] = ref as HTMLDivElement)}>
 							{word.word.map((letter, index) => {
