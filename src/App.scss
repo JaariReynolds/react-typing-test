@@ -33,6 +33,7 @@ $hover-font-colour: rgb(255 255 255);
   --reset-div-margin: 0rem;
   --reset-button-text-opacity: 0;
   --word-scroll-transition-property: top;
+  --caret-position: 0px;
 }
 
 @mixin transition-opacity($opacity) {
@@ -228,6 +229,21 @@ input[type="text"]::-moz-placeholder {
       letter-spacing: 0.1em;
       top: var(--test-words-div-offset);
       position: absolute;
+
+      .caret {
+        transition: left 0.1s linear;
+        background-color: $selected-font-colour;
+        border-radius: 0.25rem;
+        width: 0.2rem;
+        position: absolute;
+        top: 0;
+        height: 3rem; // should match line height of words ^
+        left: var(--caret-position);
+
+        &.awaiting-input {
+          animation: blinking-caret 1.5s linear infinite;
+        }
+      }
 
       .word {
         margin-right: 1rem;
@@ -435,6 +451,20 @@ input[type="text"]::-moz-placeholder {
 
   100% {
     border-left-color: $selected-font-colour;
+  }
+}
+
+@keyframes blinking-caret {
+  0% {
+    background-color: $selected-font-colour;
+  }
+
+  50% {
+    background-color: transparent;
+  }
+
+  100% {
+    background-color: $selected-font-colour;
   }
 }
 
