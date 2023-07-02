@@ -11,7 +11,6 @@ interface Props {
     testFocused: boolean,
 	potentialSpanShiftCount: number,
 	inputWordsArray: string[],
-	currentInputWord: string
 }
 
 interface NumberPair {
@@ -24,7 +23,7 @@ let PADDING_BOTTOM = 0;
 const MARGIN_RIGHT = 16;
 
 
-export const TypingTestWords = ({testWords, setTestWords, testRunning, testComplete, testFocused, potentialSpanShiftCount, inputWordsArray, currentInputWord}: Props) => {
+export const TypingTestWords = ({testWords, setTestWords, testRunning, testComplete, testFocused, potentialSpanShiftCount, inputWordsArray}: Props) => {
 
 	const testWordsDivRef = useRef<HTMLDivElement>(null);
 	const testWordObjectRef = useRef<HTMLDivElement[]>([]);
@@ -141,7 +140,7 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 
 		if (inputWordsArrayLength !== inputWordsArray.length) {
 			setInputWordsArrayLength(inputWordsArray.length);
-			return;
+			///return;
 		}
 
 		// store the widths of each letter in an array
@@ -150,26 +149,29 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 				letterWidths.current[index] = letter.offsetWidth;			
 		});
 
-		// get the current letter the user is up to 
-		const currentLetterIndex = inputWordsArray
-			.reduce((totalLength, word) => 
-				totalLength + word.length, 0) + currentInputWord.length - 1;
+		// get the number of letters that aren't LetterCompletionStatus type 'none'
+		const currentLetterIndex = testWords.words
+			.flatMap((letterArray) => [...letterArray.word])
+			.reduce((totalCompletedLetters, letter) => {
+				if (letter.status !== CompletionStatus.None) {
+					return totalCompletedLetters + 1;
+				}
+				return totalCompletedLetters;
+			}, 0) - 1;
+
+		//console.log("currently completed letter index is " + currentLetterIndex);
+
 
 		// get the total width of letter spans typed so far 
 		const currentDistanceCovered = letterWidths.current
 			.slice(0, currentLetterIndex + 1)
-			.reduce((totalWidth, letter) => totalWidth + letter, 0);
+			.reduce((totalWidth, letter) => totalWidth + letter, 0)
+			+ (inputWordsArray.length * 16);
 
 		// set caret position accordingly
-		setCaretPosition(currentDistanceCovered + (16 * inputWordsArrayLength));
-		console.log("current index is " + currentLetterIndex);
-		console.log("current distance is " + currentDistanceCovered);		
+		setCaretPosition(currentDistanceCovered);	
 	}, [testWords.words]);
 
-	useEffect(() => {
-		console.log("hello");
-		setCaretPosition(caretPosition + 16);
-	}, [inputWordsArrayLength]);
 
 	const addToLetterRefs = (letterSpan: any) => {
 		if (letterSpan && !testWordIndividualLettersRef.current.includes(letterSpan)) {

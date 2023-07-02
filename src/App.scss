@@ -234,7 +234,7 @@ input[type="text"]::-moz-placeholder {
         transition: left 0.1s linear;
         background-color: $selected-font-colour;
         border-radius: 0.25rem;
-        width: 0.2rem;
+        width: .2rem;
         position: absolute;
         top: 0;
         height: 3rem; // should match line height of words ^
