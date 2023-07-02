@@ -11,6 +11,7 @@ interface Props {
     testFocused: boolean,
 	potentialSpanShiftCount: number,
 	inputWordsArray: string[],
+	reset: boolean
 }
 
 interface NumberPair {
@@ -23,7 +24,7 @@ let PADDING_BOTTOM = 0;
 const MARGIN_RIGHT = 16;
 
 
-export const TypingTestWords = ({testWords, setTestWords, testRunning, testComplete, testFocused, potentialSpanShiftCount, inputWordsArray}: Props) => {
+export const TypingTestWords = ({testWords, setTestWords, testRunning, testComplete, testFocused, potentialSpanShiftCount, inputWordsArray, reset}: Props) => {
 
 	const testWordsDivRef = useRef<HTMLDivElement>(null);
 	const testWordObjectRef = useRef<HTMLDivElement[]>([]);
@@ -36,23 +37,27 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 	const spaceBarRef = useRef<number>(0); // related to inputWordsArray.length
 	spaceBarRef.current = inputWordsArray.length;
 
-	const [inputWordsArrayLength, setInputWordsArrayLength] = useState<number>(0);
-
-	const widths = useRef<number[]>([]);
+	const wordWidths = useRef<number[]>([]);
 	const [testWordsMaxHeight, setTestWordsMaxHeight] = useState<number>(0);
 	const [windowSize, setWindowSize] = useState<NumberPair>({width: window.innerWidth, height: window.innerHeight});
 	const [offsetLines, setOffsetLines] = useState<number>(0);
 	const [wordScrollTransitionProperty, setWordScrollTransitionProperty] = useState<string>("top");
 
-	const [caretPosition, setCaretPosition] = useState<number>(0);
+	const [caretPosition, setCaretPosition] = useState<number>(0); // in 'px' to determine 'left' property of css class
+
+	const [actualLineWidths, setActualLineWidths] = useState<number[]>([]);
+	const [currentCaretLine, setCurrentCaretLine] = useState<number>(0);
+	const testwordsref = useRef<Word[]>([]);
+	const counterRef = useRef(1);
 
 	useEffect(() => {
+		counterRef.current = 1;
+		// setCaretPosition(0);
+		// setCurrentCharacterCount(0);
+		// setOffsetLines(0);
+		// setActualLineWidths([]);
 
-		setCaretPosition(0);
-		setCurrentCharacterCount(0);
-		setOffsetLines(0);
-
-
+		console.log("testwords reset");
 		// grab css sizing properties on mount
 		const computedStyle = window.getComputedStyle(testWordsDivRef.current!);
 
@@ -69,6 +74,16 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 			window.removeEventListener("resize", handleResize);
 		};
 	}, []);
+
+	useEffect(() => {
+		setCaretPosition(0);
+		setCurrentCharacterCount(0);
+		setOffsetLines(0);
+		setActualLineWidths([]);
+		setCurrentCaretLine(0);
+		counterRef.current = 0;
+
+	}, [reset]);
 
 	useEffect(() => {
 		if (testRunning) setWordScrollTransitionProperty("top");
@@ -91,22 +106,25 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 
 		const computedStyle = window.getComputedStyle(testWordsDivRef.current!);
 		const divWidth = parseInt(computedStyle.getPropertyValue("width"), 10);
-		widths.current.slice(0, testWords.words.length);
+		wordWidths.current.slice(0, testWords.words.length);
 
 		testWordObjectRef.current.forEach((word, index) => {
 			if (word)
-				widths.current[index] = word.getBoundingClientRect().width;
+				wordWidths.current[index] = word.getBoundingClientRect().width;
 		});
 
 		// store and calculate lengths of words up until the limit (div width)
 		let lineWidthCurrentTotal = 0;
-		const finalLineIndexes = widths.current.map((wordDiv, index) => {
+		let lineWidthTotalArray: number[] = [];
+		const finalLineIndexes = wordWidths.current.map((wordDiv, index) => {
 			const wordWidth = wordDiv + MARGIN_RIGHT;
 			
 			if (lineWidthCurrentTotal + wordWidth <= divWidth) { // if new word can fit on the same line		
 				lineWidthCurrentTotal += wordWidth; // add it to the current
 			}
 			else { // if new word can't fit on the same line
+				lineWidthTotalArray = [...lineWidthTotalArray, lineWidthCurrentTotal - 16]; 
+				//console.log("current line width total is " + lineWidthCurrentTotal);
 				lineWidthCurrentTotal = wordWidth; // reset line starting with this word length
 				return index - 1; /// add that index to the list 
 			}
@@ -118,35 +136,46 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 				return {...word, isLastWordInLine: true};			
 			else 
 				return {...word, isLastWordInLine: false};
-		});
+		}); 
 
+		const numSpannedLines = finalLineIndexes.reduce((total, index) => {
+			if (index !== undefined && total !== undefined) 
+				return total + 1;
+			else 
+				return total;
+		}, 0);
+
+		setActualLineWidths(lineWidthTotalArray.slice(0, numSpannedLines));
+		//console.log(lineWidthTotalArray);
 		setTestWords({...testWords, words: newTestWords});
 
 	}, [potentialSpanShiftCount, windowSize.width]);
 
 
 	useEffect(() => {
+		counterRef.current += 1;
+		console.log(counterRef.current);
+		//if (!testRunning && counterRef.current !== 1) return;
+	
+		console.log(testWords.words);
+		
 		let numOffsetLines = calculateTestWordsDivOffset(testWords.words);
 		if (numOffsetLines == 1) numOffsetLines = 0;
 		else if (numOffsetLines > 1) numOffsetLines -=1;
 		setOffsetLines(numOffsetLines);
-
-
+		console.log("test");
+		// console.log("effect ran");
+		// console.log(testWords.words);
 		// if a new character has been added, update character count for caret 
 		if (currentCharacterCount !== testWords.characterCount - (testWords.words.length - 1)) {
 			setCurrentCharacterCount(testWords.characterCount - (testWords.words.length - 1));
 			testWordIndividualLettersRef.current = testWordIndividualLettersRef.current.slice(0, testWords.characterCount - (testWords.words.length - 1));
 		}
 
-		if (inputWordsArrayLength !== inputWordsArray.length) {
-			setInputWordsArrayLength(inputWordsArray.length);
-			///return;
-		}
-
 		// store the widths of each letter in an array
 		testWordIndividualLettersRef.current.forEach((letter, index) => {
 			if (letter) 
-				letterWidths.current[index] = letter.offsetWidth;			
+				letterWidths.current[index] = letter.getBoundingClientRect().width;			
 		});
 
 		// get the number of letters that aren't LetterCompletionStatus type 'none'
@@ -160,24 +189,49 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 			}, 0) - 1;
 
 		//console.log("currently completed letter index is " + currentLetterIndex);
-
-
-		// get the total width of letter spans typed so far 
-		const currentDistanceCovered = letterWidths.current
+		
+		
+		// get the total width of letter spans typed so far
+		let currentDistanceCovered = letterWidths.current
 			.slice(0, currentLetterIndex + 1)
 			.reduce((totalWidth, letter) => totalWidth + letter, 0)
-			+ (inputWordsArray.length * 16);
+		+ (inputWordsArray.length * 16);
+		
+		// account for dynamic line widths as letters are spanned across multiple lines
+		const completedLineWidths = actualLineWidths
+			.slice(0, currentCaretLine)
+			.reduce((total, line) => total + line, 0);
+
+		//console.log("completed line widths:" + completedLineWidths);
+
+		if (currentCaretLine !== 0) {
+			currentDistanceCovered -= (completedLineWidths + (16 * currentCaretLine));
+		}
+		
+		// add 0.5 safety net to avoid inaccuracies with decimals
+		if (currentDistanceCovered > actualLineWidths[currentCaretLine] + 0.5) {
+			console.log("current distant would have been " + currentDistanceCovered);
+			setCurrentCaretLine(currentCaretLine + 1);
+			setCaretPosition(0);
+			return;
+			//currentDistanceCovered = completedLineWidths;
+		}
 
 		// set caret position accordingly
 		setCaretPosition(currentDistanceCovered);	
+		
+
 	}, [testWords.words]);
+
+	
+
+
 
 
 	const addToLetterRefs = (letterSpan: any) => {
 		if (letterSpan && !testWordIndividualLettersRef.current.includes(letterSpan)) {
 			testWordIndividualLettersRef.current.push(letterSpan);
 		}
-
 	};
 	
 	const letterColour = (completionStatus: CompletionStatus) => {
@@ -218,7 +272,8 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 	} as React.CSSProperties;
 
 	const caretStyling = {
-		"--caret-position": caretPosition + "px"
+		"--caret-position": caretPosition + "px",
+		"--caret-top-offset": (currentCaretLine === 0) ? "0rem" : 3 * currentCaretLine + "rem"
 	} as React.CSSProperties;
 
 	return (
@@ -233,7 +288,17 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 					);
 				})}
 			</div> */}
-
+			<div className="debug">
+				<div>
+					current caret width: {caretPosition}
+				</div>
+				<div>
+					current caret line is : {currentCaretLine}
+				</div>
+				<div>
+					comparing to width of: {actualLineWidths[currentCaretLine]}
+				</div>
+			</div>
 			<div style={testWordsStyling} ref={testWordsDivRef} className="words-container">
 				<div style={caretStyling} className={`caret ${blinkingCaret()}`}></div>
 				{testWords.words.map((word, wordIndex) => {

@@ -34,6 +34,7 @@ $hover-font-colour: rgb(255 255 255);
   --reset-button-text-opacity: 0;
   --word-scroll-transition-property: top;
   --caret-position: 0px;
+  --caret-top-offset: 0rem;
 }
 
 @mixin transition-opacity($opacity) {
@@ -218,6 +219,11 @@ input[type="text"]::-moz-placeholder {
       }
     }
 
+    .debug {
+      position: absolute;
+      top: -250px;
+    }
+
     .words-container {
       @include transition-words();
       display: flex;
@@ -230,13 +236,18 @@ input[type="text"]::-moz-placeholder {
       top: var(--test-words-div-offset);
       position: absolute;
 
+
+
       .caret {
-        transition: left 0.1s linear;
+        //transition: left 0.1s linear;
+        transition-property: left, top;
+        transition-timing-function: linear, linear;
+        transition-duration: 0.09s, 0.10s;
         background-color: $selected-font-colour;
         border-radius: 0.25rem;
         width: .2rem;
         position: absolute;
-        top: 0;
+        top: var(--caret-top-offset);
         height: 3rem; // should match line height of words ^
         left: var(--caret-position);
 
