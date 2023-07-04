@@ -259,6 +259,11 @@ input[type="text"]::-moz-placeholder {
       .word {
         margin-right: 1rem;
 
+        &.last-word-in-line {
+          //text-decoration: underline;
+
+        }
+
         &.last-word {
           text-decoration: underline;
         }

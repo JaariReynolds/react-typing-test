@@ -249,6 +249,11 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 		}
 	};
 
+	const lastWordInLine = (word: Word) => {
+		if (word.isLastWordInLine) return "last-word-in-line";
+		else return "";
+	};
+
 	const blinkingCaret = () => {
 		if (!testRunning || (testRunning && !testFocused)) {
 			return "awaiting-input";
@@ -294,7 +299,7 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 				<div style={caretStyling} className={`caret ${blinkingCaret()}`}></div>
 				{testWords.words.map((word, wordIndex) => {
 					return (
-						<div key={wordIndex} className="word" ref={(wordRef) => (testWordObjectRef.current[wordIndex] = wordRef as HTMLDivElement)}>
+						<div key={wordIndex} className={`word ${lastWordInLine(word)}`} ref={(wordRef) => (testWordObjectRef.current[wordIndex] = wordRef as HTMLDivElement)}>
 							{word.word.map((letter, letterIndex) => {
 								return (
 									<span 
