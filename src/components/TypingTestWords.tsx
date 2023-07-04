@@ -98,33 +98,36 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 		setTestWordsMaxHeight(currentTestWordsMaxHeight);
 	}, [windowSize.height, testWords.characterCount]);
 
-	// calculate the new end-of-line words when screenwidth changes or if an extra letter is added/removed
+	// calculate the new end-of-line words and/or new caret position when screenwidth changes or if an extra letter is added/removed
 	useEffect(() => {
 		if (testWordObjectRef.current === null) return;
 
-		console.log("recalculating edge words");
+		console.log("recalculating edge words and caret position");
 
 		const computedStyle = window.getComputedStyle(testWordsDivRef.current!);
 		const divWidth = parseInt(computedStyle.getPropertyValue("width"), 10);
 		wordWidths.current.slice(0, testWords.words.length);
 
-		testWordObjectRef.current.forEach((word, index) => {
-			if (word)
-				wordWidths.current[index] = word.getBoundingClientRect().width;
+		// store lengths of each displayed word div - does not include the margin right yet
+		testWordObjectRef.current.forEach((wordDiv, index) => {
+			if (wordDiv) {
+				wordWidths.current[index] = wordDiv.getBoundingClientRect().width;
+			}
 		});
 
 		// store and calculate lengths of words up until the limit (div width)
 		let lineWidthCurrentTotal = 0;
 		let lineWidthTotalArray: number[] = [];
+
 		const finalLineIndexes = wordWidths.current.map((wordDiv, index) => {
 			const wordWidth = wordDiv + MARGIN_RIGHT;
 			
-			if (lineWidthCurrentTotal + wordWidth <= divWidth) { // if new word can fit on the same line		
+			if (lineWidthCurrentTotal + wordWidth <= divWidth) { // if new word + space can fit on the same line		
 				lineWidthCurrentTotal += wordWidth; // add it to the current
 			}
+		
 			else { // if new word can't fit on the same line
-				lineWidthTotalArray = [...lineWidthTotalArray, lineWidthCurrentTotal - 16]; 
-				//console.log("current line width total is " + lineWidthCurrentTotal);
+				lineWidthTotalArray = [...lineWidthTotalArray, lineWidthCurrentTotal - MARGIN_RIGHT]; // store the current total width minus the final margin width (spacebar at end of line)
 				lineWidthCurrentTotal = wordWidth; // reset line starting with this word length
 				return index - 1; /// add that index to the list 
 			}
@@ -145,27 +148,6 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 				return total;
 		}, 0);
 
-		setActualLineWidths(lineWidthTotalArray.slice(0, numSpannedLines));
-		//console.log(lineWidthTotalArray);
-		setTestWords({...testWords, words: newTestWords});
-
-	}, [potentialSpanShiftCount, windowSize.width]);
-
-
-	useEffect(() => {
-		counterRef.current += 1;
-		console.log(counterRef.current);
-		//if (!testRunning && counterRef.current !== 1) return;
-	
-		console.log(testWords.words);
-		
-		let numOffsetLines = calculateTestWordsDivOffset(testWords.words);
-		if (numOffsetLines == 1) numOffsetLines = 0;
-		else if (numOffsetLines > 1) numOffsetLines -=1;
-		setOffsetLines(numOffsetLines);
-		console.log("test");
-		// console.log("effect ran");
-		// console.log(testWords.words);
 		// if a new character has been added, update character count for caret 
 		if (currentCharacterCount !== testWords.characterCount - (testWords.words.length - 1)) {
 			setCurrentCharacterCount(testWords.characterCount - (testWords.words.length - 1));
@@ -178,55 +160,64 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 				letterWidths.current[index] = letter.getBoundingClientRect().width;			
 		});
 
+		setActualLineWidths(lineWidthTotalArray.slice(0, numSpannedLines)); // set the newly calculated word line widths which the caret can move within
+		setTestWords({...testWords, words: newTestWords});
+
+		calculateCaretPosition();
+
+	}, [potentialSpanShiftCount, windowSize.width]);
+
+
+	useEffect(() => {		
+		// calculates how many lines the whole displayed word div + caret should move 
+		let numOffsetLines = calculateTestWordsDivOffset(testWords.words);
+
+		// basically, don't start scrolling the word div until we have finished typing the 2nd line of words, then scroll words and move caret such that the focused line will always be the middle one
+		numOffsetLines = (numOffsetLines <= 1) ? 0 : numOffsetLines-1; 
+
+		setOffsetLines(numOffsetLines);		
+
+		calculateCaretPosition();
+	}, [testWords.words]);
+
+	const calculateCaretPosition = () => {
 		// get the number of letters that aren't LetterCompletionStatus type 'none'
 		const currentLetterIndex = testWords.words
 			.flatMap((letterArray) => [...letterArray.word])
 			.reduce((totalCompletedLetters, letter) => {
-				if (letter.status !== CompletionStatus.None) {
+				if (letter.status !== CompletionStatus.None) 
 					return totalCompletedLetters + 1;
-				}
-				return totalCompletedLetters;
-			}, 0) - 1;
+				else 
+					return totalCompletedLetters;
+			}, 0) - 1;		
+		
+		// gets number lines that have been 'submitted' aka caret line 
+		const completedLastLineWords = testWords.words.reduce((total, word) => {
+			if (word.isLastWordInLine && word.status !== CompletionStatus.None && !word.active)
+				return total + 1;
+			else
+				return total;
+		 }, 0);
 
-		//console.log("currently completed letter index is " + currentLetterIndex);
-		
-		
 		// get the total width of letter spans typed so far
 		let currentDistanceCovered = letterWidths.current
 			.slice(0, currentLetterIndex + 1)
-			.reduce((totalWidth, letter) => totalWidth + letter, 0)
-		+ (inputWordsArray.length * 16);
+			.reduce((totalWidth, letterWidth) => totalWidth + letterWidth, 0)
+			+ (inputWordsArray.length * MARGIN_RIGHT) // add in spaces between words
+			- (completedLastLineWords * MARGIN_RIGHT); // remove spaces for last word in line
+				
+		setCurrentCaretLine(completedLastLineWords);
 		
-		// account for dynamic line widths as letters are spanned across multiple lines
 		const completedLineWidths = actualLineWidths
-			.slice(0, currentCaretLine)
+			.slice(0, completedLastLineWords)
 			.reduce((total, line) => total + line, 0);
-
-		//console.log("completed line widths:" + completedLineWidths);
-
-		if (currentCaretLine !== 0) {
-			currentDistanceCovered -= (completedLineWidths + (16 * currentCaretLine));
-		}
 		
-		// add 0.5 safety net to avoid inaccuracies with decimals
-		if (currentDistanceCovered > actualLineWidths[currentCaretLine] + 0.5) {
-			console.log("current distant would have been " + currentDistanceCovered);
-			setCurrentCaretLine(currentCaretLine + 1);
-			setCaretPosition(0);
-			return;
-			//currentDistanceCovered = completedLineWidths;
-		}
-
+		currentDistanceCovered -= completedLineWidths;
+		
 		// set caret position accordingly
 		setCaretPosition(currentDistanceCovered);	
 		
-
-	}, [testWords.words]);
-
-	
-
-
-
+	};
 
 	const addToLetterRefs = (letterSpan: any) => {
 		if (letterSpan && !testWordIndividualLettersRef.current.includes(letterSpan)) {

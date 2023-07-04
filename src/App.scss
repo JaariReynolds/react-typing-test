@@ -242,7 +242,7 @@ input[type="text"]::-moz-placeholder {
         //transition: left 0.1s linear;
         transition-property: left, top;
         transition-timing-function: linear, linear;
-        transition-duration: 0.09s, 0.10s;
+        transition-duration: 0.125s, 0.125s;
         background-color: $selected-font-colour;
         border-radius: 0.25rem;
         width: .2rem;
@@ -263,9 +263,9 @@ input[type="text"]::-moz-placeholder {
           text-decoration: underline;
         }
 
-        :last-child {
-          border-right: 3px solid transparent;
-        }
+        // :last-child {
+        //   border-right: 3px solid transparent;
+        // }
 
         .letter {
           @include transition-text-color();
