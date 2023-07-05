@@ -221,7 +221,7 @@ input[type="text"]::-moz-placeholder {
 
     .debug {
       position: absolute;
-      top: -250px;
+
     }
 
     .words-container {
@@ -260,7 +260,7 @@ input[type="text"]::-moz-placeholder {
         margin-right: 1rem;
 
         &.last-word-in-line {
-          //text-decoration: underline;
+          text-decoration: underline;
 
         }
 
