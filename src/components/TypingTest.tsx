@@ -66,7 +66,6 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 	const [currentAverageWPMArray, setCurrentAverageWPMArray] = useState<NumberPair[]>([]);
 	const [showWords, setShowWords] = useState<string>("block");
 
-	const [potentialSpanShiftCount, setPotentialSpanShiftCount] = useState<number>(0);
 
 	const opacityStyle = {
 		"--typing-test-opacity": opacity,
@@ -99,7 +98,6 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 		setAverageWPM(0);
 		setWPMOpacity(0);
 		setKeyPressCount(0);
-		setPotentialSpanShiftCount(0);
 
 		switch (testType) {
 		case TestType.Words:
@@ -127,7 +125,6 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 			previousSecondCorrectCharactersRef.current = 0;
 			setTestWPMArray([]);
 			setCurrentAverageWPMArray([]);
-			setPotentialSpanShiftCount(1);
 			setShowResultsComponent(false);
 
 
@@ -228,7 +225,6 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 					words: [...prevTestWords.words, ...extraTestWords.words],
 					characterCount: prevTestWords.characterCount + extraTestWords.characterCount
 				}));
-				setPotentialSpanShiftCount(prev => prev + 1);
 			}
 		}
 	}, [inputWordsArray.length]);
@@ -367,7 +363,6 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 		// if backspacing an additional character    
 		else if (pressedKeys[pressedKeys.length - 1] === "Backspace" && currentInputWord.length > testWords.words[inputWordsArray.length].originalLength) {
 			currentTestWord = removeAdditionalLetter(currentTestWord);
-			setPotentialSpanShiftCount(prev => prev + 1);
 		} 
 		// if updating an existing character
 		else if (e.target.value.length <= testWords.words[inputWordsArray.length].originalLength) {
@@ -377,7 +372,6 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 		// if adding/updating an additional character
 		else if (e.target.value.length > testWords.words[inputWordsArray.length].originalLength) {
 			currentTestWord = addAdditionalLetter(currentTestWord, e.target.value.slice(-1));
-			setPotentialSpanShiftCount(prev => prev + 1);
 			setKeyPressCount(prev => prev + 1);
 		}
 
@@ -451,12 +445,9 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 									
 			<TypingTestInput inputRef={inputRef} currentInputWord={currentInputWord} handleChange={handleChange} handleKeyDown={handleKeyDown} handleKeyUp={handleKeyUp} testComplete={testComplete} setTestFocused={setTestFocused}/>
 
-			<TypingTestWords testWords={testWords} setTestWords={setTestWords} testRunning={testRunning} testComplete={testComplete} testFocused={testFocused} potentialSpanShiftCount={potentialSpanShiftCount} inputWordsArray={inputWordsArray} reset={reset}/>
+			<TypingTestWords testWords={testWords} setTestWords={setTestWords} testRunning={testRunning} testComplete={testComplete} testFocused={testFocused} inputWordsArray={inputWordsArray} reset={reset}/>
 			
 
-			{/* <div>
-				potential shift count: {potentialSpanShiftCount}
-			</div> */}
 			{/* <div>
 				wordarray: {testWPMArray.map(pair => {
 					return (

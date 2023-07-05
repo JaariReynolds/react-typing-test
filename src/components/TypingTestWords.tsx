@@ -9,7 +9,6 @@ interface Props {
     testRunning: boolean,
     testComplete: boolean,
     testFocused: boolean,
-	potentialSpanShiftCount: number,
 	inputWordsArray: string[],
 	reset: boolean
 }
@@ -24,7 +23,7 @@ let PADDING_BOTTOM = 0;
 const MARGIN_RIGHT = 16;
 
 
-export const TypingTestWords = ({testWords, setTestWords, testRunning, testComplete, testFocused, potentialSpanShiftCount, inputWordsArray, reset}: Props) => {
+export const TypingTestWords = ({testWords, setTestWords, testRunning, testComplete, testFocused, inputWordsArray, reset}: Props) => {
 
 	const testWordsRef = useRef<Word[]>();
 
@@ -160,7 +159,7 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 			windowSizeWidthRef.current = windowSize.width;
 			testWordsRef.current = newTestWords;
 		}
-	}, [windowSize.width, potentialSpanShiftCount, testWords]);
+	}, [windowSize.width, testWords]);
 
 
 	useEffect(() => {		
@@ -177,7 +176,7 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 		calculateCaretPosition();
 	}, [testWordsRef.current]);
 
-	// is called whenever testWords.words changes, which is also called whenever the windowsize.width or potentialSpanShiftCount changes
+	// is called whenever testWords.words changes
 	const calculateCaretPosition = () => {
 		// get the number of letters that aren't LetterCompletionStatus type 'none'
 		const currentLetterIndex = testWords.words
