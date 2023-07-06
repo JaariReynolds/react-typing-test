@@ -65,6 +65,8 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 	const [testWPMArray, setTestWPMArray] = useState<NumberPair[]>([]);
 	const [currentAverageWPMArray, setCurrentAverageWPMArray] = useState<NumberPair[]>([]);
 	const [showWords, setShowWords] = useState<string>("block");
+	const [caretPosition, setCaretPosition] = useState<number>(0); // in 'px' to determine 'left' property of css class
+
 
 
 	const opacityStyle = {
@@ -97,7 +99,7 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 		setLastWord(false);
 		setAverageWPM(0);
 		setWPMOpacity(0);
-		setKeyPressCount(0);
+		setKeyPressCount(0);		
 
 		switch (testType) {
 		case TestType.Words:
@@ -445,7 +447,7 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 									
 			<TypingTestInput inputRef={inputRef} currentInputWord={currentInputWord} handleChange={handleChange} handleKeyDown={handleKeyDown} handleKeyUp={handleKeyUp} testComplete={testComplete} setTestFocused={setTestFocused}/>
 
-			<TypingTestWords testWords={testWords} setTestWords={setTestWords} testRunning={testRunning} testComplete={testComplete} testFocused={testFocused} inputWordsArray={inputWordsArray} reset={reset}/>
+			<TypingTestWords testWords={testWords} setTestWords={setTestWords} testRunning={testRunning} testComplete={testComplete} testFocused={testFocused} inputWordsArray={inputWordsArray} reset={reset} caretPosition={caretPosition} setCaretPosition={setCaretPosition} currentInputWord={currentInputWord}/>
 			
 		</div>  
 	);

@@ -11,6 +11,9 @@ interface Props {
     testFocused: boolean,
 	inputWordsArray: string[],
 	reset: boolean
+	caretPosition: number,
+	setCaretPosition: React.Dispatch<React.SetStateAction<number>>,
+	currentInputWord: string
 }
 
 interface NumberPair {
@@ -23,7 +26,7 @@ let PADDING_BOTTOM = 0;
 const MARGIN_RIGHT = 16;
 
 
-export const TypingTestWords = ({testWords, setTestWords, testRunning, testComplete, testFocused, inputWordsArray, reset}: Props) => {
+export const TypingTestWords = ({testWords, setTestWords, testRunning, testComplete, testFocused, inputWordsArray, reset, caretPosition, setCaretPosition, currentInputWord}: Props) => {
 
 	const testWordsRef = useRef<Word[]>();
 
@@ -45,7 +48,6 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 	const [offsetLines, setOffsetLines] = useState<number>(0);
 	const [wordScrollTransitionProperty, setWordScrollTransitionProperty] = useState<string>("top");
 
-	const [caretPosition, setCaretPosition] = useState<number>(0); // in 'px' to determine 'left' property of css class
 
 	const [actualLineWidths, setActualLineWidths] = useState<number[]>([]);
 	const [currentCaretLine, setCurrentCaretLine] = useState<number>(0);
@@ -162,9 +164,10 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 
 		setOffsetLines(numOffsetLines);
 		
-		console.log("effect called");
-
-		calculateCaretPosition();
+		if (inputWordsArray.length === 0 && currentInputWord.length === 0 && testRunning) 
+			setCaretPosition(0);		
+		else 
+			calculateCaretPosition();	
 		
 	}, [testWordsRef.current, testComplete]);
 
@@ -204,7 +207,6 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 			.reduce((total, line) => total + line, 0);
 		
 		currentDistanceCovered -= completedLineWidths;
-		
 		// set caret position accordingly
 		setCaretPosition(currentDistanceCovered);	
 	};
