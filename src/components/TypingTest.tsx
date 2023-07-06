@@ -354,7 +354,7 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 		setCurrentInputWord(e.target.value);
         
 		let currentTestWord = testWords.words[inputWordsArray.length];
-		
+
 		// #region Character Handling Block
 		// if backspacing an existing character
 		if (pressedKeys[pressedKeys.length - 1] === "Backspace" && currentInputWord.length > 0 && currentInputWord.length <= testWords.words[inputWordsArray.length].originalLength) {
@@ -447,21 +447,6 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 
 			<TypingTestWords testWords={testWords} setTestWords={setTestWords} testRunning={testRunning} testComplete={testComplete} testFocused={testFocused} inputWordsArray={inputWordsArray} reset={reset}/>
 			
-
-			{/* <div>
-				wordarray: {testWPMArray.map(pair => {
-					return (
-						<span>{pair.interval}: {pair.wpm}, </span>
-					);
-				})}
-			</div>
-			<div>
-				currentaveragearray: {currentAverageWPMArray.map(pair => {
-					return (
-						<span>{pair.interval}: {pair.wpm}, </span>
-					);
-				})}
-			</div> */}
 		</div>  
 	);
 };

@@ -49,14 +49,8 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 
 	const [actualLineWidths, setActualLineWidths] = useState<number[]>([]);
 	const [currentCaretLine, setCurrentCaretLine] = useState<number>(0);
-	const counterRef = useRef(1);
 
 	useEffect(() => {
-		counterRef.current = 1;
-		// setCaretPosition(0);
-		// setOffsetLines(0);
-		// setActualLineWidths([]);
-
 		console.log("testwords reset");
 		// grab css sizing properties on mount
 		const computedStyle = window.getComputedStyle(testWordsDivRef.current!);
@@ -76,12 +70,10 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 	}, []);
 
 	useEffect(() => {
-		setCaretPosition(0);
 		setOffsetLines(0);
 		setActualLineWidths([]);
 		setCurrentCaretLine(0);
-		counterRef.current = 0;
-
+		setCaretPosition(0);
 	}, [reset]);
 
 	useEffect(() => {
@@ -95,17 +87,15 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 		const lineHeight = parseInt(computedStyle.getPropertyValue("line-height"), 10);
 		const currentTestWordsMaxHeight = (lineHeight * MAX_LINES) + PADDING_BOTTOM;
 		setTestWordsMaxHeight(currentTestWordsMaxHeight);
-	}, [windowSize.height, testWords.characterCount]);
+	}, [windowSize, testWords.characterCount]);
 
 	// calculate the new end-of-line words and/or new caret position when screenwidth changes or if an extra letter is added/removed
 	useEffect(() => {
 		if (testWordObjectRef.current === null) return;
 
 		if (testWords.words !== testWordsRef.current || windowSizeWidthRef.current !== windowSize.width) {
-			console.log("recalculating edge words and caret position");
+			//console.log("recalculating edge words and caret position");
 
-			const computedStyle = window.getComputedStyle(testWordsDivRef.current!);
-			const divWidth = parseInt(computedStyle.getPropertyValue("width"), 10);
 			wordWidths.current.slice(0, testWords.words.length);
 	
 			// store lengths of each displayed word div - does not include the margin right yet
@@ -117,15 +107,16 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 			// store and calculate lengths of words up until the limit (div width)
 			let lineWidthCurrentTotal = 0;
 			let lineWidthTotalArray: number[] = [];
-	
+			console.log(wordWidths);
 			const finalLineIndexes = wordWidths.current.map((wordDiv, index) => {
 				const wordWidth = wordDiv + MARGIN_RIGHT;
 				
-				if (lineWidthCurrentTotal + wordWidth <= divWidth) { // if new word + space can fit on the same line		
+				// if new word + space can fit on the same line		
+				if (lineWidthCurrentTotal + wordWidth <= windowSize.width * 0.7) { // .width * 0.7 is because width of typingTestWords is 70% of window size (probably should put this in its own state eventually)
 					lineWidthCurrentTotal += wordWidth; // add it to the current
 				}
-			
-				else { // if new word can't fit on the same line
+				// else if new word can't fit on the same line
+				else { 
 					lineWidthTotalArray = [...lineWidthTotalArray, lineWidthCurrentTotal - MARGIN_RIGHT]; // store the current total width minus the final margin width (spacebar at end of line)
 					lineWidthCurrentTotal = wordWidth; // reset line starting with this word length
 					return index - 1; /// add that index to the list 
@@ -147,6 +138,7 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 					return total;
 			}, 0);
 			
+
 			// store the widths of each letter in an array
 			testWordIndividualLettersRef.current.forEach((letter, index) => {
 				if (letter) 
@@ -161,7 +153,6 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 		}
 	}, [windowSize.width, testWords]);
 
-
 	useEffect(() => {		
 		// calculates how many lines the whole displayed word div + caret should move 
 		let numOffsetLines = calculateTestWordsDivOffset(testWords.words);
@@ -174,7 +165,8 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 		console.log("effect called");
 
 		calculateCaretPosition();
-	}, [testWordsRef.current]);
+		
+	}, [testWordsRef.current, testComplete]);
 
 	// is called whenever testWords.words changes
 	const calculateCaretPosition = () => {
@@ -196,8 +188,10 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 				return total;
 		 }, 0);
 
+		let currentDistanceCovered = 0;
+
 		// get the total width of letter spans typed so far
-		let currentDistanceCovered = letterWidths.current
+		currentDistanceCovered = letterWidths.current
 			.slice(0, currentLetterIndex + 1)
 			.reduce((totalWidth, letterWidth) => totalWidth + letterWidth, 0)
 			+ (inputWordsArray.length * MARGIN_RIGHT) // add in spaces between words
@@ -232,19 +226,6 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 		} 
 	};
 
-	const letterActive = (activeStatus: LetterActiveStatus) => {
-		if (testComplete) return ""; // hide caret when test finished
-
-		switch (activeStatus) {
-		case LetterActiveStatus.Active:
-			return "active";
-		case LetterActiveStatus.Inactive:
-			return "";
-		case LetterActiveStatus.ActiveLast:
-			return "active-last";
-		}
-	};
-
 	const lastWordInLine = (word: Word) => {
 		if (word.isLastWordInLine) return "last-word-in-line";
 		else return "";
@@ -270,17 +251,7 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 
 	return (
 		<>
-			{/* <div>
-			testWordsMaxHeight = {offsetLines * testWordsMaxHeight / MAX_LINES}
-			</div> */}
-			{/* <div>
-				lastWords: {testWords.words.map(word => {
-					return (
-						<div>word: {word.isLastWordInLine.toString()}</div>
-					);
-				})}
-			</div> */}
-			<div className="debug">
+			{/* <div className="debug">
 				<div>
 					current caret width: {caretPosition}
 				</div>
@@ -290,8 +261,7 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 				<div>
 					comparing to width of: {actualLineWidths[currentCaretLine]}
 				</div>
-			</div>
-				
+			</div> */}
 			<div style={testWordsStyling} ref={testWordsDivRef} className="words-container">
 				<div style={caretStyling} className={`caret ${blinkingCaret()}`}></div>
 				{testWords.words.map((word, wordIndex) => {
