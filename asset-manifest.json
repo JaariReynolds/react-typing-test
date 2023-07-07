@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/react-typing-test/static/css/main.a9f2207e.css",
-    "main.js": "/react-typing-test/static/js/main.97953dfe.js",
+    "main.css": "/react-typing-test/static/css/main.2d31b3f7.css",
+    "main.js": "/react-typing-test/static/js/main.86fc3b22.js",
     "static/js/787.791f4a0d.chunk.js": "/react-typing-test/static/js/787.791f4a0d.chunk.js",
     "index.html": "/react-typing-test/index.html",
-    "main.a9f2207e.css.map": "/react-typing-test/static/css/main.a9f2207e.css.map",
-    "main.97953dfe.js.map": "/react-typing-test/static/js/main.97953dfe.js.map",
+    "main.2d31b3f7.css.map": "/react-typing-test/static/css/main.2d31b3f7.css.map",
+    "main.86fc3b22.js.map": "/react-typing-test/static/js/main.86fc3b22.js.map",
     "787.791f4a0d.chunk.js.map": "/react-typing-test/static/js/787.791f4a0d.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.a9f2207e.css",
-    "static/js/main.97953dfe.js"
+    "static/css/main.2d31b3f7.css",
+    "static/js/main.86fc3b22.js"
   ]
 }
