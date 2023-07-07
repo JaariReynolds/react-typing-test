@@ -16,6 +16,7 @@ import { updateActiveLetter } from "../functions/letterHandling/updateActiveLett
 import { TRANSITION_DELAY } from "../App";
 import { TypingTestWords } from "./TypingTestWords";
 import { TypingTestInput } from "./TypingTestInput";
+import CapsLockIndicator from "./CapsLockIndicator";
 
 const SPACEBAR = "Spacebar";
 
@@ -49,7 +50,7 @@ interface IProps {
 	averageWPM: number,
 	setAverageWPM: React.Dispatch<React.SetStateAction<number>>,
 	setWPMOpacity: React.Dispatch<React.SetStateAction<number>>,
-	setComponentOpacity: React.Dispatch<React.SetStateAction<number>>
+	setComponentOpacity: React.Dispatch<React.SetStateAction<number>>,
 }
 
 
@@ -296,7 +297,7 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 
 		clearInterval(intervalId);       
 		setIntervalId(null);
-		console.log(testWords);
+		//console.log(testWords);
 	};
 
 	// calculate the total num of hard errors in a word after pressing 'space'
@@ -448,6 +449,9 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 			<TypingTestInput inputRef={inputRef} currentInputWord={currentInputWord} handleChange={handleChange} handleKeyDown={handleKeyDown} handleKeyUp={handleKeyUp} testComplete={testComplete} setTestFocused={setTestFocused}/>
 
 			<TypingTestWords testWords={testWords} setTestWords={setTestWords} testRunning={testRunning} testComplete={testComplete} testFocused={testFocused} inputWordsArray={inputWordsArray} reset={reset} caretPosition={caretPosition} setCaretPosition={setCaretPosition} currentInputWord={currentInputWord}/>
+
+			
+
 			
 		</div>  
 	);

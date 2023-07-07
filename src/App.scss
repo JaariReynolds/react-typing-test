@@ -35,6 +35,8 @@ $hover-font-colour: rgb(255 255 255);
   --word-scroll-transition-property: top;
   --caret-position: 0px;
   --caret-top-offset: 0rem;
+  --capslock-display: block;
+  --capslock-opacity: 1;
 }
 
 @mixin transition-opacity($opacity) {
@@ -77,11 +79,54 @@ $hover-font-colour: rgb(255 255 255);
     height: 80%;
     position: relative;
 
+    .test-completion-bar {
+      @include transition-text-color();
+      display: flex;
+      position: relative;
+      height: 0.5rem;
+      border-radius: 0.25rem;
+      background-color: $selected-font-colour;
+      width: var(--completion-percentage);
+      max-width: 100%;
+      transition: width $completion-bar-transition-duration linear;
+      margin-top: 1rem;
+    }
+
+    .capslock-indicator-container {
+      transition: opacity 0.1s ease-in-out;
+      opacity: var(--capslock-opacity);
+      display: flex;
+      justify-content: center;
+      position: relative;
+      width: 100%;
+      height: 40px;
+      margin-top: 1rem;
+      margin-bottom: 2rem;
+
+      font-size: $base-font-size;
+
+      .capslock-indicator-contents {
+        align-items: center;
+        width: 150px;
+        border-radius: 0.5rem;
+        justify-content: center;
+        background-color: $selected-font-colour;
+        color: $background-colour;
+        display: flex;
+
+        .capslock-icon {
+          margin-top: auto;
+          margin-bottom: auto;
+          margin-right: 0.5rem; //border: 2px solid orange;
+        }
+      }
+    }
+
     .test-options {
       grid-column: 1 / -1;
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      margin-bottom: 3rem;
+      ///margin-bottom: 2rem;
       font-size: $base-font-size;
 
       .test-options-icon {
@@ -196,6 +241,8 @@ input[type="text"]::-moz-placeholder {
     position: absolute;
     display: var(--test-words-display);
 
+
+
     .text-field-container {
       position: absolute;
       display: flex;
@@ -261,38 +308,12 @@ input[type="text"]::-moz-placeholder {
 
         &.last-word-in-line {
           text-decoration: underline;
-
         }
-
-        &.last-word {
-          text-decoration: underline;
-        }
-
-        // :last-child {
-        //   border-right: 3px solid transparent;
-        // }
 
         .letter {
           @include transition-text-color();
           transition-duration: $letter-colour-transition-duration;
           border-left: 3px solid transparent;
-
-
-          &.active {
-            border-left: 3px solid $selected-font-colour;
-
-            &.awaiting-input {
-              animation: blinking-caret-left 1.5s linear infinite;
-            }
-          }
-
-          &.active-last {
-            border-right: 3px solid $selected-font-colour;
-
-            &.awaiting-input {
-              animation: blinking-caret-right 1.5s linear infinite;
-            }
-          }
 
           // if these are changed, need to update letterColour() in TypingTest.tsx
           &.base-text-colour {
@@ -334,7 +355,7 @@ input[type="text"]::-moz-placeholder {
 
   .reset-button {
     transition: background-color 0.15s ease-in-out;
-    width: 25%;
+    width: 150px;
     border-radius: 0.5rem;
 
     &:focus {
@@ -367,17 +388,7 @@ input[type="text"]::-moz-placeholder {
 
 }
 
-.test-completion-bar {
-  @include transition-text-color();
-  grid-area: 1 / 1;
-  height: 0.5rem;
-  border-radius: 0.25rem;
-  background-color: $selected-font-colour;
-  width: var(--completion-percentage);
-  max-width: 100%;
-  transition: width $completion-bar-transition-duration linear;
-  //transition: opacity 0.3s ease-in-out;
-}
+
 
 
 

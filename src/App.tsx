@@ -8,7 +8,7 @@ import TestOptions from "./components/TestOptions";
 import CompletionBar from "./components/CompletionBar";
 import WordsPerMinute from "./components/WordsPerMinute";
 import KeyTips from "./components/KeyTips";
-
+import CapsLockIndicator from "./components/CapsLockIndicator";
 
 export enum TestType {
 	Words = "Words",
@@ -48,16 +48,20 @@ function App() {
 	const inputRef = useRef<HTMLInputElement>(null);
 	const resetButtonRef = useRef<HTMLButtonElement>(null);
 
+	const [capsLockOpacity, setCapsLockOpacity] = useState<number>(0);
+
 	const handleSiteKeyDown = (event: any) => {
 		// prevent default tab functionality when test is not focused, set focus instead to the 'reset' button
 		if (inputRef.current != document.activeElement) {
 			if (event.type == "keydown" && event.key == "Tab") {
-				console.log("prevented tab");
+				//console.log("prevented tab");
 				const tabKey = event as React.KeyboardEvent<HTMLInputElement>;
 				tabKey.preventDefault();
 				resetButtonRef.current!.focus();
 			}
 		}
+		
+		setCapsLockOpacity(event.getModifierState("CapsLock") ? 1 : 0);
 	};
 
 	useEffect(() => {
@@ -128,6 +132,10 @@ function App() {
 		"--completion-percentage": testCompletionPercentage.toString() + "%"
 	} as CSSProperties;
 
+	const capsLockStyling = {
+		"--capslock-opacity": testComplete ? 0 : capsLockOpacity
+	} as CSSProperties;
+
 	const resultsComponentStyling = {
 		"--results-component-opacity": resultsComponentOpacity,
 		"--results-component-display": resultsComponentDisplay
@@ -152,12 +160,15 @@ function App() {
 						opacityStyle={opacityStyle} testType={testType} setTestType={setTestType} includeNumbers={includeNumbers} setIncludeNumbers={setIncludeNumbers} includePunctuation={includePunctuation} setIncludePunctuation={setIncludePunctuation} testLengthWords={testLengthWords} setTestLengthWords={setTestLengthWords} testLengthSeconds={testLengthSeconds} setTestLengthSeconds={setTestLengthSeconds}
 					/>
 
+					<CapsLockIndicator styling={capsLockStyling}/>
 					<CompletionBar completionBarOpacity={completionBarOpacity}/>		
 
 					<div className="results-overlap-container">
 						
 						<TypingTest testWords={testWords} setTestWords={setTestWords} testLengthWords={testLengthWords} testLengthSeconds={testLengthSeconds} testType={testType} numbers={includeNumbers} punctuation={includePunctuation} reset={reset} inputRef={inputRef} showResultsComponent={showResultsComponent} setShowResultsComponent={setShowResultsComponent} testRunning={testRunning} setTestRunning={setTestRunning} testTimeMilliSeconds={testTimeMilliSeconds} setTestTimeMilliSeconds={setTestTimeMilliSeconds} setTestCompletionPercentage={setTestCompletionPercentage}
-							testComplete={testComplete} setTestComplete={setTestComplete} testFocused={testFocused} setTestFocused={setTestFocused} pressedKeys={pressedKeys} setPressedKeys={setPressedKeys} averageWPM={averageWPM} setAverageWPM={setAverageWPM} setWPMOpacity={setWPMOpacity} setComponentOpacity={setComponentOpacity}/>
+							testComplete={testComplete} setTestComplete={setTestComplete} testFocused={testFocused} setTestFocused={setTestFocused} pressedKeys={pressedKeys} setPressedKeys={setPressedKeys} averageWPM={averageWPM} setAverageWPM={setAverageWPM} setWPMOpacity={setWPMOpacity} setComponentOpacity={setComponentOpacity} />
+
+						
 						
 						
 						<TypingTestResults testWords={testWords} setTestWords={setTestWords} showResults={showResultsComponent} styling={resultsComponentStyling}/>

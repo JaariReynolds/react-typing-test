@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-key */
 import React, { useEffect, useRef, useState } from "react";
-import { TestWords, Letter, LetterActiveStatus, CompletionStatus, Word } from "../interfaces/WordStructure";
+import { TestWords, CompletionStatus, Word } from "../interfaces/WordStructure";
 import { calculateTestWordsDivOffset } from "../functions/calculations/calculateTestWordsDivOffset";
 
 interface Props {
@@ -21,9 +21,10 @@ interface NumberPair {
     height: number
 }
 
+const TEST_WORDS_DIV_WIDTH_PERCENTAGE = 0.7;
 const MAX_LINES = 3;
-let PADDING_BOTTOM = 0;
 const MARGIN_RIGHT = 16;
+let PADDING_BOTTOM = 0;
 
 
 export const TypingTestWords = ({testWords, setTestWords, testRunning, testComplete, testFocused, inputWordsArray, reset, caretPosition, setCaretPosition, currentInputWord}: Props) => {
@@ -109,12 +110,12 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 			// store and calculate lengths of words up until the limit (div width)
 			let lineWidthCurrentTotal = 0;
 			let lineWidthTotalArray: number[] = [];
-			console.log(wordWidths);
+			//console.log(wordWidths);
 			const finalLineIndexes = wordWidths.current.map((wordDiv, index) => {
 				const wordWidth = wordDiv + MARGIN_RIGHT;
 				
 				// if new word + space can fit on the same line		
-				if (lineWidthCurrentTotal + wordWidth <= windowSize.width * 0.7) { // .width * 0.7 is because width of typingTestWords is 70% of window size (probably should put this in its own state eventually)
+				if (lineWidthCurrentTotal + wordWidth <= windowSize.width * TEST_WORDS_DIV_WIDTH_PERCENTAGE) { // .width * 0.7 is because width of typingTestWords is 70% of window size (probably should put this in its own state eventually)
 					lineWidthCurrentTotal += wordWidth; // add it to the current
 				}
 				// else if new word can't fit on the same line
