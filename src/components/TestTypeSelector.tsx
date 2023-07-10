@@ -46,8 +46,14 @@ const TestTypeSelector = ({testType, setTestType, opacityStyle}: IProps) => {
 					className="hidden-radio-button"
 				/>
 				<label htmlFor="time" className="selectable-label">
-					<FontAwesomeIcon icon={faClock} className="test-options-icon"/>
-                    Time
+					<span>
+						
+						<FontAwesomeIcon icon={faClock} className="test-options-icon"/>
+                   		 Time
+
+						
+
+					</span>
 				</label>
 			</span>
 		</div>

@@ -78,6 +78,20 @@ body {
 
 }
 
+@media (max-width: 670px) {
+  .test-options {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+@media (min-width: 671px) {
+  .test-options {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+
+
 .main-container {
   display: flex;
   align-items: center;
@@ -134,11 +148,10 @@ body {
       }
     }
 
+
     .test-options {
-      grid-column: 1 / -1;
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      ///margin-bottom: 2rem;
+      //grid-template-columns: repeat(2, minmax(0, 1fr));
       font-size: $base-font-size;
 
       .test-options-icon {
@@ -152,6 +165,8 @@ body {
         -webkit-user-select: none;
         user-select: none;
         margin-bottom: 1rem;
+        //border: 1px solid cyan;
+
 
         &.uninteractable-selector {
           pointer-events: none;
@@ -219,6 +234,7 @@ body {
     color: $selected-font-colour;
   }
 }
+
 
 
 
