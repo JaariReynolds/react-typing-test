@@ -229,9 +229,10 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 		} 
 	};
 
-	const lastWordInLine = (word: Word) => {
-		if (word.isLastWordInLine) return "last-word-in-line";
-		else return "";
+	const lastWordInLine = (word: Word) => { // DEBUG ONLY 
+		// if (word.isLastWordInLine) return "last-word-in-line";
+		// else return "";
+		return "";
 	};
 
 	const blinkingCaret = () => {

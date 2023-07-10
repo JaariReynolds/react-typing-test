@@ -1,4 +1,4 @@
-import React, { CSSProperties, useEffect, useState, useRef } from "react";
+import React, { CSSProperties, useEffect, useState, useRef, useContext } from "react";
 import "./App.scss";
 import TypingTest from "./components/TypingTest";
 import TypingTestResults from "./components/TypingTestResults";
@@ -165,7 +165,9 @@ function App() {
 
 					<div className="results-overlap-container">
 						
-						<TypingTest testWords={testWords} setTestWords={setTestWords} testLengthWords={testLengthWords} testLengthSeconds={testLengthSeconds} testType={testType} numbers={includeNumbers} punctuation={includePunctuation} reset={reset} inputRef={inputRef} showResultsComponent={showResultsComponent} setShowResultsComponent={setShowResultsComponent} testRunning={testRunning} setTestRunning={setTestRunning} testTimeMilliSeconds={testTimeMilliSeconds} setTestTimeMilliSeconds={setTestTimeMilliSeconds} setTestCompletionPercentage={setTestCompletionPercentage}
+						<TypingTest 
+							testWords={testWords} 
+							setTestWords={setTestWords} testLengthWords={testLengthWords} testLengthSeconds={testLengthSeconds} testType={testType} numbers={includeNumbers} punctuation={includePunctuation} reset={reset} inputRef={inputRef} showResultsComponent={showResultsComponent} setShowResultsComponent={setShowResultsComponent} testRunning={testRunning} setTestRunning={setTestRunning} testTimeMilliSeconds={testTimeMilliSeconds} setTestTimeMilliSeconds={setTestTimeMilliSeconds} setTestCompletionPercentage={setTestCompletionPercentage}
 							testComplete={testComplete} setTestComplete={setTestComplete} testFocused={testFocused} setTestFocused={setTestFocused} pressedKeys={pressedKeys} setPressedKeys={setPressedKeys} averageWPM={averageWPM} setAverageWPM={setAverageWPM} setWPMOpacity={setWPMOpacity} setComponentOpacity={setComponentOpacity} />
 
 						
@@ -176,9 +178,9 @@ function App() {
 						<WordsPerMinute WPMOpacity={opacityStyle} currentWPM={currentWPM}/>
 					</div>
 
-					<ResetButton buttonRef={resetButtonRef} opacityStyle={opacityStyle} reset={reset} setReset={setReset} resultsComponentOpacity={resultsComponentOpacity}/>
 
 				</div>
+				<ResetButton buttonRef={resetButtonRef} opacityStyle={opacityStyle} reset={reset} setReset={setReset} resultsComponentOpacity={resultsComponentOpacity}/>
 				<KeyTips opacityStyle={opacityStyle}/>
 			</div>
 		</div>

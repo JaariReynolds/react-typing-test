@@ -58,26 +58,38 @@ $hover-font-colour: rgb(255 255 255);
   transition-duration: $text-colour-transition-duration;
 }
 
+body {
+  margin: 0;
+  background-color: $background-colour;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 .App {
   text-align: left;
   align-items: center;
   justify-content: center;
-  background-color: $background-colour;
   color: $base-font-colour;
+  //background-color: $background-colour;
   height: 100vh;
+
 }
 
 .main-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 90%;
-  position: relative;
+  min-height: 100vh;
+  flex-direction: column;
 
   .inner-container {
     width: 70%;
-    height: 80%;
+    height: 10%;
     position: relative;
+    margin-top: 5rem;
 
     .test-completion-bar {
       @include transition-text-color();
@@ -182,18 +194,19 @@ $hover-font-colour: rgb(255 255 255);
   .key-tips {
     @include transition-opacity(var(--component-opacity));
     opacity: var(--component-opacity);
-    font-size: $base-font-size;
-    position: absolute;
-    bottom: 0;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
     text-align: center;
     letter-spacing: 0.1rem;
+    margin-top: auto;
+    font-weight: 600;
 
     .key-highlight {
       background-color: $base-font-colour;
       color: $background-colour;
       border-radius: 0.3rem;
       padding: 0.2rem 0.5rem;
-      font-weight: 600;
+
 
     }
   }
@@ -206,6 +219,9 @@ $hover-font-colour: rgb(255 255 255);
     color: $selected-font-colour;
   }
 }
+
+
+
 
 input[type="text"]::selection,
 input[type="text"]::placeholder,
@@ -336,27 +352,34 @@ input[type="text"]::-moz-placeholder {
 
 .reset-container {
   transition: margin 0.3s ease-in-out;
-  display: flex;
+  display: block;
   justify-content: center;
   position: relative;
-  height: 5.5rem;
+  height: 6.5rem;
   margin-top: var(--reset-div-margin);
   @include transition-opacity(var(--component-opacity));
+  ///border: 2px solid orange;
+  margin-bottom: 3rem;
 
   .reset-button-text {
     transition: opacity 0.15s ease-in-out;
-    padding: 0 1rem;
+    text-align: center;
+    margin-top: -0.3rem;
     opacity: var(--reset-button-text-opacity);
-    position: absolute;
-    bottom: -2rem;
+    width: 100%;
     font-weight: 500;
     font-size: $base-font-size;
+
+
+    //sborder: 2px solid green;
+    height: 20%;
   }
 
   .reset-button {
     transition: background-color 0.15s ease-in-out;
     width: 150px;
     border-radius: 0.5rem;
+    height: 80%;
 
     &:focus {
       background-color: $base-font-colour;

@@ -9,6 +9,7 @@ const WordsPerMinute = ({WPMOpacity, currentWPM}: Props) => {
 	return (
 		<div style={WPMOpacity} className="WPM-div">
 			{currentWPM}
+			
 		</div>
 	);
 };
