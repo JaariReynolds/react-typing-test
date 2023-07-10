@@ -103,7 +103,7 @@ body {
     width: 70%;
     height: 10%;
     position: relative;
-    margin-top: 5rem;
+    margin-top: 8rem;
 
     .test-completion-bar {
       @include transition-text-color();
@@ -153,6 +153,7 @@ body {
       display: grid;
       //grid-template-columns: repeat(2, minmax(0, 1fr));
       font-size: $base-font-size;
+      //margin-bottom: 4rem;
 
       .test-options-icon {
         padding-right: 0.25rem;
