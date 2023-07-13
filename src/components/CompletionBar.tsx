@@ -1,12 +1,12 @@
 import React from "react";
 
 interface Props {
-    completionBarOpacity: React.CSSProperties
+    completionBarWidth: React.CSSProperties
 }
 
-const CompletionBar = ({completionBarOpacity}: Props) => {
+const CompletionBar = ({completionBarWidth}: Props) => {
 	return (
-		<div style={completionBarOpacity} className="test-completion-bar"></div>
+		<div style={completionBarWidth} className="test-completion-bar"></div>
 	);
 };
 

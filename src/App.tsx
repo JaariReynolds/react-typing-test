@@ -128,7 +128,7 @@ function App() {
 		
 	  } as CSSProperties;
 
-	const completionBarOpacity = {
+	const completionBarWidth = {
 		"--completion-percentage": testCompletionPercentage.toString() + "%"
 	} as CSSProperties;
 
@@ -161,7 +161,7 @@ function App() {
 					/>
 
 					<CapsLockIndicator styling={capsLockStyling}/>
-					<CompletionBar completionBarOpacity={completionBarOpacity}/>		
+					<CompletionBar completionBarWidth={completionBarWidth}/>		
 
 					<div className="results-overlap-container">
 						

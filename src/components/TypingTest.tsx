@@ -16,7 +16,6 @@ import { updateActiveLetter } from "../functions/letterHandling/updateActiveLett
 import { TRANSITION_DELAY } from "../App";
 import { TypingTestWords } from "./TypingTestWords";
 import { TypingTestInput } from "./TypingTestInput";
-import CapsLockIndicator from "./CapsLockIndicator";
 
 const SPACEBAR = "Spacebar";
 
@@ -145,7 +144,7 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 	useEffect(() => {
 		// calculates percentage of test completed (FOR WORD-LENGTH TEST) whenever the test is updated
 		if (testType === TestType.Words && testRunning) {
-			if (lastWord && currentInputWord.length == 0) return; // don't run this useEffect after pressing 'space' pretty much
+			//if (lastWord && currentInputWord.length == 0) return; // don't run this useEffect after pressing 'space' pretty much
 
 			const currentOriginalWordLength = testWords.words[inputWordsArray.length].originalLength;
 			const currentWordLength = (currentInputWord.length > currentOriginalWordLength) ? currentOriginalWordLength : currentInputWord.length;
@@ -154,7 +153,7 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 			const totalInputLetters = inputWordsArray.reduce((total, word, wordIndex) => {
 				return total + testWords.words[wordIndex].originalLength; 
 			}, currentWordLength + inputWordsArray.length); // inputwordsarray.length = spacebar presses (included in keypresscount)
-			
+			console.log(totalInputLetters);
 			setTestCompletionPercentage(totalInputLetters / testWords.characterCount * 100);
 		}
 
@@ -444,8 +443,8 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 	};
 
 	return (    
+	
 		<div style={opacityStyle} className="typing-test">
-									
 			<TypingTestInput inputRef={inputRef} currentInputWord={currentInputWord} handleChange={handleChange} handleKeyDown={handleKeyDown} handleKeyUp={handleKeyUp} testComplete={testComplete} setTestFocused={setTestFocused}/>
 
 			<TypingTestWords testWords={testWords} setTestWords={setTestWords} testRunning={testRunning} testComplete={testComplete} testFocused={testFocused} inputWordsArray={inputWordsArray} reset={reset} caretPosition={caretPosition} setCaretPosition={setCaretPosition} currentInputWord={currentInputWord}/>
@@ -454,6 +453,7 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 
 			
 		</div>  
+		
 	);
 };
 
