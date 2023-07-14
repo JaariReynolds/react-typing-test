@@ -1,4 +1,4 @@
-import React, { CSSProperties, useEffect, useState, useRef, useContext } from "react";
+import React, { CSSProperties, useEffect, useState, useRef } from "react";
 import "./App.scss";
 import TypingTest from "./components/TypingTest";
 import TypingTestResults from "./components/TypingTestResults";
@@ -39,7 +39,7 @@ function App() {
 
 	const [testTimeMilliSeconds, setTestTimeMilliSeconds] = useState<number>(0);
 	const [testCompletionPercentage, setTestCompletionPercentage] = useState<number>(0);
-	const [pressedKeys, setPressedKeys] = useState<string[]>([]); // array because more than 1 key can be held down at once
+	const [pressedKeys, setPressedKeys] = useState<string[]>([]); 
 	const [averageWPM, setAverageWPM] = useState<number>(0);
 
 	const [WPMOpacity, setWPMOpacity] = useState<number>(0);
@@ -49,6 +49,8 @@ function App() {
 	const resetButtonRef = useRef<HTMLButtonElement>(null);
 
 	const [capsLockOpacity, setCapsLockOpacity] = useState<number>(0);
+	const currentWPM = averageWPM == null || isNaN(averageWPM) || !Number.isFinite(averageWPM) ? 0 : averageWPM;
+
 
 	const handleSiteKeyDown = (event: any) => {
 		// prevent default tab functionality when test is not focused, set focus instead to the 'reset' button
@@ -64,6 +66,7 @@ function App() {
 		setCapsLockOpacity(event.getModifierState("CapsLock") ? 1 : 0);
 	};
 
+	//#region useEffects
 	useEffect(() => {
 		window.addEventListener("keydown", handleSiteKeyDown);
 
@@ -114,10 +117,17 @@ function App() {
 			}, TRANSITION_DELAY + 100);
 		}
 	}, [testComplete]);
+	//#endregion
 
-	const currentWPM = averageWPM == null || isNaN(averageWPM) || !Number.isFinite(averageWPM) ? 0 : averageWPM;
 	
-	// #region CSS properties
+	// moving the mouse while the test is running should show the test option selectors
+	const handleMouseMove = () => {
+		if (!testRunning) return;		
+		setTestFocused(false);
+		setComponentOpacity(1);
+	};
+
+	//#region CSS Properties
 	const opacityStyle = {
 		"--component-opacity": componentOpacity,
 		"--WPM-opacity": WPMOpacity,
@@ -125,7 +135,6 @@ function App() {
 		"--reset-div-margin": resetDivMargin,
 		"--test-type-words-opacity": (testType === TestType.Words && !testRunning) || (testRunning && testType === TestType.Words && testFocused === false && pressedKeys.length === 0) ? 1 : 0,
 		"--test-type-time-opacity": (testType === TestType.Time && !testRunning) || (testRunning && testType === TestType.Time && testFocused === false && pressedKeys.length === 0) ? 1 : 0,
-		
 	  } as CSSProperties;
 
 	const completionBarWidth = {
@@ -140,14 +149,7 @@ function App() {
 		"--results-component-opacity": resultsComponentOpacity,
 		"--results-component-display": resultsComponentDisplay
 	} as CSSProperties;
-	//#endregion;
-
-	// moving the mouse while the test is running should show the test option selectors
-	const handleMouseMove = () => {
-		if (!testRunning) return;		
-		setTestFocused(false);
-		setComponentOpacity(1);
-	};
+	//#endregion
 
 	//#region Component Props
 	const testOptionsProps = {

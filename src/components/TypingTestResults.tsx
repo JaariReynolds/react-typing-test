@@ -2,7 +2,7 @@
 
 import React, { useEffect } from "react";
 import { TestWords } from "../interfaces/WordStructure";
-import MyChartComponent from "./TypingTestResultsWPMGraph";
+import TypingTestResultsWPMGraph from "./TypingTestResultsWPMGraph";
 
 interface Props {
     testWords: TestWords, 
@@ -34,11 +34,16 @@ const TypingTestResults = ({testWords, setTestWords, showResultsComponent, resul
 		return acc;
 	};
 
+	const typingTestResultsWPMGraphProps = {
+		rawWPMArray: testWords.rawWPMArray,
+		currentAverageWPMArray: testWords.currentAverageWPMArray
+	};
+
 	return (
 		<>	
 			{showResultsComponent &&
 			<div style={resultsComponentStyling} className="test-results-div">
-				 <MyChartComponent rawWPMArray={testWords.rawWPMArray} averageWPMArray={testWords.currentAverageWPMArray}/> 
+				 <TypingTestResultsWPMGraph {...typingTestResultsWPMGraphProps}/> 
 				<div className="test-results-statistics">
 
 					<div className="grid-item">

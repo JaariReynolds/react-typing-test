@@ -238,16 +238,22 @@ body {
 
 
 
-input[type="text"]::selection,
-input[type="text"]::placeholder,
-input[type="text"]::-moz-placeholder {
-  text-decoration: none;
-}
+// input[type="text"]::selection,
+// input[type="text"]::placeholder,
+// input[type="text"]::-moz-placeholder {
+//   text-decoration: none;
+
+
+// }
+
+
 
 .results-overlap-container {
   display: grid;
   grid-template-areas: 1 / 1;
   height: 25rem;
+  user-select: none;
+  -webkit-user-select: none;
 
   .WPM-div {
     //@include transition-opacity(var(--WPM-opacity));
@@ -262,8 +268,8 @@ input[type="text"]::-moz-placeholder {
 
   .typing-test {
     margin-top: 3rem;
-    -webkit-user-select: none;
     user-select: none;
+    -webkit-user-select: none;
     grid-area: 1 / 1;
     //margin-top: 5rem;
     width: 100%;
@@ -277,11 +283,10 @@ input[type="text"]::-moz-placeholder {
     .text-field-container {
       position: absolute;
       display: flex;
+
       //top: -4rem;
       width: 100%;
       height: var(--test-words-max-height);
-      -webkit-user-select: none;
-      user-select: none;
       margin-bottom: 5rem;
       z-index: 10;
 
@@ -290,6 +295,8 @@ input[type="text"]::-moz-placeholder {
         background-color: transparent;
         color: transparent;
         border: none;
+        font-size: 1px;
+
       }
 
       input:focus {
@@ -364,7 +371,6 @@ input[type="text"]::-moz-placeholder {
   }
 }
 
-
 .reset-container {
   transition: margin 0.3s ease-in-out;
   display: block;
@@ -379,7 +385,7 @@ input[type="text"]::-moz-placeholder {
   .reset-button-text {
     transition: opacity 0.15s ease-in-out;
     text-align: center;
-    margin-top: -0.3rem;
+    margin-top: -0.1rem;
     opacity: var(--reset-button-text-opacity);
     width: 100%;
     font-weight: 500;

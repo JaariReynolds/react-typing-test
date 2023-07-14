@@ -177,7 +177,6 @@ const TypingTest = ({testWords,
 			const totalInputLetters = inputWordsArray.reduce((total, word, wordIndex) => {
 				return total + testWords.words[wordIndex].originalLength; 
 			}, currentWordLength + inputWordsArray.length); // inputwordsarray.length = spacebar presses (included in keypresscount)
-			console.log(totalInputLetters);
 			setTestCompletionPercentage(totalInputLetters / testWords.characterCount * 100);
 		}
 
@@ -466,12 +465,20 @@ const TypingTest = ({testWords,
 		setPressedKeys(prevKeys => prevKeys.filter(key => key !== e.key ));
 	};
 
+	const typingTestInputProps = {
+		inputRef, currentInputWord, handleChange, handleKeyDown, handleKeyUp, testComplete, setTestFocused
+	};
+
+	const typingTestWordsProps = {
+		testWords, setTestWords, testRunning, testComplete, testFocused, inputWordsArray, reset, caretPosition, setCaretPosition, currentInputWord
+	};
+
 	return (    
 	
 		<div style={opacityStyle} className="typing-test">
-			<TypingTestInput inputRef={inputRef} currentInputWord={currentInputWord} handleChange={handleChange} handleKeyDown={handleKeyDown} handleKeyUp={handleKeyUp} testComplete={testComplete} setTestFocused={setTestFocused}/>
+			<TypingTestInput {...typingTestInputProps}/>
 
-			<TypingTestWords testWords={testWords} setTestWords={setTestWords} testRunning={testRunning} testComplete={testComplete} testFocused={testFocused} inputWordsArray={inputWordsArray} reset={reset} caretPosition={caretPosition} setCaretPosition={setCaretPosition} currentInputWord={currentInputWord}/>
+			<TypingTestWords {...typingTestWordsProps}/>
 
 			
 

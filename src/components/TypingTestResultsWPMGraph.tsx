@@ -11,17 +11,17 @@ interface DataPoint {
 
 interface Props {
 	rawWPMArray: NumberPair[],
-	averageWPMArray: NumberPair[],
+	currentAverageWPMArray: NumberPair[]
 }
 
-const MyChartComponent = ({rawWPMArray, averageWPMArray}: Props) => {
+const TypingTestResultsWPMGraph = ({rawWPMArray, currentAverageWPMArray}: Props) => {
 	
 	const [graphData, setGraphData] = useState<DataPoint[]>([]);
 
 	useEffect(() => {		
 		// combines raw and average datapoints at each interval into 1 type
 		const combinedArray = rawWPMArray.map((rawWPM, index) => {	
-			return {interval: rawWPM.interval, rawWPM: rawWPM.wpm, averageWPM: averageWPMArray[index].wpm};
+			return {interval: rawWPM.interval, rawWPM: rawWPM.wpm, averageWPM: currentAverageWPMArray[index].wpm};
 		});
 		setGraphData(combinedArray);	
 	}, []);
@@ -80,4 +80,4 @@ const MyChartComponent = ({rawWPMArray, averageWPMArray}: Props) => {
 	);
 };
 
-export default MyChartComponent;
+export default TypingTestResultsWPMGraph;
