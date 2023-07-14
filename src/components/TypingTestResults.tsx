@@ -7,15 +7,15 @@ import MyChartComponent from "./TypingTestResultsWPMGraph";
 interface Props {
     testWords: TestWords, 
     setTestWords: React.Dispatch<React.SetStateAction<TestWords>>,
-	showResults: boolean,
-	styling: React.CSSProperties
+	showResultsComponent: boolean,
+	resultsComponentStyling: React.CSSProperties
 }
 
-const TypingTestResults = ({testWords, setTestWords, showResults, styling}: Props ) => {
+const TypingTestResults = ({testWords, setTestWords, showResultsComponent, resultsComponentStyling}: Props ) => {
 	
 	// once results screen shown, calculate extra info to show 
 	useEffect(() => {
-		if (showResults) {	
+		if (showResultsComponent) {	
 			const acc = calculateAccuracy();
 				
 			setTestWords({
@@ -23,7 +23,7 @@ const TypingTestResults = ({testWords, setTestWords, showResults, styling}: Prop
 				accuracy: acc
 			});	
 		}
-	}, [showResults]);
+	}, [showResultsComponent]);
 
 	// accuracy = (num characters in test - hard errors) / num characters in test
 	const calculateAccuracy = (): number => {
@@ -36,8 +36,8 @@ const TypingTestResults = ({testWords, setTestWords, showResults, styling}: Prop
 
 	return (
 		<>	
-			{showResults &&
-			<div style={styling} className="test-results-div">
+			{showResultsComponent &&
+			<div style={resultsComponentStyling} className="test-results-div">
 				 <MyChartComponent rawWPMArray={testWords.rawWPMArray} averageWPMArray={testWords.currentAverageWPMArray}/> 
 				<div className="test-results-statistics">
 

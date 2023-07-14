@@ -3,12 +3,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 
 interface Props {
-    styling: React.CSSProperties
+    capsLockStyling: React.CSSProperties
 }
 
-const CapsLockIndicator = ({styling}: Props) => {
+const CapsLockIndicator = ({capsLockStyling}: Props) => {
 	return (
-		<div style={styling} className="capslock-indicator-container">
+		<div style={capsLockStyling} className="capslock-indicator-container">
 			<div className="capslock-indicator-contents">
 				<FontAwesomeIcon icon={faLock} className="capslock-icon"/>
 				Caps Lock

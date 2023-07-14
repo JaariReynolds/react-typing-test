@@ -6,7 +6,7 @@ import TestLengthSecondsSelector from "./TestLengthSecondsSelector";
 import TestLengthWordsSelector from "./TestLengthWordsSelector";
 import { TestType } from "../App";
 
-interface Props {
+interface testOptionsProps {
     opacityStyle: React.CSSProperties,
     testType: TestType,
     setTestType: React.Dispatch<React.SetStateAction<TestType>>,
@@ -21,7 +21,7 @@ interface Props {
 
 }
 
-const TestOptions = ({opacityStyle, testType, setTestType, includeNumbers, setIncludeNumbers, includePunctuation, setIncludePunctuation, testLengthWords, setTestLengthWords, testLengthSeconds, setTestLengthSeconds}: Props) => {
+const TestOptions = ({opacityStyle, testType, setTestType, includeNumbers, setIncludeNumbers, includePunctuation, setIncludePunctuation, testLengthWords, setTestLengthWords, testLengthSeconds, setTestLengthSeconds}: testOptionsProps) => {
 	return (
 		<div className="test-options">
 			<TestTypeSelector testType={testType} setTestType={setTestType} opacityStyle={opacityStyle}/>

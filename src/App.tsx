@@ -148,40 +148,57 @@ function App() {
 		setTestFocused(false);
 		setComponentOpacity(1);
 	};
+
+	//#region Component Props
+	const testOptionsProps = {
+		opacityStyle, testType, setTestType, includeNumbers, setIncludeNumbers, includePunctuation, setIncludePunctuation, testLengthWords, setTestLengthWords, testLengthSeconds, setTestLengthSeconds
+	};	
+
+	const capsLockIndicatorProps = {
+		capsLockStyling
+	};
+
+	const completionBarProps = {
+		completionBarWidth
+	};
+
+	const typingTestProps = {
+		testWords, setTestWords, testLengthWords, testLengthSeconds, testType, includeNumbers, includePunctuation, reset, inputRef, showResultsComponent, setShowResultsComponent, testRunning, setTestRunning, testTimeMilliSeconds, setTestTimeMilliSeconds, setTestCompletionPercentage, testComplete, setTestComplete, testFocused, setTestFocused, pressedKeys, setPressedKeys, averageWPM, setAverageWPM, setWPMOpacity, setComponentOpacity,
+	};
+
+	const typingTestResultsProps = {
+		testWords, setTestWords, showResultsComponent, resultsComponentStyling
+	};
+
+	const wordsPerMinuteProps = {
+		opacityStyle, currentWPM
+	};
+
+	const resetButtonProps = {
+		resetButtonRef, opacityStyle, reset, setReset, resultsComponentOpacity
+	};
 	
+	const keyTipsProps = {
+		opacityStyle
+	};
+	//#endregion
+
 	return (
 		<div className="App">
 			<div className="main-container" onMouseMove={handleMouseMove}>
 				<div className="inner-container">
-
-					
-					<div className="top-gap"></div>
-					<TestOptions 
-						opacityStyle={opacityStyle} testType={testType} setTestType={setTestType} includeNumbers={includeNumbers} setIncludeNumbers={setIncludeNumbers} includePunctuation={includePunctuation} setIncludePunctuation={setIncludePunctuation} testLengthWords={testLengthWords} setTestLengthWords={setTestLengthWords} testLengthSeconds={testLengthSeconds} setTestLengthSeconds={setTestLengthSeconds}
-					/>
-
-					<CapsLockIndicator styling={capsLockStyling}/>
-					<CompletionBar completionBarWidth={completionBarWidth}/>		
+					<TestOptions {...testOptionsProps}/>
+					<CapsLockIndicator {...capsLockIndicatorProps} />
+					<CompletionBar {...completionBarProps}/>		
 
 					<div className="results-overlap-container">
-						
-						<TypingTest 
-							testWords={testWords} 
-							setTestWords={setTestWords} testLengthWords={testLengthWords} testLengthSeconds={testLengthSeconds} testType={testType} numbers={includeNumbers} punctuation={includePunctuation} reset={reset} inputRef={inputRef} showResultsComponent={showResultsComponent} setShowResultsComponent={setShowResultsComponent} testRunning={testRunning} setTestRunning={setTestRunning} testTimeMilliSeconds={testTimeMilliSeconds} setTestTimeMilliSeconds={setTestTimeMilliSeconds} setTestCompletionPercentage={setTestCompletionPercentage}
-							testComplete={testComplete} setTestComplete={setTestComplete} testFocused={testFocused} setTestFocused={setTestFocused} pressedKeys={pressedKeys} setPressedKeys={setPressedKeys} averageWPM={averageWPM} setAverageWPM={setAverageWPM} setWPMOpacity={setWPMOpacity} setComponentOpacity={setComponentOpacity} />
-
-						
-						
-						
-						<TypingTestResults testWords={testWords} setTestWords={setTestWords} showResults={showResultsComponent} styling={resultsComponentStyling}/>
-						
-						<WordsPerMinute WPMOpacity={opacityStyle} currentWPM={currentWPM}/>
+						<TypingTest {...typingTestProps} />
+						<TypingTestResults {...typingTestResultsProps}/>	
+						<WordsPerMinute {...wordsPerMinuteProps}/>
 					</div>
-
-
 				</div>
-				<ResetButton buttonRef={resetButtonRef} opacityStyle={opacityStyle} reset={reset} setReset={setReset} resultsComponentOpacity={resultsComponentOpacity}/>
-				<KeyTips opacityStyle={opacityStyle}/>
+				<ResetButton {...resetButtonProps}/>
+				<KeyTips {...keyTipsProps}/>
 			</div>
 		</div>
    

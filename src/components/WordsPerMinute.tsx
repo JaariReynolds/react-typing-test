@@ -1,13 +1,13 @@
 import React from "react";
 
 interface Props {
-    WPMOpacity: React.CSSProperties,
+    opacityStyle: React.CSSProperties,
     currentWPM: number
 }
 
-const WordsPerMinute = ({WPMOpacity, currentWPM}: Props) => {
+const WordsPerMinute = ({opacityStyle, currentWPM}: Props) => {
 	return (
-		<div style={WPMOpacity} className="WPM-div">
+		<div style={opacityStyle} className="WPM-div">
 			{currentWPM}
 			
 		</div>

@@ -23,14 +23,14 @@ const TIMED_TEST_LENGTH = 40;
 const WORDS_TO_ADD = 10;
 const AVERAGE_WORD_LENGTH = 5; // standard length used to calculate WPM
 
-interface IProps {
+interface Props {
     testWords: TestWords,
     setTestWords: React.Dispatch<React.SetStateAction<TestWords>>,	
     testLengthWords: number,
 	testLengthSeconds: number,
 	testType: TestType,
-    numbers: boolean,
-    punctuation: boolean,
+    includeNumbers: boolean,
+    includePunctuation: boolean,
     reset: boolean,
 	inputRef: RefObject<HTMLInputElement>,
 	showResultsComponent: boolean,
@@ -52,8 +52,32 @@ interface IProps {
 	setComponentOpacity: React.Dispatch<React.SetStateAction<number>>,
 }
 
-
-const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds, testType, numbers, punctuation, reset, inputRef, showResultsComponent, setShowResultsComponent, testRunning, setTestRunning, testTimeMilliSeconds, setTestTimeMilliSeconds, setTestCompletionPercentage, testComplete, setTestComplete, testFocused, setTestFocused, pressedKeys, setPressedKeys, averageWPM, setAverageWPM, setWPMOpacity, setComponentOpacity}: IProps) => {
+const TypingTest = ({testWords,
+	setTestWords,
+	testLengthWords,
+	testLengthSeconds,
+	testType,
+	includeNumbers,
+	includePunctuation,
+	reset,
+	inputRef,
+	showResultsComponent,
+	setShowResultsComponent,
+	testRunning,
+	setTestRunning,
+	testTimeMilliSeconds,
+	setTestTimeMilliSeconds,
+	setTestCompletionPercentage,
+	testComplete,
+	setTestComplete,
+	testFocused,
+	setTestFocused,
+	pressedKeys,
+	setPressedKeys,
+	averageWPM,
+	setAverageWPM,
+	setWPMOpacity,
+	setComponentOpacity,}: Props) => {
 	const [currentInputWord, setCurrentInputWord] = useState<string>("");
 	const [inputWordsArray, setInputWordsArray] = useState<string[]>([]);
 	const [intervalId, setIntervalId] = useState<NodeJS.Timer|null>(null);	
@@ -116,10 +140,10 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 		setTimeout(() => {
 			switch (testType) {
 			case TestType.Words:
-				setTestWords(testWordsGenerator(testLengthWords, numbers, punctuation, TestType.Words));
+				setTestWords(testWordsGenerator(testLengthWords, includeNumbers, includePunctuation, TestType.Words));
 				break;
 			case TestType.Time:
-				setTestWords(testWordsGenerator(TIMED_TEST_LENGTH, numbers, punctuation, TestType.Time));
+				setTestWords(testWordsGenerator(TIMED_TEST_LENGTH, includeNumbers, includePunctuation, TestType.Time));
 				break;
 			}
 
@@ -139,7 +163,7 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 			console.log("randomise test words, reset states");
 		}, TRANSITION_DELAY + 50);
 	
-	}, [testLengthWords, testLengthSeconds, testType, numbers, punctuation, reset]);
+	}, [testLengthWords, testLengthSeconds, testType, includeNumbers, includePunctuation, reset]);
 
 	useEffect(() => {
 		// calculates percentage of test completed (FOR WORD-LENGTH TEST) whenever the test is updated
@@ -221,7 +245,7 @@ const TypingTest = ({testWords, setTestWords, testLengthWords, testLengthSeconds
 		else if (testRunning && testType === TestType.Time) {
 			// add words to the end of the word array if almost reaching the current limit (FOR TIME-LENGTH TEST)
 			if (inputWordsArray.length === testWords.words.length - WORDS_TO_ADD) {
-				const extraTestWords = testWordsGenerator(WORDS_TO_ADD, numbers, punctuation, TestType.Time);
+				const extraTestWords = testWordsGenerator(WORDS_TO_ADD, includeNumbers, includePunctuation, TestType.Time);
 				setTestWords(prevTestWords => ({ 
 					...prevTestWords,
 					words: [...prevTestWords.words, ...extraTestWords.words],
