@@ -30,7 +30,6 @@ const TypingTestResults = ({testWords, setTestWords, showResultsComponent, resul
 		//NEED TO FIX : NOT WORKING AS INTENDED FOR SOME REASON
 		const correctCharacters = testWords.keyPressCount - testWords.errorCountSoft;
 		const acc = correctCharacters / testWords.keyPressCount;
-		//console.log(testWords.rawWPMArray);
 		return acc;
 	};
 

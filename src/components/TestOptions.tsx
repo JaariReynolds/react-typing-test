@@ -25,12 +25,9 @@ const TestOptions = ({opacityStyle, testType, setTestType, includeNumbers, setIn
 	return (
 		<div className="test-options">
 			<TestTypeSelector testType={testType} setTestType={setTestType} opacityStyle={opacityStyle}/>
-
 			<NumberSelector numbers={includeNumbers} setNumbers={setIncludeNumbers} opacityStyle={opacityStyle}/>
 			<PunctuationSelector punctuation={includePunctuation} setPunctuation={setIncludePunctuation} opacityStyle={opacityStyle}/>
-    
 			<TestLengthWordsSelector testLengthWords={testLengthWords} setTestLengthWords={setTestLengthWords} opacityStyle={opacityStyle} testType={testType}/>
-
 			<TestLengthSecondsSelector testLengthSeconds={testLengthSeconds} setTestLengthSeconds={setTestLengthSeconds} opacityStyle={opacityStyle} testType={testType}/>
 		</div>
 	);
