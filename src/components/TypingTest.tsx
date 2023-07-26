@@ -257,8 +257,8 @@ const TypingTest = ({testWords,
 		return newRawWPMArray;
 	};
 
-	const calculateFinalSecondWPM = () => {
 	// forcing WPM calculation for the final (< 1 second) stretch of a NON-TIMED test
+	const calculateFinalSecondWPM = () => {
 		previousSecondCorrectCharactersRef.current = totalCorrectCharactersRef.current;
 		totalCorrectCharactersRef.current = calculateCorrectCharacters(testWords) + inputWordsArray.length;
 
@@ -314,7 +314,8 @@ const TypingTest = ({testWords,
 
 		if (testComplete) {
 			stopTestStopWatch();
-			if (testType !== TestType.Time && testTimeMilliSeconds % 1000 !== 0) 
+			// '> 400' meaning DONT include the final milliseconds of the test if it is less than 0.4s extra as it can result in very skewed wpm for the final wpm stored 
+			if (testType !== TestType.Time && testTimeMilliSeconds % 1000 !== 0 && testTimeMilliSeconds % 1000 > 400) 
 				calculateFinalSecondWPM(); // calls finaliseTest() within, with updated wpm parameters
 			else 
 				finaliseTest();		
