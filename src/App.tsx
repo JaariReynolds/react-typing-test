@@ -9,6 +9,7 @@ import CompletionBar from "./components/CompletionBar";
 import WordsPerMinute from "./components/WordsPerMinute";
 import KeyTips from "./components/KeyTips";
 import CapsLockIndicator from "./components/CapsLockIndicator";
+import AfkDetectedIndicator from "./components/AfkDetectedIndicator";
 
 export enum TestType {
 	Words = "Words",
@@ -50,6 +51,8 @@ function App() {
 
 	const [capsLockOpacity, setCapsLockOpacity] = useState<number>(0);
 	const currentWPM = averageWPM == null || isNaN(averageWPM) || !Number.isFinite(averageWPM) ? 0 : averageWPM;
+
+	const [isAfkMidTest, setIsAfkMidTest] = useState<boolean>(false);
 
 
 	const handleSiteKeyDown = (event: any) => {
@@ -152,6 +155,10 @@ function App() {
 	//#endregion
 
 	//#region Component Props
+	const afkDetectedIndicatorProps = {
+		isAfkMidTest
+	};
+
 	const testOptionsProps = {
 		opacityStyle, testType, setTestType, includeNumbers, setIncludeNumbers, includePunctuation, setIncludePunctuation, testLengthWords, setTestLengthWords, testLengthSeconds, setTestLengthSeconds
 	};	
@@ -165,7 +172,7 @@ function App() {
 	};
 
 	const typingTestProps = {
-		testWords, setTestWords, testLengthWords, testLengthSeconds, testType, includeNumbers, includePunctuation, reset, inputRef, showResultsComponent, setShowResultsComponent, testRunning, setTestRunning, testTimeMilliSeconds, setTestTimeMilliSeconds, setTestCompletionPercentage, testComplete, setTestComplete, testFocused, setTestFocused, pressedKeys, setPressedKeys, averageWPM, setAverageWPM, setWPMOpacity, setComponentOpacity,
+		testWords, setTestWords, testLengthWords, testLengthSeconds, testType, includeNumbers, includePunctuation, reset, setReset, inputRef, showResultsComponent, setShowResultsComponent, testRunning, setTestRunning, testTimeMilliSeconds, setTestTimeMilliSeconds, setTestCompletionPercentage, testComplete, setTestComplete, testFocused, setTestFocused, pressedKeys, setPressedKeys, averageWPM, setAverageWPM, setWPMOpacity, setComponentOpacity, setIsAfkMidTest
 	};
 
 	const typingTestResultsProps = {
@@ -189,6 +196,7 @@ function App() {
 		<div className="App">
 			<div className="main-container" onMouseMove={handleMouseMove}>
 				<div className="inner-container">
+					<AfkDetectedIndicator {...afkDetectedIndicatorProps}/>
 					<TestOptions {...testOptionsProps}/>
 					<CapsLockIndicator {...capsLockIndicatorProps} />
 					<CompletionBar {...completionBarProps}/>		

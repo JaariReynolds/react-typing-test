@@ -22,6 +22,7 @@ const SPACEBAR = "Spacebar";
 const TIMED_TEST_LENGTH = 40;
 const WORDS_TO_ADD = 10;
 const AVERAGE_WORD_LENGTH = 5; // standard length used to calculate WPM
+const AFK_SECONDS_THRESHOLD = 4;
 
 interface Props {
     testWords: TestWords,
@@ -32,6 +33,7 @@ interface Props {
     includeNumbers: boolean,
     includePunctuation: boolean,
     reset: boolean,
+	setReset: React.Dispatch<React.SetStateAction<boolean>>,
 	inputRef: RefObject<HTMLInputElement>,
 	showResultsComponent: boolean,
 	setShowResultsComponent: React.Dispatch<React.SetStateAction<boolean>>,
@@ -50,6 +52,7 @@ interface Props {
 	setAverageWPM: React.Dispatch<React.SetStateAction<number>>,
 	setWPMOpacity: React.Dispatch<React.SetStateAction<number>>,
 	setComponentOpacity: React.Dispatch<React.SetStateAction<number>>,
+	setIsAfkMidTest: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const TypingTest = ({testWords,
@@ -60,6 +63,7 @@ const TypingTest = ({testWords,
 	includeNumbers,
 	includePunctuation,
 	reset,
+	setReset,
 	inputRef,
 	showResultsComponent,
 	setShowResultsComponent,
@@ -77,7 +81,8 @@ const TypingTest = ({testWords,
 	averageWPM,
 	setAverageWPM,
 	setWPMOpacity,
-	setComponentOpacity,}: Props) => {
+	setComponentOpacity,
+	setIsAfkMidTest}: Props) => {
 	const [currentInputWord, setCurrentInputWord] = useState<string>("");
 	const [inputWordsArray, setInputWordsArray] = useState<string[]>([]);
 	const [intervalId, setIntervalId] = useState<NodeJS.Timer|null>(null);	
@@ -86,10 +91,11 @@ const TypingTest = ({testWords,
 	const totalCorrectCharactersRef = useRef(0);
 	const previousSecondCorrectCharactersRef = useRef(0);
 	const [keyPressCount, setKeyPressCount] = useState<number>(0);
-	const [testWPMArray, setTestWPMArray] = useState<NumberPair[]>([]);
+	const [rawWPMArray, setRawWPMArray] = useState<NumberPair[]>([]);
 	const [currentAverageWPMArray, setCurrentAverageWPMArray] = useState<NumberPair[]>([]);
 	const [showWords, setShowWords] = useState<string>("block");
 	const [caretPosition, setCaretPosition] = useState<number>(0); // in 'px' to determine 'left' property of css class
+	
 
 	const opacityStyle = {
 		"--typing-test-opacity": opacity,
@@ -121,7 +127,7 @@ const TypingTest = ({testWords,
 		setLastWord(false);
 		setAverageWPM(0);
 		setWPMOpacity(0);
-		setKeyPressCount(0);		
+		setKeyPressCount(0);	
 
 		switch (testType) {
 		case TestType.Words:
@@ -147,7 +153,7 @@ const TypingTest = ({testWords,
 
 			totalCorrectCharactersRef.current = 0;
 			previousSecondCorrectCharactersRef.current = 0;
-			setTestWPMArray([]);
+			setRawWPMArray([]);
 			setCurrentAverageWPMArray([]);
 			setShowResultsComponent(false);
 
@@ -160,6 +166,11 @@ const TypingTest = ({testWords,
 			setOpacity(1);
 			console.log("randomise test words, reset states");
 		}, TRANSITION_DELAY + 50);
+
+		// if afk last test, show 'notification' for it for 5 seconds after the auto reset
+		setTimeout(() => {
+			setIsAfkMidTest(false);	
+		}, 5000);
 	
 	}, [testLengthWords, testLengthSeconds, testType, includeNumbers, includePunctuation, reset]);
 
@@ -196,36 +207,54 @@ const TypingTest = ({testWords,
 			}
 		}
 		
-		calculateCurrentSecondWPM();
+		if (testTimeMilliSeconds % 1000 === 0) {
+			const rawWPMArray = calculateCurrentSecondWPM();
+			afkDetection(rawWPMArray);
+		}
+
 		
 	}, [testTimeMilliSeconds]);
 
-	const calculateCurrentSecondWPM = () => {
-		// every second, calculate and store in an array the WPM for THAT second only (not averaged yet)
-		if (testTimeMilliSeconds % 1000 === 0) {
-			previousSecondCorrectCharactersRef.current = totalCorrectCharactersRef.current;
-			totalCorrectCharactersRef.current = calculateCorrectCharacters(testWords) + inputWordsArray.length;
-
-			const currentSecondCorrectCharacters = totalCorrectCharactersRef.current - previousSecondCorrectCharactersRef.current;
-			const currentSecondWPM = currentSecondCorrectCharacters / AVERAGE_WORD_LENGTH * 60;	
-			const elapsedTimeSeconds = testTimeMilliSeconds / 1000;
-	
-			if (testType === TestType.Time) {
-				const newTestWPMArray = [...testWPMArray, {interval: testLengthSeconds - (testTimeMilliSeconds/1000), wpm: currentSecondWPM}];
-				setTestWPMArray(newTestWPMArray);	
-				const averageWPM = Math.round(newTestWPMArray.reduce((total, current) => total + current.wpm, 0) / (testLengthSeconds - elapsedTimeSeconds));
-				setAverageWPM(averageWPM);
-				setCurrentAverageWPMArray([...currentAverageWPMArray, {interval: testLengthSeconds - elapsedTimeSeconds, wpm: averageWPM}]);
-			}
-			else if (testType === TestType.Words) {
-				const newTestWPMArray = [...testWPMArray, {interval: elapsedTimeSeconds, wpm: currentSecondWPM}];
-				setTestWPMArray(newTestWPMArray);	
-				//console.log("stored for " + elapsedTimeSeconds);
-				const averageWPM = Math.round(newTestWPMArray.reduce((total, current) => total + current.wpm, 0) / elapsedTimeSeconds);
-				setAverageWPM(averageWPM);
-				setCurrentAverageWPMArray([...currentAverageWPMArray, {interval: elapsedTimeSeconds, wpm: averageWPM}]);
-			}
+	const afkDetection = (rawWPMArray: NumberPair[]) => {
+		const lastFewSeconds = rawWPMArray.slice(-AFK_SECONDS_THRESHOLD);
+		const isAfk = lastFewSeconds.every(numberPair => numberPair.wpm === 0);
+		
+		if (isAfk) {
+			setIsAfkMidTest(isAfk);
+			setReset(!reset);
 		}
+	};
+
+	// every second, calculate and store in an array the WPM for THAT second only (not averaged yet)
+	const calculateCurrentSecondWPM = (): NumberPair[] => {
+		previousSecondCorrectCharactersRef.current = totalCorrectCharactersRef.current;
+		totalCorrectCharactersRef.current = calculateCorrectCharacters(testWords) + inputWordsArray.length;
+
+		const currentSecondCorrectCharacters = totalCorrectCharactersRef.current - previousSecondCorrectCharactersRef.current;
+		const currentSecondWPM = currentSecondCorrectCharacters / AVERAGE_WORD_LENGTH * 60;	
+		const elapsedTimeSeconds = testTimeMilliSeconds / 1000;
+	
+		// once testTypes are properly defined, dont really need to initialise values for these variables and will no longer need else if's
+		let newAverageWPM = 0;
+		let newRawWPMArray: NumberPair[] = [];
+		let newAverageWPMPair: NumberPair = {interval: 0, wpm: 0}; 			
+			
+		if (testType === TestType.Time) {
+			newRawWPMArray = [...rawWPMArray, {interval: testLengthSeconds - (testTimeMilliSeconds/1000), wpm: currentSecondWPM}];
+			newAverageWPM = Math.round(newRawWPMArray.reduce((total, current) => total + current.wpm, 0) / (testLengthSeconds - elapsedTimeSeconds));
+			newAverageWPMPair = {interval: testLengthSeconds - elapsedTimeSeconds, wpm: newAverageWPM};
+			console.log("new average is " + newAverageWPM);
+		}
+		else if (testType === TestType.Words) {
+			newRawWPMArray = [...rawWPMArray, {interval: elapsedTimeSeconds, wpm: currentSecondWPM}];
+			newAverageWPM = Math.round(newRawWPMArray.reduce((total, current) => total + current.wpm, 0) / elapsedTimeSeconds);
+			newAverageWPMPair = {interval: elapsedTimeSeconds, wpm: newAverageWPM};
+		}
+			
+		setAverageWPM(newAverageWPM);
+		setRawWPMArray(newRawWPMArray);	
+		setCurrentAverageWPMArray([...currentAverageWPMArray, newAverageWPMPair]);
+		return newRawWPMArray;
 	};
 
 	const calculateFinalSecondWPM = () => {
@@ -237,17 +266,17 @@ const TypingTest = ({testWords,
 		const elapsedTimeSeconds = testTimeMilliSeconds / 1000;
 		const currentSecondWPM = Math.round(currentSecondCorrectCharacters / AVERAGE_WORD_LENGTH * 60 / (elapsedTimeSeconds % 1));	
 		
-		const newTestWPMArray = [...testWPMArray, {interval: elapsedTimeSeconds, wpm: currentSecondWPM}];
-		setTestWPMArray(newTestWPMArray);	
+		const newRawWPMArray = [...rawWPMArray, {interval: elapsedTimeSeconds, wpm: currentSecondWPM}];
+		setRawWPMArray(newRawWPMArray);	
 
 		// since average here is a per second calculation, round elapsedTimeSeconds UP to nearest whole second since currentSecondWPM is also normalised to it's whole-second equivalent
-		const newAverageWPM = Math.round(newTestWPMArray.reduce((total, current) => total + current.wpm, 0) / Math.ceil(elapsedTimeSeconds));
+		const newAverageWPM = Math.round(newRawWPMArray.reduce((total, current) => total + current.wpm, 0) / Math.ceil(elapsedTimeSeconds));
 		setAverageWPM(newAverageWPM);
 
 		const newCurrentAverageWPMArray = [...currentAverageWPMArray, {interval: elapsedTimeSeconds, wpm: newAverageWPM}];
 		setCurrentAverageWPMArray(newCurrentAverageWPMArray);
 
-		finaliseTest(newTestWPMArray, newCurrentAverageWPMArray, newAverageWPM);
+		finaliseTest(newRawWPMArray, newCurrentAverageWPMArray, newAverageWPM);
 		
 	};
 
@@ -302,7 +331,7 @@ const TypingTest = ({testWords,
 			errorCountSoft: calculateTotalErrorsSoft(testWords),
 			timeElapsedMilliSeconds: (testType === TestType.Time ? testLengthSeconds * 1000 : testTimeMilliSeconds),
 			keyPressCount: keyPressCount,
-			rawWPMArray: updatedRaw ?? testWPMArray,
+			rawWPMArray: updatedRaw ?? rawWPMArray,
 			currentAverageWPMArray: updatedCurrent ?? currentAverageWPMArray,
 			averageWPM:	updatedAverage ?? averageWPM
 		});
@@ -321,6 +350,7 @@ const TypingTest = ({testWords,
 		if (intervalId !== null) return;
 		
 		setTestRunning(true);
+		setIsAfkMidTest(false);
 		let id;
 
 		switch (testType) {
@@ -505,12 +535,7 @@ const TypingTest = ({testWords,
 	
 		<div style={opacityStyle} className="typing-test">
 			<TypingTestInput {...typingTestInputProps}/>
-
-			<TypingTestWords {...typingTestWordsProps}/>
-
-			
-
-			
+			<TypingTestWords {...typingTestWordsProps}/>		
 		</div>  
 		
 	);
