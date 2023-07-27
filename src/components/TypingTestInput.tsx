@@ -28,7 +28,6 @@ export const TypingTestInput = ({inputRef, currentInputWord, handleChange, handl
 				onBlur={() => setTestFocused(false)}
 				tabIndex={-1}
 				onMouseDown={(event) => {event.preventDefault();}} // disable select/highlight of input field 
-				
 			/>
 		</div>
 	);

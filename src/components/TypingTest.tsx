@@ -18,11 +18,11 @@ import { TypingTestWords } from "./TypingTestWords";
 import { TypingTestInput } from "./TypingTestInput";
 
 const SPACEBAR = "Spacebar";
-
 const TIMED_TEST_LENGTH = 40;
 const WORDS_TO_ADD = 10;
 const AVERAGE_WORD_LENGTH = 5; // standard length used to calculate WPM
-const AFK_SECONDS_THRESHOLD = 4;
+const AFK_SECONDS_THRESHOLD = 7;
+const EXCLUDED_FINAL_MILLISECONDS = 400;
 
 interface Props {
     testWords: TestWords,
@@ -96,6 +96,8 @@ const TypingTest = ({testWords,
 	const [showWords, setShowWords] = useState<string>("block");
 	const [caretPosition, setCaretPosition] = useState<number>(0); // in 'px' to determine 'left' property of css class
 	
+	const [generalKeyPressCount, setGeneralKeyPressCount] = useState<number>(0);
+	const [generalKeyPressCountArray, setGeneralKeyPressCountArray] = useState<number[]>([]);
 
 	const opacityStyle = {
 		"--typing-test-opacity": opacity,
@@ -127,7 +129,9 @@ const TypingTest = ({testWords,
 		setLastWord(false);
 		setAverageWPM(0);
 		setWPMOpacity(0);
-		setKeyPressCount(0);	
+		setKeyPressCount(0);
+		setGeneralKeyPressCount(0);
+		setGeneralKeyPressCountArray([]);
 
 		switch (testType) {
 		case TestType.Words:
@@ -164,7 +168,7 @@ const TypingTest = ({testWords,
 			}
 			
 			setOpacity(1);
-			console.log("randomise test words, reset states");
+		
 		}, TRANSITION_DELAY + 50);
 
 		// if afk last test, show 'notification' for it for 5 seconds after the auto reset
@@ -208,16 +212,21 @@ const TypingTest = ({testWords,
 		}
 		
 		if (testTimeMilliSeconds % 1000 === 0) {
-			const rawWPMArray = calculateCurrentSecondWPM();
-			afkDetection(rawWPMArray);
-		}
+			calculateCurrentSecondWPM();
+			const newGeneralKeyPressCountArray = [...generalKeyPressCountArray, generalKeyPressCount];
+			setGeneralKeyPressCountArray(newGeneralKeyPressCountArray);
 
-		
+			if (newGeneralKeyPressCountArray.length > AFK_SECONDS_THRESHOLD) {
+				afkDetection(newGeneralKeyPressCountArray);
+			}
+		}	
 	}, [testTimeMilliSeconds]);
 
-	const afkDetection = (rawWPMArray: NumberPair[]) => {
-		const lastFewSeconds = rawWPMArray.slice(-AFK_SECONDS_THRESHOLD);
-		const isAfk = lastFewSeconds.every(numberPair => numberPair.wpm === 0);
+	const afkDetection = (keyPressArray: number[]) => {
+		// if the last few seconds (AFK_SECONDS_THRESHOLD) all have the same key press count, force reset 
+		const lastFewSeconds = keyPressArray.slice(-AFK_SECONDS_THRESHOLD);
+		const mostRecentKeyPressCount = lastFewSeconds[lastFewSeconds.length - 1];
+		const isAfk = lastFewSeconds.every(perSecondKeyPress => perSecondKeyPress === mostRecentKeyPressCount);
 		
 		if (isAfk) {
 			setIsAfkMidTest(isAfk);
@@ -226,7 +235,7 @@ const TypingTest = ({testWords,
 	};
 
 	// every second, calculate and store in an array the WPM for THAT second only (not averaged yet)
-	const calculateCurrentSecondWPM = (): NumberPair[] => {
+	const calculateCurrentSecondWPM = () => {
 		previousSecondCorrectCharactersRef.current = totalCorrectCharactersRef.current;
 		totalCorrectCharactersRef.current = calculateCorrectCharacters(testWords) + inputWordsArray.length;
 
@@ -243,7 +252,6 @@ const TypingTest = ({testWords,
 			newRawWPMArray = [...rawWPMArray, {interval: testLengthSeconds - (testTimeMilliSeconds/1000), wpm: currentSecondWPM}];
 			newAverageWPM = Math.round(newRawWPMArray.reduce((total, current) => total + current.wpm, 0) / (testLengthSeconds - elapsedTimeSeconds));
 			newAverageWPMPair = {interval: testLengthSeconds - elapsedTimeSeconds, wpm: newAverageWPM};
-			console.log("new average is " + newAverageWPM);
 		}
 		else if (testType === TestType.Words) {
 			newRawWPMArray = [...rawWPMArray, {interval: elapsedTimeSeconds, wpm: currentSecondWPM}];
@@ -254,7 +262,6 @@ const TypingTest = ({testWords,
 		setAverageWPM(newAverageWPM);
 		setRawWPMArray(newRawWPMArray);	
 		setCurrentAverageWPMArray([...currentAverageWPMArray, newAverageWPMPair]);
-		return newRawWPMArray;
 	};
 
 	// forcing WPM calculation for the final (< 1 second) stretch of a NON-TIMED test
@@ -282,7 +289,7 @@ const TypingTest = ({testWords,
 
 	useEffect(() => {
 		if (testRunning && testType === TestType.Words) {
-			// test is finished when pressing space on last word (FOR WORD-LENGTH TEST)
+			// test is finished when pressing space on last word (FOR WORD-LENGTH TEST) - one of two ways to finish a word length test
 			if (inputWordsArray.length === testWords.words.length) {
 				setTestComplete(true);
 				return;
@@ -314,8 +321,8 @@ const TypingTest = ({testWords,
 
 		if (testComplete) {
 			stopTestStopWatch();
-			// '> 400' meaning DONT include the final milliseconds of the test if it is less than 0.4s extra as it can result in very skewed wpm for the final wpm stored 
-			if (testType !== TestType.Time && testTimeMilliSeconds % 1000 !== 0 && testTimeMilliSeconds % 1000 > 400) 
+			// '> EXCLUDED_FINAL_MILLISECONDS' meaning DONT include the final milliseconds of the test if it is less than (amount) as it can result in very skewed wpm for the final wpm stored 
+			if (testType !== TestType.Time && testTimeMilliSeconds % 1000 !== 0 && testTimeMilliSeconds % 1000 > EXCLUDED_FINAL_MILLISECONDS) 
 				calculateFinalSecondWPM(); // calls finaliseTest() within, with updated wpm parameters
 			else 
 				finaliseTest();		
@@ -378,7 +385,6 @@ const TypingTest = ({testWords,
 
 		clearInterval(intervalId);       
 		setIntervalId(null);
-		//console.log(testWords);
 	};
 
 	// calculate the total num of hard errors in a word after pressing 'space'
@@ -408,7 +414,7 @@ const TypingTest = ({testWords,
 		if (!testRunning) {
 			startTestStopWatch();
 		}     
-
+		
 		// if spacebar pressed, insert current word to array, clear current word, clear pressed keys just in case
 		if (pressedKeys[pressedKeys.length-1] === SPACEBAR && e.target.value.trim().length > 0) { // (.length - 1) means its the only character currently pressed at the time
 			updateWordErrorsHard(inputWordsArray.length);
@@ -471,6 +477,9 @@ const TypingTest = ({testWords,
 	};
 
 	const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+
+		setGeneralKeyPressCount(prev => prev + 1); // used only for afk detection
+
 		if (e.key === "Tab") {
 			setComponentOpacity(1);   
 			if (!pressedKeys.includes("Tab")) 
@@ -481,7 +490,6 @@ const TypingTest = ({testWords,
 
 		// if shift + backspace pressed (shift first), clear the status on all letters in the input/word
 		if (pressedKeys.length === 1 && pressedKeys.includes("Control") && e.key === "Backspace" && currentInputWord.length > 0) {
-			console.log("ctrl + backspace pressed");
 			handleCtrlBackspace();
 			return;
 		}
