@@ -54,7 +54,6 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 	const [currentCaretLine, setCurrentCaretLine] = useState<number>(0);
 
 	useEffect(() => {
-		console.log("testwords reset");
 		// grab css sizing properties on mount
 		const computedStyle = window.getComputedStyle(testWordsDivRef.current!);
 

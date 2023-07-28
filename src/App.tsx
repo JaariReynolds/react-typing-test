@@ -136,8 +136,8 @@ function App() {
 		"--WPM-opacity": WPMOpacity,
 		"--WPM-display": WPMDisplay,
 		"--reset-div-margin": resetDivMargin,
-		"--test-type-words-opacity": (testType === TestType.Words && !testRunning) || (testRunning && testType === TestType.Words && testFocused === false && pressedKeys.length === 0) ? 1 : 0,
-		"--test-type-time-opacity": (testType === TestType.Time && !testRunning) || (testRunning && testType === TestType.Time && testFocused === false && pressedKeys.length === 0) ? 1 : 0,
+		"--test-type-words-opacity": (testType === TestType.Words) ? 1 : 0,
+		"--test-type-time-opacity": (testType === TestType.Time) ? 1 : 0,
 	  } as CSSProperties;
 
 	const completionBarWidth = {

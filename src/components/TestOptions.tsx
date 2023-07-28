@@ -23,12 +23,12 @@ interface testOptionsProps {
 
 const TestOptions = ({opacityStyle, testType, setTestType, includeNumbers, setIncludeNumbers, includePunctuation, setIncludePunctuation, testLengthWords, setTestLengthWords, testLengthSeconds, setTestLengthSeconds}: testOptionsProps) => {
 	return (
-		<div className="test-options">
-			<TestTypeSelector testType={testType} setTestType={setTestType} opacityStyle={opacityStyle}/>
-			<NumberSelector numbers={includeNumbers} setNumbers={setIncludeNumbers} opacityStyle={opacityStyle}/>
-			<PunctuationSelector punctuation={includePunctuation} setPunctuation={setIncludePunctuation} opacityStyle={opacityStyle}/>
-			<TestLengthWordsSelector testLengthWords={testLengthWords} setTestLengthWords={setTestLengthWords} opacityStyle={opacityStyle} testType={testType}/>
-			<TestLengthSecondsSelector testLengthSeconds={testLengthSeconds} setTestLengthSeconds={setTestLengthSeconds} opacityStyle={opacityStyle} testType={testType}/>
+		<div className="test-options" style={opacityStyle}>
+			<TestTypeSelector testType={testType} setTestType={setTestType}/>
+			<NumberSelector numbers={includeNumbers} setNumbers={setIncludeNumbers}/>
+			<PunctuationSelector punctuation={includePunctuation} setPunctuation={setIncludePunctuation}/>
+			<TestLengthWordsSelector testLengthWords={testLengthWords} setTestLengthWords={setTestLengthWords} testType={testType}/>
+			<TestLengthSecondsSelector testLengthSeconds={testLengthSeconds} setTestLengthSeconds={setTestLengthSeconds} testType={testType}/>
 		</div>
 	);
 };

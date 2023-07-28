@@ -3,21 +3,20 @@ import React from "react";
 import { TestType } from "../App";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
-import { faFont, faHourglassStart, faW } from "@fortawesome/free-solid-svg-icons";
+import { faFont } from "@fortawesome/free-solid-svg-icons";
 
 interface IProps {
     testType: TestType,
     setTestType: React.Dispatch<React.SetStateAction<TestType>>,
-	opacityStyle: React.CSSProperties
 }
 
-const TestTypeSelector = ({testType, setTestType, opacityStyle}: IProps) => {
+const TestTypeSelector = ({testType, setTestType}: IProps) => {
 	const handleOptionChange = (event:React.ChangeEvent<HTMLInputElement>) => {
 		setTestType(event.target.value as TestType);
 	};
 
 	return (
-		<div style={opacityStyle} className="test-option-selector">
+		<div className="test-option-selector">
 			<span className="option-text">
 				<input
 					type="radio"
@@ -35,7 +34,6 @@ const TestTypeSelector = ({testType, setTestType, opacityStyle}: IProps) => {
 			</span>
 
 			<span className="option-text">
-				
 				<input
 					type="radio"
 					id="time"
@@ -47,12 +45,8 @@ const TestTypeSelector = ({testType, setTestType, opacityStyle}: IProps) => {
 				/>
 				<label htmlFor="time" className="selectable-label">
 					<span>
-						
 						<FontAwesomeIcon icon={faClock} className="test-options-icon"/>
                    		 Time
-
-						
-
 					</span>
 				</label>
 			</span>

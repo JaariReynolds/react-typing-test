@@ -172,26 +172,23 @@ body {
       }
     }
 
-
     .test-options {
       display: grid;
-      //grid-template-columns: repeat(2, minmax(0, 1fr));
       font-size: $base-font-size;
-      //margin-bottom: 4rem;
+      opacity: var(--component-opacity);
+      //@include transition-opacity(var(--component-opacity));
 
       .test-options-icon {
         padding-right: 0.25rem;
       }
 
       .test-option-selector {
-        @include transition-opacity(var(--component-opacity));
         grid-column: span 1 / span 1;
         text-align: center;
         -webkit-user-select: none;
         user-select: none;
         margin-bottom: 1rem;
-        //border: 1px solid cyan;
-
+        @include transition-opacity(var(--component-opacity)); // used for switching between words/time
 
         &.uninteractable-selector {
           pointer-events: none;

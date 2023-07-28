@@ -5,13 +5,11 @@ import React from "react";
 interface IProps {
     punctuation: boolean,
     setPunctuation: (prop: boolean) => void,
-	opacityStyle: React.CSSProperties
 }
 
-const PunctuationSelector = ({punctuation, setPunctuation, opacityStyle}: IProps) => {
-    
+const PunctuationSelector = ({punctuation, setPunctuation}: IProps) => {
 	return (
-		<div style={opacityStyle} className="test-option-selector">
+		<div className="test-option-selector">
 			<span className="option-text">
 				<input
 					type="checkbox"
