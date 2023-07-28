@@ -10,11 +10,15 @@ import WordsPerMinute from "./components/WordsPerMinute";
 import KeyTips from "./components/KeyTips";
 import CapsLockIndicator from "./components/CapsLockIndicator";
 import AfkDetectedIndicator from "./components/AfkDetectedIndicator";
+import { colourPalettes, ColourPaletteStructure } from "./interfaces/ColourPalletes";
+
 
 export enum TestType {
 	Words = "Words",
 	Time = "Time"
 }
+
+
 export const TRANSITION_DELAY = 200;
 
 function App() {
@@ -54,6 +58,7 @@ function App() {
 
 	const [isAfkMidTest, setIsAfkMidTest] = useState<boolean>(false);
 
+	const [selectedPalette, setSelectedPalette] = useState<ColourPaletteStructure>(colourPalettes[0]);
 
 	const handleSiteKeyDown = (event: any) => {
 		// prevent default tab functionality when test is not focused, set focus instead to the 'reset' button
@@ -68,6 +73,7 @@ function App() {
 		
 		setCapsLockOpacity(event.getModifierState("CapsLock") ? 1 : 0);
 	};
+	
 
 	//#region useEffects
 	useEffect(() => {
@@ -120,6 +126,10 @@ function App() {
 			}, TRANSITION_DELAY + 100);
 		}
 	}, [testComplete]);
+
+	useEffect(() => {
+		document.body.style.backgroundColor = selectedPalette?.backgroundColour;
+	}, [selectedPalette]);
 	//#endregion
 
 	
@@ -129,6 +139,12 @@ function App() {
 		setTestFocused(false);
 		setComponentOpacity(1);
 	};
+
+	const colourPaletteStyling = {
+		"--background-colour": selectedPalette.backgroundColour,
+		"--base-font-colour": selectedPalette.baseFontColour,
+		"--highlight-colour": selectedPalette.highlightColour
+	} as CSSProperties;
 
 	//#region CSS Properties
 	const opacityStyle = {
@@ -160,7 +176,7 @@ function App() {
 	};
 
 	const testOptionsProps = {
-		opacityStyle, testType, setTestType, includeNumbers, setIncludeNumbers, includePunctuation, setIncludePunctuation, testLengthWords, setTestLengthWords, testLengthSeconds, setTestLengthSeconds
+		opacityStyle, testType, setTestType, includeNumbers, setIncludeNumbers, includePunctuation, setIncludePunctuation, testLengthWords, setTestLengthWords, testLengthSeconds, setTestLengthSeconds, selectedPalette, setSelectedPalette
 	};	
 
 	const capsLockIndicatorProps = {
@@ -193,7 +209,7 @@ function App() {
 	//#endregion
 
 	return (
-		<div className="App">
+		<div style={colourPaletteStyling} className="App">
 			<div className="main-container" onMouseMove={handleMouseMove}>
 				<div className="inner-container">
 					<AfkDetectedIndicator {...afkDetectedIndicatorProps}/>

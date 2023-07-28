@@ -5,10 +5,6 @@ $text-colour-transition-duration: 300ms;
 $letter-colour-transition-duration: 200ms;
 $base-font-size: 1.3rem;
 
-$background-colour: rgb(47, 50, 52);
-$base-font-colour: rgb(161 161 170);
-$results-background-colour: rgb(161, 161, 170, 0);
-$selected-font-colour: rgb(253 224 71);
 $correct-font-colour: rgb(255 255 255);
 $incorrect-font-colour: rgb(220 38 38);
 $hover-font-colour: rgb(255 255 255);
@@ -38,6 +34,11 @@ $hover-font-colour: rgb(255 255 255);
   --capslock-display: block;
   --capslock-opacity: 1;
   --afk-opacity: 0;
+  --background-colour: #2f3234;
+  --base-font-colour: #a1a1aa;
+  --highlight-colour: #fde047;
+
+
 }
 
 @mixin transition-opacity($opacity) {
@@ -61,20 +62,20 @@ $hover-font-colour: rgb(255 255 255);
 
 body {
   margin: 0;
-  background-color: $background-colour;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  background-color: var(--background-colour);
+  font-family: 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease-in-out;
 }
 
 .App {
   text-align: left;
   align-items: center;
   justify-content: center;
-  color: $base-font-colour;
-  //background-color: $background-colour;
+  color: var(--base-font-colour);
   height: 100vh;
 
 }
@@ -111,7 +112,7 @@ body {
     align-items: center;
     border-radius: 0.5rem;
     position: relative;
-    color: $background-colour;
+    color: var(--background-colour);
     display: flex;
 
     .afk-icon {
@@ -139,7 +140,7 @@ body {
       position: relative;
       height: 0.5rem;
       border-radius: 0.25rem;
-      background-color: $selected-font-colour;
+      background-color: var(--highlight-colour);
       width: var(--completion-percentage);
       max-width: 100%;
       transition: width $completion-bar-transition-duration linear;
@@ -162,8 +163,8 @@ body {
         width: 150px;
         border-radius: 0.5rem;
         justify-content: center;
-        background-color: $selected-font-colour;
-        color: $background-colour;
+        background-color: var(--highlight-colour);
+        color: var(--background-colour);
         display: flex;
 
         .capslock-icon {
@@ -175,8 +176,7 @@ body {
     .test-options {
       display: grid;
       font-size: $base-font-size;
-      opacity: var(--component-opacity);
-      //@include transition-opacity(var(--component-opacity));
+      @include transition-opacity(var(--component-opacity));
 
       .test-options-icon {
         padding-right: 0.25rem;
@@ -205,7 +205,7 @@ body {
         }
 
         .option-text {
-          color: $base-font-colour;
+          color: var(--base-font-colour);
 
           :hover {
             cursor: pointer;
@@ -238,19 +238,19 @@ body {
     font-weight: 600;
 
     .key-highlight {
-      background-color: $base-font-colour;
-      color: $background-colour;
+      background-color: var(--base-font-colour);
+      color: var(--background-colour);
       border-radius: 0.3rem;
       padding: 0.2rem 0.5rem;
     }
   }
 
   input[type="radio"]:checked+label {
-    color: $selected-font-colour;
+    color: var(--highlight-colour);
   }
 
   input[type="checkbox"]:checked+label {
-    color: $selected-font-colour;
+    color: var(--highlight-colour);
   }
 }
 
@@ -267,7 +267,7 @@ body {
     position: relative;
     text-align: center;
     font-size: 4rem;
-    color: $base-font-colour;
+    color: var(--base-font-colour);
     opacity: var(--WPM-opacity);
     display: var(--WPM-display);
   }
@@ -334,7 +334,7 @@ body {
         transition-property: left, top;
         transition-timing-function: linear, linear;
         transition-duration: 0.125s, 0.125s;
-        background-color: $selected-font-colour;
+        background-color: var(--highlight-colour);
         border-radius: 0.25rem;
         width: .2rem;
         position: absolute;
@@ -361,7 +361,7 @@ body {
 
           // if these are changed, need to update letterColour() in TypingTest.tsx
           &.base-text-colour {
-            color: $base-font-colour;
+            color: var(--base-font-colour);
           }
 
           &.correct-text-colour {
@@ -409,26 +409,26 @@ body {
     height: 80%;
 
     &:focus {
-      background-color: $base-font-colour;
+      background-color: var(--base-font-colour);
       outline: none;
 
       .reset-icon {
-        color: $background-colour;
+        color: var(--background-colour);
       }
     }
 
     &:hover {
-      background-color: $base-font-colour;
+      background-color: var(--base-font-colour);
 
       .reset-icon {
-        color: $background-colour;
+        color: var(--background-colour);
       }
     }
 
     .reset-icon {
       font-size: 3rem;
       transition: color 0.3s ease-in-out;
-      color: $base-font-colour;
+      color: var(--base-font-colour);
 
       &.spinning-icon {
         animation: fa-spin-custom 3s infinite;
@@ -474,12 +474,12 @@ body {
 
       .label {
         margin-top: -2.6rem;
-        color: $base-font-colour;
+        color: var(--base-font-colour);
         //padding-bottom: 2rem;
       }
 
       .score {
-        color: $selected-font-colour;
+        color: var(--highlight-colour);
         font-size: 2.3rem;
       }
 
@@ -489,10 +489,10 @@ body {
         grid-column: 3;
         text-align: center;
         font-size: 5.5rem;
-        color: $selected-font-colour;
+        color: var(--highlight-colour);
 
         .wpm-label {
-          color: $base-font-colour;
+          color: var(--base-font-colour);
           grid-area: 2/1;
           margin-top: -2.2rem;
           font-size: $base-font-size;
@@ -519,7 +519,7 @@ body {
 
 @keyframes blinking-caret-left {
   0% {
-    border-left-color: $selected-font-colour;
+    border-left-color: var(--highlight-colour);
   }
 
   50% {
@@ -527,13 +527,13 @@ body {
   }
 
   100% {
-    border-left-color: $selected-font-colour;
+    border-left-color: var(--highlight-colour);
   }
 }
 
 @keyframes blinking-caret {
   0% {
-    background-color: $selected-font-colour;
+    background-color: var(--highlight-colour);
   }
 
   50% {
@@ -541,13 +541,13 @@ body {
   }
 
   100% {
-    background-color: $selected-font-colour;
+    background-color: var(--highlight-colour);
   }
 }
 
 @keyframes blinking-caret-right {
   0% {
-    border-right-color: $selected-font-colour;
+    border-right-color: var(--highlight-colour);
   }
 
   50% {
@@ -555,6 +555,6 @@ body {
   }
 
   100% {
-    border-right-color: $selected-font-colour;
+    border-right-color: var(--highlight-colour);
   }
 }

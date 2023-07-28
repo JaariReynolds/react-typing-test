@@ -4,7 +4,9 @@ import NumberSelector from "./NumberSelector";
 import PunctuationSelector from "./PunctuationSelector";
 import TestLengthSecondsSelector from "./TestLengthSecondsSelector";
 import TestLengthWordsSelector from "./TestLengthWordsSelector";
-import { TestType } from "../App";
+import {TestType } from "../App";
+import ColourPaletteSelector from "./ColourPaletteSelector";
+import { ColourPaletteStructure } from "../interfaces/ColourPalletes";
 
 interface testOptionsProps {
     opacityStyle: React.CSSProperties,
@@ -17,11 +19,12 @@ interface testOptionsProps {
     testLengthWords: number,
     setTestLengthWords: React.Dispatch<React.SetStateAction<number>>,
     testLengthSeconds: number,
-    setTestLengthSeconds: React.Dispatch<React.SetStateAction<number>>
-
+    setTestLengthSeconds: React.Dispatch<React.SetStateAction<number>>,
+    selectedPalette: ColourPaletteStructure,
+    setSelectedPalette: React.Dispatch<React.SetStateAction<ColourPaletteStructure>>
 }
 
-const TestOptions = ({opacityStyle, testType, setTestType, includeNumbers, setIncludeNumbers, includePunctuation, setIncludePunctuation, testLengthWords, setTestLengthWords, testLengthSeconds, setTestLengthSeconds}: testOptionsProps) => {
+const TestOptions = ({opacityStyle, testType, setTestType, includeNumbers, setIncludeNumbers, includePunctuation, setIncludePunctuation, testLengthWords, setTestLengthWords, testLengthSeconds, setTestLengthSeconds, selectedPalette, setSelectedPalette}: testOptionsProps) => {
 	return (
 		<div className="test-options" style={opacityStyle}>
 			<TestTypeSelector testType={testType} setTestType={setTestType}/>
@@ -29,6 +32,7 @@ const TestOptions = ({opacityStyle, testType, setTestType, includeNumbers, setIn
 			<PunctuationSelector punctuation={includePunctuation} setPunctuation={setIncludePunctuation}/>
 			<TestLengthWordsSelector testLengthWords={testLengthWords} setTestLengthWords={setTestLengthWords} testType={testType}/>
 			<TestLengthSecondsSelector testLengthSeconds={testLengthSeconds} setTestLengthSeconds={setTestLengthSeconds} testType={testType}/>
+			<ColourPaletteSelector selectedPalette={selectedPalette} setSelectedPalette={setSelectedPalette}/>
 		</div>
 	);
 };
