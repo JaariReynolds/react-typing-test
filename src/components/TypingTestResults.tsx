@@ -3,15 +3,17 @@
 import React, { useEffect } from "react";
 import { TestWords } from "../interfaces/WordStructure";
 import TypingTestResultsWPMGraph from "./TypingTestResultsWPMGraph";
+import { ColourPaletteStructure } from "../interfaces/ColourPalletes";
 
 interface Props {
     testWords: TestWords, 
     setTestWords: React.Dispatch<React.SetStateAction<TestWords>>,
 	showResultsComponent: boolean,
-	resultsComponentStyling: React.CSSProperties
+	resultsComponentStyling: React.CSSProperties,
+	selectedPalette: ColourPaletteStructure
 }
 
-const TypingTestResults = ({testWords, setTestWords, showResultsComponent, resultsComponentStyling}: Props ) => {
+const TypingTestResults = ({testWords, setTestWords, showResultsComponent, resultsComponentStyling, selectedPalette}: Props ) => {
 	
 	// once results screen shown, calculate extra info to show 
 	useEffect(() => {
@@ -35,7 +37,8 @@ const TypingTestResults = ({testWords, setTestWords, showResultsComponent, resul
 
 	const typingTestResultsWPMGraphProps = {
 		rawWPMArray: testWords.rawWPMArray,
-		currentAverageWPMArray: testWords.currentAverageWPMArray
+		currentAverageWPMArray: testWords.currentAverageWPMArray,
+		colourPalette: selectedPalette
 	};
 
 	return (

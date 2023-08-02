@@ -36,9 +36,15 @@ $hover-font-colour: rgb(255 255 255);
   --afk-opacity: 0;
   --background-colour: #2f3234;
   --base-font-colour: #a1a1aa;
-  --highlight-colour: #fde047;
+  --primary-highlight-colour: #fde047;
+}
 
+@mixin general-color-transition() {
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
 
+@mixin transition-completion-bar-width() {
+  transition: width $completion-bar-transition-duration linear;
 }
 
 @mixin transition-opacity($opacity) {
@@ -48,13 +54,13 @@ $hover-font-colour: rgb(255 255 255);
   opacity: $opacity;
 }
 
-@mixin transition-words {
+@mixin transition-words() {
   transition-property: opacity, var(--word-scroll-transition-property);
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1), cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: $component-opacity-fade-duration, 0.2s;
 }
 
-@mixin transition-text-color {
+@mixin transition-text-color() {
   transition-property: color;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: $text-colour-transition-duration;
@@ -63,12 +69,10 @@ $hover-font-colour: rgb(255 255 255);
 body {
   margin: 0;
   background-color: var(--background-colour);
-  font-family: 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: background-color 0.3s ease-in-out;
+  @include general-color-transition();
 }
 
 .App {
@@ -77,9 +81,7 @@ body {
   justify-content: center;
   color: var(--base-font-colour);
   height: 100vh;
-
 }
-
 
 @media (max-width: 670px) {
   .test-options {
@@ -94,8 +96,7 @@ body {
 }
 
 .afk-indicator-container {
-  transition: opacity 0.3s ease-in-out;
-  opacity: var(--afk-opacity);
+  @include transition-opacity(var(--afk-opacity));
   background-color: $incorrect-font-colour;
   border-radius: 0.5rem;
   display: flex;
@@ -135,15 +136,14 @@ body {
     margin-top: 8rem;
 
     .test-completion-bar {
-      @include transition-text-color();
       display: flex;
       position: relative;
       height: 0.5rem;
       border-radius: 0.25rem;
-      background-color: var(--highlight-colour);
+      background-color: var(--primary-highlight-colour);
       width: var(--completion-percentage);
       max-width: 100%;
-      transition: width $completion-bar-transition-duration linear;
+      transition: width $completion-bar-transition-duration linear, background-color 0.3s ease-in-out; // needs to be hard written like this unless in a @mixin JUST for this use case
       margin-top: 1rem;
     }
 
@@ -163,7 +163,7 @@ body {
         width: 150px;
         border-radius: 0.5rem;
         justify-content: center;
-        background-color: var(--highlight-colour);
+        background-color: var(--primary-highlight-colour);
         color: var(--background-colour);
         display: flex;
 
@@ -206,10 +206,12 @@ body {
 
         .option-text {
           color: var(--base-font-colour);
+          transition: color 0.15s ease-in-out;
 
           :hover {
             cursor: pointer;
             color: $hover-font-colour;
+            transition: color 0.15s ease-in-out;
           }
 
           .hidden-radio-button {
@@ -217,7 +219,6 @@ body {
           }
 
           .selectable-label {
-            @include transition-text-color();
             padding: 0.5rem;
             margin: 0.25rem;
             font-weight: 600;
@@ -236,21 +237,26 @@ body {
     letter-spacing: 0.1rem;
     margin-top: auto;
     font-weight: 600;
+    @include general-color-transition();
 
     .key-highlight {
       background-color: var(--base-font-colour);
       color: var(--background-colour);
       border-radius: 0.3rem;
       padding: 0.2rem 0.5rem;
+      @include general-color-transition();
+
     }
   }
 
   input[type="radio"]:checked+label {
-    color: var(--highlight-colour);
+    @include general-color-transition();
+    color: var(--primary-highlight-colour);
   }
 
   input[type="checkbox"]:checked+label {
-    color: var(--highlight-colour);
+    @include general-color-transition();
+    color: var(--primary-highlight-colour);
   }
 }
 
@@ -334,7 +340,7 @@ body {
         transition-property: left, top;
         transition-timing-function: linear, linear;
         transition-duration: 0.125s, 0.125s;
-        background-color: var(--highlight-colour);
+        background-color: var(--primary-highlight-colour);
         border-radius: 0.25rem;
         width: .2rem;
         position: absolute;
@@ -396,9 +402,6 @@ body {
     width: 100%;
     font-weight: 500;
     font-size: $base-font-size;
-
-
-    //sborder: 2px solid green;
     height: 20%;
   }
 
@@ -427,7 +430,7 @@ body {
 
     .reset-icon {
       font-size: 3rem;
-      transition: color 0.3s ease-in-out;
+      @include general-color-transition();
       color: var(--base-font-colour);
 
       &.spinning-icon {
@@ -455,7 +458,12 @@ body {
   padding-top: 1.5rem;
   font-size: $base-font-size;
 
+  & * {
+    @include general-color-transition();
+  }
+
   .results-chart {
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -467,19 +475,18 @@ body {
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(2, 5rem);
 
+
     .grid-item {
       display: grid;
       text-align: center;
-      //padding-bottom: 1rem;
 
       .label {
         margin-top: -2.6rem;
         color: var(--base-font-colour);
-        //padding-bottom: 2rem;
       }
 
       .score {
-        color: var(--highlight-colour);
+        color: var(--primary-highlight-colour);
         font-size: 2.3rem;
       }
 
@@ -489,7 +496,7 @@ body {
         grid-column: 3;
         text-align: center;
         font-size: 5.5rem;
-        color: var(--highlight-colour);
+        color: var(--primary-highlight-colour);
 
         .wpm-label {
           color: var(--base-font-colour);
@@ -503,10 +510,6 @@ body {
   }
 }
 
-
-
-
-
 @keyframes fa-spin-custom {
   from {
     transform: rotate(0deg);
@@ -517,23 +520,9 @@ body {
   }
 }
 
-@keyframes blinking-caret-left {
-  0% {
-    border-left-color: var(--highlight-colour);
-  }
-
-  50% {
-    border-left-color: transparent;
-  }
-
-  100% {
-    border-left-color: var(--highlight-colour);
-  }
-}
-
 @keyframes blinking-caret {
   0% {
-    background-color: var(--highlight-colour);
+    background-color: var(--primary-highlight-colour);
   }
 
   50% {
@@ -541,20 +530,6 @@ body {
   }
 
   100% {
-    background-color: var(--highlight-colour);
-  }
-}
-
-@keyframes blinking-caret-right {
-  0% {
-    border-right-color: var(--highlight-colour);
-  }
-
-  50% {
-    border-right-color: transparent;
-  }
-
-  100% {
-    border-right-color: var(--highlight-colour);
+    background-color: var(--primary-highlight-colour);
   }
 }

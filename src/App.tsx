@@ -143,7 +143,7 @@ function App() {
 	const colourPaletteStyling = {
 		"--background-colour": selectedPalette.backgroundColour,
 		"--base-font-colour": selectedPalette.baseFontColour,
-		"--highlight-colour": selectedPalette.highlightColour
+		"--primary-highlight-colour": selectedPalette.primaryHighlightColour
 	} as CSSProperties;
 
 	//#region CSS Properties
@@ -192,7 +192,7 @@ function App() {
 	};
 
 	const typingTestResultsProps = {
-		testWords, setTestWords, showResultsComponent, resultsComponentStyling
+		testWords, setTestWords, showResultsComponent, resultsComponentStyling, selectedPalette
 	};
 
 	const wordsPerMinuteProps = {

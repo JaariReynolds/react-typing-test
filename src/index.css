@@ -2,9 +2,6 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-
-
-
 /* Hide the scrollbar on the side of the page */
 body::-webkit-scrollbar {
   width: 0;

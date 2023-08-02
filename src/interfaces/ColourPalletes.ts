@@ -2,7 +2,9 @@ export interface ColourPaletteStructure {
     paletteId: number
     backgroundColour: string,
     baseFontColour: string,
-    highlightColour: string
+    primaryHighlightColour: string,
+	secondaryHighlightColour: string
+	
 }
 
 export const colourPalettes: ColourPaletteStructure[] = [
@@ -10,18 +12,21 @@ export const colourPalettes: ColourPaletteStructure[] = [
 		paletteId: 0,
 		backgroundColour: "#2f3234",
 		baseFontColour: "#a1a1aa",
-		highlightColour: "#fde047"
+		primaryHighlightColour: "#fde047",
+		secondaryHighlightColour: "#3d76c4"
 	},
 	{
 		paletteId: 1,
-		backgroundColour: "orange",
-		baseFontColour: "purple",
-		highlightColour: "green"
+		backgroundColour: "orangered",
+		baseFontColour: "blueviolet",
+		primaryHighlightColour: "beige",
+		secondaryHighlightColour: "#991118"
 	},
 	{
 		paletteId: 2,
 		backgroundColour: "black",
 		baseFontColour: "yellow",
-		highlightColour: "white"
+		primaryHighlightColour: "white",
+		secondaryHighlightColour: "#0d0f78"
 	}
 ];
