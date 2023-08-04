@@ -29,7 +29,7 @@ const TestTypeSelector = ({testType, setTestType}: IProps) => {
 				/>
 				<label htmlFor="words" className="selectable-label">
 					<FontAwesomeIcon icon={faFont} className="test-options-icon"/>
-                    Words
+					{TestType.Words.toString()}
 				</label>
 			</span>
 
@@ -46,7 +46,7 @@ const TestTypeSelector = ({testType, setTestType}: IProps) => {
 				<label htmlFor="time" className="selectable-label">
 					<span>
 						<FontAwesomeIcon icon={faClock} className="test-options-icon"/>
-                   		 Time
+                   		{TestType.Time.toString()}
 					</span>
 				</label>
 			</span>

@@ -20,7 +20,7 @@ const PunctuationSelector = ({punctuation, setPunctuation}: IProps) => {
 				/>
 				<label htmlFor="punctuation" className="selectable-label">
 					<FontAwesomeIcon icon={faAt} className="test-options-icon"/>
-					Punctuation
+					punctuation
 				</label>
 				
 			</span>

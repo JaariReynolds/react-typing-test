@@ -1,3 +1,5 @@
+@import "styles/font-faces.scss";
+
 // CONSTANTS
 $component-opacity-fade-duration: 300ms;
 $completion-bar-transition-duration: 200ms;
@@ -8,6 +10,8 @@ $base-font-size: 1.3rem;
 $correct-font-colour: rgb(255 255 255);
 $incorrect-font-colour: rgb(220 38 38);
 $hover-font-colour: rgb(255 255 255);
+
+$word-line-height: 3rem;
 
 // VARIABLES CHANGED FROM REACT
 :root {
@@ -47,6 +51,12 @@ $hover-font-colour: rgb(255 255 255);
   transition: width $completion-bar-transition-duration linear;
 }
 
+@mixin transition-margin-opacity() {
+  transition-property: margin-top, opacity;
+  transition-timing-function: ease-in-out, cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 0.3s, $component-opacity-fade-duration;
+}
+
 @mixin transition-opacity($opacity) {
   transition-property: opacity;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -69,7 +79,8 @@ $hover-font-colour: rgb(255 255 255);
 body {
   margin: 0;
   background-color: var(--background-colour);
-  font-family: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family: "Roboto Mono";
+  font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   @include general-color-transition();
@@ -104,7 +115,7 @@ body {
   top: -5rem;
   left: 50%;
   transform: translateX(-50%);
-  width: 16.5rem;
+  width: 21.5rem;
   height: 40px;
   justify-content: center;
   font-size: $base-font-size;
@@ -160,7 +171,7 @@ body {
 
       .capslock-indicator-contents {
         align-items: center;
-        width: 150px;
+        width: 10.5rem;
         border-radius: 0.5rem;
         justify-content: center;
         background-color: var(--primary-highlight-colour);
@@ -283,12 +294,12 @@ body {
     user-select: none;
     -webkit-user-select: none;
     grid-area: 1 / 1;
-    //margin-top: 5rem;
     width: 100%;
     height: var(--test-words-max-height);
     overflow: hidden;
     position: absolute;
     display: var(--test-words-display);
+    font-weight: 300;
 
 
 
@@ -328,15 +339,14 @@ body {
       opacity: var(--typing-test-opacity);
       max-height: var(--test-words-max-height);
       font-size: 2rem; // 'scroll transition' amount is dependent on the text properties in this class
-      line-height: 3rem;
-      letter-spacing: 0.1em;
+      line-height: $word-line-height;
+      //letter-spacing: 0.1em;
       top: var(--test-words-div-offset);
       position: absolute;
 
 
 
       .caret {
-        //transition: left 0.1s linear;
         transition-property: left, top;
         transition-timing-function: linear, linear;
         transition-duration: 0.125s, 0.125s;
@@ -345,7 +355,7 @@ body {
         width: .2rem;
         position: absolute;
         top: var(--caret-top-offset);
-        height: 3rem; // should match line height of words ^
+        height: $word-line-height; // should always match line height of words ^
         left: var(--caret-position);
 
         &.awaiting-input {
@@ -354,7 +364,7 @@ body {
       }
 
       .word {
-        margin-right: 1rem;
+        margin-right: 1.25rem;
 
         &.last-word-in-line {
           text-decoration: underline;
@@ -384,14 +394,13 @@ body {
 }
 
 .reset-container {
-  transition: margin 0.3s ease-in-out;
   display: block;
   justify-content: center;
   position: relative;
   height: 6.5rem;
   margin-top: var(--reset-div-margin);
-  @include transition-opacity(var(--component-opacity));
-  ///border: 2px solid orange;
+  opacity: var(--component-opacity);
+  @include transition-margin-opacity();
   margin-bottom: 3rem;
 
   .reset-button-text {

@@ -20,7 +20,7 @@ const NumberSelector = ({numbers, setNumbers}: IProps) => {
 				/>
 				<label htmlFor="numbers" className="selectable-label">
 					<FontAwesomeIcon icon={faHashtag} className="test-options-icon" />
-						Numbers
+						numbers
 				</label>
 			</span>
 		</div>

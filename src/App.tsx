@@ -14,8 +14,8 @@ import { colourPalettes, ColourPaletteStructure } from "./interfaces/ColourPalle
 
 
 export enum TestType {
-	Words = "Words",
-	Time = "Time"
+	Words = "words",
+	Time = "time"
 }
 
 

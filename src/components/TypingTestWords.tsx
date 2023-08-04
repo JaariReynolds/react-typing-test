@@ -23,7 +23,7 @@ interface NumberPair {
 
 const TEST_WORDS_DIV_WIDTH_PERCENTAGE = 0.7;
 const MAX_LINES = 3;
-const MARGIN_RIGHT = 16;
+const MARGIN_RIGHT = 20;
 let PADDING_BOTTOM = 0;
 
 
