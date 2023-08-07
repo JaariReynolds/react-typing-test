@@ -1,16 +1,17 @@
 import React, { CSSProperties, useEffect, useState, useRef } from "react";
 import "./App.scss";
-import TypingTest from "./components/TypingTest";
-import TypingTestResults from "./components/TypingTestResults";
+import TypingTest, { TypingTestProps } from "./components/TypingTest";
+import TypingTestResults, { TypingTestResultsProps } from "./components/TypingTestResults";
 import { TestWords } from "./interfaces/WordStructure";
-import ResetButton from "./components/ResetButton";
-import TestOptions from "./components/TestOptions";
-import CompletionBar from "./components/CompletionBar";
-import WordsPerMinute from "./components/WordsPerMinute";
-import KeyTips from "./components/KeyTips";
-import CapsLockIndicator from "./components/CapsLockIndicator";
-import AfkDetectedIndicator from "./components/AfkDetectedIndicator";
+import ResetButton, { ResetButtonProps } from "./components/ResetButton";
+import TestOptions, { TestOptionsProps } from "./components/TestOptions";
+import CompletionBar, { CompletionBarProps } from "./components/CompletionBar";
+import WordsPerMinute, { WordsPerMinuteProps } from "./components/WordsPerMinute";
+import KeyTips, { KeyTipsProps } from "./components/KeyTips";
+import CapsLockIndicator, { CapsLockIndicatorProps } from "./components/CapsLockIndicator";
+import AfkDetectedIndicator, { AfkDetectedIndicatorProps } from "./components/AfkDetectedIndicator";
 import { colourPalettes, ColourPaletteStructure } from "./interfaces/ColourPalletes";
+import BottomBar, { BottomBarProps } from "./components/BottomBar";
 
 
 export enum TestType {
@@ -171,41 +172,43 @@ function App() {
 	//#endregion
 
 	//#region Component Props
-	const afkDetectedIndicatorProps = {
+	const afkDetectedIndicatorProps: AfkDetectedIndicatorProps = {
 		isAfkMidTest
 	};
 
-	const testOptionsProps = {
+	const testOptionsProps: TestOptionsProps = {
 		opacityStyle, testType, setTestType, includeNumbers, setIncludeNumbers, includePunctuation, setIncludePunctuation, testLengthWords, setTestLengthWords, testLengthSeconds, setTestLengthSeconds, selectedPalette, setSelectedPalette
 	};	
 
-	const capsLockIndicatorProps = {
+	const capsLockIndicatorProps: CapsLockIndicatorProps = {
 		capsLockStyling
 	};
 
-	const completionBarProps = {
+	const completionBarProps: CompletionBarProps = {
 		completionBarWidth
 	};
 
-	const typingTestProps = {
+	const typingTestProps: TypingTestProps = {
 		testWords, setTestWords, testLengthWords, testLengthSeconds, testType, includeNumbers, includePunctuation, reset, setReset, inputRef, showResultsComponent, setShowResultsComponent, testRunning, setTestRunning, testTimeMilliSeconds, setTestTimeMilliSeconds, setTestCompletionPercentage, testComplete, setTestComplete, testFocused, setTestFocused, pressedKeys, setPressedKeys, averageWPM, setAverageWPM, setWPMOpacity, setComponentOpacity, setIsAfkMidTest
 	};
 
-	const typingTestResultsProps = {
+	const typingTestResultsProps: TypingTestResultsProps = {
 		testWords, setTestWords, showResultsComponent, resultsComponentStyling, selectedPalette
 	};
 
-	const wordsPerMinuteProps = {
+	const wordsPerMinuteProps: WordsPerMinuteProps = {
 		opacityStyle, currentWPM
 	};
 
-	const resetButtonProps = {
+	const resetButtonProps: ResetButtonProps = {
 		resetButtonRef, opacityStyle, reset, setReset, resultsComponentOpacity
 	};
-	
-	const keyTipsProps = {
+
+	const bottomBarProps: BottomBarProps = {
 		opacityStyle
 	};
+	
+	
 	//#endregion
 
 	return (
@@ -224,7 +227,7 @@ function App() {
 					</div>
 				</div>
 				<ResetButton {...resetButtonProps}/>
-				<KeyTips {...keyTipsProps}/>
+				<BottomBar {...bottomBarProps}/>
 			</div>
 		</div>
    

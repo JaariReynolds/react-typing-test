@@ -2,11 +2,11 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faKeyboard } from "@fortawesome/free-solid-svg-icons";
 
-interface Props {
+export interface AfkDetectedIndicatorProps {
     isAfkMidTest: boolean
 }
 
-export const AfkDetectedIndicator = ({isAfkMidTest}: Props) => {
+export const AfkDetectedIndicator = ({isAfkMidTest}: AfkDetectedIndicatorProps) => {
 
 	const afkStyling = {
 		"--afk-opacity": isAfkMidTest ? 1 : 0

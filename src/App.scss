@@ -12,6 +12,7 @@ $incorrect-font-colour: rgb(220 38 38);
 $hover-font-colour: rgb(255 255 255);
 
 $word-line-height: 3rem;
+$bold-font-weight: 600;
 
 // VARIABLES CHANGED FROM REACT
 :root {
@@ -45,6 +46,11 @@ $word-line-height: 3rem;
 
 @mixin general-color-transition() {
   transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+@mixin general-color-and-opacity-transition() {
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, opacity $component-opacity-fade-duration cubic-bezier(0.4, 0, 0.2, 1);
+
 }
 
 @mixin transition-completion-bar-width() {
@@ -121,6 +127,7 @@ body {
   font-size: $base-font-size;
 
   .afk-indicator-contents {
+    @include general-color-and-opacity-transition();
     align-items: center;
     border-radius: 0.5rem;
     position: relative;
@@ -132,6 +139,11 @@ body {
     }
   }
 }
+
+.hidden-radio-button {
+  display: none;
+}
+
 
 .main-container {
   display: flex;
@@ -225,38 +237,13 @@ body {
             transition: color 0.15s ease-in-out;
           }
 
-          .hidden-radio-button {
-            display: none;
-          }
-
           .selectable-label {
             padding: 0.5rem;
             margin: 0.25rem;
-            font-weight: 600;
+            font-weight: $bold-font-weight;
           }
         }
       }
-    }
-  }
-
-  .key-tips {
-    @include transition-opacity(var(--component-opacity));
-    opacity: var(--component-opacity);
-    font-size: 0.9rem;
-    margin-bottom: 1.5rem;
-    text-align: center;
-    letter-spacing: 0.1rem;
-    margin-top: auto;
-    font-weight: 600;
-    @include general-color-transition();
-
-    .key-highlight {
-      background-color: var(--base-font-colour);
-      color: var(--background-colour);
-      border-radius: 0.3rem;
-      padding: 0.2rem 0.5rem;
-      @include general-color-transition();
-
     }
   }
 
@@ -279,7 +266,7 @@ body {
   -webkit-user-select: none;
 
   .WPM-div {
-    //@include transition-opacity(var(--WPM-opacity));
+    @include general-color-transition();
     grid-area: 7/1;
     position: relative;
     text-align: center;
@@ -306,8 +293,6 @@ body {
     .text-field-container {
       position: absolute;
       display: flex;
-
-      //top: -4rem;
       width: 100%;
       height: var(--test-words-max-height);
       margin-bottom: 5rem;
@@ -319,7 +304,6 @@ body {
         color: transparent;
         border: none;
         font-size: 1px;
-
       }
 
       input:focus {
@@ -340,7 +324,6 @@ body {
       max-height: var(--test-words-max-height);
       font-size: 2rem; // 'scroll transition' amount is dependent on the text properties in this class
       line-height: $word-line-height;
-      //letter-spacing: 0.1em;
       top: var(--test-words-div-offset);
       position: absolute;
 
@@ -444,6 +427,55 @@ body {
 
       &.spinning-icon {
         animation: fa-spin-custom 3s infinite;
+      }
+    }
+  }
+}
+
+.key-tips {
+  opacity: var(--component-opacity);
+  @include general-color-and-opacity-transition();
+  //@include transition-opacity(var(--component-opacity));
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  letter-spacing: 0.1rem;
+  margin-top: auto;
+  font-weight: $bold-font-weight;
+  // @include general-color-transition();
+
+  .key-highlight {
+    background-color: var(--base-font-colour);
+    color: var(--background-colour);
+    border-radius: 0.3rem;
+    padding: 0.2rem 0.5rem;
+    @include general-color-transition();
+  }
+}
+
+.colour-palette-options {
+
+  .colour-palette-option {
+    height: 3rem;
+    margin-bottom: .5rem;
+    width: 8.5rem;
+
+    :hover {
+      cursor: pointer;
+    }
+
+    .selectable-colour-palette-label {
+      height: 100%;
+      border-radius: 2rem;
+      padding-left: 1rem;
+
+      .colour-preview {
+        margin-top: 0.75rem;
+        margin-right: 1rem;
+        display: inline-block;
+        width: 1.5rem;
+        height: 1.5rem;
+        border-radius: 0.75rem;
       }
     }
   }

@@ -24,7 +24,7 @@ const AVERAGE_WORD_LENGTH = 5; // standard length used to calculate WPM
 const AFK_SECONDS_THRESHOLD = 7;
 const EXCLUDED_FINAL_MILLISECONDS = 400;
 
-interface Props {
+export interface TypingTestProps {
     testWords: TestWords,
     setTestWords: React.Dispatch<React.SetStateAction<TestWords>>,	
     testLengthWords: number,
@@ -82,7 +82,7 @@ const TypingTest = ({testWords,
 	setAverageWPM,
 	setWPMOpacity,
 	setComponentOpacity,
-	setIsAfkMidTest}: Props) => {
+	setIsAfkMidTest}: TypingTestProps) => {
 	const [currentInputWord, setCurrentInputWord] = useState<string>("");
 	const [inputWordsArray, setInputWordsArray] = useState<string[]>([]);
 	const [intervalId, setIntervalId] = useState<NodeJS.Timer|null>(null);	

@@ -8,7 +8,7 @@ import {TestType } from "../App";
 import ColourPaletteSelector from "./ColourPaletteSelector";
 import { ColourPaletteStructure } from "../interfaces/ColourPalletes";
 
-interface testOptionsProps {
+export interface TestOptionsProps {
     opacityStyle: React.CSSProperties,
     testType: TestType,
     setTestType: React.Dispatch<React.SetStateAction<TestType>>,
@@ -24,7 +24,7 @@ interface testOptionsProps {
     setSelectedPalette: React.Dispatch<React.SetStateAction<ColourPaletteStructure>>
 }
 
-const TestOptions = ({opacityStyle, testType, setTestType, includeNumbers, setIncludeNumbers, includePunctuation, setIncludePunctuation, testLengthWords, setTestLengthWords, testLengthSeconds, setTestLengthSeconds, selectedPalette, setSelectedPalette}: testOptionsProps) => {
+const TestOptions = ({opacityStyle, testType, setTestType, includeNumbers, setIncludeNumbers, includePunctuation, setIncludePunctuation, testLengthWords, setTestLengthWords, testLengthSeconds, setTestLengthSeconds, selectedPalette, setSelectedPalette}: TestOptionsProps) => {
 	return (
 		<div className="test-options" style={opacityStyle}>
 			<TestTypeSelector testType={testType} setTestType={setTestType}/>

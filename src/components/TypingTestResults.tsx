@@ -5,7 +5,7 @@ import { TestWords } from "../interfaces/WordStructure";
 import TypingTestResultsWPMGraph from "./TypingTestResultsWPMGraph";
 import { ColourPaletteStructure } from "../interfaces/ColourPalletes";
 
-interface Props {
+export interface TypingTestResultsProps {
     testWords: TestWords, 
     setTestWords: React.Dispatch<React.SetStateAction<TestWords>>,
 	showResultsComponent: boolean,
@@ -13,7 +13,7 @@ interface Props {
 	selectedPalette: ColourPaletteStructure
 }
 
-const TypingTestResults = ({testWords, setTestWords, showResultsComponent, resultsComponentStyling, selectedPalette}: Props ) => {
+const TypingTestResults = ({testWords, setTestWords, showResultsComponent, resultsComponentStyling, selectedPalette}: TypingTestResultsProps ) => {
 	
 	// once results screen shown, calculate extra info to show 
 	useEffect(() => {

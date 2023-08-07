@@ -2,7 +2,7 @@ import React, {RefObject, useState} from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRotateRight } from "@fortawesome/free-solid-svg-icons";
 
-interface Props {
+export interface ResetButtonProps {
 	resetButtonRef: RefObject<HTMLButtonElement>,
     opacityStyle: React.CSSProperties,
     reset: boolean,
@@ -10,7 +10,7 @@ interface Props {
 	resultsComponentOpacity: number
 }
 
-const ResetButton = ({resetButtonRef, opacityStyle, reset, setReset, resultsComponentOpacity}: Props) => {
+const ResetButton = ({resetButtonRef, opacityStyle, reset, setReset, resultsComponentOpacity}: ResetButtonProps) => {
 
 	const spinningStyle = (resultsComponentOpacity == 1) ? "spinning-icon" : "";
 	const [toolTipOpacity, setToolTipOpacity] = useState<number>(0);
