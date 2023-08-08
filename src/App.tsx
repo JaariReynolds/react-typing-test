@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { CSSProperties, useEffect, useState, useRef } from "react";
 import "./App.scss";
 import TypingTest, { TypingTestProps } from "./components/TypingTest";
@@ -7,7 +9,6 @@ import ResetButton, { ResetButtonProps } from "./components/ResetButton";
 import TestOptions, { TestOptionsProps } from "./components/TestOptions";
 import CompletionBar, { CompletionBarProps } from "./components/CompletionBar";
 import WordsPerMinute, { WordsPerMinuteProps } from "./components/WordsPerMinute";
-import KeyTips, { KeyTipsProps } from "./components/KeyTips";
 import CapsLockIndicator, { CapsLockIndicatorProps } from "./components/CapsLockIndicator";
 import AfkDetectedIndicator, { AfkDetectedIndicatorProps } from "./components/AfkDetectedIndicator";
 import { colourPalettes, ColourPaletteStructure } from "./interfaces/ColourPalletes";
@@ -104,6 +105,7 @@ function App() {
 			setTestFocused(true);
 			setComponentOpacity(0);
 		}
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [pressedKeys]);
 
 	useEffect(() => {
@@ -177,7 +179,7 @@ function App() {
 	};
 
 	const testOptionsProps: TestOptionsProps = {
-		opacityStyle, testType, setTestType, includeNumbers, setIncludeNumbers, includePunctuation, setIncludePunctuation, testLengthWords, setTestLengthWords, testLengthSeconds, setTestLengthSeconds, selectedPalette, setSelectedPalette
+		opacityStyle, testType, setTestType, includeNumbers, setIncludeNumbers, includePunctuation, setIncludePunctuation, testLengthWords, setTestLengthWords, testLengthSeconds, setTestLengthSeconds
 	};	
 
 	const capsLockIndicatorProps: CapsLockIndicatorProps = {
@@ -205,7 +207,7 @@ function App() {
 	};
 
 	const bottomBarProps: BottomBarProps = {
-		opacityStyle
+		selectedPalette, setSelectedPalette, opacityStyle
 	};
 	
 	

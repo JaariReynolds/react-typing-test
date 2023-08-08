@@ -5,8 +5,6 @@ import PunctuationSelector from "./PunctuationSelector";
 import TestLengthSecondsSelector from "./TestLengthSecondsSelector";
 import TestLengthWordsSelector from "./TestLengthWordsSelector";
 import {TestType } from "../App";
-import ColourPaletteSelector from "./ColourPaletteSelector";
-import { ColourPaletteStructure } from "../interfaces/ColourPalletes";
 
 export interface TestOptionsProps {
     opacityStyle: React.CSSProperties,
@@ -20,11 +18,10 @@ export interface TestOptionsProps {
     setTestLengthWords: React.Dispatch<React.SetStateAction<number>>,
     testLengthSeconds: number,
     setTestLengthSeconds: React.Dispatch<React.SetStateAction<number>>,
-    selectedPalette: ColourPaletteStructure,
-    setSelectedPalette: React.Dispatch<React.SetStateAction<ColourPaletteStructure>>
+   
 }
 
-const TestOptions = ({opacityStyle, testType, setTestType, includeNumbers, setIncludeNumbers, includePunctuation, setIncludePunctuation, testLengthWords, setTestLengthWords, testLengthSeconds, setTestLengthSeconds, selectedPalette, setSelectedPalette}: TestOptionsProps) => {
+const TestOptions = ({opacityStyle, testType, setTestType, includeNumbers, setIncludeNumbers, includePunctuation, setIncludePunctuation, testLengthWords, setTestLengthWords, testLengthSeconds, setTestLengthSeconds}: TestOptionsProps) => {
 	return (
 		<div className="test-options" style={opacityStyle}>
 			<TestTypeSelector testType={testType} setTestType={setTestType}/>
@@ -32,7 +29,7 @@ const TestOptions = ({opacityStyle, testType, setTestType, includeNumbers, setIn
 			<PunctuationSelector punctuation={includePunctuation} setPunctuation={setIncludePunctuation}/>
 			<TestLengthWordsSelector testLengthWords={testLengthWords} setTestLengthWords={setTestLengthWords} testType={testType}/>
 			<TestLengthSecondsSelector testLengthSeconds={testLengthSeconds} setTestLengthSeconds={setTestLengthSeconds} testType={testType}/>
-			<ColourPaletteSelector selectedPalette={selectedPalette} setSelectedPalette={setSelectedPalette}/>
+			
 		</div>
 	);
 };

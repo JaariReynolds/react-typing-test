@@ -1,12 +1,15 @@
 import React from "react";
 import { colourPalettes, ColourPaletteStructure } from "../interfaces/ColourPalletes";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPalette } from "@fortawesome/free-solid-svg-icons";
 
 interface Props {
-    selectedPalette: ColourPaletteStructure, 
+	selectedPalette: ColourPaletteStructure, 
     setSelectedPalette: React.Dispatch<React.SetStateAction<ColourPaletteStructure>>
+	opacityStyle: React.CSSProperties,
 }
 
-const ColourPaletteSelector = ({selectedPalette, setSelectedPalette}: Props) => {
+const ColourPaletteSelector = ({opacityStyle, selectedPalette, setSelectedPalette}: Props) => {
 
 	const handleOptionChange = (event:React.ChangeEvent<HTMLInputElement>) => {
 		setSelectedPalette(colourPalettes[parseInt(event.target.value)]);
@@ -23,28 +26,33 @@ const ColourPaletteSelector = ({selectedPalette, setSelectedPalette}: Props) => 
 	};
 
 	return (
-		<div className="colour-palette-options">
-			{colourPalettes.map(palette => {
-				return (
-					<div key={palette.paletteId} className="colour-palette-option">
-						<input
-							type="radio"
-							id={palette.paletteId.toString()}
-							value={palette.paletteId}
-							checked={palette.paletteId === selectedPalette.paletteId}
-							onChange={handleOptionChange}
-							className="hidden-radio-button"
-						/>
-						<label htmlFor={palette.paletteId.toString()}>
-							{colourPaletteDisplay(palette)}
-						</label>
-					</div>
-					
-				);
-			})}
+		<div style={opacityStyle} className="colour-palette-options">
 
-			{/* <div>{selectedPalette.paletteId}</div> */}
+			<button className="colour-palette-button">
+				<FontAwesomeIcon icon={faPalette} className="palette-icon"/>
+			theme
+			</button>
 
+			<div>
+				{colourPalettes.map(palette => {
+					return (
+						<div key={palette.paletteId} className="colour-palette-option">
+							<input
+								type="radio"
+								id={palette.paletteId.toString()}
+								value={palette.paletteId}
+								checked={palette.paletteId === selectedPalette.paletteId}
+								onChange={handleOptionChange}
+								className="hidden-radio-button"
+							/>
+							<label htmlFor={palette.paletteId.toString()}>
+								{colourPaletteDisplay(palette)}
+							</label>
+						</div>	
+					);
+				})}
+
+			</div>
 		</div>
 	);
 };

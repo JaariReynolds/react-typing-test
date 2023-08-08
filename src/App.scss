@@ -13,6 +13,8 @@ $hover-font-colour: rgb(255 255 255);
 
 $word-line-height: 3rem;
 $bold-font-weight: 600;
+$standard-icon-spacing: 0.25rem;
+$larger-icon-spacing: 0.5rem;
 
 // VARIABLES CHANGED FROM REACT
 :root {
@@ -180,6 +182,8 @@ body {
       margin-top: 1rem;
       margin-bottom: 2rem;
       font-size: $base-font-size;
+      cursor: default;
+
 
       .capslock-indicator-contents {
         align-items: center;
@@ -202,7 +206,7 @@ body {
       @include transition-opacity(var(--component-opacity));
 
       .test-options-icon {
-        padding-right: 0.25rem;
+        margin-right: 0.25rem;
       }
 
       .test-option-selector {
@@ -262,11 +266,10 @@ body {
   display: grid;
   grid-template-areas: 1 / 1;
   height: 25rem;
-  user-select: none;
   -webkit-user-select: none;
+  user-select: none;
 
   .WPM-div {
-    @include general-color-transition();
     grid-area: 7/1;
     position: relative;
     text-align: center;
@@ -278,8 +281,8 @@ body {
 
   .typing-test {
     margin-top: 3rem;
-    user-select: none;
     -webkit-user-select: none;
+    user-select: none;
     grid-area: 1 / 1;
     width: 100%;
     height: var(--test-words-max-height);
@@ -330,9 +333,9 @@ body {
 
 
       .caret {
-        transition-property: left, top;
-        transition-timing-function: linear, linear;
-        transition-duration: 0.125s, 0.125s;
+        transition-property: left, top, background-color;
+        transition-timing-function: linear, linear, ease-in-out;
+        transition-duration: 0.125s, 0.125s, 0.3s;
         background-color: var(--primary-highlight-colour);
         border-radius: 0.25rem;
         width: .2rem;
@@ -432,55 +435,84 @@ body {
   }
 }
 
-.key-tips {
-  opacity: var(--component-opacity);
-  @include general-color-and-opacity-transition();
-  //@include transition-opacity(var(--component-opacity));
-  font-size: 0.9rem;
-  margin-bottom: 1.5rem;
-  text-align: center;
-  letter-spacing: 0.1rem;
+
+
+.bottom-bar-div {
   margin-top: auto;
-  font-weight: $bold-font-weight;
-  // @include general-color-transition();
+  width: 100dvw;
+  // display: grid;
 
-  .key-highlight {
-    background-color: var(--base-font-colour);
-    color: var(--background-colour);
-    border-radius: 0.3rem;
-    padding: 0.2rem 0.5rem;
-    @include general-color-transition();
-  }
-}
+  // grid-template-columns: 1fr 2fr;
 
-.colour-palette-options {
+  .key-tips {
+    opacity: var(--component-opacity);
+    @include general-color-and-opacity-transition();
+    //@include transition-opacity(var(--component-opacity));
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    letter-spacing: 0.1rem;
+    margin-top: auto;
+    font-weight: $bold-font-weight;
+    // @include general-color-transition();
 
-  .colour-palette-option {
-    height: 3rem;
-    margin-bottom: .5rem;
-    width: 8.5rem;
-
-    :hover {
-      cursor: pointer;
+    .key-highlight {
+      background-color: var(--base-font-colour);
+      color: var(--background-colour);
+      border-radius: 0.3rem;
+      padding: 0.2rem 0.5rem;
+      @include general-color-transition();
     }
+  }
 
-    .selectable-colour-palette-label {
-      height: 100%;
-      border-radius: 2rem;
-      padding-left: 1rem;
+  .colour-palette-options {
+    font-weight: $bold-font-weight;
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+    opacity: var(--component-opacity);
+    @include general-color-and-opacity-transition();
 
-      .colour-preview {
-        margin-top: 0.75rem;
-        margin-right: 1rem;
-        display: inline-block;
-        width: 1.5rem;
-        height: 1.5rem;
-        border-radius: 0.75rem;
+    .colour-palette-button {
+
+      .palette-icon {
+        margin-right: $standard-icon-spacing;
+      }
+
+      &:hover {
+        color: $hover-font-colour;
+        transition: color 0.15s ease-in-out;
+
       }
     }
-  }
 
+    .colour-palette-option {
+      height: 3rem;
+      margin-bottom: .5rem;
+      width: 8.5rem;
+
+      :hover {
+        cursor: pointer;
+      }
+
+      .selectable-colour-palette-label {
+        height: 100%;
+        border-radius: 2rem;
+        padding-left: 1rem;
+
+        .colour-preview {
+          margin-top: 0.75rem;
+          margin-right: 1rem;
+          display: inline-block;
+          width: 1.5rem;
+          height: 1.5rem;
+          border-radius: 0.75rem;
+        }
+      }
+    }
+
+  }
 }
+
 
 
 
