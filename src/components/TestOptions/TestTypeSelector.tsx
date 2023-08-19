@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-key */
 import React from "react";
-import { TestType } from "../App";
+import { TestType } from "../../App";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
 import { faFont } from "@fortawesome/free-solid-svg-icons";

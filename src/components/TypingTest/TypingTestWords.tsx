@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-key */
 import React, { useEffect, useRef, useState } from "react";
-import { TestWords, CompletionStatus, Word } from "../interfaces/WordStructure";
-import { calculateTestWordsDivOffset } from "../functions/calculations/calculateTestWordsDivOffset";
+import { TestWords, CompletionStatus, Word } from "../../interfaces/WordStructure";
+import { calculateTestWordsDivOffset } from "../../functions/calculations/calculateTestWordsDivOffset";
 
 interface Props {
     testWords: TestWords,

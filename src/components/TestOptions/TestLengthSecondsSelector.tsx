@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-key */
 import React from "react";
-import { TestType } from "../App";
+import { TestType } from "../../App";
 
 interface IProps {
     testLengthSeconds: number,

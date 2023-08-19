@@ -4,8 +4,8 @@ import NumberSelector from "./NumberSelector";
 import PunctuationSelector from "./PunctuationSelector";
 import TestLengthSecondsSelector from "./TestLengthSecondsSelector";
 import TestLengthWordsSelector from "./TestLengthWordsSelector";
-import { TestType } from "../App";
-import "../styles/componentStyles/test-options.scss";
+import { TestType } from "../../App";
+import "../../styles/componentStyles/test-options.scss";
 
 
 export interface TestOptionsProps {

@@ -2,11 +2,11 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { CSSProperties, useEffect, useState, useRef } from "react";
 import "./App.scss";
-import TypingTest, { TypingTestProps } from "./components/TypingTest";
-import TypingTestResults, { TypingTestResultsProps } from "./components/TypingTestResults";
+import TypingTest, { TypingTestProps } from "./components/TypingTest/TypingTest";
+import TypingTestResults, { TypingTestResultsProps } from "./components/TestResults/TypingTestResults";
 import { TestWords } from "./interfaces/WordStructure";
 import ResetButton, { ResetButtonProps } from "./components/ResetButton";
-import TestOptions, { TestOptionsProps } from "./components/TestOptions";
+import TestOptions, { TestOptionsProps } from "./components/TestOptions/TestOptions";
 import CompletionBar, { CompletionBarProps } from "./components/CompletionBar";
 import WordsPerMinute, { WordsPerMinuteProps } from "./components/WordsPerMinute";
 import CapsLockIndicator, { CapsLockIndicatorProps } from "./components/CapsLockIndicator";

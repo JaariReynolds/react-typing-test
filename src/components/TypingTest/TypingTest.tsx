@@ -2,20 +2,20 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable react/jsx-key */
 /* eslint-disable linebreak-style */
-import "../styles/componentStyles/typing-test.scss";
+import "../../styles/componentStyles/typing-test.scss";
 
 import React, { useEffect, useState, useRef, RefObject } from "react"; 
-import { testWordsGenerator } from "../functions/wordGeneration/testWordsGenerators";
-import { CompletionStatus, TestWords, NumberPair } from "../interfaces/WordStructure";
-import { TestType } from "../App";
-import { calculateCorrectCharacters } from "../functions/calculations/calculateCorrectCharacters";
-import { calculateTotalErrorsHard, calculateTotalErrorsSoft, calculateWordErrorsHard } from "../functions/calculations/calculateErrors";
-import { removeAdditionalLetter, removeExistingLetter} from "../functions/letterHandling/removeLetter";
-import { addExistingLetter, addAdditionalLetter } from "../functions/letterHandling/addLetter";
-import { calculateLettersStatus } from "../functions/calculations/calculateLetterStatus";
-import { ctrlBackspace } from "../functions/letterHandling/ctrlBackspace";
-import { updateActiveLetter } from "../functions/letterHandling/updateActiveLetter";
-import { TRANSITION_DELAY } from "../App";
+import { testWordsGenerator } from "../../functions/wordGeneration/testWordsGenerators";
+import { CompletionStatus, TestWords, NumberPair } from "../../interfaces/WordStructure";
+import { TestType } from "../../App";
+import { calculateCorrectCharacters } from "../../functions/calculations/calculateCorrectCharacters";
+import { calculateTotalErrorsHard, calculateTotalErrorsSoft, calculateWordErrorsHard } from "../../functions/calculations/calculateErrors";
+import { removeAdditionalLetter, removeExistingLetter} from "../../functions/letterHandling/removeLetter";
+import { addExistingLetter, addAdditionalLetter } from "../../functions/letterHandling/addLetter";
+import { calculateLettersStatus } from "../../functions/calculations/calculateLetterStatus";
+import { ctrlBackspace } from "../../functions/letterHandling/ctrlBackspace";
+import { updateActiveLetter } from "../../functions/letterHandling/updateActiveLetter";
+import { TRANSITION_DELAY } from "../../App";
 import { TypingTestWords } from "./TypingTestWords";
 import { TypingTestInput } from "./TypingTestInput";
 
