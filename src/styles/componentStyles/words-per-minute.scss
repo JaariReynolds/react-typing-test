@@ -1,0 +1,11 @@
+@use "../_variables.scss";
+
+.WPM-div {
+    grid-area: 7/1;
+    position: relative;
+    text-align: center;
+    font-size: 4rem;
+    color: var(--base-font-colour);
+    opacity: var(--WPM-opacity);
+    display: var(--WPM-display);
+}

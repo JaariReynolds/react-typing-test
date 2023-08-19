@@ -4,7 +4,9 @@ import NumberSelector from "./NumberSelector";
 import PunctuationSelector from "./PunctuationSelector";
 import TestLengthSecondsSelector from "./TestLengthSecondsSelector";
 import TestLengthWordsSelector from "./TestLengthWordsSelector";
-import {TestType } from "../App";
+import { TestType } from "../App";
+import "../styles/componentStyles/test-options.scss";
+
 
 export interface TestOptionsProps {
     opacityStyle: React.CSSProperties,
@@ -29,7 +31,6 @@ const TestOptions = ({opacityStyle, testType, setTestType, includeNumbers, setIn
 			<PunctuationSelector punctuation={includePunctuation} setPunctuation={setIncludePunctuation}/>
 			<TestLengthWordsSelector testLengthWords={testLengthWords} setTestLengthWords={setTestLengthWords} testType={testType}/>
 			<TestLengthSecondsSelector testLengthSeconds={testLengthSeconds} setTestLengthSeconds={setTestLengthSeconds} testType={testType}/>
-			
 		</div>
 	);
 };

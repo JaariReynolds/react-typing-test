@@ -1,0 +1,31 @@
+@use "../_constants.scss";
+@use "../_variables.scss";
+@use "../_mixins.scss";
+
+.afk-indicator-container {
+    @include mixins.transition-opacity(var(--afk-opacity));
+    background-color: constants.$incorrect-font-colour;
+    border-radius: 0.5rem;
+    display: flex;
+    position: absolute;
+    top: -5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 21.5rem;
+    height: 40px;
+    justify-content: center;
+    font-size: constants.$base-font-size;
+
+    .afk-indicator-contents {
+        @include mixins.general-color-and-opacity-transition();
+        align-items: center;
+        border-radius: 0.5rem;
+        position: relative;
+        color: var(--background-colour);
+        display: flex;
+
+        .afk-icon {
+            margin-right: 0.5rem;
+        }
+    }
+}

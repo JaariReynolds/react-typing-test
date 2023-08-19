@@ -1,3 +1,5 @@
+import "../styles/componentStyles/completion-bar.scss";
+
 import React from "react";
 
 export interface CompletionBarProps {
@@ -6,7 +8,7 @@ export interface CompletionBarProps {
 
 const CompletionBar = ({completionBarWidth}: CompletionBarProps) => {
 	return (
-		<div style={completionBarWidth} className="test-completion-bar"></div>
+		<div style={completionBarWidth} className="completion-bar"></div>
 	);
 };
 

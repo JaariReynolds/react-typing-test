@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-key */
+import "../styles/componentStyles/typing-test-results.scss";
 
 import React, { useEffect } from "react";
 import { TestWords } from "../interfaces/WordStructure";
@@ -99,8 +100,7 @@ const TypingTestResults = ({testWords, setTestWords, showResultsComponent, resul
 				</div>
 			</div>
 			}
-		</>
-		
+		</>		
 	);
 };
 

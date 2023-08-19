@@ -1,0 +1,59 @@
+@use "../_constants.scss";
+@use "../_variables.scss";
+@use "../_mixins.scss";
+
+.reset-container {
+    display: block;
+    justify-content: center;
+    position: relative;
+    height: 6.5rem;
+    margin-top: var(--reset-div-margin);
+    opacity: var(--component-opacity);
+    @include mixins.transition-margin-opacity();
+    margin-bottom: 3rem;
+
+    .reset-button-text {
+        transition: opacity 0.15s ease-in-out;
+        text-align: center;
+        margin-top: -0.1rem;
+        opacity: var(--reset-button-text-opacity);
+        width: 100%;
+        font-weight: 500;
+        font-size: constants.$base-font-size;
+        height: 20%;
+    }
+
+    .reset-button {
+        transition: background-color 0.15s ease-in-out;
+        width: 150px;
+        border-radius: 0.5rem;
+        height: 80%;
+
+        &:focus {
+            background-color: var(--base-font-colour);
+            outline: none;
+
+            .reset-icon {
+                color: var(--background-colour);
+            }
+        }
+
+        &:hover {
+            background-color: var(--base-font-colour);
+
+            .reset-icon {
+                color: var(--background-colour);
+            }
+        }
+
+        .reset-icon {
+            font-size: 3rem;
+            @include mixins.general-color-transition();
+            color: var(--base-font-colour);
+
+            &.spinning-icon {
+                animation: fa-spin-custom 3s infinite;
+            }
+        }
+    }
+}

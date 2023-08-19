@@ -1,0 +1,67 @@
+@use "../_constants.scss";
+@use "../_variables.scss";
+@use "../_mixins.scss";
+
+.test-results-div {
+    transition-property: opacity;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: constants.$component-opacity-fade-duration;
+    opacity: var(--results-component-opacity);
+    margin-top: -0.5rem;
+    border-radius: 0.25rem;
+    grid-area: 1 / 1;
+    max-width: 100%;
+    display: var(--results-component-display);
+    padding-top: 1.5rem;
+    font-size: constants.$base-font-size;
+
+    & * {
+        @include mixins.general-color-transition();
+    }
+
+    .results-chart {
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .test-results-statistics {
+        margin-top: 1rem;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, 5rem);
+
+
+        .grid-item {
+            display: grid;
+            text-align: center;
+
+            .label {
+                margin-top: -2.6rem;
+                color: var(--base-font-colour);
+            }
+
+            .score {
+                color: var(--primary-highlight-colour);
+                font-size: 2.3rem;
+            }
+
+            &.wpm {
+                display: grid;
+                grid-row: span 2;
+                grid-column: 3;
+                text-align: center;
+                font-size: 5.5rem;
+                color: var(--primary-highlight-colour);
+
+                .wpm-label {
+                    color: var(--base-font-colour);
+                    grid-area: 2/1;
+                    margin-top: -2.2rem;
+                    font-size: constants.$base-font-size;
+                }
+            }
+        }
+    }
+}

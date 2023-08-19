@@ -1,3 +1,5 @@
+import "../styles/componentStyles/capslock-indicator.scss";
+
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";

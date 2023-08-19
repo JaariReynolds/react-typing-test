@@ -1,3 +1,5 @@
+import "../styles/componentStyles/bottom-bar.scss";
+
 import React from "react";
 import KeyTips from "./KeyTips";
 import ColourPaletteSelector, { ColourPaletteSelectorProps } from "./ColourPaletteSelector";
@@ -11,7 +13,6 @@ export interface BottomBarProps {
 	setShowColourPalettes: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-
 const BottomBar = ({selectedPalette, setSelectedPalette, opacityStyle, showColourPalettes, setShowColourPalettes}: BottomBarProps) => {
 
 	const colourPaletteSelectorProps: ColourPaletteSelectorProps = {
@@ -22,7 +23,6 @@ const BottomBar = ({selectedPalette, setSelectedPalette, opacityStyle, showColou
 		<div className="bottom-bar-div">
 			<KeyTips opacityStyle={opacityStyle}/>
 			<ColourPaletteSelector {...colourPaletteSelectorProps} />
-
 		</div>
 	);
 };

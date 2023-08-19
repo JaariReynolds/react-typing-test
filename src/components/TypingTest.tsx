@@ -2,6 +2,8 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable react/jsx-key */
 /* eslint-disable linebreak-style */
+import "../styles/componentStyles/typing-test.scss";
+
 import React, { useEffect, useState, useRef, RefObject } from "react"; 
 import { testWordsGenerator } from "../functions/wordGeneration/testWordsGenerators";
 import { CompletionStatus, TestWords, NumberPair } from "../interfaces/WordStructure";
@@ -16,6 +18,7 @@ import { updateActiveLetter } from "../functions/letterHandling/updateActiveLett
 import { TRANSITION_DELAY } from "../App";
 import { TypingTestWords } from "./TypingTestWords";
 import { TypingTestInput } from "./TypingTestInput";
+
 
 const SPACEBAR = "Spacebar";
 const TIMED_TEST_LENGTH = 50;

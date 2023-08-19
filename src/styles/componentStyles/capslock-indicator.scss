@@ -1,0 +1,29 @@
+@use "../_variables.scss";
+@use "../_constants.scss";
+
+.capslock-indicator-container {
+  transition: opacity 0.1s ease-in-out;
+  opacity: var(--capslock-opacity);
+  display: flex;
+  justify-content: center;
+  position: relative;
+  height: 40px;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  font-size: constants.$base-font-size;
+  cursor: default;
+
+  .capslock-indicator-contents {
+    align-items: center;
+    width: 10.5rem;
+    border-radius: 0.5rem;
+    justify-content: center;
+    background-color: var(--primary-highlight-colour);
+    color: var(--background-colour);
+    display: flex;
+
+    .capslock-icon {
+      margin-right: 0.5rem;
+    }
+  }
+}

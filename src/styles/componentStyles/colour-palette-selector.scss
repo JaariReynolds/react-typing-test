@@ -1,0 +1,58 @@
+@use "../_constants.scss";
+@use "../_variables.scss";
+@use "../_mixins.scss";
+
+.colour-palette-div {
+    @include mixins.general-color-and-opacity-transition();
+    opacity: var(--component-opacity);
+    font-weight: constants.$bold-font-weight;
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+    position: relative;
+
+    .colour-palette-button {
+        .palette-icon {
+            margin-right: constants.$standard-icon-spacing;
+        }
+
+        &:hover {
+            color: constants.$hover-font-colour;
+            transition: color 0.15s ease-in-out;
+        }
+    }
+
+    .colour-palette-options {
+        display: var(--colour-palettes-display);
+        position: absolute;
+        bottom: 0dvh;
+        margin-bottom: 2rem;
+        background-color: green;
+        padding: 1rem;
+
+    }
+
+    .colour-palette-option {
+        height: 3rem;
+        margin-bottom: .5rem;
+        width: 8.5rem;
+
+        :hover {
+            cursor: pointer;
+        }
+
+        .selectable-colour-palette-label {
+            height: 100%;
+            border-radius: 2rem;
+            padding-left: 1rem;
+
+            .colour-preview {
+                margin-top: 0.75rem;
+                margin-right: 1rem;
+                display: inline-block;
+                width: 1.5rem;
+                height: 1.5rem;
+                border-radius: 0.75rem;
+            }
+        }
+    }
+}

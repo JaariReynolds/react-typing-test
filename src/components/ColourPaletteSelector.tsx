@@ -1,8 +1,9 @@
+import "../styles/componentStyles/colour-palette-selector.scss";
+
 import React from "react";
 import { colourPalettes, ColourPaletteStructure } from "../interfaces/ColourPalletes";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPalette } from "@fortawesome/free-solid-svg-icons";
-import "../styles/componentStyles/ColourPaletteSelector.scss";
 
 export interface ColourPaletteSelectorProps {
 	selectedPalette: ColourPaletteStructure, 
