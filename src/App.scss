@@ -1,88 +1,7 @@
-@import "styles/font-faces.scss";
-
-// CONSTANTS
-$component-opacity-fade-duration: 300ms;
-$completion-bar-transition-duration: 200ms;
-$text-colour-transition-duration: 300ms;
-$letter-colour-transition-duration: 200ms;
-$base-font-size: 1.3rem;
-
-$correct-font-colour: rgb(255 255 255);
-$incorrect-font-colour: rgb(220 38 38);
-$hover-font-colour: rgb(255 255 255);
-
-$word-line-height: 3rem;
-$bold-font-weight: 600;
-$standard-icon-spacing: 0.25rem;
-$larger-icon-spacing: 0.5rem;
-
-// VARIABLES CHANGED FROM REACT
-:root {
-  --test-type-words-opacity: 1;
-  --test-type-time-opacity: 0;
-  --component-opacity: 1;
-  --completion-bar-opacity: 0;
-  --typing-test-opacity: 1;
-  --results-component-opacity: 0;
-  --completion-percentage: 0%;
-  --WPM-opacity: 0;
-  --WPM-transition: opacity;
-  --WPM-display: block;
-  --test-words-display: block;
-  --results-component-display: none;
-  --test-words-max-height: 144px;
-  --test-words-div-offset: 0px;
-  --test-words-top-transition: none;
-  --reset-div-margin: 0rem;
-  --reset-button-text-opacity: 0;
-  --word-scroll-transition-property: top;
-  --caret-position: 0px;
-  --caret-top-offset: 0rem;
-  --capslock-display: block;
-  --capslock-opacity: 1;
-  --afk-opacity: 0;
-  --background-colour: #2f3234;
-  --base-font-colour: #a1a1aa;
-  --primary-highlight-colour: #fde047;
-}
-
-@mixin general-color-transition() {
-  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
-}
-
-@mixin general-color-and-opacity-transition() {
-  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, opacity $component-opacity-fade-duration cubic-bezier(0.4, 0, 0.2, 1);
-
-}
-
-@mixin transition-completion-bar-width() {
-  transition: width $completion-bar-transition-duration linear;
-}
-
-@mixin transition-margin-opacity() {
-  transition-property: margin-top, opacity;
-  transition-timing-function: ease-in-out, cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 0.3s, $component-opacity-fade-duration;
-}
-
-@mixin transition-opacity($opacity) {
-  transition-property: opacity;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: $component-opacity-fade-duration;
-  opacity: $opacity;
-}
-
-@mixin transition-words() {
-  transition-property: opacity, var(--word-scroll-transition-property);
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1), cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: $component-opacity-fade-duration, 0.2s;
-}
-
-@mixin transition-text-color() {
-  transition-property: color;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: $text-colour-transition-duration;
-}
+@use "styles/_variables.scss";
+@use "styles/font-faces.scss";
+@use "styles/_mixins.scss";
+@use "styles/_constants.scss";
 
 body {
   margin: 0;
@@ -91,7 +10,7 @@ body {
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  @include general-color-transition();
+  @include mixins.general-color-transition();
 }
 
 .App {
@@ -115,8 +34,8 @@ body {
 }
 
 .afk-indicator-container {
-  @include transition-opacity(var(--afk-opacity));
-  background-color: $incorrect-font-colour;
+  @include mixins.transition-opacity(var(--afk-opacity));
+  background-color: constants.$incorrect-font-colour;
   border-radius: 0.5rem;
   display: flex;
   position: absolute;
@@ -126,10 +45,10 @@ body {
   width: 21.5rem;
   height: 40px;
   justify-content: center;
-  font-size: $base-font-size;
+  font-size: constants.$base-font-size;
 
   .afk-indicator-contents {
-    @include general-color-and-opacity-transition();
+    @include mixins.general-color-and-opacity-transition();
     align-items: center;
     border-radius: 0.5rem;
     position: relative;
@@ -145,7 +64,6 @@ body {
 .hidden-radio-button {
   display: none;
 }
-
 
 .main-container {
   display: flex;
@@ -168,7 +86,7 @@ body {
       background-color: var(--primary-highlight-colour);
       width: var(--completion-percentage);
       max-width: 100%;
-      transition: width $completion-bar-transition-duration linear, background-color 0.3s ease-in-out; // needs to be hard written like this unless in a @mixin JUST for this use case
+      transition: width constants.$completion-bar-transition-duration linear, background-color 0.3s ease-in-out; // needs to be hard written like this unless in a @mixin JUST for this use case
       margin-top: 1rem;
     }
 
@@ -181,7 +99,7 @@ body {
       height: 40px;
       margin-top: 1rem;
       margin-bottom: 2rem;
-      font-size: $base-font-size;
+      font-size: constants.$base-font-size;
       cursor: default;
 
 
@@ -202,8 +120,8 @@ body {
 
     .test-options {
       display: grid;
-      font-size: $base-font-size;
-      @include transition-opacity(var(--component-opacity));
+      font-size: constants.$base-font-size;
+      @include mixins.transition-opacity(var(--component-opacity));
 
       .test-options-icon {
         margin-right: 0.25rem;
@@ -215,7 +133,7 @@ body {
         -webkit-user-select: none;
         user-select: none;
         margin-bottom: 1rem;
-        @include transition-opacity(var(--component-opacity)); // used for switching between words/time
+        @include mixins.transition-opacity(var(--component-opacity)); // used for switching between words/time
 
         &.uninteractable-selector {
           pointer-events: none;
@@ -237,14 +155,14 @@ body {
 
           :hover {
             cursor: pointer;
-            color: $hover-font-colour;
+            color: constants.$hover-font-colour;
             transition: color 0.15s ease-in-out;
           }
 
           .selectable-label {
             padding: 0.5rem;
             margin: 0.25rem;
-            font-weight: $bold-font-weight;
+            font-weight: constants.$bold-font-weight;
           }
         }
       }
@@ -252,12 +170,12 @@ body {
   }
 
   input[type="radio"]:checked+label {
-    @include general-color-transition();
+    @include mixins.general-color-transition();
     color: var(--primary-highlight-colour);
   }
 
   input[type="checkbox"]:checked+label {
-    @include general-color-transition();
+    @include mixins.general-color-transition();
     color: var(--primary-highlight-colour);
   }
 }
@@ -320,13 +238,13 @@ body {
     }
 
     .words-container {
-      @include transition-words();
+      @include mixins.transition-words();
       display: flex;
       flex-wrap: wrap;
       opacity: var(--typing-test-opacity);
       max-height: var(--test-words-max-height);
       font-size: 2rem; // 'scroll transition' amount is dependent on the text properties in this class
-      line-height: $word-line-height;
+      line-height: constants.$word-line-height;
       top: var(--test-words-div-offset);
       position: absolute;
 
@@ -341,7 +259,7 @@ body {
         width: .2rem;
         position: absolute;
         top: var(--caret-top-offset);
-        height: $word-line-height; // should always match line height of words ^
+        height: constants.$word-line-height; // should always match line height of words ^
         left: var(--caret-position);
 
         &.awaiting-input {
@@ -357,8 +275,8 @@ body {
         }
 
         .letter {
-          @include transition-text-color();
-          transition-duration: $letter-colour-transition-duration;
+          @include mixins.transition-text-color();
+          transition-duration: constants.$letter-colour-transition-duration;
           border-left: 3px solid transparent;
 
           // if these are changed, need to update letterColour() in TypingTest.tsx
@@ -367,11 +285,11 @@ body {
           }
 
           &.correct-text-colour {
-            color: $correct-font-colour;
+            color: constants.$correct-font-colour;
           }
 
           &.incorrect-text-colour {
-            color: $incorrect-font-colour;
+            color: constants.$incorrect-font-colour;
           }
         }
       }
@@ -386,7 +304,7 @@ body {
   height: 6.5rem;
   margin-top: var(--reset-div-margin);
   opacity: var(--component-opacity);
-  @include transition-margin-opacity();
+  @include mixins.transition-margin-opacity();
   margin-bottom: 3rem;
 
   .reset-button-text {
@@ -396,7 +314,7 @@ body {
     opacity: var(--reset-button-text-opacity);
     width: 100%;
     font-weight: 500;
-    font-size: $base-font-size;
+    font-size: constants.$base-font-size;
     height: 20%;
   }
 
@@ -425,7 +343,7 @@ body {
 
     .reset-icon {
       font-size: 3rem;
-      @include general-color-transition();
+      @include mixins.general-color-transition();
       color: var(--base-font-colour);
 
       &.spinning-icon {
@@ -440,49 +358,55 @@ body {
 .bottom-bar-div {
   margin-top: auto;
   width: 100dvw;
-  // display: grid;
-
-  // grid-template-columns: 1fr 2fr;
 
   .key-tips {
     opacity: var(--component-opacity);
-    @include general-color-and-opacity-transition();
-    //@include transition-opacity(var(--component-opacity));
+    @include mixins.general-color-and-opacity-transition();
     font-size: 0.9rem;
     margin-bottom: 1.5rem;
     text-align: center;
     letter-spacing: 0.1rem;
     margin-top: auto;
-    font-weight: $bold-font-weight;
-    // @include general-color-transition();
+    font-weight: constants.$bold-font-weight;
 
     .key-highlight {
       background-color: var(--base-font-colour);
       color: var(--background-colour);
       border-radius: 0.3rem;
       padding: 0.2rem 0.5rem;
-      @include general-color-transition();
+      @include mixins.general-color-transition();
     }
   }
 
-  .colour-palette-options {
-    font-weight: $bold-font-weight;
+  .colour-palette-div {
+    font-weight: constants.$bold-font-weight;
     margin-left: 1rem;
     margin-bottom: 1rem;
     opacity: var(--component-opacity);
-    @include general-color-and-opacity-transition();
+    @include mixins.general-color-and-opacity-transition();
+    position: relative;
 
     .colour-palette-button {
 
       .palette-icon {
-        margin-right: $standard-icon-spacing;
+        margin-right: constants.$standard-icon-spacing;
       }
 
       &:hover {
-        color: $hover-font-colour;
+        color: constants.$hover-font-colour;
         transition: color 0.15s ease-in-out;
 
       }
+    }
+
+    .colour-palette-options {
+      display: var(--colour-palettes-display);
+      position: absolute;
+      bottom: 0dvh;
+      margin-bottom: 2rem;
+      background-color: green;
+      padding: 1rem;
+
     }
 
     .colour-palette-option {
@@ -509,19 +433,13 @@ body {
         }
       }
     }
-
   }
 }
-
-
-
-
-
 
 .test-results-div {
   transition-property: opacity;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: $component-opacity-fade-duration;
+  transition-duration: constants.$component-opacity-fade-duration;
   opacity: var(--results-component-opacity);
   margin-top: -0.5rem;
   border-radius: 0.25rem;
@@ -529,10 +447,10 @@ body {
   max-width: 100%;
   display: var(--results-component-display);
   padding-top: 1.5rem;
-  font-size: $base-font-size;
+  font-size: constants.$base-font-size;
 
   & * {
-    @include general-color-transition();
+    @include mixins.general-color-transition();
   }
 
   .results-chart {
@@ -575,10 +493,9 @@ body {
           color: var(--base-font-colour);
           grid-area: 2/1;
           margin-top: -2.2rem;
-          font-size: $base-font-size;
+          font-size: constants.$base-font-size;
         }
       }
-
     }
   }
 }

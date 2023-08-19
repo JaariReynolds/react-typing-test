@@ -1,0 +1,42 @@
+@use "_variables.scss";
+@use "_constants.scss";
+
+@mixin general-color-transition() {
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+@mixin general-color-and-opacity-transition() {
+    transition:
+        background-color 0.3s ease-in-out, color 0.3s ease-in-out,
+        opacity constants.$component-opacity-fade-duration cubic-bezier(0.4, 0, 0.2, 1);
+
+}
+
+@mixin transition-completion-bar-width() {
+    transition: width constants.$completion-bar-transition-duration linear;
+}
+
+@mixin transition-margin-opacity() {
+    transition-property: margin-top, opacity;
+    transition-timing-function: ease-in-out, cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 0.3s, constants.$component-opacity-fade-duration;
+}
+
+@mixin transition-opacity($opacity) {
+    transition-property: opacity;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: constants.$component-opacity-fade-duration;
+    opacity: $opacity;
+}
+
+@mixin transition-words() {
+    transition-property: opacity, var(--word-scroll-transition-property);
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1), cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: constants.$component-opacity-fade-duration, 0.2s;
+}
+
+@mixin transition-text-color() {
+    transition-property: color;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: constants.$text-colour-transition-duration;
+}

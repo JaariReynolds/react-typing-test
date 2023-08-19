@@ -61,6 +61,7 @@ function App() {
 	const [isAfkMidTest, setIsAfkMidTest] = useState<boolean>(false);
 
 	const [selectedPalette, setSelectedPalette] = useState<ColourPaletteStructure>(colourPalettes[0]);
+	const [showColourPalettes, setShowColourPalettes] = useState<boolean>(false);
 
 	const handleSiteKeyDown = (event: any) => {
 		// prevent default tab functionality when test is not focused, set focus instead to the 'reset' button
@@ -207,7 +208,7 @@ function App() {
 	};
 
 	const bottomBarProps: BottomBarProps = {
-		selectedPalette, setSelectedPalette, opacityStyle
+		selectedPalette, setSelectedPalette, opacityStyle, showColourPalettes, setShowColourPalettes
 	};
 	
 	
