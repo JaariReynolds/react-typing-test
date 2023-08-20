@@ -28,16 +28,15 @@ body {
 .main-container {
   display: flex;
   align-items: center;
-  justify-content: center;
-  min-height: 100vh;
+  min-height: 100dvh;
   flex-direction: column;
 
   .inner-container {
     width: 70%;
-    height: 10%;
+    flex: 1;
+    height: 100%;
     position: relative;
     margin-top: 8rem;
-
   }
 
   input[type="radio"]:checked+label {

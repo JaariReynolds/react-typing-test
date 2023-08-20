@@ -1,0 +1,21 @@
+@use "../_constants.scss";
+@use "../_variables.scss";
+@use "../_mixins.scss";
+
+.key-tips {
+    @include mixins.general-color-and-opacity-transition();
+    opacity: var(--component-opacity);
+    font-weight: constants.$bold-font-weight;
+    margin-bottom: 2rem;
+    text-align: center;
+    letter-spacing: 0.1rem;
+    justify-content: center;
+
+    .key-highlight {
+        @include mixins.general-color-transition();
+        background-color: var(--base-font-colour);
+        color: var(--background-colour);
+        border-radius: 0.3rem;
+        padding: 0.2rem 0.5rem;
+    }
+}

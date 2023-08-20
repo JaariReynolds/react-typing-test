@@ -4,8 +4,7 @@
 
 .reset-container {
     display: block;
-    justify-content: center;
-    position: relative;
+    align-content: center;
     height: 6.5rem;
     margin-top: var(--reset-div-margin);
     opacity: var(--component-opacity);
@@ -28,6 +27,11 @@
         width: 150px;
         border-radius: 0.5rem;
         height: 80%;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+
+
 
         &:focus {
             background-color: var(--base-font-colour);

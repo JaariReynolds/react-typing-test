@@ -1,3 +1,5 @@
+import "../styles/componentStyles/key-tips.scss";
+
 import React from "react";
 
 export interface KeyTipsProps {

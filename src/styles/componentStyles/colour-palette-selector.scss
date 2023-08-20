@@ -3,32 +3,21 @@
 @use "../_mixins.scss";
 
 .colour-palette-div {
-    @include mixins.general-color-and-opacity-transition();
-    opacity: var(--component-opacity);
-    font-weight: constants.$bold-font-weight;
-    margin-left: 1rem;
-    margin-bottom: 1rem;
-    position: relative;
 
-    .colour-palette-button {
-        .palette-icon {
-            margin-right: constants.$standard-icon-spacing;
-        }
 
-        &:hover {
-            color: constants.$hover-font-colour;
-            transition: color 0.15s ease-in-out;
-        }
-    }
+    .colour-palette-button {}
 
     .colour-palette-options {
         display: var(--colour-palettes-display);
         position: absolute;
-        bottom: 0dvh;
-        margin-bottom: 2rem;
-        background-color: green;
+        left: 0;
+        bottom: 0;
+        top: 0;
+        margin-bottom: 3rem;
+        height: auto;
+        background-color: rgba(0, 0, 0, 0.4);
         padding: 1rem;
-
+        width: 15rem;
     }
 
     .colour-palette-option {

@@ -12,7 +12,8 @@ import WordsPerMinute, { WordsPerMinuteProps } from "./components/WordsPerMinute
 import CapsLockIndicator, { CapsLockIndicatorProps } from "./components/CapsLockIndicator";
 import AfkDetectedIndicator, { AfkDetectedIndicatorProps } from "./components/AfkDetectedIndicator";
 import { colourPalettes, ColourPaletteStructure } from "./interfaces/ColourPalletes";
-import BottomBar, { BottomBarProps } from "./components/BottomBar";
+import Footer, { FooterProps } from "./components/Footer/Footer";
+import KeyTips, { KeyTipsProps } from "./components/KeyTips";
 
 
 export enum TestType {
@@ -207,7 +208,11 @@ function App() {
 		resetButtonRef, opacityStyle, reset, setReset, resultsComponentOpacity
 	};
 
-	const bottomBarProps: BottomBarProps = {
+	const keyTipsProps: KeyTipsProps = {
+		opacityStyle
+	};
+
+	const footerProps: FooterProps = {
 		selectedPalette, setSelectedPalette, opacityStyle, showColourPalettes, setShowColourPalettes
 	};
 	
@@ -228,9 +233,10 @@ function App() {
 						<TypingTestResults {...typingTestResultsProps}/>	
 						<WordsPerMinute {...wordsPerMinuteProps}/>
 					</div>
+					<ResetButton {...resetButtonProps}/>
 				</div>
-				<ResetButton {...resetButtonProps}/>
-				<BottomBar {...bottomBarProps}/>
+				<KeyTips {...keyTipsProps}/>
+				<Footer {...footerProps}/>
 			</div>
 		</div>
    
