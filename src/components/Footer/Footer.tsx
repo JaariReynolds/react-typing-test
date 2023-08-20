@@ -22,13 +22,14 @@ const Footer = ({selectedPalette, setSelectedPalette, opacityStyle, showColourPa
 	};
 
 	return (
-		<div className="footer">
+		<div className="footer" style={opacityStyle}>
 			<ColourPaletteSelector {...colourPaletteSelectorProps} />
 
 			<a href="https://github.com/JaariReynolds/react-typing-test" target="_blank" title="github.com/JaariReynolds/react-typing-test" className="github footer-item" rel="noopener noreferrer">
 				<FontAwesomeIcon icon={faCodeBranch} className="icon"/>
 				<span>git</span>
 			</a>
+			
 		</div>
 	);
 };
