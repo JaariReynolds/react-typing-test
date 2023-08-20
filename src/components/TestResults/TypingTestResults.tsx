@@ -4,7 +4,7 @@ import "../../styles/componentStyles/typing-test-results.scss";
 import React, { useEffect } from "react";
 import { TestWords } from "../../interfaces/WordStructure";
 import TypingTestResultsWPMGraph from "./TypingTestResultsWPMGraph";
-import { ColourPaletteStructure } from "../../interfaces/ColourPalletes";
+import { ColourPaletteStructure } from "../../interfaces/ColourPalettes";
 
 export interface TypingTestResultsProps {
     testWords: TestWords, 

@@ -11,16 +11,15 @@ import CompletionBar, { CompletionBarProps } from "./components/CompletionBar";
 import WordsPerMinute, { WordsPerMinuteProps } from "./components/WordsPerMinute";
 import CapsLockIndicator, { CapsLockIndicatorProps } from "./components/CapsLockIndicator";
 import AfkDetectedIndicator, { AfkDetectedIndicatorProps } from "./components/AfkDetectedIndicator";
-import { colourPalettes, ColourPaletteStructure } from "./interfaces/ColourPalletes";
-import Footer, { FooterProps } from "./components/Footer/Footer";
+import { colourPalettes, ColourPaletteStructure } from "./interfaces/ColourPalettes";
+import Footer, { FooterProps } from "./components/Footer";
 import KeyTips, { KeyTipsProps } from "./components/KeyTips";
-
+import ColourPaletteSelector, { ColourPaletteSelectorProps } from "./components/ColourPaletteSelector";
 
 export enum TestType {
 	Words = "words",
 	Time = "time"
 }
-
 
 export const TRANSITION_DELAY = 200;
 
@@ -176,6 +175,10 @@ function App() {
 	//#endregion
 
 	//#region Component Props
+	const colourPaletteSelectorProps: ColourPaletteSelectorProps = {
+		selectedPalette, setSelectedPalette, opacityStyle, showColourPalettes, setShowColourPalettes
+	};
+
 	const afkDetectedIndicatorProps: AfkDetectedIndicatorProps = {
 		isAfkMidTest
 	};
@@ -213,7 +216,7 @@ function App() {
 	};
 
 	const footerProps: FooterProps = {
-		selectedPalette, setSelectedPalette, opacityStyle, showColourPalettes, setShowColourPalettes
+		opacityStyle, showColourPalettes, setShowColourPalettes
 	};
 	
 	
@@ -222,6 +225,8 @@ function App() {
 	return (
 		<div style={colourPaletteStyling} className="App">
 			<div className="main-container" onMouseMove={handleMouseMove}>
+
+
 				<div className="inner-container">
 					<AfkDetectedIndicator {...afkDetectedIndicatorProps}/>
 					<TestOptions {...testOptionsProps}/>
@@ -233,9 +238,13 @@ function App() {
 						<TypingTestResults {...typingTestResultsProps}/>	
 						<WordsPerMinute {...wordsPerMinuteProps}/>
 					</div>
+
 					<ResetButton {...resetButtonProps}/>
 				</div>
+
 				<KeyTips {...keyTipsProps}/>
+				<ColourPaletteSelector {...colourPaletteSelectorProps}/>
+
 				<Footer {...footerProps}/>
 			</div>
 		</div>

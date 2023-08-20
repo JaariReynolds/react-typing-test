@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { NumberPair } from "../../interfaces/WordStructure";
-import { ColourPaletteStructure } from "../../interfaces/ColourPalletes";
+import { ColourPaletteStructure } from "../../interfaces/ColourPalettes";
 
 
 interface DataPoint {

@@ -1,9 +1,7 @@
-import "../../styles/componentStyles/colour-palette-selector.scss";
+import "../styles/componentStyles/colour-palette-selector.scss";
 
 import React from "react";
-import { colourPalettes, ColourPaletteStructure } from "../../interfaces/ColourPalletes";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPalette } from "@fortawesome/free-solid-svg-icons";
+import { colourPalettes, ColourPaletteStructure } from "../interfaces/ColourPalettes";
 
 export interface ColourPaletteSelectorProps {
 	selectedPalette: ColourPaletteStructure, 
@@ -24,7 +22,7 @@ const ColourPaletteSelector = ({opacityStyle, selectedPalette, setSelectedPalett
 	};
 
 	const colourPaletteStyling = {
-		"--colour-palettes-display": showColourPalettes ? "block" : "none"
+		"--colour-palettes-display": showColourPalettes ? "flex" : "none"
 	} as React.CSSProperties;
 
 	const colourPaletteLayout = (colourPalette: ColourPaletteStructure) => {
@@ -38,34 +36,24 @@ const ColourPaletteSelector = ({opacityStyle, selectedPalette, setSelectedPalett
 	};
 
 	return (
-		<div style={opacityStyle} className="footer-item">
-			<div className="colour-palette-div">
-				<button className="colour-palette-button" onClick={handleShowColourPalettes}>
-					<FontAwesomeIcon icon={faPalette} className="palette-icon icon"/>
-				theme
-				</button>
-				<div style={colourPaletteStyling} className="colour-palette-options">
-					{colourPalettes.map((palette) => {
-						return (
-							<div key={palette.paletteId} className="colour-palette-option">
-								<input
-									type="radio"
-									id={palette.paletteId.toString()}
-									value={palette.paletteId}
-									checked={palette.paletteId === selectedPalette.paletteId}
-									onChange={handleOptionChange}
-									className="hidden-radio-button"
-								/>
-								<label htmlFor={palette.paletteId.toString()}>
-									{colourPaletteLayout(palette)}
-								</label>
-							</div>	
-						);
-					})}
-
-				</div>
-			</div>
-
+		<div style={colourPaletteStyling} className="colour-palette-div">
+			{colourPalettes.map((palette) => {
+				return (
+					<div key={palette.paletteId} className="colour-palette-option">
+						<input
+							type="radio"
+							id={palette.paletteId.toString()}
+							value={palette.paletteId}
+							checked={palette.paletteId === selectedPalette.paletteId}
+							onChange={handleOptionChange}
+							className="hidden-radio-button"
+						/>
+						<label htmlFor={palette.paletteId.toString()}>
+							{colourPaletteLayout(palette)}
+						</label>
+					</div>	
+				);
+			})}
 		</div>
 	);
 };
