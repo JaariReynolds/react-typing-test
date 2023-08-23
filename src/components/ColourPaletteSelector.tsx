@@ -22,7 +22,8 @@ const ColourPaletteSelector = ({opacityStyle, selectedPalette, setSelectedPalett
 	};
 
 	const colourPaletteStyling = {
-		"--colour-palettes-display": showColourPalettes ? "flex" : "none"
+		maxHeight: showColourPalettes ? "9rem" : "0rem",
+		padding: showColourPalettes ? "1rem 1rem" : "0 1rem",
 	} as React.CSSProperties;
 
 	const colourPaletteLayout = (colourPalette: ColourPaletteStructure) => {

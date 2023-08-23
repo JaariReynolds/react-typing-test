@@ -7,8 +7,9 @@
 
 @mixin general-color-and-opacity-transition() {
     transition:
-        background-color 0.3s ease-in-out, color 0.3s ease-in-out,
-        opacity constants.$component-opacity-fade-duration cubic-bezier(0.4, 0, 0.2, 1);
+        background-color 0.3s ease-in-out,
+        color 0.3s ease-in-out,
+        opacity constants.$component-opacity-fade-duration ease-in-out;
 
 }
 
@@ -18,13 +19,13 @@
 
 @mixin transition-margin-opacity() {
     transition-property: margin-top, opacity;
-    transition-timing-function: ease-in-out, cubic-bezier(0.4, 0, 0.2, 1);
+    transition-timing-function: ease-in-out, ease-in-out;
     transition-duration: 0.3s, constants.$component-opacity-fade-duration;
 }
 
 @mixin transition-opacity($opacity) {
     transition-property: opacity;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-timing-function: ease-in-out;
     transition-duration: constants.$component-opacity-fade-duration;
     opacity: $opacity;
 }
@@ -37,6 +38,6 @@
 
 @mixin transition-text-color() {
     transition-property: color;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-timing-function: ease-in-out;
     transition-duration: constants.$text-colour-transition-duration;
 }

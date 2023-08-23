@@ -19,7 +19,7 @@ const Footer = ({opacityStyle, showColourPalettes, setShowColourPalettes}: Foote
 
 	return (
 		<div className="footer" style={opacityStyle}>
-			<button className="footer-item" onClick={handleShowColourPalettes}>
+			<button className="footer-item" onClick={handleShowColourPalettes} tabIndex={-1}>
 				<FontAwesomeIcon icon={faPalette} className="palette-icon icon"/>
 				theme
 			</button>

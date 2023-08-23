@@ -4,6 +4,8 @@
 
 .key-tips {
     @include mixins.general-color-and-opacity-transition();
+    position: relative;
+    //bottom: 0;
     opacity: var(--component-opacity);
     font-weight: constants.$bold-font-weight;
     margin-bottom: 2rem;

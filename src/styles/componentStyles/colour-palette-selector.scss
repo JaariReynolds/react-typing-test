@@ -3,23 +3,37 @@
 @use "../_mixins.scss";
 
 .colour-palette-div {
-    display: var(--colour-palettes-display);
-    justify-content: space-evenly;
-    align-items: center;
-    flex-wrap: wrap;
-    bottom: 0;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(6.5rem, 1fr));
+    position: relative;
+    justify-content: center;
     width: 100%;
-    //margin-bottom: 2.5rem;
     background-color: rgba(0, 0, 0, 1);
-    padding: 1rem;
+    border-top: 2px solid var(--base-font-colour);
+    opacity: var(--component-opacity);
     z-index: 1;
+    padding: 0rem;
+    max-height: 0rem;
+    overflow-y: scroll;
+    transition:
+        max-height 0.3s ease-in-out,
+        padding 0.3s ease-in-out,
+        border-top 0.3s ease-in-out;
+
+
+    &::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+    }
 
 
     .colour-palette-option {
-        width: 8rem;
+        border-radius: 2rem;
 
-        :hover {
+        &:hover {
             cursor: pointer;
+            outline: 2px solid constants.$correct-font-colour;
         }
 
         .selectable-colour-palette-label {

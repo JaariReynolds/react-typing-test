@@ -8,11 +8,15 @@
     align-items: center;
     margin-top: auto;
     width: 100%;
-    border-top: 2px solid var(--base-font-colour);
+    ///border-top: 2px solid var(--base-font-colour);
     height: 2.5rem;
     @include mixins.general-color-and-opacity-transition();
+    //transition: border-top 0.3s linear;
     opacity: var(--component-opacity);
     font-weight: constants.$bold-font-weight;
+    background-color: rgba(0, 0, 0, 1);
+
+    //    background-color: var(--background-colour);
 
     .footer-item {
 
@@ -29,6 +33,8 @@
             transition: color 0.15s ease-in-out;
         }
     }
+
+
 
     .icon {
         margin-right: constants.$standard-icon-spacing;
