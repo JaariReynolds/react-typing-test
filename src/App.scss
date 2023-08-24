@@ -21,10 +21,6 @@ body {
   height: 100vh;
 }
 
-.hidden-radio-button {
-  display: none;
-}
-
 .main-container {
   display: flex;
   align-items: center;
@@ -32,12 +28,18 @@ body {
   flex-direction: column;
   justify-content: space-between;
 
+
   .inner-container {
     width: 70%;
     flex: 1;
     height: 100%;
     position: relative;
     margin-top: 8rem;
+    //filter: blur(2px);
+  }
+
+  .hidden-radio-button {
+    display: none;
   }
 
   input[type="radio"]:checked+label {

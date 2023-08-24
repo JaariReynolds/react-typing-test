@@ -4,17 +4,17 @@ import "../../styles/componentStyles/typing-test-results.scss";
 import React, { useEffect } from "react";
 import { TestWords } from "../../interfaces/WordStructure";
 import TypingTestResultsWPMGraph from "./TypingTestResultsWPMGraph";
-import { ColourPaletteStructure } from "../../interfaces/ColourPalettes";
+import { colourPalettes } from "../../interfaces/ColourPalettes";
 
 export interface TypingTestResultsProps {
     testWords: TestWords, 
     setTestWords: React.Dispatch<React.SetStateAction<TestWords>>,
 	showResultsComponent: boolean,
 	resultsComponentStyling: React.CSSProperties,
-	selectedPalette: ColourPaletteStructure
+	selectedPaletteId: number
 }
 
-const TypingTestResults = ({testWords, setTestWords, showResultsComponent, resultsComponentStyling, selectedPalette}: TypingTestResultsProps ) => {
+const TypingTestResults = ({testWords, setTestWords, showResultsComponent, resultsComponentStyling, selectedPaletteId}: TypingTestResultsProps ) => {
 	
 	// once results screen shown, calculate extra info to show 
 	useEffect(() => {
@@ -39,7 +39,7 @@ const TypingTestResults = ({testWords, setTestWords, showResultsComponent, resul
 	const typingTestResultsWPMGraphProps = {
 		rawWPMArray: testWords.rawWPMArray,
 		currentAverageWPMArray: testWords.currentAverageWPMArray,
-		colourPalette: selectedPalette
+		colourPalette: colourPalettes[selectedPaletteId]
 	};
 
 	return (

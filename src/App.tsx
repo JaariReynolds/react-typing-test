@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { CSSProperties, useEffect, useState, useRef } from "react";
@@ -11,7 +12,7 @@ import CompletionBar, { CompletionBarProps } from "./components/CompletionBar";
 import WordsPerMinute, { WordsPerMinuteProps } from "./components/WordsPerMinute";
 import CapsLockIndicator, { CapsLockIndicatorProps } from "./components/CapsLockIndicator";
 import AfkDetectedIndicator, { AfkDetectedIndicatorProps } from "./components/AfkDetectedIndicator";
-import { colourPalettes, ColourPaletteStructure } from "./interfaces/ColourPalettes";
+import { colourPalettes } from "./interfaces/ColourPalettes";
 import Footer, { FooterProps } from "./components/Footer";
 import KeyTips, { KeyTipsProps } from "./components/KeyTips";
 import ColourPaletteSelector, { ColourPaletteSelectorProps } from "./components/ColourPaletteSelector";
@@ -60,30 +61,41 @@ function App() {
 
 	const [isAfkMidTest, setIsAfkMidTest] = useState<boolean>(false);
 
-	const [selectedPalette, setSelectedPalette] = useState<ColourPaletteStructure>(colourPalettes[0]);
+	const [selectedPaletteId, setSelectedPaletteId] = useState<number>(0);
 	const [showColourPalettes, setShowColourPalettes] = useState<boolean>(false);
+
+	const colourPaletteDivRef = useRef<HTMLDivElement>(null);
+
+	// need a ref of my ref just to use within an event listener :) 
+	const showColourPaletteStateRef = useRef<boolean>(showColourPalettes);
+	showColourPaletteStateRef.current = showColourPalettes;
 
 	const handleSiteKeyDown = (event: any) => {
 		// prevent default tab functionality when test is not focused, set focus instead to the 'reset' button
 		if (inputRef.current != document.activeElement) {
 			if (event.type == "keydown" && event.key == "Tab") {
-				//console.log("prevented tab");
 				const tabKey = event as React.KeyboardEvent<HTMLInputElement>;
 				tabKey.preventDefault();
 				resetButtonRef.current!.focus();
 			}
 		}
-		
 		setCapsLockOpacity(event.getModifierState("CapsLock") ? 1 : 0);
 	};
-	
+
+	const handleOutsideClick = (event: any) => {
+		if (showColourPaletteStateRef.current && colourPaletteDivRef.current && !colourPaletteDivRef.current.contains(event.target)) {
+			setShowColourPalettes(!showColourPaletteStateRef.current);
+		}
+	};
 
 	//#region useEffects
 	useEffect(() => {
 		window.addEventListener("keydown", handleSiteKeyDown);
-
+		window.addEventListener("mousedown", handleOutsideClick);
+		
 		return () => {
 			window.removeEventListener("keydown", handleSiteKeyDown);
+			window.removeEventListener("mousedown", handleOutsideClick);
 		};
 	}, []);
 
@@ -106,7 +118,6 @@ function App() {
 			setTestFocused(true);
 			setComponentOpacity(0);
 		}
-	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [pressedKeys]);
 
 	useEffect(() => {
@@ -132,8 +143,8 @@ function App() {
 	}, [testComplete]);
 
 	useEffect(() => {
-		document.body.style.backgroundColor = selectedPalette?.backgroundColour;
-	}, [selectedPalette]);
+		document.body.style.backgroundColor = colourPalettes[selectedPaletteId].backgroundColour;
+	}, [selectedPaletteId]);
 	//#endregion
 
 	
@@ -145,9 +156,9 @@ function App() {
 	};
 
 	const colourPaletteStyling = {
-		"--background-colour": selectedPalette.backgroundColour,
-		"--base-font-colour": selectedPalette.baseFontColour,
-		"--primary-highlight-colour": selectedPalette.primaryHighlightColour
+		"--background-colour": colourPalettes[selectedPaletteId].backgroundColour,
+		"--base-font-colour": colourPalettes[selectedPaletteId].baseFontColour,
+		"--primary-highlight-colour": colourPalettes[selectedPaletteId].primaryHighlightColour
 	} as CSSProperties;
 
 	//#region CSS Properties
@@ -176,7 +187,7 @@ function App() {
 
 	//#region Component Props
 	const colourPaletteSelectorProps: ColourPaletteSelectorProps = {
-		selectedPalette, setSelectedPalette, opacityStyle, showColourPalettes, setShowColourPalettes
+		selectedPaletteId, setSelectedPaletteId, showColourPalettes, colourPaletteDivRef
 	};
 
 	const afkDetectedIndicatorProps: AfkDetectedIndicatorProps = {
@@ -200,7 +211,7 @@ function App() {
 	};
 
 	const typingTestResultsProps: TypingTestResultsProps = {
-		testWords, setTestWords, showResultsComponent, resultsComponentStyling, selectedPalette
+		testWords, setTestWords, showResultsComponent, resultsComponentStyling, selectedPaletteId
 	};
 
 	const wordsPerMinuteProps: WordsPerMinuteProps = {
@@ -216,17 +227,13 @@ function App() {
 	};
 
 	const footerProps: FooterProps = {
-		opacityStyle, showColourPalettes, setShowColourPalettes
+		opacityStyle, showColourPalettes, setShowColourPalettes, showColourPaletteStateRef
 	};
-	
-	
 	//#endregion
 
 	return (
 		<div style={colourPaletteStyling} className="App">
 			<div className="main-container" onMouseMove={handleMouseMove}>
-
-
 				<div className="inner-container">
 					<AfkDetectedIndicator {...afkDetectedIndicatorProps}/>
 					<TestOptions {...testOptionsProps}/>

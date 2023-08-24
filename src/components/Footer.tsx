@@ -8,13 +8,14 @@ export interface FooterProps {
     
     opacityStyle: React.CSSProperties,
 	showColourPalettes: boolean,
-	setShowColourPalettes: React.Dispatch<React.SetStateAction<boolean>>
+	setShowColourPalettes: React.Dispatch<React.SetStateAction<boolean>>,
+	showColourPaletteStateRef: React.MutableRefObject<boolean>,
 }
 
-const Footer = ({opacityStyle, showColourPalettes, setShowColourPalettes}: FooterProps) => {
+const Footer = ({opacityStyle, showColourPalettes, setShowColourPalettes, showColourPaletteStateRef}: FooterProps) => {
 
 	const handleShowColourPalettes = () => {
-		setShowColourPalettes(!showColourPalettes);
+		setShowColourPalettes(!showColourPaletteStateRef.current);
 	};
 
 	return (

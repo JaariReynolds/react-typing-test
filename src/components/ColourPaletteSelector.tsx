@@ -1,30 +1,47 @@
 import "../styles/componentStyles/colour-palette-selector.scss";
 
-import React from "react";
+import React, { RefObject, useEffect, useState } from "react";
 import { colourPalettes, ColourPaletteStructure } from "../interfaces/ColourPalettes";
 
 export interface ColourPaletteSelectorProps {
-	selectedPalette: ColourPaletteStructure, 
-    setSelectedPalette: React.Dispatch<React.SetStateAction<ColourPaletteStructure>>
-	opacityStyle: React.CSSProperties,
+	selectedPaletteId: number, 
+    setSelectedPaletteId: React.Dispatch<React.SetStateAction<number>>
 	showColourPalettes: boolean,
-	setShowColourPalettes: React.Dispatch<React.SetStateAction<boolean>>
+	colourPaletteDivRef: RefObject<HTMLDivElement>
 }
 
-const ColourPaletteSelector = ({opacityStyle, selectedPalette, setSelectedPalette, showColourPalettes, setShowColourPalettes}: ColourPaletteSelectorProps) => {
+const ColourPaletteSelector = ({selectedPaletteId, setSelectedPaletteId, showColourPalettes, colourPaletteDivRef}: ColourPaletteSelectorProps) => {
+	const [containerMaxHeight, setContainerMaxHeight] = useState<string>("15rem");
+
+	// set container height to 0 only AFTER component opacity has fully faded out
+	useEffect(() => {
+		const opacityFadeDuration = 150;
+		if (!showColourPalettes) {
+			setTimeout(() => {
+				setContainerMaxHeight("0rem");
+			}, opacityFadeDuration);
+			return;
+		}
+		setContainerMaxHeight("max-content");
+	}, [showColourPalettes]);
 
 	const handleOptionChange = (event:React.ChangeEvent<HTMLInputElement>) => {
-		setSelectedPalette(colourPalettes[parseInt(event.target.value)]);
+		setSelectedPaletteId(parseInt(event.target.value));
 	};
 
-	const handleShowColourPalettes = () => {
-		setShowColourPalettes(!showColourPalettes);
+	// const handleShowColourPalettes = () => {
+	// 	setShowColourPalettes(!showColourPalettes);
+	// };
+
+	const selectedStylingClass = (paletteId: number) => {
+		return (paletteId === selectedPaletteId ? "selected" : "");
 	};
 
 	const colourPaletteStyling = {
-		maxHeight: showColourPalettes ? "9rem" : "0rem",
-		padding: showColourPalettes ? "1rem 1rem" : "0 1rem",
+		maxHeight: containerMaxHeight,
+		opacity: showColourPalettes ? 1 : 0
 	} as React.CSSProperties;
+
 
 	const colourPaletteLayout = (colourPalette: ColourPaletteStructure) => {
 		return (
@@ -37,24 +54,26 @@ const ColourPaletteSelector = ({opacityStyle, selectedPalette, setSelectedPalett
 	};
 
 	return (
-		<div style={colourPaletteStyling} className="colour-palette-div">
-			{colourPalettes.map((palette) => {
-				return (
-					<div key={palette.paletteId} className="colour-palette-option">
-						<input
-							type="radio"
-							id={palette.paletteId.toString()}
-							value={palette.paletteId}
-							checked={palette.paletteId === selectedPalette.paletteId}
-							onChange={handleOptionChange}
-							className="hidden-radio-button"
-						/>
-						<label htmlFor={palette.paletteId.toString()}>
-							{colourPaletteLayout(palette)}
-						</label>
-					</div>	
-				);
-			})}
+		<div style={colourPaletteStyling} ref={colourPaletteDivRef} className="colour-palette-container">
+			<div className="colour-palette-div">
+				{colourPalettes.map((palette) => {
+					return (
+						<div key={palette.paletteId} className={`colour-palette-option ${selectedStylingClass(palette.paletteId)}`}>
+							<label htmlFor={palette.paletteId.toString()}>
+								<input
+									type="radio"
+									id={palette.paletteId.toString()}
+									value={palette.paletteId}
+									checked={palette.paletteId === selectedPaletteId}
+									onChange={handleOptionChange}
+									className="hidden-radio-button"
+								/>
+								{colourPaletteLayout(palette)}
+							</label>
+						</div>	
+					);
+				})}
+			</div>
 		</div>
 	);
 };
