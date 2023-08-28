@@ -8,15 +8,16 @@ Monkeytype-inspired minimal typing test app created with React and Typescript. S
   * WPM counter that updates dynamically during the test
   * Completion/progress bar that updates dynamically during the test
   * Number and Punctuation inclusions/additions to the test
-  * General opacity transitions for a more fluid experience
+  * General smooth transitions for a more fluid experience
+  * Smooth caret during the test
   * WPM graph and general typing test statistics on completion
-  * Test words scroll to reveal more words as the test is progressed
+  * Test words scroll to reveal more words as the test is progressed (mostly only noticeable on smaller screen widths)
 
 - Work in progress:
-  * Overall styling of the page is not finalised
-  * Inaccuracies with statistics calculations
-  * Results page styling
-  * Smooth caret transitions during the test
+  * Colour palette selector (90% done, coming soon™!)
+  * Login and highscores
+  * LocalStorage user preferences
+  * Punctuation option overhaul, currently feels too random/inconsistent
   * A few bugs 
   
 
