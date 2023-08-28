@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { TestWords, CompletionStatus, Word } from "../../interfaces/WordStructure";
 import { calculateTestWordsDivOffset } from "../../functions/calculations/calculateTestWordsDivOffset";
 
-interface Props {
+export interface TypingTestWordsProps {
     testWords: TestWords,
 	setTestWords: React.Dispatch<React.SetStateAction<TestWords>>,
     testRunning: boolean,
@@ -13,7 +13,8 @@ interface Props {
 	reset: boolean
 	caretPosition: number,
 	setCaretPosition: React.Dispatch<React.SetStateAction<number>>,
-	currentInputWord: string
+	currentInputWord: string,
+	inputRef: React.RefObject<HTMLInputElement>,
 }
 
 interface NumberPair {
@@ -27,7 +28,7 @@ const MARGIN_RIGHT = 20;
 let PADDING_BOTTOM = 0;
 
 
-export const TypingTestWords = ({testWords, setTestWords, testRunning, testComplete, testFocused, inputWordsArray, reset, caretPosition, setCaretPosition, currentInputWord}: Props) => {
+export const TypingTestWords = ({testWords, setTestWords, testRunning, testComplete, testFocused, inputWordsArray, reset, caretPosition, setCaretPosition, currentInputWord, inputRef}: TypingTestWordsProps) => {
 
 	const testWordsRef = useRef<Word[]>();
 
@@ -235,9 +236,10 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 	};
 
 	const blinkingCaret = () => {
-		if (!testRunning || (testRunning && !testFocused)) {
+		// (if test not running and input field focused) OR (test running and input field focused but moved mouse during test)
+		if ((!testRunning && inputRef.current && document.activeElement === inputRef.current) || (testRunning && inputRef.current && document.activeElement === inputRef.current && !testFocused))
 			return "awaiting-input";
-		}
+		
 		return "";
 	};
 

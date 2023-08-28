@@ -10,11 +10,14 @@
     width: 100%;
     border-top: 3px solid var(--base-font-colour);
     height: 2.5rem;
-    @include mixins.general-color-and-opacity-transition();
     opacity: var(--component-opacity);
     font-weight: constants.$bold-font-weight;
-
     background-color: var(--background-colour);
+    transition:
+        background-color 0.3s ease-in-out,
+        color 0.3s ease-in-out,
+        opacity constants.$component-opacity-fade-duration ease-in-out,
+        border-top 0.3s ease-in-out;
 
     .footer-item {
 

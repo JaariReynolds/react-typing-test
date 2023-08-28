@@ -16,8 +16,8 @@ import { calculateLettersStatus } from "../../functions/calculations/calculateLe
 import { ctrlBackspace } from "../../functions/letterHandling/ctrlBackspace";
 import { updateActiveLetter } from "../../functions/letterHandling/updateActiveLetter";
 import { TRANSITION_DELAY } from "../../App";
-import { TypingTestWords } from "./TypingTestWords";
-import { TypingTestInput } from "./TypingTestInput";
+import { TypingTestWords, TypingTestWordsProps } from "./TypingTestWords";
+import { TypingTestInput, TypingTestInputProps } from "./TypingTestInput";
 
 
 const SPACEBAR = "Spacebar";
@@ -535,12 +535,12 @@ const TypingTest = ({testWords,
 		setPressedKeys(prevKeys => prevKeys.filter(key => key !== e.key ));
 	};
 
-	const typingTestInputProps = {
-		inputRef, currentInputWord, handleChange, handleKeyDown, handleKeyUp, testComplete, testFocused, setTestFocused
+	const typingTestInputProps: TypingTestInputProps = {
+		inputRef, currentInputWord, handleChange, handleKeyDown, handleKeyUp, testComplete, setTestFocused
 	};
 
-	const typingTestWordsProps = {
-		testWords, setTestWords, testRunning, testComplete, testFocused, inputWordsArray, reset, caretPosition, setCaretPosition, currentInputWord
+	const typingTestWordsProps: TypingTestWordsProps = {
+		testWords, setTestWords, testRunning, testComplete, testFocused, inputWordsArray, reset, caretPosition, setCaretPosition, currentInputWord, inputRef
 	};
 
 	return (    

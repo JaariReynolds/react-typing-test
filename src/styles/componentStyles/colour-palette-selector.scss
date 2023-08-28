@@ -10,13 +10,16 @@
     width: 70%;
     background-color: var(--background-colour);
     opacity: 0;
-    transition: opacity 0.15s ease-in-out, background-color 0.3s ease-in-out, border 0.3s ease-in-out;
     z-index: 100;
     overflow: hidden;
     border-radius: 0.75rem;
     border: 4px solid var(--base-font-colour);
     max-height: max-content;
     box-shadow: 0 0 8px black;
+    transition:
+        opacity 0.15s ease-in-out,
+        background-color 0.3s ease-in-out,
+        border 0.3s ease-in-out;
 
     .colour-palette-div {
         display: grid;
@@ -29,7 +32,6 @@
 
         &::-webkit-scrollbar {
             width: 0.7rem;
-
         }
 
         &::-webkit-scrollbar-thumb {
@@ -40,14 +42,12 @@
             transition: background-color 0.3s ease-in-out;
         }
 
-
         .colour-palette-option {
             border-radius: 2rem;
 
             &.selected {
                 outline: 4px solid var(--base-font-colour);
             }
-
 
             &:hover {
                 cursor: pointer;

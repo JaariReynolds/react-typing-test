@@ -1,26 +1,29 @@
 import React from "react";
 
-interface Props {
+export interface TypingTestInputProps {
     inputRef: React.RefObject<HTMLInputElement>,
     currentInputWord: string,
     handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
     handleKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void,
     handleKeyUp: (e: React.KeyboardEvent<HTMLInputElement>) => void,
     testComplete: boolean,
-	testFocused: boolean,
-    setTestFocused: (value: React.SetStateAction<boolean>) => void
+    setTestFocused: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export const TypingTestInput = ({inputRef, currentInputWord, handleChange, handleKeyDown, handleKeyUp, testComplete, testFocused, setTestFocused}: Props) => {
+export const TypingTestInput = ({inputRef, currentInputWord, handleChange, handleKeyDown, handleKeyUp, testComplete, setTestFocused}: TypingTestInputProps) => {
 
 	const testFocus = () => {
-		if (inputRef.current) 
+		if (inputRef.current) {
+			setTestFocused(true);
 			inputRef.current.focus();
+		}
 	};
 
 	const testBlur = () => {
-		if (inputRef.current) 
+		if (inputRef.current) {
+			setTestFocused(false);
 			inputRef.current.blur();
+		}
 	};
 
 	return (
