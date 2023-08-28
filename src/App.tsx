@@ -82,6 +82,7 @@ function App() {
 		setCapsLockOpacity(event.getModifierState("CapsLock") ? 1 : 0);
 	};
 
+	// if clicked outside of the colourPalette div when opened, close it
 	const handleOutsideClick = (event: any) => {
 		if (showColourPaletteStateRef.current && colourPaletteDivRef.current && !colourPaletteDivRef.current.contains(event.target)) {
 			setShowColourPalettes(!showColourPaletteStateRef.current);
@@ -109,7 +110,6 @@ function App() {
 		else {
 			setWPMDisplay("none");
 		}
-		//setWPMOpacity(testRunning ? 1 : 0);
 	}, [testRunning]);
 
 	// if moved mouse while test running, BUT then you still continue the test after, hide test option selectors again
@@ -126,6 +126,7 @@ function App() {
 			setResetDivMargin("11rem");
 			setShowResultsComponent(true);
 			setWPMOpacity(0);
+
 			setTimeout(() => {
 				setResultsComponentOpacity(1);
 			}, TRANSITION_DELAY + 100);
@@ -133,8 +134,8 @@ function App() {
 
 		if (!testComplete) { // hide results, set display after delay
 			setResetDivMargin("0rem");
-			
 			setResultsComponentOpacity(0);
+
 			setTimeout(() => {
 				setShowResultsComponent(false);
 				setResultsComponentDisplay("none");
@@ -146,7 +147,6 @@ function App() {
 		document.body.style.backgroundColor = colourPalettes[selectedPaletteId].backgroundColour;
 	}, [selectedPaletteId]);
 	//#endregion
-
 	
 	// moving the mouse while the test is running should show the test option selectors
 	const handleMouseMove = () => {
@@ -227,7 +227,7 @@ function App() {
 	};
 
 	const footerProps: FooterProps = {
-		opacityStyle, showColourPalettes, setShowColourPalettes, showColourPaletteStateRef
+		opacityStyle, setShowColourPalettes, colourPaletteDivRef
 	};
 	//#endregion
 

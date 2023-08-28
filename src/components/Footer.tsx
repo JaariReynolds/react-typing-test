@@ -7,15 +7,17 @@ import { faCodeBranch, faPalette } from "@fortawesome/free-solid-svg-icons";
 export interface FooterProps {
     
     opacityStyle: React.CSSProperties,
-	showColourPalettes: boolean,
 	setShowColourPalettes: React.Dispatch<React.SetStateAction<boolean>>,
-	showColourPaletteStateRef: React.MutableRefObject<boolean>,
+	colourPaletteDivRef: React.RefObject<HTMLDivElement>
 }
 
-const Footer = ({opacityStyle, showColourPalettes, setShowColourPalettes, showColourPaletteStateRef}: FooterProps) => {
+const Footer = ({opacityStyle, setShowColourPalettes, colourPaletteDivRef}: FooterProps) => {
 
 	const handleShowColourPalettes = () => {
-		setShowColourPalettes(!showColourPaletteStateRef.current);
+		if (colourPaletteDivRef.current?.style.maxHeight == "max-content") 
+			return;
+		
+		setShowColourPalettes(true);
 	};
 
 	return (

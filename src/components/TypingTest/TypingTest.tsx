@@ -536,7 +536,7 @@ const TypingTest = ({testWords,
 	};
 
 	const typingTestInputProps = {
-		inputRef, currentInputWord, handleChange, handleKeyDown, handleKeyUp, testComplete, setTestFocused
+		inputRef, currentInputWord, handleChange, handleKeyDown, handleKeyUp, testComplete, testFocused, setTestFocused
 	};
 
 	const typingTestWordsProps = {

@@ -29,10 +29,6 @@ const ColourPaletteSelector = ({selectedPaletteId, setSelectedPaletteId, showCol
 		setSelectedPaletteId(parseInt(event.target.value));
 	};
 
-	// const handleShowColourPalettes = () => {
-	// 	setShowColourPalettes(!showColourPalettes);
-	// };
-
 	const selectedStylingClass = (paletteId: number) => {
 		return (paletteId === selectedPaletteId ? "selected" : "");
 	};
