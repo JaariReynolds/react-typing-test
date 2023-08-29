@@ -30,7 +30,7 @@
         }
 
         &:hover {
-            color: constants.$hover-font-colour;
+            color: var(--secondary-highlight-colour);
             transition: color 0.15s ease-in-out;
         }
     }

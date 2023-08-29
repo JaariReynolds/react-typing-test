@@ -86,7 +86,7 @@
                 }
 
                 &.correct-text-colour {
-                    color: constants.$correct-font-colour;
+                    color: var(--secondary-highlight-colour);
                 }
 
                 &.incorrect-text-colour {

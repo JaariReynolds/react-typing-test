@@ -25,7 +25,7 @@ const ColourPaletteSelector = ({selectedPaletteId, setSelectedPaletteId, showCol
 		setContainerMaxHeight("max-content");
 	}, [showColourPalettes]);
 
-	const handleOptionChange = (event:React.ChangeEvent<HTMLInputElement>) => {
+	const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setSelectedPaletteId(parseInt(event.target.value));
 	};
 
@@ -55,10 +55,11 @@ const ColourPaletteSelector = ({selectedPaletteId, setSelectedPaletteId, showCol
 				{colourPalettes.map((palette) => {
 					return (
 						<div key={palette.paletteId} className={`colour-palette-option ${selectedStylingClass(palette.paletteId)}`}>
-							<label htmlFor={palette.paletteId.toString()}>
+							<label htmlFor={"colour" + palette.paletteId.toString()}>
 								<input
 									type="radio"
-									id={palette.paletteId.toString()}
+									id={"colour" + palette.paletteId.toString()}
+									
 									value={palette.paletteId}
 									checked={palette.paletteId === selectedPaletteId}
 									onChange={handleOptionChange}

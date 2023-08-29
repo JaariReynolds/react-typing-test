@@ -158,7 +158,8 @@ function App() {
 	const colourPaletteStyling = {
 		"--background-colour": colourPalettes[selectedPaletteId].backgroundColour,
 		"--base-font-colour": colourPalettes[selectedPaletteId].baseFontColour,
-		"--primary-highlight-colour": colourPalettes[selectedPaletteId].primaryHighlightColour
+		"--primary-highlight-colour": colourPalettes[selectedPaletteId].primaryHighlightColour,
+		"--secondary-highlight-colour": colourPalettes[selectedPaletteId].secondaryHighlightColour,
 	} as CSSProperties;
 
 	//#region CSS Properties
