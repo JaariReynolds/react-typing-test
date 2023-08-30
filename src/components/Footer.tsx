@@ -15,7 +15,7 @@ const Footer = ({opacityStyle, setShowColourPalettes, colourPaletteDivRef}: Foot
 
 	const handleShowColourPalettes = () => {
 		if (colourPaletteDivRef.current?.style.maxHeight == "max-content") 
-			return;
+			return;	
 		
 		setShowColourPalettes(true);
 	};

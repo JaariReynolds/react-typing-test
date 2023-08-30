@@ -15,7 +15,7 @@ const ColourPaletteSelector = ({selectedPaletteId, setSelectedPaletteId, showCol
 
 	// set container height to 0 only AFTER component opacity has fully faded out
 	useEffect(() => {
-		const opacityFadeDuration = 100;
+		const opacityFadeDuration = 150;
 		if (!showColourPalettes) {
 			setTimeout(() => {
 				setContainerMaxHeight("0rem");
@@ -52,16 +52,15 @@ const ColourPaletteSelector = ({selectedPaletteId, setSelectedPaletteId, showCol
 	return (
 		<div style={colourPaletteStyling} ref={colourPaletteDivRef} className="colour-palette-container">
 			<div className="colour-palette-div">
-				{colourPalettes.map((palette) => {
+				{colourPalettes.map((palette, index) => {
 					return (
-						<div key={palette.paletteId} className={`colour-palette-option ${selectedStylingClass(palette.paletteId)}`}>
-							<label htmlFor={"colour" + palette.paletteId.toString()}>
+						<div key={index} className={`colour-palette-option ${selectedStylingClass(index)}`}>
+							<label htmlFor={"colour" + index}>
 								<input
 									type="radio"
-									id={"colour" + palette.paletteId.toString()}
-									
-									value={palette.paletteId}
-									checked={palette.paletteId === selectedPaletteId}
+									id={"colour" + index}
+									value={index}
+									checked={index === selectedPaletteId}
 									onChange={handleOptionChange}
 									className="hidden-radio-button"
 								/>
