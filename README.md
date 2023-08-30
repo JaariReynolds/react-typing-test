@@ -4,6 +4,7 @@
 Monkeytype-inspired minimal typing test app created with React and Typescript. Still a work in progress.
 
 - Currently contains:
+  * Colour palette selector! More palettes to come
   * Word length and timed tests
   * WPM counter that updates dynamically during the test
   * Completion/progress bar that updates dynamically during the test
@@ -14,7 +15,6 @@ Monkeytype-inspired minimal typing test app created with React and Typescript. S
   * Test words scroll to reveal more words as the test is progressed (mostly only noticeable on smaller screen widths)
 
 - Work in progress:
-  * Colour palette selector (90% done, coming soon™!)
   * Login and highscores
   * LocalStorage user preferences
   * Punctuation option overhaul, currently feels too random/inconsistent
