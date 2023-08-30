@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/react-typing-test/static/css/main.5dd14986.css",
-    "main.js": "/react-typing-test/static/js/main.42e6653d.js",
+    "main.css": "/react-typing-test/static/css/main.ad685bea.css",
+    "main.js": "/react-typing-test/static/js/main.89e9eafb.js",
     "static/js/787.791f4a0d.chunk.js": "/react-typing-test/static/js/787.791f4a0d.chunk.js",
     "static/media/roboto-mono-v22-latin-200.woff2": "/react-typing-test/static/media/roboto-mono-v22-latin-200.3abfa0226a3d9fd27daf.woff2",
     "static/media/roboto-mono-v22-latin-300.woff2": "/react-typing-test/static/media/roboto-mono-v22-latin-300.4049410be22872fc5317.woff2",
@@ -11,12 +11,12 @@
     "static/media/roboto-mono-v22-latin-regular.woff2": "/react-typing-test/static/media/roboto-mono-v22-latin-regular.d3026ee29728abffa752.woff2",
     "static/media/roboto-mono-v22-latin-700.woff2": "/react-typing-test/static/media/roboto-mono-v22-latin-700.7df391d199f8754a3efd.woff2",
     "index.html": "/react-typing-test/index.html",
-    "main.5dd14986.css.map": "/react-typing-test/static/css/main.5dd14986.css.map",
-    "main.42e6653d.js.map": "/react-typing-test/static/js/main.42e6653d.js.map",
+    "main.ad685bea.css.map": "/react-typing-test/static/css/main.ad685bea.css.map",
+    "main.89e9eafb.js.map": "/react-typing-test/static/js/main.89e9eafb.js.map",
     "787.791f4a0d.chunk.js.map": "/react-typing-test/static/js/787.791f4a0d.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.5dd14986.css",
-    "static/js/main.42e6653d.js"
+    "static/css/main.ad685bea.css",
+    "static/js/main.89e9eafb.js"
   ]
 }
