@@ -24,7 +24,7 @@ const Footer = ({opacityStyle, setShowColourPalettes, colourPaletteDivRef}: Foot
 		<div className="footer" style={opacityStyle}>
 			<button className="footer-item" onClick={handleShowColourPalettes} tabIndex={-1}>
 				<FontAwesomeIcon icon={faPalette} className="palette-icon icon"/>
-				theme
+				palette
 			</button>
 
 			<a href="https://github.com/JaariReynolds/react-typing-test" target="_blank" title="github.com/JaariReynolds/react-typing-test" className="footer-item" rel="noopener noreferrer">

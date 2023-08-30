@@ -15,7 +15,7 @@ const ColourPaletteSelector = ({selectedPaletteId, setSelectedPaletteId, showCol
 
 	// set container height to 0 only AFTER component opacity has fully faded out
 	useEffect(() => {
-		const opacityFadeDuration = 150;
+		const opacityFadeDuration = 100;
 		if (!showColourPalettes) {
 			setTimeout(() => {
 				setContainerMaxHeight("0rem");

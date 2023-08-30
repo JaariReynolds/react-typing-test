@@ -17,17 +17,17 @@ export const colourPalettes: ColourPaletteStructure[] = [
 	},
 	{
 		paletteId: 1,
-		backgroundColour: "#1F1F0E",
-		baseFontColour: "#fcfcf8",
-		primaryHighlightColour: "#898c40",
-		secondaryHighlightColour: "#303116"
-	},
-	{
-		paletteId: 2,
 		backgroundColour: "#f2f2f2",
 		baseFontColour: "#0a0a0a",
 		primaryHighlightColour: "#9a9899",
 		secondaryHighlightColour: "#dedede"
+	},
+	{
+		paletteId: 2,
+		backgroundColour: "#1F1F0E",
+		baseFontColour: "#fcfcf8",
+		primaryHighlightColour: "#898c40",
+		secondaryHighlightColour: "#303116"
 	},
 	{
 		paletteId: 3,
@@ -101,10 +101,10 @@ export const colourPalettes: ColourPaletteStructure[] = [
 	},
 	{
 		paletteId: 13,
-		backgroundColour: "#1572A1",
-		baseFontColour: "#E3BEC6",
-		primaryHighlightColour: "#9AD0EC",
-		secondaryHighlightColour: "#EFDAD7"
+		backgroundColour: "#654E92",
+		baseFontColour: "#EBD8B2",
+		primaryHighlightColour: "#A5C0DD",
+		secondaryHighlightColour: "#6C9BCF"
 	},
 	{
 		paletteId: 14,
@@ -211,6 +211,28 @@ export const colourPalettes: ColourPaletteStructure[] = [
 		primaryHighlightColour: "#D1D1D1",
 		secondaryHighlightColour: "#EFEFEF"
 	},
+	{
+		paletteId: 29,
+		backgroundColour: "#3A3845",
+		baseFontColour: "#826F66",
+		primaryHighlightColour: "#C69B7B",
+		secondaryHighlightColour: "#F7CCAC"
+	},
+	{
+		paletteId: 30,
+		backgroundColour: "#4D4646",
+		baseFontColour: "#F5EAEA",
+		primaryHighlightColour: "#7FCD91",
+		secondaryHighlightColour: "#5B5656"
+	},
+	{
+		paletteId: 31,
+		backgroundColour: "#E74646",
+		baseFontColour: "#FA9884",
+		primaryHighlightColour: "#FFE5CA",
+		secondaryHighlightColour: "#FFF3E2"
+	},
+
 
 
 ];

@@ -48,6 +48,9 @@ function App() {
 	const [testTimeMilliSeconds, setTestTimeMilliSeconds] = useState<number>(0);
 	const [testCompletionPercentage, setTestCompletionPercentage] = useState<number>(0);
 	const [pressedKeys, setPressedKeys] = useState<string[]>([]); 
+	const sitePressedKeysRef = useRef<Set<string>>(new Set());
+
+
 	const [averageWPM, setAverageWPM] = useState<number>(0);
 
 	const [WPMOpacity, setWPMOpacity] = useState<number>(0);
@@ -70,32 +73,62 @@ function App() {
 	const showColourPaletteStateRef = useRef<boolean>(showColourPalettes);
 	showColourPaletteStateRef.current = showColourPalettes;
 
-	const handleSiteKeyDown = (event: any) => {
-		// prevent default tab functionality when test is not focused, set focus instead to the 'reset' button
-		if (inputRef.current != document.activeElement) {
-			if (event.type == "keydown" && event.key == "Tab") {
-				const tabKey = event as React.KeyboardEvent<HTMLInputElement>;
-				tabKey.preventDefault();
-				resetButtonRef.current!.focus();
-			}
+	const handleSiteKeyDown = (event: KeyboardEvent) => {
+		// prevent default tab functionality, set focus instead to the 'reset' button
+		if (event.key == "Tab") {
+			event.preventDefault();
+			resetButtonRef.current!.focus();
+			return;
 		}
+
 		setCapsLockOpacity(event.getModifierState("CapsLock") ? 1 : 0);
+
+		if (sitePressedKeysRef.current.has(event.key))
+			return;
+
+		sitePressedKeysRef.current = new Set([...sitePressedKeysRef.current, event.key]);
+
+		handleSiteKeyCombos();
 	};
 
-	// if clicked outside of the colourPalette div when opened, close it
-	const handleOutsideClick = (event: any) => {
+	const handleSiteKeyUp = (event: KeyboardEvent) => {
+		if (sitePressedKeysRef.current.has(event.key)) {
+			const newSitePressedKeys = new Set(sitePressedKeysRef.current);
+			newSitePressedKeys.delete(event.key);
+			sitePressedKeysRef.current = newSitePressedKeys;
+		}
+	};
+
+	
+	const handleOutsideClick = (event: any) => { // if clicked outside of the colourPalette div when opened, close it
 		if (showColourPaletteStateRef.current && colourPaletteDivRef.current && !colourPaletteDivRef.current.contains(event.target)) {
 			setShowColourPalettes(!showColourPaletteStateRef.current);
+		}
+	};
+
+	const handleSiteKeyCombos = () => {
+		if (sitePressedKeysRef.current.has("Control") && sitePressedKeysRef.current.has("q")) { // shortcut: shift + q to show themes overlay
+			if (!showColourPaletteStateRef.current) {
+				setShowColourPalettes(true);
+				return;
+			}
+			else if (showColourPaletteStateRef.current && inputRef.current) { // give focus to input field once closed
+				setShowColourPalettes(false);
+				inputRef.current.focus();
+				return;
+			}
 		}
 	};
 
 	//#region useEffects
 	useEffect(() => {
 		window.addEventListener("keydown", handleSiteKeyDown);
+		window.addEventListener("keyup", handleSiteKeyUp);
 		window.addEventListener("mousedown", handleOutsideClick);
-		
+
 		return () => {
 			window.removeEventListener("keydown", handleSiteKeyDown);
+			window.removeEventListener("keyup", handleSiteKeyUp);
 			window.removeEventListener("mousedown", handleOutsideClick);
 		};
 	}, []);
