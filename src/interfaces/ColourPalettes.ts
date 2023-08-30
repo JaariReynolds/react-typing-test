@@ -236,6 +236,46 @@ export const colourPalettes: ColourPaletteStructure[] = [
 		primaryHighlightColour: "#FFE59D",
 		secondaryHighlightColour: "#EEB0B0"
 	},
-
-
+	{
+		backgroundColour: "#876445",
+		baseFontColour: "#EEC373",
+		primaryHighlightColour: "#F4DFBA",
+		secondaryHighlightColour: "#CA965C"
+	},
+	{
+		backgroundColour: "#DEBA9D",
+		baseFontColour: "#9E7777",
+		primaryHighlightColour: "#6F4C5B",
+		secondaryHighlightColour: "#F5E8C7"
+	},
+	{
+		backgroundColour: "#A685E2",
+		baseFontColour: "#FFE6E6",
+		primaryHighlightColour: "#6155A6",
+		secondaryHighlightColour: "#FFABE1"
+	},
+	{
+		backgroundColour: "#F18A9B",
+		baseFontColour: "#A26EA1",
+		primaryHighlightColour: "#FFFF9D",
+		secondaryHighlightColour: "#FFB480"
+	},
+	{
+		backgroundColour: "#E19898",
+		baseFontColour: "#4D3C77",
+		primaryHighlightColour: "#3F1D38",
+		secondaryHighlightColour: "#A2678A"
+	},
+	{
+		backgroundColour: "#141E46",
+		baseFontColour: "#FFF5E0",
+		primaryHighlightColour: "#BB2525",
+		secondaryHighlightColour: "#FF6969"
+	},
+	{
+		backgroundColour: "#ED7B7B",
+		baseFontColour: "#836096",
+		primaryHighlightColour: "#F0B86E",
+		secondaryHighlightColour: "#EBE76C"
+	},
 ];
