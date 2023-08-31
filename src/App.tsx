@@ -17,6 +17,9 @@ import Footer, { FooterProps } from "./components/Footer";
 import KeyTips, { KeyTipsProps } from "./components/KeyTips";
 import ColourPaletteSelector, { ColourPaletteSelectorProps } from "./components/ColourPaletteSelector";
 
+import UpdateCssVariable from "./components/HelperComponents/UpdateCssVariable";
+import UpdateCssVariablePaletteObject from "./components/HelperComponents/UpdateCssVariablePaletteObject";
+
 export enum TestType {
 	Words = "words",
 	Time = "time"
@@ -72,6 +75,8 @@ function App() {
 	// need a ref of my ref just to use within an event listener :) 
 	const showColourPaletteStateRef = useRef<boolean>(showColourPalettes);
 	showColourPaletteStateRef.current = showColourPalettes;
+
+	UpdateCssVariablePaletteObject(selectedPaletteId);
 
 	const handleSiteKeyDown = (event: KeyboardEvent) => {
 		// prevent default tab functionality, set focus instead to the 'reset' button
@@ -175,10 +180,6 @@ function App() {
 			}, TRANSITION_DELAY + 100);
 		}
 	}, [testComplete]);
-
-	useEffect(() => {
-		document.body.style.backgroundColor = colourPalettes[selectedPaletteId].backgroundColour;
-	}, [selectedPaletteId]);
 	//#endregion
 	
 	// moving the mouse while the test is running should show the test option selectors
@@ -188,12 +189,13 @@ function App() {
 		setComponentOpacity(1);
 	};
 
-	const colourPaletteStyling = {
-		"--background-colour": colourPalettes[selectedPaletteId].backgroundColour,
-		"--base-font-colour": colourPalettes[selectedPaletteId].baseFontColour,
-		"--primary-highlight-colour": colourPalettes[selectedPaletteId].primaryHighlightColour,
-		"--secondary-highlight-colour": colourPalettes[selectedPaletteId].secondaryHighlightColour,
-	} as CSSProperties;
+
+	// const colourPaletteStyling = {
+	// 	"--background-colour": colourPalettes[selectedPaletteId].backgroundColour,
+	// 	"--base-font-colour": colourPalettes[selectedPaletteId].baseFontColour,
+	// 	"--primary-highlight-colour": colourPalettes[selectedPaletteId].primaryHighlightColour,
+	// 	"--secondary-highlight-colour": colourPalettes[selectedPaletteId].secondaryHighlightColour,
+	// } as CSSProperties;
 
 	//#region CSS Properties
 	const opacityStyle = {
@@ -266,7 +268,7 @@ function App() {
 	//#endregion
 
 	return (
-		<div style={colourPaletteStyling} className="App">
+		<div className="App">
 			<div className="main-container" onMouseMove={handleMouseMove}>
 				<div className="inner-container">
 					<AfkDetectedIndicator {...afkDetectedIndicatorProps}/>
