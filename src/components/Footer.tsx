@@ -6,12 +6,11 @@ import { faCodeBranch, faPalette } from "@fortawesome/free-solid-svg-icons";
 
 export interface FooterProps {
     
-    opacityStyle: React.CSSProperties,
 	setShowColourPalettes: React.Dispatch<React.SetStateAction<boolean>>,
 	colourPaletteDivRef: React.RefObject<HTMLDivElement>
 }
 
-const Footer = ({opacityStyle, setShowColourPalettes, colourPaletteDivRef}: FooterProps) => {
+const Footer = ({setShowColourPalettes, colourPaletteDivRef}: FooterProps) => {
 
 	const handleShowColourPalettes = () => {
 		if (colourPaletteDivRef.current?.style.maxHeight == "max-content") 
@@ -21,7 +20,7 @@ const Footer = ({opacityStyle, setShowColourPalettes, colourPaletteDivRef}: Foot
 	};
 
 	return (
-		<div className="footer" style={opacityStyle}>
+		<div className="footer">
 			<button className="footer-item" onClick={handleShowColourPalettes} tabIndex={-1}>
 				<FontAwesomeIcon icon={faPalette} className="palette-icon icon"/>
 				palette

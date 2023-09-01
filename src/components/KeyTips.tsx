@@ -1,14 +1,9 @@
+import React from "react";
 import "../styles/componentStyles/key-tips.scss";
 
-import React from "react";
-
-export interface KeyTipsProps {
-    opacityStyle: React.CSSProperties
-}
-
-const KeyTips = ({opacityStyle}: KeyTipsProps) => {
+const KeyTips = () => {
 	return (
-		<div style={opacityStyle} className="key-tips">
+		<div className="key-tips">
 			<div className="key-tip">
 				<span className="key-highlight">tab</span>
 				<span> + </span>

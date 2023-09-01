@@ -36,12 +36,12 @@
         }
 
         &.test-type-words {
-            opacity: var(--test-type-words-opacity);
+            opacity: 0;
             grid-area: 2 / 1;
         }
 
         &.test-type-time {
-            opacity: var(--test-type-time-opacity);
+            opacity: 0;
             grid-area: 2 / 1;
         }
 

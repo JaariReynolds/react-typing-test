@@ -6,23 +6,18 @@ import { faRotateRight } from "@fortawesome/free-solid-svg-icons";
 
 export interface ResetButtonProps {
 	resetButtonRef: RefObject<HTMLButtonElement>,
-    opacityStyle: React.CSSProperties,
     reset: boolean,
     setReset: React.Dispatch<React.SetStateAction<boolean>>,
-	resultsComponentOpacity: number
+	resultsComponentOpacity: number,
+	resetDivMargin: string
 }
 
-const ResetButton = ({resetButtonRef, opacityStyle, reset, setReset, resultsComponentOpacity}: ResetButtonProps) => {
-
-	const spinningStyle = (resultsComponentOpacity == 1) ? "spinning-icon" : "";
+const ResetButton = ({resetButtonRef, reset, setReset, resultsComponentOpacity, resetDivMargin}: ResetButtonProps) => {
 	const [toolTipOpacity, setToolTipOpacity] = useState<number>(0);
-
-	const hoverTextStyling = {
-		"--reset-button-text-opacity": toolTipOpacity,
-	} as React.CSSProperties;
+	const spinningStyle = (resultsComponentOpacity == 1) ? "spinning-icon" : "";
 
 	return (
-		<div style={opacityStyle} className="reset-container" tabIndex={-1}>
+		<div style={{marginTop: resetDivMargin}} className="reset-container" tabIndex={-1}>
 			<button ref={resetButtonRef} 
 				type="reset"
 				className="reset-button"
@@ -32,7 +27,7 @@ const ResetButton = ({resetButtonRef, opacityStyle, reset, setReset, resultsComp
 			>
 				<FontAwesomeIcon icon={faRotateRight} className={`reset-icon ${spinningStyle}`}/>
 			</button>
-			<div style={hoverTextStyling} className="reset-button-text">
+			<div style={{opacity: toolTipOpacity}} className="reset-button-text">
 				reset test
 			</div>
 		</div>

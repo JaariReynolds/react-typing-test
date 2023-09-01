@@ -3,7 +3,7 @@
 @use "../_mixins.scss";
 
 .afk-indicator-container {
-    @include mixins.transition-opacity(var(--afk-opacity));
+    @include mixins.transition-opacity(opacity);
     background-color: constants.$incorrect-font-colour;
     border-radius: 0.5rem;
     display: flex;

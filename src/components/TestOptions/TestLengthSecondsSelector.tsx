@@ -18,7 +18,7 @@ const TestLengthSecondsSelector = ({testLengthSeconds, setTestLengthSeconds, tes
 	const interactableStyle = (testType === TestType.Time) ? "" : "uninteractable-selector"; // css class
 
 	return (
-		<div className={`test-option-selector test-type-time ${interactableStyle}`}>
+		<div style={{opacity: testType === TestType.Time ? 1 : 0}} className={`test-option-selector test-type-time ${interactableStyle}`}>
 			{testLengthWords.map((length, index) => {
 				return (
 					<span key={index} className="option-text">

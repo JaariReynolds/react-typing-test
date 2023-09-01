@@ -6,7 +6,6 @@
     display: block;
     align-content: center;
     height: 6.5rem;
-    margin-top: var(--reset-div-margin);
     opacity: var(--component-opacity);
     @include mixins.transition-margin-opacity();
     margin-bottom: 3rem;
@@ -15,7 +14,6 @@
         transition: opacity 0.15s ease-in-out;
         text-align: center;
         margin-top: -0.1rem;
-        opacity: var(--reset-button-text-opacity);
         width: 100%;
         font-weight: 500;
         font-size: constants.$base-font-size;

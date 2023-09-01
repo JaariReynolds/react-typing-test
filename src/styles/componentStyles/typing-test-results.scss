@@ -6,12 +6,11 @@
     transition-property: opacity;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: constants.$component-opacity-fade-duration;
-    opacity: var(--results-component-opacity);
+    opacity: 0;
     margin-top: -0.5rem;
     border-radius: 0.25rem;
     grid-area: 1 / 1;
     max-width: 100%;
-    display: var(--results-component-display);
     padding-top: 1.5rem;
     font-size: constants.$base-font-size;
 

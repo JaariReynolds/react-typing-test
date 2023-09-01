@@ -2,7 +2,7 @@
 @use "../_constants.scss";
 
 .capslock-indicator-container {
-  opacity: var(--capslock-opacity);
+  opacity: 0;
   display: flex;
   justify-content: center;
   position: relative;

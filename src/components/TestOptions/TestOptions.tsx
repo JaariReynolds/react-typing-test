@@ -9,7 +9,6 @@ import "../../styles/componentStyles/test-options.scss";
 
 
 export interface TestOptionsProps {
-    opacityStyle: React.CSSProperties,
     testType: TestType,
     setTestType: React.Dispatch<React.SetStateAction<TestType>>,
     includeNumbers: boolean,
@@ -23,9 +22,9 @@ export interface TestOptionsProps {
    
 }
 
-const TestOptions = ({opacityStyle, testType, setTestType, includeNumbers, setIncludeNumbers, includePunctuation, setIncludePunctuation, testLengthWords, setTestLengthWords, testLengthSeconds, setTestLengthSeconds}: TestOptionsProps) => {
+const TestOptions = ({testType, setTestType, includeNumbers, setIncludeNumbers, includePunctuation, setIncludePunctuation, testLengthWords, setTestLengthWords, testLengthSeconds, setTestLengthSeconds}: TestOptionsProps) => {
 	return (
-		<div className="test-options" style={opacityStyle}>
+		<div className="test-options">
 			<TestTypeSelector testType={testType} setTestType={setTestType}/>
 			<NumberSelector numbers={includeNumbers} setNumbers={setIncludeNumbers}/>
 			<PunctuationSelector punctuation={includePunctuation} setPunctuation={setIncludePunctuation}/>

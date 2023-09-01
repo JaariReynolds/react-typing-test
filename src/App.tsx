@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React, { CSSProperties, useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./App.scss";
 import TypingTest, { TypingTestProps } from "./components/TypingTest/TypingTest";
 import TypingTestResults, { TypingTestResultsProps } from "./components/TestResults/TypingTestResults";
@@ -12,9 +12,8 @@ import CompletionBar, { CompletionBarProps } from "./components/CompletionBar";
 import WordsPerMinute, { WordsPerMinuteProps } from "./components/WordsPerMinute";
 import CapsLockIndicator, { CapsLockIndicatorProps } from "./components/CapsLockIndicator";
 import AfkDetectedIndicator, { AfkDetectedIndicatorProps } from "./components/AfkDetectedIndicator";
-import { colourPalettes } from "./interfaces/ColourPalettes";
 import Footer, { FooterProps } from "./components/Footer";
-import KeyTips, { KeyTipsProps } from "./components/KeyTips";
+import KeyTips from "./components/KeyTips";
 import ColourPaletteSelector, { ColourPaletteSelectorProps } from "./components/ColourPaletteSelector";
 
 import UpdateCssVariable from "./components/HelperComponents/UpdateCssVariable";
@@ -77,6 +76,7 @@ function App() {
 	showColourPaletteStateRef.current = showColourPalettes;
 
 	UpdateCssVariablePaletteObject(selectedPaletteId);
+	UpdateCssVariable("--component-opacity", componentOpacity);
 
 	const handleSiteKeyDown = (event: KeyboardEvent) => {
 		// prevent default tab functionality, set focus instead to the 'reset' button
@@ -189,38 +189,6 @@ function App() {
 		setComponentOpacity(1);
 	};
 
-
-	// const colourPaletteStyling = {
-	// 	"--background-colour": colourPalettes[selectedPaletteId].backgroundColour,
-	// 	"--base-font-colour": colourPalettes[selectedPaletteId].baseFontColour,
-	// 	"--primary-highlight-colour": colourPalettes[selectedPaletteId].primaryHighlightColour,
-	// 	"--secondary-highlight-colour": colourPalettes[selectedPaletteId].secondaryHighlightColour,
-	// } as CSSProperties;
-
-	//#region CSS Properties
-	const opacityStyle = {
-		"--component-opacity": componentOpacity,
-		"--WPM-opacity": WPMOpacity,
-		"--WPM-display": WPMDisplay,
-		"--reset-div-margin": resetDivMargin,
-		"--test-type-words-opacity": (testType === TestType.Words) ? 1 : 0,
-		"--test-type-time-opacity": (testType === TestType.Time) ? 1 : 0,
-	  } as CSSProperties;
-
-	const completionBarWidth = {
-		"--completion-percentage": testCompletionPercentage.toString() + "%"
-	} as CSSProperties;
-
-	const capsLockStyling = {
-		"--capslock-opacity": testComplete ? 0 : capsLockOpacity
-	} as CSSProperties;
-
-	const resultsComponentStyling = {
-		"--results-component-opacity": resultsComponentOpacity,
-		"--results-component-display": resultsComponentDisplay
-	} as CSSProperties;
-	//#endregion
-
 	//#region Component Props
 	const colourPaletteSelectorProps: ColourPaletteSelectorProps = {
 		selectedPaletteId, setSelectedPaletteId, showColourPalettes, colourPaletteDivRef
@@ -231,15 +199,15 @@ function App() {
 	};
 
 	const testOptionsProps: TestOptionsProps = {
-		opacityStyle, testType, setTestType, includeNumbers, setIncludeNumbers, includePunctuation, setIncludePunctuation, testLengthWords, setTestLengthWords, testLengthSeconds, setTestLengthSeconds
+		testType, setTestType, includeNumbers, setIncludeNumbers, includePunctuation, setIncludePunctuation, testLengthWords, setTestLengthWords, testLengthSeconds, setTestLengthSeconds
 	};	
 
 	const capsLockIndicatorProps: CapsLockIndicatorProps = {
-		capsLockStyling
+		testComplete, capsLockOpacity
 	};
 
 	const completionBarProps: CompletionBarProps = {
-		completionBarWidth
+		testCompletionPercentage
 	};
 
 	const typingTestProps: TypingTestProps = {
@@ -247,23 +215,19 @@ function App() {
 	};
 
 	const typingTestResultsProps: TypingTestResultsProps = {
-		testWords, setTestWords, showResultsComponent, resultsComponentStyling, selectedPaletteId
+		testWords, setTestWords, showResultsComponent, selectedPaletteId, resultsComponentOpacity, resultsComponentDisplay
 	};
 
 	const wordsPerMinuteProps: WordsPerMinuteProps = {
-		opacityStyle, currentWPM
+		currentWPM, WPMOpacity, WPMDisplay
 	};
 
 	const resetButtonProps: ResetButtonProps = {
-		resetButtonRef, opacityStyle, reset, setReset, resultsComponentOpacity
-	};
-
-	const keyTipsProps: KeyTipsProps = {
-		opacityStyle
+		resetButtonRef, reset, setReset, resultsComponentOpacity, resetDivMargin
 	};
 
 	const footerProps: FooterProps = {
-		opacityStyle, setShowColourPalettes, colourPaletteDivRef
+		setShowColourPalettes, colourPaletteDivRef
 	};
 	//#endregion
 
@@ -273,11 +237,11 @@ function App() {
 				<div className="inner-container">
 					<AfkDetectedIndicator {...afkDetectedIndicatorProps}/>
 					<TestOptions {...testOptionsProps}/>
-					<CapsLockIndicator {...capsLockIndicatorProps} />
+					<CapsLockIndicator {...capsLockIndicatorProps}/>
 					<CompletionBar {...completionBarProps}/>		
 
 					<div className="results-overlap-container">
-						<TypingTest {...typingTestProps} />
+						<TypingTest {...typingTestProps}/>
 						<TypingTestResults {...typingTestResultsProps}/>	
 						<WordsPerMinute {...wordsPerMinuteProps}/>
 					</div>
@@ -285,7 +249,7 @@ function App() {
 					<ResetButton {...resetButtonProps}/>
 				</div>
 
-				<KeyTips {...keyTipsProps}/>
+				<KeyTips />
 				<ColourPaletteSelector {...colourPaletteSelectorProps}/>
 
 				<Footer {...footerProps}/>

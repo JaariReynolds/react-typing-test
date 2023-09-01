@@ -18,6 +18,7 @@ import { updateActiveLetter } from "../../functions/letterHandling/updateActiveL
 import { TRANSITION_DELAY } from "../../App";
 import { TypingTestWords, TypingTestWordsProps } from "./TypingTestWords";
 import { TypingTestInput, TypingTestInputProps } from "./TypingTestInput";
+import UpdateCssVariable from "../HelperComponents/UpdateCssVariable";
 
 
 const SPACEBAR = "Spacebar";
@@ -96,28 +97,15 @@ const TypingTest = ({testWords,
 	const [keyPressCount, setKeyPressCount] = useState<number>(0);
 	const [rawWPMArray, setRawWPMArray] = useState<NumberPair[]>([]);
 	const [currentAverageWPMArray, setCurrentAverageWPMArray] = useState<NumberPair[]>([]);
-	const [showWords, setShowWords] = useState<string>("block");
 	const [caretPosition, setCaretPosition] = useState<number>(0); // in 'px' to determine 'left' property of css class
 	
 	const [generalKeyPressCount, setGeneralKeyPressCount] = useState<number>(0);
 	const [generalKeyPressCountArray, setGeneralKeyPressCountArray] = useState<number[]>([]);
 
-	const opacityStyle = {
-		"--typing-test-opacity": opacity,
-		"--test-words-display": showWords
-	} as React.CSSProperties;
-
 	useEffect(() => {
-		if (!testComplete) {		
-			setShowWords("block");		
-		}
-		if (testComplete) {
+		if (testComplete) 
 			setOpacity(0);
-			setTimeout(() => {
-				setShowWords("none");
-			}, 200);
-		}	
-	}, [showResultsComponent, testComplete]);
+	}, [testComplete]);
 
 	// randomise words, reset states if dependencies change
 	useEffect(() => {
@@ -540,12 +528,12 @@ const TypingTest = ({testWords,
 	};
 
 	const typingTestWordsProps: TypingTestWordsProps = {
-		testWords, setTestWords, testRunning, testComplete, testFocused, inputWordsArray, reset, caretPosition, setCaretPosition, currentInputWord, inputRef
+		testWords, setTestWords, testRunning, testComplete, testFocused, inputWordsArray, reset, caretPosition, setCaretPosition, currentInputWord, inputRef, opacity
 	};
 
 	return (    
 	
-		<div style={opacityStyle} className="typing-test">
+		<div className="typing-test">
 			<TypingTestInput {...typingTestInputProps}/>
 			<TypingTestWords {...typingTestWordsProps}/>		
 		</div>  

@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { TestWords, CompletionStatus, Word } from "../../interfaces/WordStructure";
 import { calculateTestWordsDivOffset } from "../../functions/calculations/calculateTestWordsDivOffset";
+import UpdateCssVariable from "../HelperComponents/UpdateCssVariable";
 
 export interface TypingTestWordsProps {
     testWords: TestWords,
@@ -15,6 +16,7 @@ export interface TypingTestWordsProps {
 	setCaretPosition: React.Dispatch<React.SetStateAction<number>>,
 	currentInputWord: string,
 	inputRef: React.RefObject<HTMLInputElement>,
+	opacity: number
 }
 
 interface NumberPair {
@@ -28,7 +30,7 @@ const MARGIN_RIGHT = 20;
 let PADDING_BOTTOM = 0;
 
 
-export const TypingTestWords = ({testWords, setTestWords, testRunning, testComplete, testFocused, inputWordsArray, reset, caretPosition, setCaretPosition, currentInputWord, inputRef}: TypingTestWordsProps) => {
+export const TypingTestWords = ({testWords, setTestWords, testRunning, testComplete, testFocused, inputWordsArray, reset, caretPosition, setCaretPosition, currentInputWord, inputRef, opacity}: TypingTestWordsProps) => {
 
 	const testWordsRef = useRef<Word[]>();
 
@@ -53,6 +55,19 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 
 	const [actualLineWidths, setActualLineWidths] = useState<number[]>([]);
 	const [currentCaretLine, setCurrentCaretLine] = useState<number>(0);
+
+	UpdateCssVariable("--word-scroll-transition-property", wordScrollTransitionProperty);
+	UpdateCssVariable("--test-words-max-height", testWordsMaxHeight + "px");
+
+	const wordsContainerStyling = {
+		top: -(offsetLines * testWordsMaxHeight / MAX_LINES) + "px",
+		opacity: opacity
+	} as React.CSSProperties;
+
+	const caretStyling = {
+		left: caretPosition + "px",
+		top: (currentCaretLine === 0) ? "0rem" : 3 * currentCaretLine + "rem"
+	} as React.CSSProperties;
 
 	useEffect(() => {
 		// grab css sizing properties on mount
@@ -243,16 +258,7 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 		return "";
 	};
 
-	const testWordsStyling = {
-		"--word-scroll-transition-property": wordScrollTransitionProperty,
-		"--test-words-max-height": testWordsMaxHeight + "px",
-		"--test-words-div-offset": -(offsetLines * testWordsMaxHeight / MAX_LINES) + "px"
-	} as React.CSSProperties;
-
-	const caretStyling = {
-		"--caret-position": caretPosition + "px",
-		"--caret-top-offset": (currentCaretLine === 0) ? "0rem" : 3 * currentCaretLine + "rem"
-	} as React.CSSProperties;
+	
 
 	return (
 		<>
@@ -267,7 +273,7 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 					comparing to width of: {actualLineWidths[currentCaretLine]}
 				</div>
 			</div> */}
-			<div style={testWordsStyling} ref={testWordsDivRef} className="words-container">
+			<div style={wordsContainerStyling} ref={testWordsDivRef} className="words-container">
 				<div style={caretStyling} className={`caret ${blinkingCaret()}`}></div>
 				{testWords.words.map((word, wordIndex) => {
 					return (

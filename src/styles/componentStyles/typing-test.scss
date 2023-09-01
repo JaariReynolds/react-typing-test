@@ -11,7 +11,6 @@
     height: var(--test-words-max-height);
     overflow: hidden;
     position: absolute;
-    display: var(--test-words-display);
     font-weight: 300;
 
     .text-field-container {
@@ -37,18 +36,15 @@
 
     .debug {
         position: absolute;
-
     }
 
     .words-container {
         @include mixins.transition-words();
         display: flex;
         flex-wrap: wrap;
-        opacity: var(--typing-test-opacity);
         max-height: var(--test-words-max-height);
         font-size: 2rem; // 'scroll transition' amount is dependent on the text properties in this class
         line-height: constants.$word-line-height;
-        top: var(--test-words-div-offset);
         position: absolute;
 
         .caret {
@@ -59,9 +55,7 @@
             border-radius: 0.25rem;
             width: .2rem;
             position: absolute;
-            top: var(--caret-top-offset);
             height: constants.$word-line-height; // should always match line height of words ^
-            left: var(--caret-position);
 
             &.awaiting-input {
                 animation: blinking-caret 1.5s linear infinite;

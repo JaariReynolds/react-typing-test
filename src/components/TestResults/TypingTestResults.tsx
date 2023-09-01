@@ -10,11 +10,12 @@ export interface TypingTestResultsProps {
     testWords: TestWords, 
     setTestWords: React.Dispatch<React.SetStateAction<TestWords>>,
 	showResultsComponent: boolean,
-	resultsComponentStyling: React.CSSProperties,
-	selectedPaletteId: number
+	selectedPaletteId: number,
+	resultsComponentOpacity: number,
+	resultsComponentDisplay: string
 }
 
-const TypingTestResults = ({testWords, setTestWords, showResultsComponent, resultsComponentStyling, selectedPaletteId}: TypingTestResultsProps ) => {
+const TypingTestResults = ({testWords, setTestWords, showResultsComponent, selectedPaletteId, resultsComponentOpacity, resultsComponentDisplay}: TypingTestResultsProps ) => {
 	
 	// once results screen shown, calculate extra info to show 
 	useEffect(() => {
@@ -45,7 +46,7 @@ const TypingTestResults = ({testWords, setTestWords, showResultsComponent, resul
 	return (
 		<>	
 			{showResultsComponent &&
-			<div style={resultsComponentStyling} className="test-results-div">
+			<div style={{opacity: resultsComponentOpacity, display: resultsComponentDisplay}} className="test-results-div">
 				 <TypingTestResultsWPMGraph {...typingTestResultsWPMGraphProps}/> 
 				<div className="test-results-statistics">
 

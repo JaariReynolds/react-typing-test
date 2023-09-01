@@ -1,14 +1,15 @@
+import React from "react";
 import "../styles/componentStyles/completion-bar.scss";
 
-import React from "react";
 
 export interface CompletionBarProps {
-    completionBarWidth: React.CSSProperties
+	testCompletionPercentage: number
 }
 
-const CompletionBar = ({completionBarWidth}: CompletionBarProps) => {
+const CompletionBar = ({testCompletionPercentage}: CompletionBarProps) => {
+	
 	return (
-		<div style={completionBarWidth} className="completion-bar"></div>
+		<div style={{width: testCompletionPercentage.toString() + "%"}} className="completion-bar"></div>
 	);
 };
 
