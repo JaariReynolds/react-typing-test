@@ -11,7 +11,7 @@ export interface ColourPaletteSelectorProps {
 }
 
 const ColourPaletteSelector = ({selectedPaletteId, setSelectedPaletteId, showColourPalettes, colourPaletteDivRef}: ColourPaletteSelectorProps) => {
-	const [containerMaxHeight, setContainerMaxHeight] = useState<string>("15rem");
+	const [containerMaxHeight, setContainerMaxHeight] = useState<string>("0rem");
 
 	// set container height to 0 only AFTER component opacity has fully faded out
 	useEffect(() => {
