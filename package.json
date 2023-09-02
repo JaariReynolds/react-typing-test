@@ -15,6 +15,7 @@
     "@types/node": "^16.18.13",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
+    "firebase": "^10.3.1",
     "nth-check": "^2.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

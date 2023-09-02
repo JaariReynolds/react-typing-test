@@ -19,6 +19,10 @@ body {
   justify-content: center;
   color: var(--base-font-colour);
   height: 100vh;
+
+  transition:
+    color 0.3s ease-in-out,
+    border 0.3s ease-in-out;
 }
 
 .main-container {

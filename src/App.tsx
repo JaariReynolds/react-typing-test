@@ -18,6 +18,7 @@ import ColourPaletteSelector, { ColourPaletteSelectorProps } from "./components/
 
 import UpdateCssVariable from "./components/HelperComponents/UpdateCssVariable";
 import UpdateCssVariablePaletteObject from "./components/HelperComponents/UpdateCssVariablePaletteObject";
+import SignUp from "./components/UserAccountComponents/SignUp";
 
 export enum TestType {
 	Words = "words",
@@ -235,6 +236,7 @@ function App() {
 		<div className="App">
 			<div className="main-container" onMouseMove={handleMouseMove}>
 				<div className="inner-container">
+					<SignUp />
 					<AfkDetectedIndicator {...afkDetectedIndicatorProps}/>
 					<TestOptions {...testOptionsProps}/>
 					<CapsLockIndicator {...capsLockIndicatorProps}/>
