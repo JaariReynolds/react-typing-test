@@ -15,7 +15,7 @@ Monkeytype-inspired minimal typing test app created with React and Typescript. S
   * Test words scroll to reveal more words as the test is progressed (mostly only noticeable on smaller screen widths)
 
 - Work in progress:
-  * Login and highscores
+  * Login and highscores (currently working on)
   * LocalStorage user preferences
   * Punctuation option overhaul, currently feels too random/inconsistent
   * A few bugs 
