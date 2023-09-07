@@ -3,6 +3,7 @@
 @use "../_mixins.scss";
 
 .footer {
+    box-shadow: 0 0 12px black;
     display: flex;
     justify-content: space-between;
     align-items: center;

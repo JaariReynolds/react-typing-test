@@ -3,6 +3,8 @@
 @use "../_mixins.scss";
 
 .account-container {
+    margin-left: auto;
+    margin-right: auto;
     width: 20rem;
     border: 4px solid var(--base-font-colour);
     border-radius: 0.75rem;

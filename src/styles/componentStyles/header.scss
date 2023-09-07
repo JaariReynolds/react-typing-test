@@ -3,13 +3,17 @@
 @use "../_mixins.scss";
 
 .header {
+    display: block;
     position: absolute;
     width: 100%;
+    overflow: hidden;
+    padding: 0 2rem;
+    z-index: 100;
+    box-shadow: 0 0 12px black;
     border-bottom: 3px solid var(--base-font-colour);
     background-color: var(--background-colour);
     opacity: var(--component-opacity);
-    padding: 0 2rem;
-    z-index: 100;
+
     transition:
         background-color 0.3s ease-in-out,
         opacity constants.$component-opacity-fade-duration ease-in-out,
@@ -22,6 +26,8 @@
 
     .account-button {
         margin-top: 0.4rem;
+        margin-bottom: 1rem;
+        text-align: left;
 
         &:hover {
             color: var(--secondary-highlight-colour);
