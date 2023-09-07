@@ -1,7 +1,5 @@
 import React, { useRef, useState } from "react";
 import "../../styles/componentStyles/sign-up.scss";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser} from "@fortawesome/free-solid-svg-icons";
 
 enum Tab {
     Login = "Login",

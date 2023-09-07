@@ -18,7 +18,7 @@ import ColourPaletteSelector, { ColourPaletteSelectorProps } from "./components/
 
 import UpdateCssVariable from "./components/HelperComponents/UpdateCssVariable";
 import UpdateCssVariablePaletteObject from "./components/HelperComponents/UpdateCssVariablePaletteObject";
-import SignUp from "./components/UserAccountComponents/SignUp";
+import Header, { HeaderProps } from "./components/Header/Header";
 
 export enum TestType {
 	Words = "words",
@@ -76,6 +76,11 @@ function App() {
 	const showColourPaletteStateRef = useRef<boolean>(showColourPalettes);
 	showColourPaletteStateRef.current = showColourPalettes;
 
+	const headerExpandedRef = useRef<boolean>(false);
+	const headerRef = useRef<HTMLDivElement>(null);
+	const [headerHeight, setHeaderHeight] = useState<string>("2.5rem");
+
+
 	UpdateCssVariablePaletteObject(selectedPaletteId);
 	UpdateCssVariable("--component-opacity", componentOpacity);
 
@@ -110,11 +115,19 @@ function App() {
 		if (showColourPaletteStateRef.current && colourPaletteDivRef.current && !colourPaletteDivRef.current.contains(event.target)) {
 			setShowColourPalettes(!showColourPaletteStateRef.current);
 		}
+		// if clicked outside of header div when opened, close it
+		else if (headerRef.current && headerExpandedRef.current && !headerRef.current.contains(event.target)) {
+			headerExpandedRef.current = !headerExpandedRef.current;
+			setHeaderHeight(headerExpandedRef.current ? "15rem" : "2.5rem");
+
+		}
 	};
 
 	const handleSiteKeyCombos = () => {
-		if (sitePressedKeysRef.current.has("Control") && sitePressedKeysRef.current.has("q")) { // shortcut: shift + q to show themes overlay
+		// shortcut: ctrl + q to show themes overlay
+		if (sitePressedKeysRef.current.has("Control") && sitePressedKeysRef.current.has("q") && inputRef.current) { 
 			if (!showColourPaletteStateRef.current) {
+				console.log("test blurred");
 				setShowColourPalettes(true);
 				return;
 			}
@@ -191,6 +204,10 @@ function App() {
 	};
 
 	//#region Component Props
+	const headerProps: HeaderProps = {
+		headerRef, headerExpandedRef, headerHeight, setHeaderHeight
+	};
+
 	const colourPaletteSelectorProps: ColourPaletteSelectorProps = {
 		selectedPaletteId, setSelectedPaletteId, showColourPalettes, colourPaletteDivRef
 	};
@@ -235,8 +252,8 @@ function App() {
 	return (
 		<div className="App">
 			<div className="main-container" onMouseMove={handleMouseMove}>
+				<Header {...headerProps}/>
 				<div className="inner-container">
-					<SignUp />
 					<AfkDetectedIndicator {...afkDetectedIndicatorProps}/>
 					<TestOptions {...testOptionsProps}/>
 					<CapsLockIndicator {...capsLockIndicatorProps}/>
