@@ -16,7 +16,8 @@ export interface TypingTestWordsProps {
 	setCaretPosition: React.Dispatch<React.SetStateAction<number>>,
 	currentInputWord: string,
 	inputRef: React.RefObject<HTMLInputElement>,
-	opacity: number
+	opacity: number,
+	caretVisible: boolean
 }
 
 interface NumberPair {
@@ -30,7 +31,7 @@ const MARGIN_RIGHT = 20;
 let PADDING_BOTTOM = 0;
 
 
-export const TypingTestWords = ({testWords, setTestWords, testRunning, testComplete, testFocused, inputWordsArray, reset, caretPosition, setCaretPosition, currentInputWord, inputRef, opacity}: TypingTestWordsProps) => {
+export const TypingTestWords = ({testWords, setTestWords, testRunning, testComplete, testFocused, inputWordsArray, reset, caretPosition, setCaretPosition, currentInputWord, inputRef, opacity, caretVisible}: TypingTestWordsProps) => {
 
 	const testWordsRef = useRef<Word[]>();
 
@@ -66,7 +67,8 @@ export const TypingTestWords = ({testWords, setTestWords, testRunning, testCompl
 
 	const caretStyling = {
 		left: caretPosition + "px",
-		top: (currentCaretLine === 0) ? "0rem" : 3 * currentCaretLine + "rem"
+		top: (currentCaretLine === 0) ? "0rem" : 3 * currentCaretLine + "rem",
+		opacity: caretVisible ? 1 : 0
 	} as React.CSSProperties;
 
 	useEffect(() => {

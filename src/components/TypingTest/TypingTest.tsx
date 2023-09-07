@@ -56,7 +56,9 @@ export interface TypingTestProps {
 	setAverageWPM: React.Dispatch<React.SetStateAction<number>>,
 	setWPMOpacity: React.Dispatch<React.SetStateAction<number>>,
 	setComponentOpacity: React.Dispatch<React.SetStateAction<number>>,
-	setIsAfkMidTest: React.Dispatch<React.SetStateAction<boolean>>
+	setIsAfkMidTest: React.Dispatch<React.SetStateAction<boolean>>,
+	caretVisible: boolean,
+	setCaretVisible: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const TypingTest = ({testWords,
@@ -86,7 +88,9 @@ const TypingTest = ({testWords,
 	setAverageWPM,
 	setWPMOpacity,
 	setComponentOpacity,
-	setIsAfkMidTest}: TypingTestProps) => {
+	setIsAfkMidTest,
+	caretVisible,
+	setCaretVisible}: TypingTestProps) => {
 	const [currentInputWord, setCurrentInputWord] = useState<string>("");
 	const [inputWordsArray, setInputWordsArray] = useState<string[]>([]);
 	const [intervalId, setIntervalId] = useState<NodeJS.Timer|null>(null);	
@@ -524,11 +528,11 @@ const TypingTest = ({testWords,
 	};
 
 	const typingTestInputProps: TypingTestInputProps = {
-		inputRef, currentInputWord, handleChange, handleKeyDown, handleKeyUp, testComplete, setTestFocused
+		inputRef, currentInputWord, handleChange, handleKeyDown, handleKeyUp, testComplete, setTestFocused, setCaretVisible
 	};
 
 	const typingTestWordsProps: TypingTestWordsProps = {
-		testWords, setTestWords, testRunning, testComplete, testFocused, inputWordsArray, reset, caretPosition, setCaretPosition, currentInputWord, inputRef, opacity
+		testWords, setTestWords, testRunning, testComplete, testFocused, inputWordsArray, reset, caretPosition, setCaretPosition, currentInputWord, inputRef, opacity, caretVisible
 	};
 
 	return (    
