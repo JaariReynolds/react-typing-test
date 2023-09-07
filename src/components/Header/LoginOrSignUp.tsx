@@ -1,13 +1,13 @@
 import React, { useRef, useState } from "react";
-import "../../styles/componentStyles/sign-up.scss";
+import "../../styles/componentStyles/login-or-sign-up.scss";
 
 enum Tab {
-    Login = "Login",
-    SignUp = "Sign Up"
+    Login = "login",
+    SignUp = "sign up"
 }
 
-const SignUp = () => {
-	const [activeTab, setActiveTab] = useState<Tab>(Tab.SignUp);
+const LoginOrSignUp = () => {
+	const [activeTab, setActiveTab] = useState<Tab>(Tab.Login);
 
 	const emailRef = useRef<HTMLInputElement>(null);
 	const passwordRef = useRef<HTMLInputElement>(null);
@@ -37,7 +37,7 @@ const SignUp = () => {
 			{activeTab === Tab.SignUp &&
 			<form onSubmit={handleSignUp} className="form-container">			
 				<div className="form-field">
-					<label htmlFor="signUpEmail">Email</label>
+					<label htmlFor="signUpEmail">email</label>
 					<input 
 						type="text"
 						id="signUpEmail"
@@ -47,7 +47,7 @@ const SignUp = () => {
 					/>				
 				</div>
 				<div className="form-field">
-					<label htmlFor="signUpPassword">Password</label>
+					<label htmlFor="signUpPassword">password</label>
 					<input 
 						type="password"
 						id="signUpPassword"
@@ -57,7 +57,7 @@ const SignUp = () => {
 					/>		
 				</div>
 				<div className="form-field">
-					<label htmlFor="signUpConfirmPassword">Confirm Password</label>
+					<label htmlFor="signUpConfirmPassword">confirm password</label>
 					<input 
 						type="password"
 						id="signUpConfirmPassword"
@@ -73,7 +73,7 @@ const SignUp = () => {
 			{activeTab === Tab.Login && 
             <form onSubmit={handleLogin} className="form-container">
             		<div className="form-field">
-            			<label htmlFor="loginEmail">Email</label>
+            			<label htmlFor="loginEmail">email</label>
             			<input 
             				type="text"
             				id="loginEmail"
@@ -83,7 +83,7 @@ const SignUp = () => {
             			/>				
             		</div>
             		<div className="form-field">
-            			<label htmlFor="loginPassword">Password</label>
+            			<label htmlFor="loginPassword">password</label>
             			<input 
             				type="password"
             				id="loginPassword"
@@ -99,4 +99,4 @@ const SignUp = () => {
 	);
 };
 
-export default SignUp;
+export default LoginOrSignUp;
