@@ -51,51 +51,51 @@ const TypingTestResults = ({testWords, setTestWords, showResultsComponent, selec
 				<div className="test-results-statistics">
 
 					<div className="grid-item">
-						<span className="score">
+						<div className="score">
 							{testWords.timeElapsedMilliSeconds / 1000}s
-						</span>
-						<br/>
-						<span className="label">
+						</div>
+					
+						<div className="label">
 							elapsed 
-						</span>
+						</div>
 					</div>
 
 					<div className="grid-item">
-						<span className="score">
+						<div className="score">
 							{(testWords.accuracy * 100).toFixed(2)}%
-						</span>
-						<br/>
-						<span className="label">
+						</div>
+						
+						<div className="label">
 							accuracy
-						</span>
+						</div>
 					</div>
 
 					<div className="grid-item wpm">
 						{testWords.averageWPM}
-						<br/>
+					
 						<span className="wpm-label">
 							wpm
 						</span>
 					</div>
 
 					<div className="grid-item">
-						<span className="score">
+						<div className="score">
 							{testWords.testType.toString()}
-						</span>
-						<br/>
-						<span className="label">
+						</div>
+						
+						<div className="label">
 							test type
-						</span>
+						</div>
 					</div>
 					
 					<div className="grid-item">
-						<span className="score">
+						<div className="score">
 							{testWords.errorCountHard}/{testWords.errorCountSoft}
-						</span>
-						<br/>
-						<span className="label">
+						</div>
+					
+						<div className="label">
 							hard/soft errors
-						</span>
+						</div>
 						
 					</div>
 				</div>
