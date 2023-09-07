@@ -58,7 +58,7 @@
             height: constants.$word-line-height; // should always match line height of words ^
 
             &.awaiting-input {
-                animation: blinking-caret 1.5s linear infinite;
+                animation: blinking-caret 1.2s linear infinite;
             }
         }
 

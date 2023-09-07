@@ -80,6 +80,8 @@ function App() {
 	const headerRef = useRef<HTMLDivElement>(null);
 	const [headerHeight, setHeaderHeight] = useState<string>("2.5rem");
 
+	const [caretVisible, setCaretVisible] = useState<boolean>(true);
+
 
 	UpdateCssVariablePaletteObject(selectedPaletteId);
 	UpdateCssVariable("--component-opacity", componentOpacity);
@@ -99,7 +101,7 @@ function App() {
 
 		sitePressedKeysRef.current = new Set([...sitePressedKeysRef.current, event.key]);
 
-		handleSiteKeyCombos();
+		//handleSiteKeyCombos();
 	};
 
 	const handleSiteKeyUp = (event: KeyboardEvent) => {
@@ -111,7 +113,8 @@ function App() {
 	};
 
 	
-	const handleOutsideClick = (event: any) => { // if clicked outside of the colourPalette div when opened, close it
+	const handleOutsideClick = (event: any) => { 
+		// if clicked outside of the colourPalette div when opened, close it
 		if (showColourPaletteStateRef.current && colourPaletteDivRef.current && !colourPaletteDivRef.current.contains(event.target)) {
 			setShowColourPalettes(!showColourPaletteStateRef.current);
 		}
@@ -119,7 +122,9 @@ function App() {
 		else if (headerRef.current && headerExpandedRef.current && !headerRef.current.contains(event.target)) {
 			headerExpandedRef.current = !headerExpandedRef.current;
 			setHeaderHeight(headerExpandedRef.current ? "15rem" : "2.5rem");
-
+		}
+		else if (inputRef.current && !inputRef.current.contains(event.target)) {
+			setCaretVisible(false);
 		}
 	};
 
@@ -229,7 +234,7 @@ function App() {
 	};
 
 	const typingTestProps: TypingTestProps = {
-		testWords, setTestWords, testLengthWords, testLengthSeconds, testType, includeNumbers, includePunctuation, reset, setReset, inputRef, showResultsComponent, setShowResultsComponent, testRunning, setTestRunning, testTimeMilliSeconds, setTestTimeMilliSeconds, setTestCompletionPercentage, testComplete, setTestComplete, testFocused, setTestFocused, pressedKeys, setPressedKeys, averageWPM, setAverageWPM, setWPMOpacity, setComponentOpacity, setIsAfkMidTest
+		testWords, setTestWords, testLengthWords, testLengthSeconds, testType, includeNumbers, includePunctuation, reset, setReset, inputRef, showResultsComponent, setShowResultsComponent, testRunning, setTestRunning, testTimeMilliSeconds, setTestTimeMilliSeconds, setTestCompletionPercentage, testComplete, setTestComplete, testFocused, setTestFocused, pressedKeys, setPressedKeys, averageWPM, setAverageWPM, setWPMOpacity, setComponentOpacity, setIsAfkMidTest, caretVisible, setCaretVisible
 	};
 
 	const typingTestResultsProps: TypingTestResultsProps = {
