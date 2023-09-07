@@ -1,0 +1,31 @@
+@use "../_constants.scss";
+@use "../_variables.scss";
+@use "../_mixins.scss";
+
+.header {
+    position: absolute;
+    width: 100%;
+    border-bottom: 3px solid var(--base-font-colour);
+    background-color: var(--background-colour);
+    opacity: var(--component-opacity);
+    padding: 0 2rem;
+    z-index: 100;
+    transition:
+        background-color 0.3s ease-in-out,
+        opacity constants.$component-opacity-fade-duration ease-in-out,
+        border-bottom 0.3s ease-in-out,
+        height .3s ease-out;
+
+    .icon {
+        margin-right: constants.$standard-icon-spacing;
+    }
+
+    .account-button {
+        margin-top: 0.4rem;
+
+        &:hover {
+            color: var(--secondary-highlight-colour);
+            transition: color 0.15s ease-in-out;
+        }
+    }
+}
