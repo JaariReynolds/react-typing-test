@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import "../../styles/componentStyles/header.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDoorOpen, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 import LoginOrSignUp from "./LoginOrSignUp";
 import AccountDashboard from "./AccountDashboard";
+import { useUserContext } from "../../contexts/UserContext";
 
 export interface HeaderProps {
     headerRef: React.RefObject<HTMLDivElement>
@@ -13,7 +14,7 @@ export interface HeaderProps {
 }
 
 const Header = ({headerRef, headerExpandedRef, headerHeight, setHeaderHeight}: HeaderProps) => {
-	const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+	const user = useUserContext();
 
 	const handleHeaderInteraction = () => {
 		headerExpandedRef.current = !headerExpandedRef.current;
@@ -24,19 +25,10 @@ const Header = ({headerRef, headerExpandedRef, headerHeight, setHeaderHeight}: H
 		<div ref={headerRef} style={{height: headerHeight}} className="header">
 			<button onClick={handleHeaderInteraction} className="account-button">
 			    <FontAwesomeIcon icon={faUser} className="icon"/>
-                account
+				{user.currentUser ? user.currentUser.email : "account"}
 			</button>
 
-			{isLoggedIn && 
-			<div className="logout-button">
-				<button onClick={() => setIsLoggedIn(false)}>
-					<FontAwesomeIcon icon={faDoorOpen} className="icon"/>
-					logout
-				</button>
-			</div>
-			}
-			
-			{isLoggedIn ? <AccountDashboard/> : <LoginOrSignUp/>}
+			{user.currentUser ? <AccountDashboard/> : <LoginOrSignUp/>}
 	
 			
 		</div>

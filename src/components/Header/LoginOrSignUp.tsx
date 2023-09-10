@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import "../../styles/componentStyles/login-or-sign-up.scss";
+import {signUp, signIn} from "../../functions/account/accountFunctions";
 
 enum Tab {
     Login = "login",
@@ -13,14 +14,31 @@ const LoginOrSignUp = () => {
 	const passwordRef = useRef<HTMLInputElement>(null);
 	const confirmPasswordRef = useRef<HTMLInputElement>(null);
 
+
 	const handleSignUp = (e: React.FormEvent) => {
 		e.preventDefault();
-		console.log("Signed up!");
+		console.log("sign up button pressed");
+
+		if (!emailRef.current || !passwordRef.current || !confirmPasswordRef.current) {
+			console.log("refs not valid");
+			return;
+		}
+
+		if (passwordRef.current.value !== confirmPasswordRef.current.value) {
+			console.log("passwords do not match");
+			return;
+		}
+
+		signUp(emailRef.current.value, passwordRef.current.value);		
 	};
 
 	const handleLogin = (e: React.FormEvent) => {
 		e.preventDefault();
-		console.log("Logged in!");
+
+		if (!emailRef.current || !passwordRef.current) 
+			return;
+		
+		signIn(emailRef.current.value, passwordRef.current.value);
 	};
 
 	const handleTabClick = (tab: Tab) => {
