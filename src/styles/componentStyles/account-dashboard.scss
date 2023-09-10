@@ -1,0 +1,13 @@
+@use "../_constants.scss";
+@use "../_variables.scss";
+@use "../_mixins.scss";
+
+.account-dashboard {
+    display: block;
+    position: absolute;
+
+    .logout-button {
+        position: relative;
+        top: 17.5rem;
+    }
+}
