@@ -121,13 +121,14 @@ function App() {
 		// if clicked outside of header div when opened, close it
 		else if (headerRef.current && headerExpandedRef.current && !headerRef.current.contains(event.target)) {
 			headerExpandedRef.current = !headerExpandedRef.current;
-			setHeaderHeight(headerExpandedRef.current ? "15rem" : "2.5rem");
+			setHeaderHeight(headerExpandedRef.current ? "23rem" : "2.5rem");
 		}
 		else if (inputRef.current && !inputRef.current.contains(event.target)) {
 			setCaretVisible(false);
 		}
 	};
 
+	// maybe add back in once i find a key combo that doesnt clash with any browser
 	const handleSiteKeyCombos = () => {
 		// shortcut: ctrl + q to show themes overlay
 		if (sitePressedKeysRef.current.has("Control") && sitePressedKeysRef.current.has("q") && inputRef.current) { 

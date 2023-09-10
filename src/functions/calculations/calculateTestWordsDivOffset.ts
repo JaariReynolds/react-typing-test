@@ -1,4 +1,3 @@
-import React from "react";
 import { CompletionStatus, Word } from "../../interfaces/WordStructure";
 
 // gets the number of "lines" of words completed currently in the test

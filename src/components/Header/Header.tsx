@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import "../../styles/componentStyles/header.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { faDoorOpen, faUser } from "@fortawesome/free-solid-svg-icons";
 import LoginOrSignUp from "./LoginOrSignUp";
+import AccountDashboard from "./AccountDashboard";
 
 export interface HeaderProps {
     headerRef: React.RefObject<HTMLDivElement>
@@ -12,10 +13,11 @@ export interface HeaderProps {
 }
 
 const Header = ({headerRef, headerExpandedRef, headerHeight, setHeaderHeight}: HeaderProps) => {
+	const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
 	const handleHeaderInteraction = () => {
 		headerExpandedRef.current = !headerExpandedRef.current;
-		setHeaderHeight(headerExpandedRef.current ? "21rem" : "2.5rem");
+		setHeaderHeight(headerExpandedRef.current ? "23rem" : "2.5rem");
 	};
     
 	return (
@@ -25,7 +27,17 @@ const Header = ({headerRef, headerExpandedRef, headerHeight, setHeaderHeight}: H
                 account
 			</button>
 
-			{<LoginOrSignUp />}
+			{isLoggedIn && 
+			<div className="logout-button">
+				<button onClick={() => setIsLoggedIn(false)}>
+					<FontAwesomeIcon icon={faDoorOpen} className="icon"/>
+					logout
+				</button>
+			</div>
+			}
+			
+			{isLoggedIn ? <AccountDashboard/> : <LoginOrSignUp/>}
+	
 			
 		</div>
 	);
