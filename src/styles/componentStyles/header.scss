@@ -2,7 +2,14 @@
 @use "../_variables.scss";
 @use "../_mixins.scss";
 
+
 .header {
+
+    button:hover {
+        color: var(--secondary-highlight-colour);
+        transition: color 0.15s ease-in-out;
+    }
+
     display: block;
     position: absolute;
     width: 100%;
@@ -14,11 +21,10 @@
     background-color: var(--background-colour);
     opacity: var(--component-opacity);
 
-    transition:
-        background-color 0.3s ease-in-out,
-        opacity constants.$component-opacity-fade-duration ease-in-out,
-        border-bottom 0.3s ease-in-out,
-        height .3s ease-out;
+    transition: background-color 0.3s ease-in-out,
+    opacity constants.$component-opacity-fade-duration ease-in-out,
+    border-bottom 0.3s ease-in-out,
+    height .3s ease-out;
 
     .icon {
         margin-right: constants.$standard-icon-spacing;
@@ -28,10 +34,10 @@
         margin-top: 0.4rem;
         margin-bottom: 1rem;
         text-align: left;
+    }
 
-        &:hover {
-            color: var(--secondary-highlight-colour);
-            transition: color 0.15s ease-in-out;
-        }
+    .logout-button {
+        position: relative;
+        top: 17.5rem;
     }
 }
