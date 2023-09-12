@@ -19,6 +19,7 @@ import ColourPaletteSelector, { ColourPaletteSelectorProps } from "./components/
 import UpdateCssVariable from "./components/HelperComponents/UpdateCssVariable";
 import UpdateCssVariablePaletteObject from "./components/HelperComponents/UpdateCssVariablePaletteObject";
 import Header, { HeaderProps } from "./components/Header/Header";
+import { UserProvider } from "./contexts/UserContext";
 
 export enum TestType {
 	Words = "words",
@@ -256,31 +257,32 @@ function App() {
 	//#endregion
 
 	return (
-		<div className="App">
-			<div className="main-container" onMouseMove={handleMouseMove}>
-				<Header {...headerProps}/>
-				<div className="inner-container">
-					<AfkDetectedIndicator {...afkDetectedIndicatorProps}/>
-					<TestOptions {...testOptionsProps}/>
-					<CapsLockIndicator {...capsLockIndicatorProps}/>
-					<CompletionBar {...completionBarProps}/>		
+		<UserProvider>
+			<div className="App">
+				<div className="main-container" onMouseMove={handleMouseMove}>
+					<Header {...headerProps}/>
+					<div className="inner-container">
+						<AfkDetectedIndicator {...afkDetectedIndicatorProps}/>
+						<TestOptions {...testOptionsProps}/>
+						<CapsLockIndicator {...capsLockIndicatorProps}/>
+						<CompletionBar {...completionBarProps}/>		
 
-					<div className="results-overlap-container">
-						<TypingTest {...typingTestProps}/>
-						<TypingTestResults {...typingTestResultsProps}/>	
-						<WordsPerMinute {...wordsPerMinuteProps}/>
+						<div className="results-overlap-container">
+							<TypingTest {...typingTestProps}/>
+							<TypingTestResults {...typingTestResultsProps}/>	
+							<WordsPerMinute {...wordsPerMinuteProps}/>
+						</div>
+
+						<ResetButton {...resetButtonProps}/>
 					</div>
 
-					<ResetButton {...resetButtonProps}/>
+					<KeyTips />
+					<ColourPaletteSelector {...colourPaletteSelectorProps}/>
+
+					<Footer {...footerProps}/>
 				</div>
-
-				<KeyTips />
-				<ColourPaletteSelector {...colourPaletteSelectorProps}/>
-
-				<Footer {...footerProps}/>
 			</div>
-		</div>
-   
+		</UserProvider>
 	);
 }
 

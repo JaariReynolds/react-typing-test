@@ -4,10 +4,10 @@ import { User, onAuthStateChanged } from "firebase/auth";
 
 
 interface UserInfo {
-    currentUser: User | null,
+    user: User | null,
 }
 
-export const UserContext = React.createContext<UserInfo|undefined>({currentUser: null});
+export const UserContext = React.createContext<UserInfo|undefined>({user: null});
 
 export const useUserContext = () => {
 	const user = useContext(UserContext);
@@ -18,23 +18,22 @@ export const useUserContext = () => {
 };
 
 export const UserProvider = ({children}: any) => {
-	const [currentUser, setCurrentUser] = useState<User|null>(null);
-
+	const [user, setUser] = useState<User|null>(null);
+	
 	useEffect(() => {
 		const unsubscribe = onAuthStateChanged(auth, (user) => {
 			if (user) {
-				setCurrentUser(user);
+				setUser(user);
 			}
 			else {
-				setCurrentUser(null);
+				setUser(null);
 			}
 		});
 		return unsubscribe;
 	}, []);
 
-
 	const value = {
-		currentUser
+		user
 	};
 
 	return (
