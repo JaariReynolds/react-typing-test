@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "../../styles/componentStyles/header.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
@@ -14,7 +14,8 @@ export interface HeaderProps {
 }
 
 const Header = ({headerRef, headerExpandedRef, headerHeight, setHeaderHeight}: HeaderProps) => {
-	const user = useUserContext();
+	const {user} = useUserContext();
+	
 
 	const handleHeaderInteraction = () => {
 		headerExpandedRef.current = !headerExpandedRef.current;
@@ -25,12 +26,10 @@ const Header = ({headerRef, headerExpandedRef, headerHeight, setHeaderHeight}: H
 		<div ref={headerRef} style={{height: headerHeight}} className="header">
 			<button onClick={handleHeaderInteraction} className="account-button">
 			    <FontAwesomeIcon icon={faUser} className="icon"/>
-				{user.currentUser ? user.currentUser.email : "account"}
+				{user ? user.email : "account"}
 			</button>
-
-			{user.currentUser ? <AccountDashboard/> : <LoginOrSignUp/>}
-	
 			
+			{user ? <AccountDashboard/> : <LoginOrSignUp/>}
 		</div>
 	);
 };
