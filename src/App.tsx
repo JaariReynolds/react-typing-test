@@ -17,9 +17,9 @@ import KeyTips from "./components/KeyTips";
 import ColourPaletteSelector, { ColourPaletteSelectorProps } from "./components/ColourPaletteSelector";
 
 import UpdateCssVariable from "./components/HelperComponents/UpdateCssVariable";
-import UpdateCssVariablePaletteObject from "./components/HelperComponents/UpdateCssVariablePaletteObject";
+
 import Header, { HeaderProps } from "./components/Header/Header";
-import { UserProvider } from "./contexts/UserContext";
+import { UserProvider, useUserContext } from "./contexts/UserContext";
 
 export enum TestType {
 	Words = "words",
@@ -29,7 +29,7 @@ export enum TestType {
 export const TRANSITION_DELAY = 200;
 
 function App() {
-
+	const {selectedPaletteId} = useUserContext();
 	const [testWords, setTestWords] = useState<TestWords>({words: [], errorCountHard: 0, errorCountSoft: 0, timeElapsedMilliSeconds: 0, characterCount: 0, keyPressCount: 0, rawWPMArray: [], currentAverageWPMArray: [], averageWPM: 0, accuracy: 0, testType: TestType.Words});
 	const [testLengthWords, setTestLengthWords] = useState<number>(25);
 	const [testLengthSeconds, setTestLengthSeconds] = useState<number>(15);
@@ -67,8 +67,6 @@ function App() {
 	const currentWPM = averageWPM == null || isNaN(averageWPM) || !Number.isFinite(averageWPM) ? 0 : averageWPM;
 
 	const [isAfkMidTest, setIsAfkMidTest] = useState<boolean>(false);
-
-	const [selectedPaletteId, setSelectedPaletteId] = useState<number>(0);
 	const [showColourPalettes, setShowColourPalettes] = useState<boolean>(false);
 
 	const colourPaletteDivRef = useRef<HTMLDivElement>(null);
@@ -83,8 +81,6 @@ function App() {
 
 	const [caretVisible, setCaretVisible] = useState<boolean>(true);
 
-
-	UpdateCssVariablePaletteObject(selectedPaletteId);
 	UpdateCssVariable("--component-opacity", componentOpacity);
 
 	const handleSiteKeyDown = (event: KeyboardEvent) => {
@@ -216,7 +212,7 @@ function App() {
 	};
 
 	const colourPaletteSelectorProps: ColourPaletteSelectorProps = {
-		selectedPaletteId, setSelectedPaletteId, showColourPalettes, colourPaletteDivRef
+		showColourPalettes, colourPaletteDivRef
 	};
 
 	const afkDetectedIndicatorProps: AfkDetectedIndicatorProps = {

@@ -2,15 +2,16 @@ import "../styles/componentStyles/colour-palette-selector.scss";
 
 import React, { RefObject, useEffect, useState } from "react";
 import { colourPalettes, ColourPaletteStructure } from "../interfaces/ColourPalettes";
+import { useUserContext } from "../contexts/UserContext";
 
 export interface ColourPaletteSelectorProps {
-	selectedPaletteId: number, 
-    setSelectedPaletteId: React.Dispatch<React.SetStateAction<number>>
+
 	showColourPalettes: boolean,
 	colourPaletteDivRef: RefObject<HTMLDivElement>
 }
 
-const ColourPaletteSelector = ({selectedPaletteId, setSelectedPaletteId, showColourPalettes, colourPaletteDivRef}: ColourPaletteSelectorProps) => {
+const ColourPaletteSelector = ({showColourPalettes, colourPaletteDivRef}: ColourPaletteSelectorProps) => {
+	const {selectedPaletteId, setSelectedPaletteId} = useUserContext();
 	const [containerMaxHeight, setContainerMaxHeight] = useState<string>("0rem");
 
 	// set container height to 0 only AFTER component opacity has fully faded out
