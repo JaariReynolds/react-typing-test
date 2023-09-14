@@ -85,7 +85,7 @@ function App() {
 
 	const handleSiteKeyDown = (event: KeyboardEvent) => {
 		// prevent default tab functionality, set focus instead to the 'reset' button
-		if (event.key == "Tab") {
+		if (event.key == "Tab" && !headerExpandedRef.current) {
 			event.preventDefault();
 			resetButtonRef.current!.focus();
 			return;
