@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import "../../styles/componentStyles/login-or-sign-up.scss";
-import {signUp, signIn} from "../../functions/account/accountFunctions";
+import {signUp, signIn} from "../../firebase/accountFunctions";
 
 enum Tab {
     Login = "login",
