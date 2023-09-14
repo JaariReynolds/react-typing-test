@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { signOut, updateDisplayName } from "../../functions/account/accountFunctions";
+import { signOut, updateDisplayName } from "../../firebase/accountFunctions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDoorOpen } from "@fortawesome/free-solid-svg-icons";
 import { useUserContext } from "../../contexts/UserContext";

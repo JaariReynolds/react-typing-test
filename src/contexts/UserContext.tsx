@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import React, { useState, useEffect, useContext } from "react";
-import { auth } from "../firebase";
+import { auth } from "../firebase/firebase";
 import { User, onAuthStateChanged } from "firebase/auth";
 import UpdateCssVariablePaletteObject from "../components/HelperComponents/UpdateCssVariablePaletteObject";
 
