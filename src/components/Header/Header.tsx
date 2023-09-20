@@ -19,7 +19,7 @@ const Header = ({headerRef, headerExpandedRef, headerHeight, setHeaderHeight}: H
 
 	const handleHeaderInteraction = () => {
 		headerExpandedRef.current = !headerExpandedRef.current;
-		setHeaderHeight(headerExpandedRef.current ? "23rem" : "2.5rem");
+		setHeaderHeight(headerExpandedRef.current ? "25rem" : "2.5rem");
 	};
     
 	return (

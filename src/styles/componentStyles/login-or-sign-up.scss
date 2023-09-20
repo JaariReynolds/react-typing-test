@@ -46,8 +46,25 @@
                 width: 100%;
                 outline: none;
                 padding-left: 0.25rem;
-                border-radius: 0.25rem;
+                border-radius: 0.25rem 0 0 0.25rem;
             }
+
+            .password-field {
+                display: grid;
+                grid-template-columns: 16.5rem 1fr;
+
+                .password-icon {
+                    background-color: white;
+                    border-radius: 0 0.25rem 0.25rem 0;
+                }
+
+            }
+        }
+
+        .error-message {
+            text-align: center;
+            color: var(--secondary-highlight-colour);
+            height: 1.5rem;
         }
 
         button {
