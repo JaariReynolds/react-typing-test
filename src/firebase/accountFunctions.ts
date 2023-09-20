@@ -1,30 +1,32 @@
 import { auth } from "./firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, signOut as logOut } from "firebase/auth";
 
-export const signUp = (email: string, password: string) => {
-	createUserWithEmailAndPassword(auth, email, password)
-		.then((userCredential) => {
-			console.log("you just signed up!");
-			console.log(userCredential);
+const authErrorMessageUserFriendly = (errorCode: string) => {
+	return String(errorCode).substring(5).replaceAll("-", " ");
+};
+
+export const signUp = (email: string, password: string): Promise<string> => {
+	return createUserWithEmailAndPassword(auth, email, password)
+		.then(() => {
+			return "";
 		}).catch(error => {
-			console.log(error);
+			return authErrorMessageUserFriendly(error.code);
 		});
 };
 
-export const signIn = (email: string, password: string) => {
-	signInWithEmailAndPassword(auth, email, password)
-		.then((userCredential) => {
-			console.log("you just signed in!");
-			console.log(userCredential);
-		}).catch(error => {
-			console.log(error);
-		});
+export const signIn = (email: string, password: string): Promise<string> => {
+	return signInWithEmailAndPassword(auth, email, password)
+		.then(() => {
+			return "";
+		}).catch((error) => {
+			return authErrorMessageUserFriendly(error.code);
+		});	
 };
 
 export const signOut = () => {
-	logOut(auth)
+	return logOut(auth)
 		.then(() => {
-			console.log("signed out");
+			return "";
 		}).catch((error) => {
 			console.log("error signing out");
 			console.log(error);
