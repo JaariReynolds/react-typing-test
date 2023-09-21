@@ -3,6 +3,8 @@ import "../../styles/componentStyles/login-or-sign-up.scss";
 import {signUp, signIn} from "../../firebase/accountFunctions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { isUsernameAvailable } from "../../firebase/firestoreGet";
+import { useUserContext } from "../../contexts/UserContext";
 
 enum Tab {
     Login = "login",
@@ -10,22 +12,24 @@ enum Tab {
 }
 
 const LoginOrSignUp = () => {
+	const {selectedPaletteId} = useUserContext();
+
 	const [activeTab, setActiveTab] = useState<Tab>(Tab.Login);
 
 	const emailRef = useRef<HTMLInputElement>(null);
 	const passwordRef = useRef<HTMLInputElement>(null);
+	const usernameRef = useRef<HTMLInputElement>(null);
 	const confirmPasswordRef = useRef<HTMLInputElement>(null);
-	const [showPassword, setShowPassword] = useState<boolean>(false);
-	const [showConfirmPassword, setshowConfirmPassword] = useState<boolean>(false);
-
 
 	const [errorMessage, setErrorMessage] = useState<string>("");
+	const [showPassword, setShowPassword] = useState<boolean>(false);
+	const [showConfirmPassword, setshowConfirmPassword] = useState<boolean>(false);
 
 
 	const handleSignUp = async (e: React.FormEvent) => {
 		e.preventDefault();
 
-		if (!emailRef.current || !passwordRef.current || !confirmPasswordRef.current) {
+		if (!emailRef.current || !usernameRef.current || !passwordRef.current || !confirmPasswordRef.current) {
 			console.error("refs not valid");
 			return;
 		}
@@ -35,7 +39,12 @@ const LoginOrSignUp = () => {
 			return;
 		}
 
-		setErrorMessage(await signUp(emailRef.current.value, passwordRef.current.value));		
+		if (!await isUsernameAvailable(usernameRef.current.value.trim())) {
+			setErrorMessage("username already taken");
+			return;
+		}
+
+		setErrorMessage(await signUp(emailRef.current.value, passwordRef.current.value, usernameRef.current.value, selectedPaletteId));		
 	};
 
 	const handleSignIn = async (e: React.FormEvent) => {
@@ -57,10 +66,10 @@ const LoginOrSignUp = () => {
 	};
 
 	return (
-		<div style={{height: activeTab === Tab.Login ? "15rem" : "19rem"}} className="account-container">
+		<div style={{height: activeTab === Tab.Login ? "15rem" : "22rem"}} className="account-container">
 			<div className="tab-container">
-				<button onClick={() => handleTabClick(Tab.Login)}>{Tab.Login.toString()}</button>
-				<button onClick={() => handleTabClick(Tab.SignUp)}>{Tab.SignUp.toString()}</button>
+				<button className={activeTab === Tab.Login ? "tab-selected" : ""} onClick={() => handleTabClick(Tab.Login)}>{Tab.Login.toString()}</button>
+				<button className={activeTab === Tab.SignUp ? "tab-selected" : ""} onClick={() => handleTabClick(Tab.SignUp)}>{Tab.SignUp.toString()}</button>
 			</div>
 
 			{activeTab === Tab.SignUp &&
@@ -74,6 +83,16 @@ const LoginOrSignUp = () => {
 						ref={emailRef}
 						required
 					/>				
+				</div>
+				<div className="form-field">
+					<label htmlFor="signupUsername">username</label>
+					<input 
+						type="text"
+						id="signUpUsername"
+						name="username"
+						ref={usernameRef}
+						required
+					/>
 				</div>
 				<div className="form-field">
 					<label htmlFor="signUpPassword">password</label>
@@ -108,7 +127,7 @@ const LoginOrSignUp = () => {
 				<div className="error-message">
 					{errorMessage}
 				</div>			
-				<button type="submit">{Tab.SignUp.toString()}</button>
+				<button className="submit-button" type="submit">{Tab.SignUp.toString()}</button>
 			</form>
 			}
             
@@ -142,7 +161,7 @@ const LoginOrSignUp = () => {
             	<div className="error-message">
             		{errorMessage}
             	</div>	
-            	<button type="submit">{Tab.Login.toString()}</button>
+            	<button className="submit-button" type="submit">{Tab.Login.toString()}</button>
             </form>
 			}			
 		</div>
