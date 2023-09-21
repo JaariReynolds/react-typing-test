@@ -6,6 +6,23 @@ export interface UserDocument {
     creationDate: Date,
 }
 
+export interface TimedScoreDocument {
+    userId: string,
+    testLengthMilliseconds: number,
+    wpm: number,
+    accuracy: number,
+    submissionDate: Date
+}
+
+export interface WordCountScoreDocument {
+    userId: string,
+    wordCount: number,
+    testLengthMilliseconds: number,
+    wpm: number,
+    accuracy: number,
+    submissionDate: Date
+}
+
 export interface TestTypeSummary {
     submissionCount: number,
     averageWpm: number,
