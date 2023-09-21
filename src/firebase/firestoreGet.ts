@@ -1,7 +1,6 @@
 import { database } from "./firebase";
-import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
-
-const usersCollectionRef = collection(database, "users");
+import { DocumentData, doc, getDoc, getDocs, query, where } from "firebase/firestore";
+import { usersCollectionRef } from "./firestoreConstants";
 
 export const getAllUsers = async () => {
 	try {
@@ -15,6 +14,22 @@ export const getAllUsers = async () => {
 		});
 	} catch (error) {
 		console.error(error);
+	}
+};
+
+export const getUserFromUserId = async (userId: string): Promise<DocumentData|null> => {
+	try {
+		const documentRef = doc(database, "users", userId);
+		const data = await getDoc(documentRef);
+
+		if (!data.exists()) {
+			throw new Error(`document with ID '${userId}' does not exist in collection 'users'`);
+		}
+
+		return (data.data());
+	} catch (error) {
+		console.log("error in getUserFromUserId");
+		throw error;
 	}
 };
 
@@ -43,6 +58,22 @@ export const getDocumentFromProvidedCollection = async (uniqueDocumentId: string
 		console.log(data.data());
 	} catch (error) {
 		console.error(error);
+	}
+};
+
+export const isUsernameAvailable = async (username: string): Promise<boolean> => {
+	try {
+		const userQuery = query(usersCollectionRef, where("username", "==", username));
+		const data = await getDocs(userQuery);
+		
+		if (data.empty)
+			return true;
+		else 
+			return false;
+		
+	} catch (error) {
+		console.error(error);
+		return false;
 	}
 };
 
