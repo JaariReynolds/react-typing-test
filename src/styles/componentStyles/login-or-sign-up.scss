@@ -17,12 +17,20 @@
     .tab-container {
         display: grid;
         grid-template-columns: 1fr 1fr;
+
+        .tab-selected {
+            color: var(--primary-highlight-colour);
+        }
     }
 
     button {
         &:hover {
-            color: var(--primary-highlight-colour);
+            color: var(--secondary-highlight-colour);
             transition: color 0.15s ease-in-out;
+        }
+
+        &.submit-button:hover {
+            color: var(--primary-highlight-colour);
         }
     }
 
@@ -45,17 +53,24 @@
             input {
                 width: 100%;
                 outline: none;
-                padding-left: 0.25rem;
-                border-radius: 0.25rem 0 0 0.25rem;
+                padding-left: 0.4rem;
+                border-radius: 0.4rem;
+                background-color: var(--base-font-colour);
+                color: var(--background-colour);
             }
 
             .password-field {
                 display: grid;
                 grid-template-columns: 16.5rem 1fr;
 
+                input {
+                    border-radius: 0.4rem 0 0 0.4rem;
+                }
+
                 .password-icon {
-                    background-color: white;
-                    border-radius: 0 0.25rem 0.25rem 0;
+                    color: var(--background-colour);
+                    background-color: var(--base-font-colour);
+                    border-radius: 0 0.4rem 0.4rem 0;
                 }
 
             }
@@ -63,8 +78,9 @@
 
         .error-message {
             text-align: center;
-            color: var(--secondary-highlight-colour);
+            color: constants.$incorrect-font-colour;
             height: 1.5rem;
+            font-weight: 500;
         }
 
         button {
