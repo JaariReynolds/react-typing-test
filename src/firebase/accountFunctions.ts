@@ -1,13 +1,23 @@
 import { auth } from "./firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, signOut as logOut } from "firebase/auth";
+import { createUserDocument } from "./firestorePost";
 
 const authErrorMessageUserFriendly = (errorCode: string) => {
 	return String(errorCode).substring(5).replaceAll("-", " ");
 };
 
-export const signUp = (email: string, password: string): Promise<string> => {
+// creates auth user, then creates a corresponding user document
+export const signUp = (email: string, password: string, username: string, selectedPaletteId: number): Promise<string> => {
 	return createUserWithEmailAndPassword(auth, email, password)
-		.then(() => {
+		.then((userCredential) => {
+			createUserDocument(userCredential.user.uid, email, username, selectedPaletteId)
+				.then(() => {
+					console.log("successfully created user document!");
+				}).catch((error) => {
+					console.error(error);
+					return "an error has occured somehwere";
+				});
+			
 			return "";
 		}).catch(error => {
 			return authErrorMessageUserFriendly(error.code);
@@ -16,7 +26,8 @@ export const signUp = (email: string, password: string): Promise<string> => {
 
 export const signIn = (email: string, password: string): Promise<string> => {
 	return signInWithEmailAndPassword(auth, email, password)
-		.then(() => {
+		.then((userCredential) => {
+			console.log(userCredential);
 			return "";
 		}).catch((error) => {
 			return authErrorMessageUserFriendly(error.code);
