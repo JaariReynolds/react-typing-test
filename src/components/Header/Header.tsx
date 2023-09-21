@@ -14,7 +14,7 @@ export interface HeaderProps {
 }
 
 const Header = ({headerRef, headerExpandedRef, headerHeight, setHeaderHeight}: HeaderProps) => {
-	const {user} = useUserContext();
+	const {user, userDocument} = useUserContext();
 	
 
 	const handleHeaderInteraction = () => {
@@ -26,7 +26,7 @@ const Header = ({headerRef, headerExpandedRef, headerHeight, setHeaderHeight}: H
 		<div ref={headerRef} style={{height: headerHeight}} className="header">
 			<button onClick={handleHeaderInteraction} className="account-button">
 			    <FontAwesomeIcon icon={faUser} className="icon"/>
-				{user ? user.email : "account"}
+				{userDocument ? userDocument.username : "account"}
 			</button>
 			
 			{user ? <AccountDashboard/> : <LoginOrSignUp/>}
