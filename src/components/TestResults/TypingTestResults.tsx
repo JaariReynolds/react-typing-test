@@ -5,6 +5,8 @@ import React, { useEffect } from "react";
 import { TestWords } from "../../interfaces/WordStructure";
 import TypingTestResultsWPMGraph from "./TypingTestResultsWPMGraph";
 import { colourPalettes } from "../../interfaces/ColourPalettes";
+import { createScoreDocument } from "../../firebase/firestorePost";
+import { useUserContext } from "../../contexts/UserContext";
 
 export interface TypingTestResultsProps {
     testWords: TestWords, 
@@ -16,6 +18,20 @@ export interface TypingTestResultsProps {
 }
 
 const TypingTestResults = ({testWords, setTestWords, showResultsComponent, selectedPaletteId, resultsComponentOpacity, resultsComponentDisplay}: TypingTestResultsProps ) => {
+
+	const {user} = useUserContext();
+
+	const handleTestScoreSubmit = async () => {
+		if (user) {
+			try {
+				await createScoreDocument(user.uid, testWords);
+			} catch (error) {
+				console.log(error);
+			}
+		} else {
+			console.log("not logged in!");
+		}
+	};
 	
 	// once results screen shown, calculate extra info to show 
 	useEffect(() => {
@@ -98,6 +114,8 @@ const TypingTestResults = ({testWords, setTestWords, showResultsComponent, selec
 						</div>
 						
 					</div>
+
+					<button onClick={handleTestScoreSubmit}>Submit score!</button>
 				</div>
 			</div>
 			}
