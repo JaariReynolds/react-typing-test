@@ -34,6 +34,11 @@ const LoginOrSignUp = () => {
 			return;
 		}
 
+		if (usernameRef.current.value.length < 3) {
+			setErrorMessage("username too short");
+			return;
+		}
+
 		if (passwordRef.current.value !== confirmPasswordRef.current.value) {
 			setErrorMessage("passwords do not match");
 			return;
@@ -81,6 +86,7 @@ const LoginOrSignUp = () => {
 						id="signUpEmail"
 						name="email"
 						ref={emailRef}
+						spellCheck="false"
 						required
 					/>				
 				</div>
@@ -91,6 +97,7 @@ const LoginOrSignUp = () => {
 						id="signUpUsername"
 						name="username"
 						ref={usernameRef}
+						spellCheck="false"
 						required
 					/>
 				</div>
@@ -102,6 +109,7 @@ const LoginOrSignUp = () => {
 							id="signUpPassword"
 							name="password"
 							ref={passwordRef}
+							spellCheck="false"
 							required
 						/>
 						<span className="password-icon">
@@ -117,6 +125,7 @@ const LoginOrSignUp = () => {
 							id="signUpConfirmPassword"
 							name="confirmPassword"
 							ref={confirmPasswordRef}
+							spellCheck="false"
 							required
 						/>
 						<span className="password-icon">
@@ -140,6 +149,7 @@ const LoginOrSignUp = () => {
             			id="loginEmail"
             			name="email"
             			ref={emailRef}
+            			spellCheck="false"
             			required
             		/>				
             	</div>
@@ -151,6 +161,7 @@ const LoginOrSignUp = () => {
             				id="loginPassword"
             				name="password"
             				ref={passwordRef}
+            				spellCheck="false"
             				required
             			/>
             			<span className="password-icon">
