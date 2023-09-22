@@ -59,6 +59,10 @@
                     font-size: constants.$base-font-size;
                 }
             }
+
+            &.score-submit-row {
+                grid-column: span 3;
+            }
         }
     }
 }
