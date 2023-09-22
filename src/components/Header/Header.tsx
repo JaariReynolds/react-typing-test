@@ -8,23 +8,15 @@ import { useUserContext } from "../../contexts/UserContext";
 
 export interface HeaderProps {
     headerRef: React.RefObject<HTMLDivElement>
-    headerExpandedRef: React.MutableRefObject<boolean>,
-    headerHeight: string,
-    setHeaderHeight: React.Dispatch<React.SetStateAction<string>>
+   
 }
 
-const Header = ({headerRef, headerExpandedRef, headerHeight, setHeaderHeight}: HeaderProps) => {
-	const {user, userDocument} = useUserContext();
-	
-
-	const handleHeaderInteraction = () => {
-		headerExpandedRef.current = !headerExpandedRef.current;
-		setHeaderHeight(headerExpandedRef.current ? "29rem" : "2.5rem");
-	};
-    
+const Header = ({headerRef}: HeaderProps) => {
+	const {user, userDocument, setIsHeaderOpen, headerHeight} = useUserContext();
+	    
 	return (
 		<div ref={headerRef} style={{height: headerHeight}} className="header">
-			<button onClick={handleHeaderInteraction} className="account-button">
+			<button onClick={() => setIsHeaderOpen(current => !current)} className="account-button">
 			    <FontAwesomeIcon icon={faUser} className="icon"/>
 				{userDocument ? userDocument.username : "account"}
 			</button>
