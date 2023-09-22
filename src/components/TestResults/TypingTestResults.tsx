@@ -18,8 +18,19 @@ export interface TypingTestResultsProps {
 }
 
 const TypingTestResults = ({testWords, setTestWords, showResultsComponent, selectedPaletteId, resultsComponentOpacity, resultsComponentDisplay}: TypingTestResultsProps ) => {
-
 	const {user} = useUserContext();
+
+	// once results screen shown, calculate extra info to show 
+	useEffect(() => {
+		if (showResultsComponent) {	
+			const acc = calculateAccuracy();
+				
+			setTestWords({
+				...testWords,
+				accuracy: acc
+			});	
+		}
+	}, [showResultsComponent]);
 
 	const handleTestScoreSubmit = async () => {
 		if (user) {
@@ -32,18 +43,12 @@ const TypingTestResults = ({testWords, setTestWords, showResultsComponent, selec
 			console.log("not logged in!");
 		}
 	};
+
+	const handleOpenHeader = () => {
+		return;
+	};
 	
-	// once results screen shown, calculate extra info to show 
-	useEffect(() => {
-		if (showResultsComponent) {	
-			const acc = calculateAccuracy();
-				
-			setTestWords({
-				...testWords,
-				accuracy: acc
-			});	
-		}
-	}, [showResultsComponent]);
+	
 
 	// accuracy = (num characters in test - hard errors) / num characters in test
 	const calculateAccuracy = (): number => {
@@ -115,7 +120,16 @@ const TypingTestResults = ({testWords, setTestWords, showResultsComponent, selec
 						
 					</div>
 
-					<button onClick={handleTestScoreSubmit}>Submit score!</button>
+					<div className="grid-item score-submit-row"> 
+						{user ? 
+						 <button onClick={handleTestScoreSubmit}>submit score</button>
+						 :
+						 <button onClick={handleOpenHeader}>login to submit score</button>
+							
+						}
+						
+						
+					</div>
 				</div>
 			</div>
 			}
