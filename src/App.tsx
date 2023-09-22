@@ -19,7 +19,7 @@ import ColourPaletteSelector, { ColourPaletteSelectorProps } from "./components/
 import UpdateCssVariable from "./components/HelperComponents/UpdateCssVariable";
 
 import Header, { HeaderProps } from "./components/Header/Header";
-import { UserProvider, useUserContext } from "./contexts/UserContext";
+import { useUserContext } from "./contexts/UserContext";
 
 export enum TestType {
 	Words = "words",
@@ -29,7 +29,10 @@ export enum TestType {
 export const TRANSITION_DELAY = 200;
 
 function App() {
-	const {selectedPaletteId} = useUserContext();
+	const {selectedPaletteId, isHeaderOpen, setIsHeaderOpen} = useUserContext();
+	const isHeaderOpenRef = useRef<boolean>(false);
+	isHeaderOpenRef.current = isHeaderOpen;
+
 	const [testWords, setTestWords] = useState<TestWords>({words: [], errorCountHard: 0, errorCountSoft: 0, timeElapsedMilliSeconds: 0, characterCount: 0, keyPressCount: 0, rawWPMArray: [], currentAverageWPMArray: [], averageWPM: 0, accuracy: 0, testType: TestType.Words});
 	const [testLengthWords, setTestLengthWords] = useState<number>(25);
 	const [testLengthSeconds, setTestLengthSeconds] = useState<number>(15);
@@ -54,7 +57,6 @@ function App() {
 	const [pressedKeys, setPressedKeys] = useState<string[]>([]); 
 	const sitePressedKeysRef = useRef<Set<string>>(new Set());
 
-
 	const [averageWPM, setAverageWPM] = useState<number>(0);
 
 	const [WPMOpacity, setWPMOpacity] = useState<number>(0);
@@ -75,17 +77,14 @@ function App() {
 	const showColourPaletteStateRef = useRef<boolean>(showColourPalettes);
 	showColourPaletteStateRef.current = showColourPalettes;
 
-	const headerExpandedRef = useRef<boolean>(false);
 	const headerRef = useRef<HTMLDivElement>(null);
-	const [headerHeight, setHeaderHeight] = useState<string>("2.5rem");
-
 	const [caretVisible, setCaretVisible] = useState<boolean>(true);
 
 	UpdateCssVariable("--component-opacity", componentOpacity);
 
 	const handleSiteKeyDown = (event: KeyboardEvent) => {
 		// prevent default tab functionality, set focus instead to the 'reset' button
-		if (event.key == "Tab" && !headerExpandedRef.current) {
+		if (event.key == "Tab" && !isHeaderOpen) {
 			event.preventDefault();
 			resetButtonRef.current!.focus();
 			return;
@@ -111,14 +110,16 @@ function App() {
 
 	
 	const handleOutsideClick = (event: any) => { 
+		//console.log("headerrefcurrent", headerRef.current);
 		// if clicked outside of the colourPalette div when opened, close it
 		if (showColourPaletteStateRef.current && colourPaletteDivRef.current && !colourPaletteDivRef.current.contains(event.target)) {
 			setShowColourPalettes(!showColourPaletteStateRef.current);
 		}
+		
 		// if clicked outside of header div when opened, close it
-		else if (headerRef.current && headerExpandedRef.current && !headerRef.current.contains(event.target)) {
-			headerExpandedRef.current = !headerExpandedRef.current;
-			setHeaderHeight(headerExpandedRef.current ? "23rem" : "2.5rem");
+		else if (isHeaderOpenRef.current && headerRef.current && !headerRef.current.contains(event.target)) {
+			console.log("close header");
+			setIsHeaderOpen(false);
 		}
 		else if (inputRef.current && !inputRef.current.contains(event.target)) {
 			setCaretVisible(false);
@@ -208,7 +209,7 @@ function App() {
 
 	//#region Component Props
 	const headerProps: HeaderProps = {
-		headerRef, headerExpandedRef, headerHeight, setHeaderHeight
+		headerRef
 	};
 
 	const colourPaletteSelectorProps: ColourPaletteSelectorProps = {
@@ -253,32 +254,30 @@ function App() {
 	//#endregion
 
 	return (
-		<UserProvider>
-			<div className="App">
-				<div className="main-container" onMouseMove={handleMouseMove}>
-					<Header {...headerProps}/>
-					<div className="inner-container">
-						<AfkDetectedIndicator {...afkDetectedIndicatorProps}/>
-						<TestOptions {...testOptionsProps}/>
-						<CapsLockIndicator {...capsLockIndicatorProps}/>
-						<CompletionBar {...completionBarProps}/>		
+		<div className="App">
+			<div className="main-container" onMouseMove={handleMouseMove}>
+				<Header {...headerProps}/>
+				<div className="inner-container">
+					<AfkDetectedIndicator {...afkDetectedIndicatorProps}/>
+					<TestOptions {...testOptionsProps}/>
+					<CapsLockIndicator {...capsLockIndicatorProps}/>
+					<CompletionBar {...completionBarProps}/>		
 
-						<div className="results-overlap-container">
-							<TypingTest {...typingTestProps}/>
-							<TypingTestResults {...typingTestResultsProps}/>	
-							<WordsPerMinute {...wordsPerMinuteProps}/>
-						</div>
-
-						<ResetButton {...resetButtonProps}/>
+					<div className="results-overlap-container">
+						<TypingTest {...typingTestProps}/>
+						<TypingTestResults {...typingTestResultsProps}/>	
+						<WordsPerMinute {...wordsPerMinuteProps}/>
 					</div>
 
-					<KeyTips />
-					<ColourPaletteSelector {...colourPaletteSelectorProps}/>
-
-					<Footer {...footerProps}/>
+					<ResetButton {...resetButtonProps}/>
 				</div>
+
+				<KeyTips />
+				<ColourPaletteSelector {...colourPaletteSelectorProps}/>
+
+				<Footer {...footerProps}/>
 			</div>
-		</UserProvider>
+		</div>
 	);
 }
 
