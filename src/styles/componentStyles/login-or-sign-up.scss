@@ -20,6 +20,10 @@
 
         .tab-selected {
             color: var(--primary-highlight-colour);
+
+            &:hover {
+                color: var(--secondary-highlight-colour);
+            }
         }
     }
 
