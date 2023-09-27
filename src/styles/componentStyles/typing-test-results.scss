@@ -61,7 +61,14 @@
             }
 
             &.score-submit-row {
+                padding-top: 2rem;
                 grid-column: span 3;
+                color: var(--secondary-highlight-colour);
+
+                :hover {
+                    color: var(--primary-highlight-colour);
+                }
+
             }
         }
     }
