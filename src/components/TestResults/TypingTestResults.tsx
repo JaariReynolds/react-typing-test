@@ -39,8 +39,8 @@ const TypingTestResults = ({testWords, setTestWords, showResultsComponent, selec
 				...testWords,
 				accuracy: acc
 			});	
-			setIsCalculationsComplete(true);
 
+			setIsCalculationsComplete(true);
 		}
 		else {
 			setIsCalculationsComplete(false);
@@ -48,12 +48,13 @@ const TypingTestResults = ({testWords, setTestWords, showResultsComponent, selec
 		}
 	}, [showResultsComponent]);
 
+	// submit score when test hasnt already been submitted, user is logged in, and all result calculations are done
 	useEffect(() => {
 		if (!isTestSubmitted && showResultsComponent && isCalculationsComplete && user && userDocument)
-			handleTestScoreSubmit();
+			handleScoreSubmit();
 	}, [isCalculationsComplete, user, userDocument, isTestSubmitted]);
 
-	const handleTestScoreSubmit = async () => {
+	const handleScoreSubmit = async () => {
 		try {
 			setIsTestSubmitted(false);
 			await createScoreDocument(userDocument!.username, testWords);
@@ -67,7 +68,6 @@ const TypingTestResults = ({testWords, setTestWords, showResultsComponent, selec
 	const handleOpenHeader = () => {
 		setIsHeaderOpen(true);
 	};
-
 
 	// accuracy = (num characters in test - hard errors) / num characters in test
 	const calculateAccuracy = (): number => {
@@ -145,8 +145,6 @@ const TypingTestResults = ({testWords, setTestWords, showResultsComponent, selec
 							:
 							<button onClick={handleOpenHeader}>login to submit score</button>	
 						}
-						
-						
 					</div>
 				</div>
 			</div>
