@@ -30,7 +30,7 @@ export const TRANSITION_DELAY = 200;
 
 function App() {
 	const {selectedPaletteId, isHeaderOpen, setIsHeaderOpen} = useUserContext();
-	const isHeaderOpenRef = useRef<boolean>(false);
+	const isHeaderOpenRef = useRef<boolean>();
 	isHeaderOpenRef.current = isHeaderOpen;
 
 	const [testWords, setTestWords] = useState<TestWords>({words: [], errorCountHard: 0, errorCountSoft: 0, timeElapsedMilliSeconds: 0, characterCount: 0, keyPressCount: 0, rawWPMArray: [], currentAverageWPMArray: [], averageWPM: 0, accuracy: 0, testType: TestType.Words});
@@ -84,7 +84,7 @@ function App() {
 
 	const handleSiteKeyDown = (event: KeyboardEvent) => {
 		// prevent default tab functionality, set focus instead to the 'reset' button
-		if (event.key == "Tab" && !isHeaderOpen) {
+		if (event.key == "Tab" && !isHeaderOpenRef.current) {
 			event.preventDefault();
 			resetButtonRef.current!.focus();
 			return;
@@ -110,7 +110,6 @@ function App() {
 
 	
 	const handleOutsideClick = (event: any) => { 
-		//console.log("headerrefcurrent", headerRef.current);
 		// if clicked outside of the colourPalette div when opened, close it
 		if (showColourPaletteStateRef.current && colourPaletteDivRef.current && !colourPaletteDivRef.current.contains(event.target)) {
 			setShowColourPalettes(!showColourPaletteStateRef.current);
@@ -118,9 +117,10 @@ function App() {
 		
 		// if clicked outside of header div when opened, close it
 		else if (isHeaderOpenRef.current && headerRef.current && !headerRef.current.contains(event.target)) {
-			console.log("close header");
 			setIsHeaderOpen(false);
 		}
+
+		// if clicked outside of input field, hide caret
 		else if (inputRef.current && !inputRef.current.contains(event.target)) {
 			setCaretVisible(false);
 		}
