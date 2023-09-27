@@ -18,8 +18,6 @@ import { updateActiveLetter } from "../../functions/letterHandling/updateActiveL
 import { TRANSITION_DELAY } from "../../App";
 import { TypingTestWords, TypingTestWordsProps } from "./TypingTestWords";
 import { TypingTestInput, TypingTestInputProps } from "./TypingTestInput";
-import UpdateCssVariable from "../HelperComponents/UpdateCssVariable";
-
 
 const SPACEBAR = "Spacebar";
 const TIMED_TEST_LENGTH = 50;
@@ -71,7 +69,6 @@ const TypingTest = ({testWords,
 	reset,
 	setReset,
 	inputRef,
-	showResultsComponent,
 	setShowResultsComponent,
 	testRunning,
 	setTestRunning,
@@ -127,6 +124,8 @@ const TypingTest = ({testWords,
 		setKeyPressCount(0);
 		setGeneralKeyPressCount(0);
 		setGeneralKeyPressCountArray([]);
+
+		localStorage.setItem("isSubmitted", "false");
 
 		switch (testType) {
 		case TestType.Words:
