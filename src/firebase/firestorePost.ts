@@ -21,23 +21,23 @@ export const createUserDocument = async (userId: string, email: string, username
 	}
 };
 
-export const createScoreDocument = async (userId: string, scoreObject: TestWords) => {
+export const createScoreDocument = async (username: string, scoreObject: TestWords) => {
 	switch (scoreObject.testType) {
 	case TestType.Time:
-		await createTimedScoreDocument(userId, scoreObject);
+		await createTimedScoreDocument(username, scoreObject);
 		console.log("timed score document created!");
 		break;
 	case TestType.Words:
-		await createWordCountScoreDocument(userId, scoreObject);
+		await createWordCountScoreDocument(username, scoreObject);
 		console.log("word count score document created!");
 		break;
 	}
 };
 
-const createTimedScoreDocument = async (userId: string, scoreObject: TestWords) => {
+const createTimedScoreDocument = async (username: string, scoreObject: TestWords) => {
 	const timedScoresCollectionRef = collection(database, "timedScores");
 	const newTimedScoreObject: TimedScoreDocument = {
-		userId: userId,
+		username: username,
 		testLengthMilliseconds: scoreObject.timeElapsedMilliSeconds,
 		wpm: scoreObject.averageWPM,
 		accuracy: scoreObject.accuracy,
@@ -51,10 +51,10 @@ const createTimedScoreDocument = async (userId: string, scoreObject: TestWords) 
 	}
 };
 
-const createWordCountScoreDocument = async (userId: string, scoreObject: TestWords) => {
+const createWordCountScoreDocument = async (username: string, scoreObject: TestWords) => {
 	const wordCountScoresCollectionRef = collection(database, "wordCountScores");
 	const newWordCountScoreObject: WordCountScoreDocument = {
-		userId: userId,
+		username: username,
 		wordCount: scoreObject.words.length,
 		testLengthMilliseconds: scoreObject.timeElapsedMilliSeconds,
 		wpm: scoreObject.averageWPM,
