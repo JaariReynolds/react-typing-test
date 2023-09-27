@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-key */
 import "../../styles/componentStyles/typing-test-results.scss";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState} from "react";
 import { TestWords } from "../../interfaces/WordStructure";
 import TypingTestResultsWPMGraph from "./TypingTestResultsWPMGraph";
 import { colourPalettes } from "../../interfaces/ColourPalettes";
@@ -18,37 +18,56 @@ export interface TypingTestResultsProps {
 }
 
 const TypingTestResults = ({testWords, setTestWords, showResultsComponent, selectedPaletteId, resultsComponentOpacity, resultsComponentDisplay}: TypingTestResultsProps ) => {
-	const {user} = useUserContext();
+	const {user, userDocument, isHeaderOpen, setIsHeaderOpen} = useUserContext();
+	const [isCalculationsComplete, setIsCalculationsComplete] = useState<boolean>(false);
+	const [isTestSubmitted, setIsTestSubmitted] = useState<boolean>(localStorage.getItem("isSubmitted") === "true");
+	const isHeaderOpenRef = useRef<boolean>();
+	isHeaderOpenRef.current = isHeaderOpen;
 
+	useEffect(() => {
+		setIsCalculationsComplete(false);
+		setIsTestSubmitted(localStorage.getItem("isSubmitted") === "true");
+	}, []);
+	
 	// once results screen shown, calculate extra info to show 
 	useEffect(() => {
 		if (showResultsComponent) {	
-			const acc = calculateAccuracy();
-				
+			setIsCalculationsComplete(false);
+
+			const acc = calculateAccuracy();	
 			setTestWords({
 				...testWords,
 				accuracy: acc
 			});	
+			setIsCalculationsComplete(true);
+
+		}
+		else {
+			setIsCalculationsComplete(false);
+			setIsTestSubmitted(localStorage.getItem("isSubmitted") === "true");
 		}
 	}, [showResultsComponent]);
 
+	useEffect(() => {
+		if (!isTestSubmitted && showResultsComponent && isCalculationsComplete && user && userDocument)
+			handleTestScoreSubmit();
+	}, [isCalculationsComplete, user, userDocument, isTestSubmitted]);
+
 	const handleTestScoreSubmit = async () => {
-		if (user) {
-			try {
-				await createScoreDocument(user.uid, testWords);
-			} catch (error) {
-				console.log(error);
-			}
-		} else {
-			console.log("not logged in!");
-		}
+		try {
+			setIsTestSubmitted(false);
+			await createScoreDocument(userDocument!.username, testWords);
+			localStorage.setItem("isSubmitted", "true");
+			setIsTestSubmitted(true);
+		} catch (error) {
+			console.error(error);
+		}		
 	};
 
 	const handleOpenHeader = () => {
-		return;
+		setIsHeaderOpen(true);
 	};
-	
-	
+
 
 	// accuracy = (num characters in test - hard errors) / num characters in test
 	const calculateAccuracy = (): number => {
@@ -122,10 +141,9 @@ const TypingTestResults = ({testWords, setTestWords, showResultsComponent, selec
 
 					<div className="grid-item score-submit-row"> 
 						{user ? 
-						 <button onClick={handleTestScoreSubmit}>submit score</button>
-						 :
-						 <button onClick={handleOpenHeader}>login to submit score</button>
-							
+							<div>{isTestSubmitted ? "test submitted" : "submitting test..."} </div> 
+							:
+							<button onClick={handleOpenHeader}>login to submit score</button>	
 						}
 						
 						
