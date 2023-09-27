@@ -7,7 +7,7 @@ export interface UserDocument {
 }
 
 export interface TimedScoreDocument {
-    userId: string,
+    username: string,
     testLengthMilliseconds: number,
     wpm: number,
     accuracy: number,
@@ -15,7 +15,7 @@ export interface TimedScoreDocument {
 }
 
 export interface WordCountScoreDocument {
-    userId: string,
+    username: string,
     wordCount: number,
     testLengthMilliseconds: number,
     wpm: number,
