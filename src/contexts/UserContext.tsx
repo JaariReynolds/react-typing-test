@@ -19,7 +19,6 @@ interface UserInfo {
 const userDocumentInitialState : UserDocument = {
 	email: "",
 	username: "",
-	selectedPaletteIndex: 0,
 	testSummaries: [],
 	creationDate: new Date()
 };
@@ -46,7 +45,7 @@ export const useUserContext = () => {
 
 export const UserProvider = ({children}: any) => {
 	const [user, setUser] = useState<User|null>(null);
-	const [selectedPaletteId, setSelectedPaletteId] = useState<number>(0);
+	const [selectedPaletteId, setSelectedPaletteId] = useState<number>(parseInt(localStorage.getItem("selectedPaletteId") ?? "0"));
 	const [userDocument, setUserDocument] = useState<UserDocument|null>(null);
 	const [headerHeight, setHeaderHeight] = useState<string>("2.5rem");
 	const [isHeaderOpen, setIsHeaderOpen] = useState<boolean>(false);
@@ -73,14 +72,6 @@ export const UserProvider = ({children}: any) => {
 		return unsubscribe;
 	}, []);
 
-	// set palette to user's last used palette
-	useEffect(() => {
-		if (userDocument)
-			setSelectedPaletteId(userDocument.selectedPaletteIndex);
-		else 
-			setSelectedPaletteId(0);
-	}, [userDocument]);
-
 	// set header height depending on open/closed
 	useEffect(() => {
 		if (isHeaderOpen) 
@@ -88,6 +79,10 @@ export const UserProvider = ({children}: any) => {
 		else 
 			setHeaderHeight("2.5rem");
 	}, [isHeaderOpen]);
+
+	useEffect(() => {
+		localStorage.setItem("selectedPaletteId", selectedPaletteId.toString());
+	}, [selectedPaletteId]);
 
 	
 	UpdateCssVariablePaletteObject(selectedPaletteId);
