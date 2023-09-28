@@ -29,7 +29,7 @@ export enum TestType {
 export const TRANSITION_DELAY = 200;
 
 function App() {
-	const {selectedPaletteId, isHeaderOpen, setIsHeaderOpen} = useUserContext();
+	const {isHeaderOpen, setIsHeaderOpen} = useUserContext();
 	const isHeaderOpenRef = useRef<boolean>();
 	isHeaderOpenRef.current = isHeaderOpen;
 
@@ -237,7 +237,7 @@ function App() {
 	};
 
 	const typingTestResultsProps: TypingTestResultsProps = {
-		testWords, setTestWords, showResultsComponent, selectedPaletteId, resultsComponentOpacity, resultsComponentDisplay
+		testWords, setTestWords, showResultsComponent, resultsComponentOpacity, resultsComponentDisplay
 	};
 
 	const wordsPerMinuteProps: WordsPerMinuteProps = {
