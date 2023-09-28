@@ -7,10 +7,10 @@ const authErrorMessageUserFriendly = (errorCode: string) => {
 };
 
 // creates auth user, then creates a corresponding user document
-export const signUp = (email: string, password: string, username: string, selectedPaletteId: number): Promise<string> => {
+export const signUp = (email: string, password: string, username: string): Promise<string> => {
 	return createUserWithEmailAndPassword(auth, email, password)
 		.then((userCredential) => {
-			createUserDocument(userCredential.user.uid, email, username, selectedPaletteId)
+			createUserDocument(userCredential.user.uid, email, username)
 				.then(() => {
 					console.log("successfully created user document!");
 				}).catch((error) => {

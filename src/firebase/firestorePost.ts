@@ -4,12 +4,11 @@ import { TimedScoreDocument, UserDocument, WordCountScoreDocument } from "./fire
 import { TestWords } from "../interfaces/WordStructure";
 import { TestType } from "../App";
 
-export const createUserDocument = async (userId: string, email: string, username: string, selectedPaletteId: number) => {
+export const createUserDocument = async (userId: string, email: string, username: string) => {
 	const newUserDocument = doc(database, "users", userId);
 	const newUserObject: UserDocument = {
 		email: email,
 		username: username,
-		selectedPaletteIndex: selectedPaletteId,
 		testSummaries: [],
 		creationDate: new Date(),
 	};

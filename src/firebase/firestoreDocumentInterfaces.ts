@@ -1,7 +1,6 @@
 export interface UserDocument {
     email: string,
     username: string,
-    selectedPaletteIndex: number,
     testSummaries: TestTypeSummary[],
     creationDate: Date,
 }

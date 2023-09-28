@@ -4,7 +4,6 @@ import {signUp, signIn} from "../../firebase/accountFunctions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { isUsernameAvailable } from "../../firebase/firestoreGet";
-import { useUserContext } from "../../contexts/UserContext";
 
 enum Tab {
     Login = "login",
@@ -12,8 +11,6 @@ enum Tab {
 }
 
 const LoginOrSignUp = () => {
-	const {selectedPaletteId} = useUserContext();
-
 	const [activeTab, setActiveTab] = useState<Tab>(Tab.Login);
 
 	const emailRef = useRef<HTMLInputElement>(null);
@@ -49,7 +46,7 @@ const LoginOrSignUp = () => {
 			return;
 		}
 
-		setErrorMessage(await signUp(emailRef.current.value, passwordRef.current.value, usernameRef.current.value, selectedPaletteId));		
+		setErrorMessage(await signUp(emailRef.current.value, passwordRef.current.value, usernameRef.current.value));		
 	};
 
 	const handleSignIn = async (e: React.FormEvent) => {
