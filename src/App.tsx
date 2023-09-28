@@ -34,11 +34,14 @@ function App() {
 	isHeaderOpenRef.current = isHeaderOpen;
 
 	const [testWords, setTestWords] = useState<TestWords>({words: [], errorCountHard: 0, errorCountSoft: 0, timeElapsedMilliSeconds: 0, characterCount: 0, keyPressCount: 0, rawWPMArray: [], currentAverageWPMArray: [], averageWPM: 0, accuracy: 0, testType: TestType.Words});
-	const [testLengthWords, setTestLengthWords] = useState<number>(25);
-	const [testLengthSeconds, setTestLengthSeconds] = useState<number>(15);
-	const [testType, setTestType] = useState<TestType>(TestType.Words);
-	const [includePunctuation, setIncludePunctuation] = useState<boolean>(false);
-	const [includeNumbers, setIncludeNumbers] = useState<boolean>(false);
+
+	const [testLengthWords, setTestLengthWords] = useState<number>(parseInt( localStorage.getItem("testLengthWords") ?? "25"));
+	const [testLengthSeconds, setTestLengthSeconds] = useState<number>(parseInt( localStorage.getItem("testLengthSeconds") ?? "15"));
+	const [testType, setTestType] = useState<TestType>(localStorage.getItem("testType") as TestType ?? TestType.Words);
+
+
+	const [includePunctuation, setIncludePunctuation] = useState<boolean>(localStorage.getItem("testIncludePunctuation") === "true" ?? false);
+	const [includeNumbers, setIncludeNumbers] = useState<boolean>(localStorage.getItem("testIncludeNumbers") === "true" ?? false);
 
 	const [reset, setReset] = useState<boolean>(false);
 	const [resetDivMargin, setResetDivMargin] = useState<string>("0rem");

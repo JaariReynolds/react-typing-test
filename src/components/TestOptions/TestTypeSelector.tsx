@@ -13,6 +13,7 @@ interface IProps {
 const TestTypeSelector = ({testType, setTestType}: IProps) => {
 	const handleOptionChange = (event:React.ChangeEvent<HTMLInputElement>) => {
 		setTestType(event.target.value as TestType);
+		localStorage.setItem("testType", event.target.value);
 	};
 
 	return (

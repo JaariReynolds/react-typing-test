@@ -13,6 +13,7 @@ const TestLengthWordsSelector = ({testLengthWords, setTestLengthWords, testType}
 
 	const handleOptionChange = (event:React.ChangeEvent<HTMLInputElement>) => {
 		setTestLengthWords(parseInt(event.target.value));
+		localStorage.setItem("testLengthWords", event.target.value);
 	};
 
 	const interactableStyle = (testType === TestType.Words) ? "" : "uninteractable-selector"; // css class

@@ -13,6 +13,7 @@ const TestLengthSecondsSelector = ({testLengthSeconds, setTestLengthSeconds, tes
 
 	const handleOptionChange = (event:React.ChangeEvent<HTMLInputElement>) => {
 		setTestLengthSeconds(parseInt(event.target.value));
+		localStorage.setItem("testLengthSeconds", event.target.value);
 	};
 
 	const interactableStyle = (testType === TestType.Time) ? "" : "uninteractable-selector"; // css class
