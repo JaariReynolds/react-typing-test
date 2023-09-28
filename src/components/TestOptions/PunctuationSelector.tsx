@@ -8,6 +8,12 @@ interface IProps {
 }
 
 const PunctuationSelector = ({punctuation, setPunctuation}: IProps) => {
+
+	const handleOptionChange = () => {
+		setPunctuation(!punctuation);
+		localStorage.setItem("testIncludePunctuation", (!punctuation).toString());
+	};
+
 	return (
 		<div className="test-option-selector">
 			<span className="option-text">
@@ -15,7 +21,7 @@ const PunctuationSelector = ({punctuation, setPunctuation}: IProps) => {
 					type="checkbox"
 					id="punctuation"
 					checked={punctuation}
-					onChange={() => setPunctuation(!punctuation)}
+					onChange={handleOptionChange}
 					className="hidden peer"
 				/>
 				<label htmlFor="punctuation" className="selectable-label">

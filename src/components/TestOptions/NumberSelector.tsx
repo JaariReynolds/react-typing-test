@@ -7,7 +7,15 @@ interface IProps {
     setNumbers: (prop: boolean) => void,
 }
 
+
+
 const NumberSelector = ({numbers, setNumbers}: IProps) => {
+
+	const handleOptionChange = () => {
+		setNumbers(!numbers);
+		localStorage.setItem("testIncludeNumbers", (!numbers).toString());
+	};
+
 	return (
 		<div className="test-option-selector">
 			<span className="option-text">
@@ -15,7 +23,7 @@ const NumberSelector = ({numbers, setNumbers}: IProps) => {
 					type="checkbox"
 					id="numbers"
 					checked={numbers}
-					onChange={() => setNumbers(!numbers)} 
+					onChange={handleOptionChange} 
 					className="hidden peer"
 				/>
 				<label htmlFor="numbers" className="selectable-label">
