@@ -12,13 +12,13 @@ export interface TypingTestResultsProps {
     testWords: TestWords, 
     setTestWords: React.Dispatch<React.SetStateAction<TestWords>>,
 	showResultsComponent: boolean,
-	selectedPaletteId: number,
+
 	resultsComponentOpacity: number,
 	resultsComponentDisplay: string
 }
 
-const TypingTestResults = ({testWords, setTestWords, showResultsComponent, selectedPaletteId, resultsComponentOpacity, resultsComponentDisplay}: TypingTestResultsProps ) => {
-	const {user, userDocument, isHeaderOpen, setIsHeaderOpen} = useUserContext();
+const TypingTestResults = ({testWords, setTestWords, showResultsComponent, resultsComponentOpacity, resultsComponentDisplay}: TypingTestResultsProps ) => {
+	const {user, userDocument, isHeaderOpen, setIsHeaderOpen, selectedPaletteId} = useUserContext();
 	const [isCalculationsComplete, setIsCalculationsComplete] = useState<boolean>(false);
 	const [isTestSubmitted, setIsTestSubmitted] = useState<boolean>(localStorage.getItem("isSubmitted") === "true");
 	const isHeaderOpenRef = useRef<boolean>();
