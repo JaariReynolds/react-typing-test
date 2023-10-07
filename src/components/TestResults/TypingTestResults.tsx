@@ -12,7 +12,6 @@ export interface TypingTestResultsProps {
     testWords: TestWords, 
     setTestWords: React.Dispatch<React.SetStateAction<TestWords>>,
 	showResultsComponent: boolean,
-
 	resultsComponentOpacity: number,
 	resultsComponentDisplay: string
 }
