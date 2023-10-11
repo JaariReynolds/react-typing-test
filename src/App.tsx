@@ -4,7 +4,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import "./App.scss";
 import TypingTest, { TypingTestProps } from "./components/TypingTest/TypingTest";
-import TypingTestResults, { TypingTestResultsProps } from "./components/TestResults/TypingTestResults";
+import TestResults, { TestResultsProps } from "./components/TestResults/TestResults";
 import { TestWords } from "./interfaces/WordStructure";
 import ResetButton, { ResetButtonProps } from "./components/ResetButton";
 import TestOptions, { TestOptionsProps } from "./components/TestOptions/TestOptions";
@@ -237,7 +237,7 @@ function App() {
 		testWords, setTestWords, testLengthWords, testLengthSeconds, testType, includeNumbers, includePunctuation, reset, setReset, inputRef, showResultsComponent, setShowResultsComponent, testRunning, setTestRunning, testTimeMilliSeconds, setTestTimeMilliSeconds, setTestCompletionPercentage, testComplete, setTestComplete, testFocused, setTestFocused, pressedKeys, setPressedKeys, averageWPM, setAverageWPM, setWPMOpacity, setComponentOpacity, setIsAfkMidTest, caretVisible, setCaretVisible
 	};
 
-	const typingTestResultsProps: TypingTestResultsProps = {
+	const typingTestResultsProps: TestResultsProps = {
 		testWords, setTestWords, showResultsComponent, resultsComponentOpacity, resultsComponentDisplay
 	};
 
@@ -266,7 +266,7 @@ function App() {
 
 					<div className="results-overlap-container">
 						<TypingTest {...typingTestProps}/>
-						<TypingTestResults {...typingTestResultsProps}/>	
+						<TestResults {...typingTestResultsProps}/>	
 						<WordsPerMinute {...wordsPerMinuteProps}/>
 					</div>
 
