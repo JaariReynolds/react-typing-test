@@ -10,13 +10,13 @@ interface DataPoint {
 	averageWPM: number
 }
 
-interface Props {
+export interface WpmGraphProps {
 	rawWPMArray: NumberPair[],
 	currentAverageWPMArray: NumberPair[],
 	colourPalette: ColourPaletteStructure
 }
 
-const TypingTestResultsWPMGraph = ({rawWPMArray, currentAverageWPMArray, colourPalette}: Props) => {
+const WpmGraph = ({rawWPMArray, currentAverageWPMArray, colourPalette}: WpmGraphProps) => {
 	
 	const [graphData, setGraphData] = useState<DataPoint[]>([]);
 
@@ -74,4 +74,4 @@ const TypingTestResultsWPMGraph = ({rawWPMArray, currentAverageWPMArray, colourP
 	);
 };
 
-export default TypingTestResultsWPMGraph;
+export default WpmGraph;
