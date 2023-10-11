@@ -3,12 +3,15 @@ import "../../styles/componentStyles/typing-test-results.scss";
 
 import React, { useEffect, useRef, useState} from "react";
 import { TestWords } from "../../interfaces/WordStructure";
-import TypingTestResultsWPMGraph from "./TypingTestResultsWPMGraph";
+import WpmGraph, { WpmGraphProps } from "./WpmGraph";
 import { colourPalettes } from "../../interfaces/ColourPalettes";
 import { createScoreDocument } from "../../firebase/firestorePost";
 import { useUserContext } from "../../contexts/UserContext";
+import Statistics, { StatisticsProps } from "./Statistics";
+import HighScores, { HighScoresProps } from "./HighScores";
+import { TestType } from "../../App";
 
-export interface TypingTestResultsProps {
+export interface TestResultsProps {
     testWords: TestWords, 
     setTestWords: React.Dispatch<React.SetStateAction<TestWords>>,
 	showResultsComponent: boolean,
@@ -16,7 +19,7 @@ export interface TypingTestResultsProps {
 	resultsComponentDisplay: string
 }
 
-const TypingTestResults = ({testWords, setTestWords, showResultsComponent, resultsComponentOpacity, resultsComponentDisplay}: TypingTestResultsProps ) => {
+const TestResults = ({testWords, setTestWords, showResultsComponent, resultsComponentOpacity, resultsComponentDisplay}: TestResultsProps ) => {
 	const {user, userDocument, isHeaderOpen, setIsHeaderOpen, selectedPaletteId} = useUserContext();
 	const [isCalculationsComplete, setIsCalculationsComplete] = useState<boolean>(false);
 	const [isTestSubmitted, setIsTestSubmitted] = useState<boolean>(localStorage.getItem("isSubmitted") === "true");
@@ -76,80 +79,44 @@ const TypingTestResults = ({testWords, setTestWords, showResultsComponent, resul
 		return acc;
 	};
 
-	const typingTestResultsWPMGraphProps = {
+	const wpmGraphProps: WpmGraphProps = {
 		rawWPMArray: testWords.rawWPMArray,
 		currentAverageWPMArray: testWords.currentAverageWPMArray,
 		colourPalette: colourPalettes[selectedPaletteId]
+	};
+
+	const statisticsProps: StatisticsProps = {
+		testWords: testWords
+	};
+
+	const highScoresProps: HighScoresProps = {
+		isTestSubmitted: isTestSubmitted,
+		testType: testWords.testType,
+		testLength: testWords.testType === TestType.Time ? testWords.timeElapsedMilliSeconds : testWords.words.length
 	};
 
 	return (
 		<>	
 			{showResultsComponent &&
 			<div style={{opacity: resultsComponentOpacity, display: resultsComponentDisplay}} className="test-results-div">
-				 <TypingTestResultsWPMGraph {...typingTestResultsWPMGraphProps}/> 
-				<div className="test-results-statistics">
-
-					<div className="grid-item">
-						<div className="score">
-							{testWords.timeElapsedMilliSeconds / 1000}s
-						</div>
-					
-						<div className="label">
-							elapsed 
-						</div>
-					</div>
-
-					<div className="grid-item">
-						<div className="score">
-							{(testWords.accuracy * 100).toFixed(2)}%
-						</div>
-						
-						<div className="label">
-							accuracy
-						</div>
-					</div>
-
-					<div className="grid-item wpm">
-						{testWords.averageWPM}
-					
-						<span className="wpm-label">
-							wpm
-						</span>
-					</div>
-
-					<div className="grid-item">
-						<div className="score">
-							{testWords.testType.toString()}
-						</div>
-						
-						<div className="label">
-							test type
-						</div>
-					</div>
-					
-					<div className="grid-item">
-						<div className="score">
-							{testWords.errorCountHard}/{testWords.errorCountSoft}
-						</div>
-					
-						<div className="label">
-							hard/soft errors
-						</div>
-						
-					</div>
-
-					<div className="grid-item score-submit-row"> 
-						{user ? 
-							<div>{isTestSubmitted ? "test submitted" : "submitting test..."} </div> 
-							:
-							<button onClick={handleOpenHeader}>login to submit score</button>	
-						}
-					</div>
+				<div className="grid-item score-submit-row"> 
+					{user ? 
+						<div>{isTestSubmitted ? "test submitted" : "submitting test..."} </div> 
+						:
+						<button onClick={handleOpenHeader}>login to submit score</button>	
+					}
 				</div>
+				 <WpmGraph {...wpmGraphProps}/> 
+				 <Statistics {...statisticsProps}/>
+
+				 {isTestSubmitted && 
+				 	<HighScores {...highScoresProps} />
+				}
+				 
 			</div>
 			}
 		</>		
 	);
 };
 
-export default TypingTestResults;
+export default TestResults;
