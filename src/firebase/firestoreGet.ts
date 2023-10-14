@@ -1,6 +1,6 @@
 import { database } from "./firebase";
 import { DocumentData, doc, getDoc, getDocs, limit, orderBy, query, where } from "firebase/firestore";
-import { timedScoresCollectionRef, usersCollectionRef, wordCountScoresCollectionRef } from "./firestoreConstants";
+import { timedHighScoresCollectionRef, usersCollectionRef, wordCountHighScoresCollectionRef } from "./firestoreConstants";
 import { TestType } from "../App";
 import { TimedScoreDocument, WordCountScoreDocument } from "./firestoreDocumentInterfaces";
 
@@ -91,7 +91,7 @@ export const getHighScores = async (testType: TestType, testLength: number): Pro
 
 const getHighScoresForWordCountTest = async (wordCount: number) => {
 	try {
-		const highScoresQuery = query(wordCountScoresCollectionRef, where("wordCount", "==", wordCount), orderBy("wpm", "desc"), limit(10));
+		const highScoresQuery = query(wordCountHighScoresCollectionRef, where("wordCount", "==", wordCount), orderBy("wpm", "desc"), limit(10));
 		const data = await getDocs(highScoresQuery);
 
 		if (data.empty)
@@ -111,7 +111,7 @@ const getHighScoresForWordCountTest = async (wordCount: number) => {
 
 const getHighScoresForTimedTest = async (testLengthMilliseconds: number) => {
 	try {
-		const highScoresQuery = query(timedScoresCollectionRef, where("testLengthMilliseconds", "==", testLengthMilliseconds), orderBy("wpm", "desc"), limit(10));
+		const highScoresQuery = query(timedHighScoresCollectionRef, where("testLengthMilliseconds", "==", testLengthMilliseconds), orderBy("wpm", "desc"), limit(10));
 		const data = await getDocs(highScoresQuery);
 
 		if (data.empty)
