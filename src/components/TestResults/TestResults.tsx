@@ -2,10 +2,10 @@
 import "../../styles/componentStyles/typing-test-results.scss";
 
 import React, { useEffect, useRef, useState} from "react";
-import { NumberPair, TestWords } from "../../interfaces/WordStructure";
+import { TestWords } from "../../interfaces/WordStructure";
 import WpmGraph, { WpmGraphProps } from "./WpmGraph";
 import { colourPalettes } from "../../interfaces/ColourPalettes";
-import { createScoreDocument } from "../../firebase/firestorePost";
+import { createScoreDocument } from "../../firebase/POST/scorePosts";
 import { useUserContext } from "../../contexts/UserContext";
 import Statistics, { StatisticsProps } from "./Statistics";
 import HighScores, { HighScoresProps } from "./HighScores";
