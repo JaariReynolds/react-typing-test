@@ -1,25 +1,9 @@
-import { database } from "./firebase";
-import { addDoc, collection, doc, getDocs, limit, query, setDoc, updateDoc, where } from "firebase/firestore";
-import { TimedScoreDocument, UserDocument, WordCountScoreDocument } from "./firestoreDocumentInterfaces";
-import { TestWords } from "../interfaces/WordStructure";
-import { TestType } from "../App";
-import { timedHighScoresCollectionRef, wordCountHighScoresCollectionRef } from "./firestoreConstants";
-
-export const createUserDocument = async (userId: string, email: string, username: string) => {
-	const newUserDocument = doc(database, "users", userId);
-	const newUserObject: UserDocument = {
-		email: email,
-		username: username,
-		testSummaries: [],
-		creationDate: new Date(),
-	};
-
-	try {
-		await setDoc(newUserDocument, newUserObject);
-	} catch (error) {
-		console.error(error);
-	}
-};
+import { addDoc, collection, doc, getDocs, limit, query, updateDoc, where } from "firebase/firestore";
+import { TestType } from "../../App";
+import { TestWords } from "../../interfaces/WordStructure";
+import { database } from "../firebase";
+import { TimedScoreDocument, WordCountScoreDocument } from "../firestoreDocumentInterfaces";
+import { timedHighScoresCollectionRef, wordCountHighScoresCollectionRef } from "../firestoreConstants";
 
 export const createScoreDocument = async (username: string, scoreObject: TestWords) => {
 	switch (scoreObject.testType) {
@@ -45,6 +29,7 @@ const createTimedScoreDocument = async (username: string, scoreObject: TestWords
 		submissionDate: new Date()
 	};
 
+	// add score document, then check if highscore document needs to be overwritten
 	try {
 		await addDoc(timedScoresCollectionRef, newTimedScoreObject);
 		await updateTimedHighScoreDocument(username, newTimedScoreObject);
@@ -65,6 +50,7 @@ const createWordCountScoreDocument = async (username: string, scoreObject: TestW
 		submissionDate: new Date()
 	};
 
+	// add score document, then check if highscore document needs to be overwritten
 	try {
 		await addDoc(wordCountScoresCollectionRef, newWordCountScoreObject);
 		await updateWordCountHighScoreDocument(username, newWordCountScoreObject);
@@ -150,3 +136,4 @@ const updateWordCountHighScoreDocument = async (username: string, wordCountScore
 		console.error(error);
 	}
 };
+

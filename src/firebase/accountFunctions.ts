@@ -1,6 +1,6 @@
 import { auth } from "./firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, signOut as logOut } from "firebase/auth";
-import { createUserDocument } from "./firestorePost";
+import { createUserDocument } from "./POST/userPosts";
 
 const authErrorMessageUserFriendly = (errorCode: string) => {
 	return String(errorCode).substring(5).replaceAll("-", " ");
