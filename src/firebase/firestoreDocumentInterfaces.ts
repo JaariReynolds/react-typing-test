@@ -10,6 +10,7 @@ export interface TimedScoreDocument {
     testLengthMilliseconds: number,
     wpm: number,
     accuracy: number,
+    consistency: number,
     submissionDate: Date
 }
 
@@ -19,6 +20,7 @@ export interface WordCountScoreDocument {
     testLengthMilliseconds: number,
     wpm: number,
     accuracy: number,
+    consistency: number,
     submissionDate: Date
 }
 

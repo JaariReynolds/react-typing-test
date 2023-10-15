@@ -41,6 +41,7 @@ const createTimedScoreDocument = async (username: string, scoreObject: TestWords
 		testLengthMilliseconds: scoreObject.timeElapsedMilliSeconds,
 		wpm: scoreObject.averageWPM,
 		accuracy: scoreObject.accuracy,
+		consistency: scoreObject.consistency,
 		submissionDate: new Date()
 	};
 
@@ -60,6 +61,7 @@ const createWordCountScoreDocument = async (username: string, scoreObject: TestW
 		testLengthMilliseconds: scoreObject.timeElapsedMilliSeconds,
 		wpm: scoreObject.averageWPM,
 		accuracy: scoreObject.accuracy,
+		consistency: scoreObject.consistency,
 		submissionDate: new Date()
 	};
 
@@ -83,7 +85,7 @@ const updateTimedHighScoreDocument = async (username: string, timedScoreObject: 
 		// create new highscore document for user if needed
 		if (data.empty) {
 			await addDoc(timedHighScoresCollectionRef, timedScoreObject);
-			console.log("wordcount highscore doc created!");
+			console.log("timed highscore doc created!");
 			return;
 		}
 
@@ -99,6 +101,7 @@ const updateTimedHighScoreDocument = async (username: string, timedScoreObject: 
 		await updateDoc(docRef, {
 			wpm: timedScoreObject.wpm,
 			accuracy: timedScoreObject.accuracy,
+			consistency: timedScoreObject.consistency,
 			submissionDate: timedScoreObject.submissionDate
 		});
 
@@ -137,6 +140,7 @@ const updateWordCountHighScoreDocument = async (username: string, wordCountScore
 		await updateDoc(docRef, {
 			wpm: wordCountScoreObject.wpm,
 			accuracy: wordCountScoreObject.accuracy,
+			consistency: wordCountScoreObject.consistency,
 			submissionDate: wordCountScoreObject.submissionDate
 		});
 
