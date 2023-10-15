@@ -3,7 +3,7 @@ import "../../styles/componentStyles/login-or-sign-up.scss";
 import {signUp, signIn} from "../../firebase/accountFunctions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import { isUsernameAvailable } from "../../firebase/firestoreGet";
+import { isUsernameAvailable } from "../../firebase/GET/userGets";
 
 enum Tab {
     Login = "login",

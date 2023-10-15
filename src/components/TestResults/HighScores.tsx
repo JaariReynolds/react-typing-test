@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { TestType } from "../../App";
-import { getHighScores } from "../../firebase/firestoreGet";
+import { getHighScores } from "../../firebase/GET/scoreGets";
 import { TimedScoreDocument, WordCountScoreDocument } from "../../firebase/firestoreDocumentInterfaces";
 
 export interface HighScoresProps {
