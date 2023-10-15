@@ -32,10 +32,10 @@ const Statistics = ({testWords}: StatisticsProps) => {
 
 			<div className="grid-item">
 				<div className="score">
-					{testWords.testType.toString()}
+					{(testWords.consistency * 100).toFixed(2)}%
 				</div>
 						
-				<div className="label">test type</div>
+				<div className="label">consistency</div>
 			</div>
 					
 			<div className="grid-item">
