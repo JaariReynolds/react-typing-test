@@ -68,6 +68,7 @@ export interface TestWords {
 	currentAverageWPMArray: NumberPair[]
 	averageWPM: number // wpmArray averaged
 	accuracy: number // (characterCount - errorCountHard) / characterCount
+	consistency: number
 	testType: TestType
 } 
 

@@ -2,7 +2,7 @@
 import "../../styles/componentStyles/typing-test-results.scss";
 
 import React, { useEffect, useRef, useState} from "react";
-import { TestWords } from "../../interfaces/WordStructure";
+import { NumberPair, TestWords } from "../../interfaces/WordStructure";
 import WpmGraph, { WpmGraphProps } from "./WpmGraph";
 import { colourPalettes } from "../../interfaces/ColourPalettes";
 import { createScoreDocument } from "../../firebase/firestorePost";
@@ -36,10 +36,13 @@ const TestResults = ({testWords, setTestWords, showResultsComponent, resultsComp
 		if (showResultsComponent) {	
 			setIsCalculationsComplete(false);
 
-			const acc = calculateAccuracy();	
+			const accuracy = calculateAccuracy();
+			const consistency = calculateConsistency();	
+
 			setTestWords({
 				...testWords,
-				accuracy: acc
+				accuracy: accuracy,
+				consistency: consistency	
 			});	
 
 			setIsCalculationsComplete(true);
@@ -79,6 +82,24 @@ const TestResults = ({testWords, setTestWords, showResultsComponent, resultsComp
 		return acc;
 	};
 
+	// consistency = standard deviation from average wpm
+	const calculateConsistency = (): number => {	
+		const wpmArray = testWords.rawWPMArray.map(wpmInterval => wpmInterval.wpm);
+	
+		if (wpmArray.length <= 1) 
+			return 100;
+		
+		// calculate standard deviation of WPM values
+		const squaredDifferences = wpmArray.map(wpm => Math.pow(wpm - testWords.averageWPM, 2));
+		const variance = squaredDifferences.reduce((sum, squaredDifference) => sum + squaredDifference, 0) / (wpmArray.length - 1);
+		const standardDeviation = Math.sqrt(variance);
+
+		// expressed as a percentage (of 1)
+		const consistency = 1 - (standardDeviation / testWords.averageWPM);		
+		return consistency;
+	};
+
+	//#region Props
 	const wpmGraphProps: WpmGraphProps = {
 		rawWPMArray: testWords.rawWPMArray,
 		currentAverageWPMArray: testWords.currentAverageWPMArray,
@@ -94,6 +115,7 @@ const TestResults = ({testWords, setTestWords, showResultsComponent, resultsComp
 		testType: testWords.testType,
 		testLength: testWords.testType === TestType.Time ? testWords.timeElapsedMilliSeconds : testWords.words.length
 	};
+	//#endregion
 
 	return (
 		<>	
