@@ -8,44 +8,26 @@ export interface StatisticsProps {
 const Statistics = ({testWords}: StatisticsProps) => {
 	return (
 		<div className="test-results-statistics">
-
 			<div className="grid-item">
-				<div className="score">
-					{testWords.timeElapsedMilliSeconds / 1000}s
-				</div>
+				<div className="score">{testWords.timeElapsedMilliSeconds / 1000}s</div>
 				<div className="label">elapsed</div>
-			</div>
-
+			</div>	
 			<div className="grid-item">
-				<div className="score">
-					{(testWords.accuracy * 100).toFixed(2)}%
-				</div>
-						
+				<div className="score">{(testWords.accuracy * 100).toFixed(2)}%</div>						
 				<div className="label">accuracy</div>
 			</div>
-
 			<div className="grid-item wpm">
-				{testWords.averageWPM}
-					
+				{testWords.averageWPM}	
 				<span className="wpm-label">wpm</span>
 			</div>
-
 			<div className="grid-item">
-				<div className="score">
-					{(testWords.consistency * 100).toFixed(2)}%
-				</div>
-						
-				<div className="label">consistency</div>
-			</div>
-					
-			<div className="grid-item">
-				<div className="score">
-					{testWords.errorCountHard}/{testWords.errorCountSoft}
-				</div>
-					
+				<div className="score">{testWords.errorCountHard}/{testWords.errorCountSoft}</div>					
 				<div className="label">hard/soft errors</div>						
-			</div>	
-
+			</div>		
+			<div className="grid-item">
+				<div className="score">{(testWords.consistency * 100).toFixed(2)}%</div>					
+				<div className="label">consistency</div>
+			</div>		
 		</div>
 	);
 };
