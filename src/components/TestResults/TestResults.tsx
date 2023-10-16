@@ -10,6 +10,7 @@ import { useUserContext } from "../../contexts/UserContext";
 import Statistics, { StatisticsProps } from "./Statistics";
 import HighScores, { HighScoresProps } from "./HighScores";
 import { TestType } from "../../App";
+import { updateUserSummary } from "../../firebase/POST/userPosts";
 
 export interface TestResultsProps {
     testWords: TestWords, 
@@ -63,6 +64,7 @@ const TestResults = ({testWords, setTestWords, showResultsComponent, resultsComp
 		try {
 			setIsTestSubmitted(false);
 			await createScoreDocument(userDocument!.username, testWords);
+			await updateUserSummary(user!.uid, testWords);
 			localStorage.setItem("isSubmitted", "true");
 			setIsTestSubmitted(true);
 		} catch (error) {
