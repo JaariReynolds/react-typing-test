@@ -31,13 +31,8 @@ const LoginOrSignUp = () => {
 			return;
 		}
 
-		if (usernameRef.current.value.length < 3) {
+		if (usernameRef.current.value.trim().length < 3) {
 			setErrorMessage("username too short");
-			return;
-		}
-
-		if (passwordRef.current.value !== confirmPasswordRef.current.value) {
-			setErrorMessage("passwords do not match");
 			return;
 		}
 
@@ -46,6 +41,11 @@ const LoginOrSignUp = () => {
 			return;
 		}
 
+		if (passwordRef.current.value !== confirmPasswordRef.current.value) {
+			setErrorMessage("passwords do not match");
+			return;
+		}
+		
 		setErrorMessage(await signUp(emailRef.current.value, passwordRef.current.value, usernameRef.current.value));		
 	};
 
