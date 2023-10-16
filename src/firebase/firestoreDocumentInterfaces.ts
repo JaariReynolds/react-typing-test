@@ -1,7 +1,7 @@
 export interface UserDocument {
     email: string,
     username: string,
-    testSummaries: TestTypeSummary[],
+    testSummaries: TestSummary[],
     creationDate: Date,
 }
 
@@ -24,7 +24,9 @@ export interface WordCountScoreDocument {
     submissionDate: Date
 }
 
-export interface TestTypeSummary {
+export interface TestSummary {
+    testType: string,
+    testLength: number, // either wordCount or testLength(seconds)
     submissionCount: number,
     averageWpm: number,
     averageAccuracy: number,
