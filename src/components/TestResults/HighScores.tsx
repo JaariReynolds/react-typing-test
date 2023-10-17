@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { getHighScores } from "../../firebase/GET/scoreGets";
 import { TimedScoreDocument, WordCountScoreDocument } from "../../firebase/firestoreDocumentInterfaces";
-import { TestType } from "../../enums";
+import { useTestResultsContext } from "../../contexts/TestResultsContext";
 
-export interface HighScoresProps {
-    isTestSubmitted: boolean,
-    testType: TestType,
-    testLength: number
-}
 
-const HighScores = ({isTestSubmitted, testType, testLength}: HighScoresProps) => {
+const HighScores = () => {
+	const {testInformation, isTestSubmitted} = useTestResultsContext();
+
 	const [highScoresArray, setHighScoresArray] = useState<TimedScoreDocument[] | WordCountScoreDocument[]>([]);
 
 	const retrieveHighScores = async () => {

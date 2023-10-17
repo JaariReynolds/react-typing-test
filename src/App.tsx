@@ -5,7 +5,6 @@ import React, { useEffect, useState, useRef } from "react";
 import "./App.scss";
 import TypingTest, { TypingTestProps } from "./components/TypingTest/TypingTest";
 import TestResults, { TestResultsProps } from "./components/TestResults/TestResults";
-import { TestInformation } from "./interfaces/WordStructure";
 import ResetButton, { ResetButtonProps } from "./components/ResetButton";
 import TestOptions, { TestOptionsProps } from "./components/TestOptions/TestOptions";
 import CompletionBar, { CompletionBarProps } from "./components/CompletionBar";
@@ -20,18 +19,16 @@ import UpdateCssVariable from "./components/HelperComponents/UpdateCssVariable";
 
 import Header, { HeaderProps } from "./components/Header/Header";
 import { useUserContext } from "./contexts/UserContext";
-import { useTestResultsContext } from "./contexts/TestResultsContext";
 import { TestType } from "./enums";
 
 
 export const TRANSITION_DELAY = 200;
 
 function App() {
-	const {testWords, setTestWords} = useTestResultsContext();
 	const {isHeaderOpen, setIsHeaderOpen} = useUserContext();
+
 	const isHeaderOpenRef = useRef<boolean>();
 	isHeaderOpenRef.current = isHeaderOpen;
-
 
 	const [testLengthWords, setTestLengthWords] = useState<number>(parseInt( localStorage.getItem("testLengthWords") ?? "25"));
 	const [testLengthSeconds, setTestLengthSeconds] = useState<number>(parseInt( localStorage.getItem("testLengthSeconds") ?? "15"));
@@ -232,11 +229,11 @@ function App() {
 	};
 
 	const typingTestProps: TypingTestProps = {
-		testWords, setTestWords, testLengthWords, testLengthSeconds, testType, includeNumbers, includePunctuation, reset, setReset, inputRef, showResultsComponent, setShowResultsComponent, testRunning, setTestRunning, testTimeMilliSeconds, setTestTimeMilliSeconds, setTestCompletionPercentage, testComplete, setTestComplete, testFocused, setTestFocused, pressedKeys, setPressedKeys, averageWPM, setAverageWPM, setWPMOpacity, setComponentOpacity, setIsAfkMidTest, caretVisible, setCaretVisible
+		testLengthWords, testLengthSeconds, testType, includeNumbers, includePunctuation, reset, setReset, inputRef, showResultsComponent, setShowResultsComponent, testRunning, setTestRunning, testTimeMilliSeconds, setTestTimeMilliSeconds, setTestCompletionPercentage, testComplete, setTestComplete, testFocused, setTestFocused, pressedKeys, setPressedKeys, averageWPM, setAverageWPM, setWPMOpacity, setComponentOpacity, setIsAfkMidTest, caretVisible, setCaretVisible
 	};
 
 	const typingTestResultsProps: TestResultsProps = {
-		testWords, setTestWords, showResultsComponent, resultsComponentOpacity, resultsComponentDisplay
+		showResultsComponent, resultsComponentOpacity, resultsComponentDisplay
 	};
 
 	const wordsPerMinuteProps: WordsPerMinuteProps = {

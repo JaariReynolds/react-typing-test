@@ -1,31 +1,29 @@
 import React from "react";
-import { TestInformation } from "../../interfaces/WordStructure";
+import { useTestResultsContext } from "../../contexts/TestResultsContext";
 
-export interface StatisticsProps {
-    testWords: TestInformation
-}
+const Statistics = () => {
+	const {testInformation} = useTestResultsContext();
 
-const Statistics = ({testWords}: StatisticsProps) => {
 	return (
 		<div className="test-results-statistics">
 			<div className="grid-item">
-				<div className="score">{testWords.timeElapsedMilliSeconds / 1000}s</div>
+				<div className="score">{testInformation.timeElapsedMilliSeconds / 1000}s</div>
 				<div className="label">elapsed</div>
 			</div>	
 			<div className="grid-item">
-				<div className="score">{(testWords.accuracy * 100).toFixed(2)}%</div>						
+				<div className="score">{(testInformation.accuracy * 100).toFixed(2)}%</div>						
 				<div className="label">accuracy</div>
 			</div>
 			<div className="grid-item wpm">
-				{testWords.averageWPM}	
+				{testInformation.averageWPM}	
 				<span className="wpm-label">wpm</span>
 			</div>
 			<div className="grid-item">
-				<div className="score">{testWords.errorCountHard}/{testWords.errorCountSoft}</div>					
+				<div className="score">{testInformation.errorCountHard}/{testInformation.errorCountSoft}</div>					
 				<div className="label">hard/soft errors</div>						
 			</div>		
 			<div className="grid-item">
-				<div className="score">{(testWords.consistency * 100).toFixed(2)}%</div>					
+				<div className="score">{(testInformation.consistency * 100).toFixed(2)}%</div>					
 				<div className="label">consistency</div>
 			</div>		
 		</div>
