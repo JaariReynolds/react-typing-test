@@ -1,4 +1,4 @@
-import { TestType } from "../../App";
+import { TestType } from "../../enums";
 import { LetterActiveStatus, TestWords, Word } from "../../interfaces/WordStructure";
 import { wordsArray } from "../../wordsArray";
 import { punctuationGenerator } from "./punctuationGenerator";

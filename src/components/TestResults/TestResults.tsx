@@ -9,8 +9,8 @@ import { createScoreDocument } from "../../firebase/POST/scorePosts";
 import { useUserContext } from "../../contexts/UserContext";
 import Statistics, { StatisticsProps } from "./Statistics";
 import HighScores, { HighScoresProps } from "./HighScores";
-import { TestType } from "../../App";
 import { updateUserSummary } from "../../firebase/POST/userPosts";
+import { TestType } from "../../enums";
 
 export interface TestResultsProps {
     testWords: TestWords, 

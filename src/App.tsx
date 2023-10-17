@@ -20,11 +20,9 @@ import UpdateCssVariable from "./components/HelperComponents/UpdateCssVariable";
 
 import Header, { HeaderProps } from "./components/Header/Header";
 import { useUserContext } from "./contexts/UserContext";
+import { useTestResultsContext } from "./contexts/TestResultsContext";
+import { TestType } from "./enums";
 
-export enum TestType {
-	Words = "words",
-	Time = "time"
-}
 
 export const TRANSITION_DELAY = 200;
 
@@ -32,8 +30,8 @@ function App() {
 	const {isHeaderOpen, setIsHeaderOpen} = useUserContext();
 	const isHeaderOpenRef = useRef<boolean>();
 	isHeaderOpenRef.current = isHeaderOpen;
+	const {testWords, setTestWords} = useTestResultsContext();
 
-	const [testWords, setTestWords] = useState<TestWords>({words: [], errorCountHard: 0, errorCountSoft: 0, timeElapsedMilliSeconds: 0, characterCount: 0, keyPressCount: 0, rawWPMArray: [], currentAverageWPMArray: [], averageWPM: 0, accuracy: 0, consistency: 0, testType: TestType.Words});
 
 	const [testLengthWords, setTestLengthWords] = useState<number>(parseInt( localStorage.getItem("testLengthWords") ?? "25"));
 	const [testLengthSeconds, setTestLengthSeconds] = useState<number>(parseInt( localStorage.getItem("testLengthSeconds") ?? "15"));

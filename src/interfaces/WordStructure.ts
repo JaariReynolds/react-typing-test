@@ -1,6 +1,7 @@
 /* eslint-disable linebreak-style */
 
-import { TestType } from "../App";
+import { TestType } from "../enums";
+
 
 // each letter/word can have an associated completion status
 export enum CompletionStatus {

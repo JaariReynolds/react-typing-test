@@ -2,7 +2,7 @@ import { database } from "../firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { TestSummary, UserDocument } from "../firestoreDocumentInterfaces";
 import { TestWords } from "../../interfaces/WordStructure";
-import { TestType } from "../../App";
+import { TestType } from "../../enums";
 
 export const createUserDocument = async (userId: string, email: string, username: string) => {
 	try {

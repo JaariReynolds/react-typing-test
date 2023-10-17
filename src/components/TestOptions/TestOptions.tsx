@@ -4,9 +4,8 @@ import NumberSelector from "./NumberSelector";
 import PunctuationSelector from "./PunctuationSelector";
 import TestLengthSecondsSelector from "./TestLengthSecondsSelector";
 import TestLengthWordsSelector from "./TestLengthWordsSelector";
-import { TestType } from "../../App";
 import "../../styles/componentStyles/test-options.scss";
-
+import { TestType } from "../../enums";
 
 export interface TestOptionsProps {
     testType: TestType,
@@ -18,8 +17,7 @@ export interface TestOptionsProps {
     testLengthWords: number,
     setTestLengthWords: React.Dispatch<React.SetStateAction<number>>,
     testLengthSeconds: number,
-    setTestLengthSeconds: React.Dispatch<React.SetStateAction<number>>,
-   
+    setTestLengthSeconds: React.Dispatch<React.SetStateAction<number>>,  
 }
 
 const TestOptions = ({testType, setTestType, includeNumbers, setIncludeNumbers, includePunctuation, setIncludePunctuation, testLengthWords, setTestLengthWords, testLengthSeconds, setTestLengthSeconds}: TestOptionsProps) => {
