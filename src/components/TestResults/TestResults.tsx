@@ -2,26 +2,24 @@
 import "../../styles/componentStyles/typing-test-results.scss";
 
 import React, { useEffect, useRef, useState} from "react";
-import { TestInformation } from "../../interfaces/WordStructure";
-import WpmGraph, { WpmGraphProps } from "./WpmGraph";
-import { colourPalettes } from "../../interfaces/ColourPalettes";
+import WpmGraph from "./WpmGraph";
 import { createScoreDocument } from "../../firebase/POST/scorePosts";
 import { useUserContext } from "../../contexts/UserContext";
-import Statistics, { StatisticsProps } from "./Statistics";
-import HighScores, { HighScoresProps } from "./HighScores";
+import Statistics from "./Statistics";
+import HighScores from "./HighScores";
 import { updateUserSummary } from "../../firebase/POST/userPosts";
-import { TestType } from "../../enums";
+import { useTestResultsContext } from "../../contexts/TestResultsContext";
 
 export interface TestResultsProps {
-    testWords: TestInformation, 
-    setTestWords: React.Dispatch<React.SetStateAction<TestInformation>>,
+   
 	showResultsComponent: boolean,
 	resultsComponentOpacity: number,
 	resultsComponentDisplay: string
 }
 
-const TestResults = ({testWords, setTestWords, showResultsComponent, resultsComponentOpacity, resultsComponentDisplay}: TestResultsProps ) => {
-	const {user, userDocument, isHeaderOpen, setIsHeaderOpen, selectedPaletteId} = useUserContext();
+const TestResults = ({showResultsComponent, resultsComponentOpacity, resultsComponentDisplay}: TestResultsProps ) => {
+	const {user, userDocument, isHeaderOpen, setIsHeaderOpen} = useUserContext();
+	const {testInformation, setTestInformation} = useTestResultsContext();
 	const [isCalculationsComplete, setIsCalculationsComplete] = useState<boolean>(false);
 	const [isTestSubmitted, setIsTestSubmitted] = useState<boolean>(localStorage.getItem("isSubmitted") === "true");
 	const isHeaderOpenRef = useRef<boolean>();
@@ -40,8 +38,8 @@ const TestResults = ({testWords, setTestWords, showResultsComponent, resultsComp
 			const accuracy = calculateAccuracy();
 			const consistency = calculateConsistency();	
 
-			setTestWords({
-				...testWords,
+			setTestInformation({
+				...testInformation,
 				accuracy: accuracy,
 				consistency: consistency	
 			});	
@@ -63,8 +61,8 @@ const TestResults = ({testWords, setTestWords, showResultsComponent, resultsComp
 	const handleScoreSubmit = async () => {
 		try {
 			setIsTestSubmitted(false);
-			await createScoreDocument(userDocument!.username, testWords);
-			await updateUserSummary(user!.uid, testWords);
+			await createScoreDocument(userDocument!.username, testInformation);
+			await updateUserSummary(user!.uid, testInformation);
 			localStorage.setItem("isSubmitted", "true");
 			setIsTestSubmitted(true);
 		} catch (error) {
@@ -79,45 +77,27 @@ const TestResults = ({testWords, setTestWords, showResultsComponent, resultsComp
 	// accuracy = (num characters in test - hard errors) / num characters in test
 	const calculateAccuracy = (): number => {
 		//NEED TO FIX : NOT WORKING AS INTENDED FOR SOME REASON
-		const correctCharacters = testWords.keyPressCount - testWords.errorCountSoft;
-		const acc = correctCharacters / testWords.keyPressCount;
+		const correctCharacters = testInformation.keyPressCount - testInformation.errorCountSoft;
+		const acc = correctCharacters / testInformation.keyPressCount;
 		return acc;
 	};
 
 	// consistency = standard deviation from average wpm
 	const calculateConsistency = (): number => {	
-		const wpmArray = testWords.rawWPMArray.map(wpmInterval => wpmInterval.wpm);
+		const wpmArray = testInformation.rawWPMArray.map(wpmInterval => wpmInterval.wpm);
 	
 		if (wpmArray.length <= 1) 
 			return 100;
 		
 		// calculate standard deviation of WPM values
-		const squaredDifferences = wpmArray.map(wpm => Math.pow(wpm - testWords.averageWPM, 2));
+		const squaredDifferences = wpmArray.map(wpm => Math.pow(wpm - testInformation.averageWPM, 2));
 		const variance = squaredDifferences.reduce((sum, squaredDifference) => sum + squaredDifference, 0) / (wpmArray.length - 1);
 		const standardDeviation = Math.sqrt(variance);
 
 		// expressed as a percentage (of 1)
-		const consistency = 1 - (standardDeviation / testWords.averageWPM);		
+		const consistency = 1 - (standardDeviation / testInformation.averageWPM);		
 		return consistency;
 	};
-
-	//#region Props
-	const wpmGraphProps: WpmGraphProps = {
-		rawWPMArray: testWords.rawWPMArray,
-		currentAverageWPMArray: testWords.currentAverageWPMArray,
-		colourPalette: colourPalettes[selectedPaletteId]
-	};
-
-	const statisticsProps: StatisticsProps = {
-		testWords: testWords
-	};
-
-	const highScoresProps: HighScoresProps = {
-		isTestSubmitted: isTestSubmitted,
-		testType: testWords.testType,
-		testLength: testWords.testType === TestType.Time ? testWords.timeElapsedMilliSeconds : testWords.words.length
-	};
-	//#endregion
 
 	return (
 		<>	
@@ -130,9 +110,9 @@ const TestResults = ({testWords, setTestWords, showResultsComponent, resultsComp
 						<button onClick={handleOpenHeader}>login to submit score</button>	
 					}
 				</div>
-				<WpmGraph {...wpmGraphProps}/> 
-				<Statistics {...statisticsProps}/>
-				<HighScores {...highScoresProps} />
+				<WpmGraph /> 
+				<Statistics />
+				<HighScores />
 				
 				 
 			</div>

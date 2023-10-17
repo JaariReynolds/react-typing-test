@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
-import { NumberPair } from "../../interfaces/WordStructure";
-import { ColourPaletteStructure } from "../../interfaces/ColourPalettes";
+import { ColourPaletteStructure, colourPalettes } from "../../interfaces/ColourPalettes";
+import { useTestResultsContext } from "../../contexts/TestResultsContext";
+import { useUserContext } from "../../contexts/UserContext";
 
 
 interface DataPoint {
@@ -10,20 +11,17 @@ interface DataPoint {
 	averageWPM: number
 }
 
-export interface WpmGraphProps {
-	rawWPMArray: NumberPair[],
-	currentAverageWPMArray: NumberPair[],
-	colourPalette: ColourPaletteStructure
-}
-
-const WpmGraph = ({rawWPMArray, currentAverageWPMArray, colourPalette}: WpmGraphProps) => {
-	
+const WpmGraph = () => {
+	const {testInformation} = useTestResultsContext();
+	const {selectedPaletteId} = useUserContext();
 	const [graphData, setGraphData] = useState<DataPoint[]>([]);
+
+	const colourPalette = colourPalettes[selectedPaletteId];
 
 	useEffect(() => {		
 		// combines raw and average datapoints at each interval into 1 type
-		const combinedArray = rawWPMArray.map((rawWPM, index) => {	
-			return {interval: rawWPM.interval, rawWPM: rawWPM.wpm, averageWPM: currentAverageWPMArray[index].wpm};
+		const combinedArray = testInformation.rawWPMArray.map((rawWPM, index) => {	
+			return {interval: rawWPM.interval, rawWPM: rawWPM.wpm, averageWPM: testInformation.currentAverageWPMArray[index].wpm};
 		});
 		setGraphData(combinedArray);	
 	}, []);
