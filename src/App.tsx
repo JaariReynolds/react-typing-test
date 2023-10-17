@@ -5,7 +5,7 @@ import React, { useEffect, useState, useRef } from "react";
 import "./App.scss";
 import TypingTest, { TypingTestProps } from "./components/TypingTest/TypingTest";
 import TestResults, { TestResultsProps } from "./components/TestResults/TestResults";
-import { TestWords } from "./interfaces/WordStructure";
+import { TestInformation } from "./interfaces/WordStructure";
 import ResetButton, { ResetButtonProps } from "./components/ResetButton";
 import TestOptions, { TestOptionsProps } from "./components/TestOptions/TestOptions";
 import CompletionBar, { CompletionBarProps } from "./components/CompletionBar";
@@ -27,10 +27,10 @@ import { TestType } from "./enums";
 export const TRANSITION_DELAY = 200;
 
 function App() {
+	const {testWords, setTestWords} = useTestResultsContext();
 	const {isHeaderOpen, setIsHeaderOpen} = useUserContext();
 	const isHeaderOpenRef = useRef<boolean>();
 	isHeaderOpenRef.current = isHeaderOpen;
-	const {testWords, setTestWords} = useTestResultsContext();
 
 
 	const [testLengthWords, setTestLengthWords] = useState<number>(parseInt( localStorage.getItem("testLengthWords") ?? "25"));

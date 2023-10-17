@@ -1,7 +1,7 @@
-import { CompletionStatus, TestWords } from "../../interfaces/WordStructure";
+import { CompletionStatus, TestInformation } from "../../interfaces/WordStructure";
 
 // gets the number of correct letters in each word in the test at it's current state
-export const calculateCorrectCharacters = (testWords: TestWords): number => {
+export const calculateCorrectCharacters = (testWords: TestInformation): number => {
 	let totalCorrectLetters = 0;
 	testWords.words.map(wordObject => {
 		const totalForWord = wordObject.word.reduce((total, letter) => {

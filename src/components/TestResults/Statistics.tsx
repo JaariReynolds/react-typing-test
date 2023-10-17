@@ -1,8 +1,8 @@
 import React from "react";
-import { TestWords } from "../../interfaces/WordStructure";
+import { TestInformation } from "../../interfaces/WordStructure";
 
 export interface StatisticsProps {
-    testWords: TestWords
+    testWords: TestInformation
 }
 
 const Statistics = ({testWords}: StatisticsProps) => {

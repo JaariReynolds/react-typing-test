@@ -1,7 +1,7 @@
 import { database } from "../firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { TestSummary, UserDocument } from "../firestoreDocumentInterfaces";
-import { TestWords } from "../../interfaces/WordStructure";
+import { TestInformation } from "../../interfaces/WordStructure";
 import { TestType } from "../../enums";
 
 export const createUserDocument = async (userId: string, email: string, username: string) => {
@@ -20,7 +20,7 @@ export const createUserDocument = async (userId: string, email: string, username
 	}
 };
 
-export const updateUserSummary = async (userId: string, scoreObject: TestWords) => {
+export const updateUserSummary = async (userId: string, scoreObject: TestInformation) => {
 	try {
 		const userRef = doc(database, "users", userId);
 		const data = await getDoc(userRef);
@@ -60,7 +60,7 @@ const calculateNewAverage = (oldAverage: number, newValue: number, newArraySize:
 	return oldAverage + ((newValue - oldAverage) / newArraySize);
 };
 
-const createNewTestSummary = (scoreObject: TestWords) => {
+const createNewTestSummary = (scoreObject: TestInformation) => {
 	const newSummary: TestSummary = {
 		testType: scoreObject.testType.toString(),
 		testLength: scoreObject.testType === TestType.Words ? scoreObject.words.length : scoreObject.timeElapsedMilliSeconds / 1000,

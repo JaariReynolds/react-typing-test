@@ -58,7 +58,7 @@ export interface NumberPair {
 }
 
 // can add the test results to this e.g. accuracy, wpm, errors, typing consistency, etc.
-export interface TestWords {
+export interface TestInformation {
     words: Word[]
     errorCountHard: number // ONLY submitted incorrect character strokes
     errorCountSoft: number // submitted AND backspaced incorrect character strokes

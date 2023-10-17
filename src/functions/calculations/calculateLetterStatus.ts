@@ -1,8 +1,8 @@
-import { TestWords, Word, CompletionStatus } from "../../interfaces/WordStructure";
+import { TestInformation, Word, CompletionStatus } from "../../interfaces/WordStructure";
 import { containsIncorrectLetter } from "./calculateErrors";
     
 // currently only used when going back to the previous incorrect word. Recalculates the letter statuses IF less letters than the word
-export const calculateLettersStatus = (inputWord: string, wordIndex: number, testWords: TestWords): Word[] => {
+export const calculateLettersStatus = (inputWord: string, wordIndex: number, testWords: TestInformation): Word[] => {
 	// clear current status of letters in the word 
 	const wordObject = testWords.words[wordIndex];
 	wordObject.word = wordObject.word.map(letter => {

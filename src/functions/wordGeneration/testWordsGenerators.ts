@@ -1,5 +1,5 @@
 import { TestType } from "../../enums";
-import { LetterActiveStatus, TestWords, Word } from "../../interfaces/WordStructure";
+import { LetterActiveStatus, TestInformation, Word } from "../../interfaces/WordStructure";
 import { wordsArray } from "../../wordsArray";
 import { punctuationGenerator } from "./punctuationGenerator";
 
@@ -13,7 +13,7 @@ const getRandomInt = (max: number): number => {
 };
 
 // function to randomise the words array 
-export const testWordsGenerator = (testLengthWords: number, numbers: boolean, punctuation: boolean, testType: TestType): TestWords => {
+export const testWordsGenerator = (testLengthWords: number, numbers: boolean, punctuation: boolean, testType: TestType): TestInformation => {
 	const randomWordArray: Word[] = [];
 	let randomWord: string | number;
 	let characterCount = 0;
