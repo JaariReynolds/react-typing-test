@@ -130,12 +130,10 @@ const TestResults = ({testWords, setTestWords, showResultsComponent, resultsComp
 						<button onClick={handleOpenHeader}>login to submit score</button>	
 					}
 				</div>
-				 <WpmGraph {...wpmGraphProps}/> 
-				 <Statistics {...statisticsProps}/>
-
-				 {isTestSubmitted && 
-				 	<HighScores {...highScoresProps} />
-				}
+				<WpmGraph {...wpmGraphProps}/> 
+				<Statistics {...statisticsProps}/>
+				<HighScores {...highScoresProps} />
+				
 				 
 			</div>
 			}

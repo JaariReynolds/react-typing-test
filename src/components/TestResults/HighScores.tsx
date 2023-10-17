@@ -13,13 +13,20 @@ export interface HighScoresProps {
 const HighScores = ({isTestSubmitted, testType, testLength}: HighScoresProps) => {
 	const [highScoresArray, setHighScoresArray] = useState<TimedScoreDocument[] | WordCountScoreDocument[]>([]);
 
+	const retrieveHighScores = async () => {
+		console.log("simulating retrieving highscores..");
+		//setHighScoresArray(await getHighScores(testType, testLength));
+	};
+
+	useEffect(() => {
+		retrieveHighScores();
+	}, []);
 
 	useEffect(() => {
 		if (isTestSubmitted) {
-			console.log(testType, " - testType,", testLength, " - testLength");
-			const retrieveHighScores = async () => {
-				setHighScoresArray(await getHighScores(testType, testLength));
-			};
+			console.log("high scores component refetched");
+			//console.log(testType, " - testType,", testLength, " - testLength");
+			
 
 			retrieveHighScores();
 		}
