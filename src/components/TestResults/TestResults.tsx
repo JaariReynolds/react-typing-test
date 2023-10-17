@@ -8,7 +8,7 @@ import { useUserContext } from "../../contexts/UserContext";
 import Statistics from "./Statistics";
 import HighScores from "./HighScores";
 import { updateUserSummary } from "../../firebase/POST/userPosts";
-import { useTestResultsContext } from "../../contexts/TestResultsContext";
+import { useTestInformationContext } from "../../contexts/TestInformationContext";
 
 export interface TestResultsProps {
    
@@ -19,7 +19,7 @@ export interface TestResultsProps {
 
 const TestResults = ({showResultsComponent, resultsComponentOpacity, resultsComponentDisplay}: TestResultsProps ) => {
 	const {user, userDocument, isHeaderOpen, setIsHeaderOpen} = useUserContext();
-	const {testInformation, setTestInformation} = useTestResultsContext();
+	const {testInformation, setTestInformation} = useTestInformationContext();
 	const [isCalculationsComplete, setIsCalculationsComplete] = useState<boolean>(false);
 	const [isTestSubmitted, setIsTestSubmitted] = useState<boolean>(localStorage.getItem("isSubmitted") === "true");
 	const isHeaderOpenRef = useRef<boolean>();

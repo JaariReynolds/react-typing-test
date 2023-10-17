@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { TestInformation, CompletionStatus, Word } from "../../interfaces/WordStructure";
 import { calculateTestWordsDivOffset } from "../../functions/calculations/calculateTestWordsDivOffset";
 import UpdateCssVariable from "../HelperComponents/UpdateCssVariable";
-import { useTestResultsContext } from "../../contexts/TestResultsContext";
+import { useTestInformationContext } from "../../contexts/TestInformationContext";
 
 export interface TypingTestWordsProps {
     testRunning: boolean,
@@ -31,7 +31,7 @@ let PADDING_BOTTOM = 0;
 
 
 export const TypingTestWords = ({testRunning, testComplete, testFocused, inputWordsArray, reset, caretPosition, setCaretPosition, currentInputWord, inputRef, opacity, caretVisible}: TypingTestWordsProps) => {
-	const {testInformation, setTestInformation} = useTestResultsContext();
+	const {testInformation, setTestInformation} = useTestInformationContext();
 	const testWordsRef = useRef<Word[]>();
 
 	const testWordsDivRef = useRef<HTMLDivElement>(null);

@@ -18,7 +18,7 @@ import { TRANSITION_DELAY } from "../../App";
 import { TypingTestWords, TypingTestWordsProps } from "./TypingTestWords";
 import { TypingTestInput, TypingTestInputProps } from "./TypingTestInput";
 import { TestType } from "../../enums";
-import { useTestResultsContext } from "../../contexts/TestResultsContext";
+import { useTestInformationContext } from "../../contexts/TestInformationContext";
 
 const SPACEBAR = "Spacebar";
 const TIMED_TEST_LENGTH = 50;
@@ -86,7 +86,7 @@ const TypingTest = ({
 	setIsAfkMidTest,
 	caretVisible,
 	setCaretVisible}: TypingTestProps) => {
-	const {testInformation, setTestInformation} = useTestResultsContext();
+	const {testInformation, setTestInformation} = useTestInformationContext();
 	const [currentInputWord, setCurrentInputWord] = useState<string>("");
 	const [inputWordsArray, setInputWordsArray] = useState<string[]>([]);
 	const [intervalId, setIntervalId] = useState<NodeJS.Timer|null>(null);	
