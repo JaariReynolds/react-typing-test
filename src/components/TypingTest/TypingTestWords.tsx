@@ -1,12 +1,12 @@
 /* eslint-disable react/jsx-key */
 import React, { useEffect, useRef, useState } from "react";
-import { TestWords, CompletionStatus, Word } from "../../interfaces/WordStructure";
+import { TestInformation, CompletionStatus, Word } from "../../interfaces/WordStructure";
 import { calculateTestWordsDivOffset } from "../../functions/calculations/calculateTestWordsDivOffset";
 import UpdateCssVariable from "../HelperComponents/UpdateCssVariable";
 
 export interface TypingTestWordsProps {
-    testWords: TestWords,
-	setTestWords: React.Dispatch<React.SetStateAction<TestWords>>,
+    testWords: TestInformation,
+	setTestWords: React.Dispatch<React.SetStateAction<TestInformation>>,
     testRunning: boolean,
     testComplete: boolean,
     testFocused: boolean,

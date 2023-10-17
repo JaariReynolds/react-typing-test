@@ -1,11 +1,11 @@
 import { addDoc, collection, doc, getDocs, limit, query, updateDoc, where } from "firebase/firestore";
-import { TestWords } from "../../interfaces/WordStructure";
+import { TestInformation } from "../../interfaces/WordStructure";
 import { database } from "../firebase";
 import { TimedScoreDocument, WordCountScoreDocument } from "../firestoreDocumentInterfaces";
 import { timedHighScoresCollectionRef, wordCountHighScoresCollectionRef } from "../firestoreConstants";
 import { TestType } from "../../enums";
 
-export const createScoreDocument = async (username: string, scoreObject: TestWords) => {
+export const createScoreDocument = async (username: string, scoreObject: TestInformation) => {
 	switch (scoreObject.testType) {
 	case TestType.Time:
 		await createTimedScoreDocument(username, scoreObject);
@@ -18,7 +18,7 @@ export const createScoreDocument = async (username: string, scoreObject: TestWor
 	}
 };
 
-const createTimedScoreDocument = async (username: string, scoreObject: TestWords) => {
+const createTimedScoreDocument = async (username: string, scoreObject: TestInformation) => {
 	const timedScoresCollectionRef = collection(database, "timedScores");
 	const newTimedScoreObject: TimedScoreDocument = {
 		username: username,
@@ -38,7 +38,7 @@ const createTimedScoreDocument = async (username: string, scoreObject: TestWords
 	}
 };
 
-const createWordCountScoreDocument = async (username: string, scoreObject: TestWords) => {
+const createWordCountScoreDocument = async (username: string, scoreObject: TestInformation) => {
 	const wordCountScoresCollectionRef = collection(database, "wordCountScores");
 	const newWordCountScoreObject: WordCountScoreDocument = {
 		username: username,

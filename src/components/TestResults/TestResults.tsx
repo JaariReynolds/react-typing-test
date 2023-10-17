@@ -2,7 +2,7 @@
 import "../../styles/componentStyles/typing-test-results.scss";
 
 import React, { useEffect, useRef, useState} from "react";
-import { TestWords } from "../../interfaces/WordStructure";
+import { TestInformation } from "../../interfaces/WordStructure";
 import WpmGraph, { WpmGraphProps } from "./WpmGraph";
 import { colourPalettes } from "../../interfaces/ColourPalettes";
 import { createScoreDocument } from "../../firebase/POST/scorePosts";
@@ -13,8 +13,8 @@ import { updateUserSummary } from "../../firebase/POST/userPosts";
 import { TestType } from "../../enums";
 
 export interface TestResultsProps {
-    testWords: TestWords, 
-    setTestWords: React.Dispatch<React.SetStateAction<TestWords>>,
+    testWords: TestInformation, 
+    setTestWords: React.Dispatch<React.SetStateAction<TestInformation>>,
 	showResultsComponent: boolean,
 	resultsComponentOpacity: number,
 	resultsComponentDisplay: string

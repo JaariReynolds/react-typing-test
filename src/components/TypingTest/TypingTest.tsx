@@ -6,7 +6,7 @@ import "../../styles/componentStyles/typing-test.scss";
 
 import React, { useEffect, useState, useRef, RefObject } from "react"; 
 import { testWordsGenerator } from "../../functions/wordGeneration/testWordsGenerators";
-import { CompletionStatus, TestWords, NumberPair } from "../../interfaces/WordStructure";
+import { CompletionStatus, TestInformation, NumberPair } from "../../interfaces/WordStructure";
 import { calculateCorrectCharacters } from "../../functions/calculations/calculateCorrectCharacters";
 import { calculateTotalErrorsHard, calculateTotalErrorsSoft, calculateWordErrorsHard } from "../../functions/calculations/calculateErrors";
 import { removeAdditionalLetter, removeExistingLetter} from "../../functions/letterHandling/removeLetter";
@@ -27,8 +27,8 @@ const AFK_SECONDS_THRESHOLD = 7;
 const EXCLUDED_FINAL_MILLISECONDS = 400;
 
 export interface TypingTestProps {
-    testWords: TestWords,
-    setTestWords: React.Dispatch<React.SetStateAction<TestWords>>,	
+    testWords: TestInformation,
+    setTestWords: React.Dispatch<React.SetStateAction<TestInformation>>,	
     testLengthWords: number,
 	testLengthSeconds: number,
 	testType: TestType,

@@ -1,19 +1,19 @@
-import { TestWords, Word, Letter, CompletionStatus } from "../../interfaces/WordStructure";
+import { TestInformation, Word, Letter, CompletionStatus } from "../../interfaces/WordStructure";
 
 // returns the total number of hard errors in the test
 // hard error = a mistyped or missed letter SUBMITTED for that word
-export const calculateTotalErrorsHard = (testWords: TestWords): number => {
+export const calculateTotalErrorsHard = (testWords: TestInformation): number => {
 	return testWords.words.reduce((total, word) => total + word.errorCountHard, 0);
 };
 
 // returns the total number of soft errors in the test
 // soft error = a mistyped character, regardless if it was submitted 
-export const calculateTotalErrorsSoft = (testWords: TestWords): number => {
+export const calculateTotalErrorsSoft = (testWords: TestInformation): number => {
 	return testWords.words.reduce((total, word) => total + word.errorCountSoft, 0);
 };
 
 // calculate the total num of hard errors in a word after pressing 'space'
-export const calculateWordErrorsHard = (wordIndex: number, testWords: TestWords): Word => {
+export const calculateWordErrorsHard = (wordIndex: number, testWords: TestInformation): Word => {
 	const wordObject = testWords.words[wordIndex];
 
 	// if the word isn't finished, set remaining letters to incorrect 
