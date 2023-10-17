@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import React, { useState, useEffect, useContext} from "react";
+import React, { useState, useEffect, useContext, createContext } from "react";
 import { auth } from "../firebase/firebase";
 import { User, onAuthStateChanged } from "firebase/auth";
 import UpdateCssVariablePaletteObject from "../components/HelperComponents/UpdateCssVariablePaletteObject";
@@ -23,7 +23,7 @@ const userDocumentInitialState : UserDocument = {
 	creationDate: new Date()
 };
 
-export const UserContext = React.createContext<UserInfo|undefined>(
+export const UserContext = createContext<UserInfo|undefined>(
 	{
 		user: null,
 		userDocument: userDocumentInitialState,
@@ -87,7 +87,7 @@ export const UserProvider = ({children}: any) => {
 	
 	UpdateCssVariablePaletteObject(selectedPaletteId);
 
-	const value = {
+	const value: UserInfo = {
 		user,
 		userDocument,
 		selectedPaletteId,
