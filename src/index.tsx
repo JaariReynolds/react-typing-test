@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { UserProvider } from "./contexts/UserContext";
-import { TestResultsProvider } from "./contexts/TestResultsContext";
+import { TestInformationProvider } from "./contexts/TestInformationContext";
 
 
 const root = ReactDOM.createRoot(
@@ -13,9 +13,9 @@ const root = ReactDOM.createRoot(
 root.render(
 	<React.StrictMode>
 		<UserProvider>
-			<TestResultsProvider>
+			<TestInformationProvider>
 				<App />
-			</TestResultsProvider>
+			</TestInformationProvider>
 		</UserProvider>
 	</React.StrictMode>
 );

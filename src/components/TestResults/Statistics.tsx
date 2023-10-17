@@ -1,8 +1,8 @@
 import React from "react";
-import { useTestResultsContext } from "../../contexts/TestResultsContext";
+import { useTestInformationContext } from "../../contexts/TestInformationContext";
 
 const Statistics = () => {
-	const {testInformation} = useTestResultsContext();
+	const {testInformation} = useTestInformationContext();
 
 	return (
 		<div className="test-results-statistics">

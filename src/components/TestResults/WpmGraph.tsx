@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { ColourPaletteStructure, colourPalettes } from "../../interfaces/ColourPalettes";
-import { useTestResultsContext } from "../../contexts/TestResultsContext";
+import { useTestInformationContext } from "../../contexts/TestInformationContext";
 import { useUserContext } from "../../contexts/UserContext";
 
 
@@ -12,7 +12,7 @@ interface DataPoint {
 }
 
 const WpmGraph = () => {
-	const {testInformation} = useTestResultsContext();
+	const {testInformation} = useTestInformationContext();
 	const {selectedPaletteId} = useUserContext();
 	const [graphData, setGraphData] = useState<DataPoint[]>([]);
 
