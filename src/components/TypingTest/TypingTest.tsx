@@ -7,7 +7,6 @@ import "../../styles/componentStyles/typing-test.scss";
 import React, { useEffect, useState, useRef, RefObject } from "react"; 
 import { testWordsGenerator } from "../../functions/wordGeneration/testWordsGenerators";
 import { CompletionStatus, TestWords, NumberPair } from "../../interfaces/WordStructure";
-import { TestType } from "../../App";
 import { calculateCorrectCharacters } from "../../functions/calculations/calculateCorrectCharacters";
 import { calculateTotalErrorsHard, calculateTotalErrorsSoft, calculateWordErrorsHard } from "../../functions/calculations/calculateErrors";
 import { removeAdditionalLetter, removeExistingLetter} from "../../functions/letterHandling/removeLetter";
@@ -18,6 +17,7 @@ import { updateActiveLetter } from "../../functions/letterHandling/updateActiveL
 import { TRANSITION_DELAY } from "../../App";
 import { TypingTestWords, TypingTestWordsProps } from "./TypingTestWords";
 import { TypingTestInput, TypingTestInputProps } from "./TypingTestInput";
+import { TestType } from "../../enums";
 
 const SPACEBAR = "Spacebar";
 const TIMED_TEST_LENGTH = 50;

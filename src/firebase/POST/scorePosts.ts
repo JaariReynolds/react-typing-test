@@ -1,9 +1,9 @@
 import { addDoc, collection, doc, getDocs, limit, query, updateDoc, where } from "firebase/firestore";
-import { TestType } from "../../App";
 import { TestWords } from "../../interfaces/WordStructure";
 import { database } from "../firebase";
 import { TimedScoreDocument, WordCountScoreDocument } from "../firestoreDocumentInterfaces";
 import { timedHighScoresCollectionRef, wordCountHighScoresCollectionRef } from "../firestoreConstants";
+import { TestType } from "../../enums";
 
 export const createScoreDocument = async (username: string, scoreObject: TestWords) => {
 	switch (scoreObject.testType) {

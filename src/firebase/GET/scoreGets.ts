@@ -1,7 +1,7 @@
 import { getDocs, limit, orderBy, query, where } from "firebase/firestore";
 import { timedHighScoresCollectionRef, wordCountHighScoresCollectionRef } from "../firestoreConstants";
-import { TestType } from "../../App";
 import { TimedScoreDocument, WordCountScoreDocument } from "../firestoreDocumentInterfaces";
+import { TestType } from "../../enums";
 
 // gets the top 10 highscores for the respective test type and test length
 export const getHighScores = async (testType: TestType, testLength: number): Promise<TimedScoreDocument[] | WordCountScoreDocument[]> => {
