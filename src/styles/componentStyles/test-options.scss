@@ -47,12 +47,14 @@
 
         .option-text {
             color: var(--base-font-colour);
-            transition: color 0.15s ease-in-out;
+            @include mixins.transition-hover-button();
+
 
             :hover {
                 cursor: pointer;
                 color: var(--secondary-highlight-colour);
-                transition: color 0.15s ease-in-out;
+                @include mixins.transition-hover-button();
+
             }
 
             .selectable-label {
