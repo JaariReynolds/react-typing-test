@@ -7,16 +7,14 @@ import TypingTest, { TypingTestProps } from "./components/TypingTest/TypingTest"
 import TestResults, { TestResultsProps } from "./components/TestResults/TestResults";
 import ResetButton, { ResetButtonProps } from "./components/ResetButton";
 import TestOptions from "./components/TestOptions/TestOptions";
-import CompletionBar, { CompletionBarProps } from "./components/CompletionBar";
+import CompletionBar from "./components/CompletionBar";
 import WordsPerMinute, { WordsPerMinuteProps } from "./components/WordsPerMinute";
 import CapsLockIndicator, { CapsLockIndicatorProps } from "./components/CapsLockIndicator";
 import AfkDetectedIndicator, { AfkDetectedIndicatorProps } from "./components/AfkDetectedIndicator";
 import Footer, { FooterProps } from "./components/Footer";
 import KeyTips from "./components/KeyTips";
 import ColourPaletteSelector, { ColourPaletteSelectorProps } from "./components/ColourPaletteSelector";
-
 import UpdateCssVariable from "./components/HelperComponents/UpdateCssVariable";
-
 import Header, { HeaderProps } from "./components/Header/Header";
 import { useUserContext } from "./contexts/UserContext";
 import { useTestInformationContext } from "./contexts/TestInformationContext";
@@ -42,7 +40,6 @@ function App() {
 	const [testComplete, setTestComplete] = useState<boolean>(false);
 	const [componentOpacity, setComponentOpacity] = useState<number>(1);
 
-	const [testCompletionPercentage, setTestCompletionPercentage] = useState<number>(0);
 	const [pressedKeys, setPressedKeys] = useState<string[]>([]); 
 	const sitePressedKeysRef = useRef<Set<string>>(new Set());
 
@@ -213,12 +210,8 @@ function App() {
 		testComplete, capsLockOpacity
 	};
 
-	const completionBarProps: CompletionBarProps = {
-		testCompletionPercentage
-	};
-
 	const typingTestProps: TypingTestProps = {
-		reset, setReset, inputRef, testRunning, setTestRunning, setTestCompletionPercentage, testComplete, setTestComplete, testFocused, setTestFocused, pressedKeys, setPressedKeys, averageWPM, setAverageWPM, setWPMOpacity, setComponentOpacity, setIsAfkMidTest, caretVisible, setCaretVisible
+		reset, setReset, inputRef, testRunning, setTestRunning, testComplete, setTestComplete, testFocused, setTestFocused, pressedKeys, setPressedKeys, averageWPM, setAverageWPM, setWPMOpacity, setComponentOpacity, setIsAfkMidTest, caretVisible, setCaretVisible
 	};
 
 	const typingTestResultsProps: TestResultsProps = {
@@ -246,7 +239,7 @@ function App() {
 					<AfkDetectedIndicator {...afkDetectedIndicatorProps}/>
 					<TestOptions />
 					<CapsLockIndicator {...capsLockIndicatorProps}/>
-					<CompletionBar {...completionBarProps}/>		
+					<CompletionBar />		
 
 					<div className="results-overlap-container">
 						<TypingTest {...typingTestProps}/>

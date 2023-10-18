@@ -26,7 +26,9 @@ interface TestInformationContextProps {
 	includePunctuation: boolean,
 	setIncludePunctuation: (bool: boolean) => void
 	includeNumbers: boolean,
-	setIncludeNumbers: (bool: boolean) => void
+	setIncludeNumbers: (bool: boolean) => void,
+	testCompletionPercentage: number,
+	setTestCompletionPercentage: (completionPercentage: number) => void
 }
 
 const testInformationInitialState: TestInformation = {
@@ -62,7 +64,9 @@ export const TestInformationContext = createContext<TestInformationContextProps|
 	includePunctuation: false,
 	setIncludePunctuation: () => {},
 	includeNumbers: false,
-	setIncludeNumbers: () => {}
+	setIncludeNumbers: () => {},
+	testCompletionPercentage: 0,
+	setTestCompletionPercentage: () => {}
 });
 
 export const useTestInformationContext = () => {
@@ -80,6 +84,8 @@ export const TestInformationProvider = ({children}: any) => {
 	const [showResultsComponent, setShowResultsComponent] = useState<boolean>(false);
 
 	const [isCalculationsComplete, setIsCalculationsComplete] = useState<boolean>(false);
+	const [testCompletionPercentage, setTestCompletionPercentage] = useState<number>(0);
+
 
 	const [testLengthWords, setTestLengthWords] = useState<number>(parseInt( localStorage.getItem("testLengthWords") ?? "25"));
 	const [testLengthSeconds, setTestLengthSeconds] = useState<number>(parseInt( localStorage.getItem("testLengthSeconds") ?? "15"));
@@ -136,7 +142,9 @@ export const TestInformationProvider = ({children}: any) => {
 		includePunctuation,
 		setIncludePunctuation,
 		includeNumbers,
-		setIncludeNumbers
+		setIncludeNumbers,
+		testCompletionPercentage,
+		setTestCompletionPercentage
 	};
 	
 	return (
