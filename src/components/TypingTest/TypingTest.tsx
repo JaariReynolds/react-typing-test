@@ -33,7 +33,6 @@ export interface TypingTestProps {
 	inputRef: RefObject<HTMLInputElement>,
 	testRunning: boolean,
 	setTestRunning: React.Dispatch<React.SetStateAction<boolean>>,
-	setTestCompletionPercentage: React.Dispatch<React.SetStateAction<number>>,
 	testComplete: boolean,
 	setTestComplete: React.Dispatch<React.SetStateAction<boolean>>,
 	testFocused: boolean,
@@ -55,7 +54,6 @@ const TypingTest = ({
 	inputRef,
 	testRunning,
 	setTestRunning,
-	setTestCompletionPercentage,
 	testComplete,
 	setTestComplete,
 	testFocused,
@@ -69,7 +67,8 @@ const TypingTest = ({
 	setIsAfkMidTest,
 	caretVisible,
 	setCaretVisible}: TypingTestProps) => {
-	const {testInformation, setTestInformation, setShowResultsComponent, testLengthWords, testLengthSeconds, testType, includeNumbers, includePunctuation} = useTestInformationContext();
+	const {testInformation, setTestInformation, setShowResultsComponent, testLengthWords, testLengthSeconds, testType, includeNumbers, includePunctuation, setTestCompletionPercentage} = useTestInformationContext();
+
 	const [testTimeMilliSeconds, setTestTimeMilliSeconds] = useState<number>(0);
 	const [currentInputWord, setCurrentInputWord] = useState<string>("");
 	const [inputWordsArray, setInputWordsArray] = useState<string[]>([]);
