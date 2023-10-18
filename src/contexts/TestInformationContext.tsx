@@ -78,26 +78,29 @@ export const useTestInformationContext = () => {
 };
 
 export const TestInformationProvider = ({children}: any) => {
-	const [highScores, setHighScores] = useState<TimedScoreDocument[] | WordCountScoreDocument[]>([]);
-	const [isTestSubmitted, setIsTestSubmitted] = useState<boolean>(localStorage.getItem("isSubmitted") === "true");
 	const [testInformation, setTestInformation] = useState<TestInformation>(testInformationInitialState);
+	const [testCompletionPercentage, setTestCompletionPercentage] = useState<number>(0);
+	const [isTestSubmitted, setIsTestSubmitted] = useState<boolean>(localStorage.getItem("isSubmitted") === "true");
+	const [isCalculationsComplete, setIsCalculationsComplete] = useState<boolean>(false);
 	const [showResultsComponent, setShowResultsComponent] = useState<boolean>(false);
 
-	const [isCalculationsComplete, setIsCalculationsComplete] = useState<boolean>(false);
-	const [testCompletionPercentage, setTestCompletionPercentage] = useState<number>(0);
-
+	const [highScores, setHighScores] = useState<TimedScoreDocument[] | WordCountScoreDocument[]>([]);
 
 	const [testLengthWords, setTestLengthWords] = useState<number>(parseInt( localStorage.getItem("testLengthWords") ?? "25"));
 	const [testLengthSeconds, setTestLengthSeconds] = useState<number>(parseInt( localStorage.getItem("testLengthSeconds") ?? "15"));
 	const [testType, setTestType] = useState<TestType>(localStorage.getItem("testType") as TestType ?? TestType.Words);
 	const [includePunctuation, setIncludePunctuation] = useState<boolean>(localStorage.getItem("testIncludePunctuation") === "true" ?? false);
 	const [includeNumbers, setIncludeNumbers] = useState<boolean>(localStorage.getItem("testIncludeNumbers") === "true" ?? false);
+	const highScoresTestLength = testType === TestType.Words ? testLengthWords : testLengthSeconds;
 
+	const fetchHighScores = async () => {
+		setHighScores(await getHighScores(testType, highScoresTestLength));		
+	};
 
 	useEffect(() => {
 		console.log("TestInformationContext mounted");
 		setIsTestSubmitted(localStorage.getItem("isSubmitted") === "true");
-
+		fetchHighScores();
 	}, []);
 
 	// once results screen shown, calculate final info for the TestInformation object
