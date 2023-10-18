@@ -6,16 +6,20 @@
     transition-property: opacity;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: constants.$component-opacity-fade-duration;
-    opacity: 0;
-    margin-top: -0.5rem;
-    border-radius: 0.25rem;
-    grid-area: 1 / 1;
     max-width: 100%;
-    padding-top: 1.5rem;
     font-size: constants.$base-font-size;
 
     & * {
         @include mixins.general-color-transition();
+    }
+
+    .score-submit-row {
+        text-align: center;
+
+        :hover {
+            @include mixins.transition-hover-button();
+            color: var(--primary-highlight-colour);
+        }
     }
 
     .results-chart {
@@ -33,6 +37,7 @@
         .grid-item {
             display: block;
             text-align: center;
+
 
             .score {
                 color: var(--primary-highlight-colour);
@@ -60,16 +65,7 @@
                 }
             }
 
-            &.score-submit-row {
-                padding-top: 2rem;
-                grid-column: span 3;
-                color: var(--secondary-highlight-colour);
 
-                :hover {
-                    color: var(--primary-highlight-colour);
-                }
-
-            }
         }
     }
 }
