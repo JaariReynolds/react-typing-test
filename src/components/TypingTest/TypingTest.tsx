@@ -36,8 +36,6 @@ export interface TypingTestProps {
     reset: boolean,
 	setReset: React.Dispatch<React.SetStateAction<boolean>>,
 	inputRef: RefObject<HTMLInputElement>,
-	showResultsComponent: boolean,
-	setShowResultsComponent: React.Dispatch<React.SetStateAction<boolean>>,
 	testRunning: boolean,
 	setTestRunning: React.Dispatch<React.SetStateAction<boolean>>,
 	testTimeMilliSeconds: number,
@@ -67,7 +65,6 @@ const TypingTest = ({
 	reset,
 	setReset,
 	inputRef,
-	setShowResultsComponent,
 	testRunning,
 	setTestRunning,
 	testTimeMilliSeconds,
@@ -86,7 +83,8 @@ const TypingTest = ({
 	setIsAfkMidTest,
 	caretVisible,
 	setCaretVisible}: TypingTestProps) => {
-	const {testInformation, setTestInformation} = useTestInformationContext();
+	const {testInformation, setTestInformation, setShowResultsComponent} = useTestInformationContext()
+	;
 	const [currentInputWord, setCurrentInputWord] = useState<string>("");
 	const [inputWordsArray, setInputWordsArray] = useState<string[]>([]);
 	const [intervalId, setIntervalId] = useState<NodeJS.Timer|null>(null);	

@@ -9,8 +9,12 @@ import { TestType } from "../enums";
 interface TestInformationContextProps {
     highScores: TimedScoreDocument[] | WordCountScoreDocument[],
     isTestSubmitted: boolean,
+	setIsTestSubmitted: (bool: boolean) => void,
 	testInformation: TestInformation,
-	setTestInformation: React.Dispatch<React.SetStateAction<TestInformation>>
+	setTestInformation: React.Dispatch<React.SetStateAction<TestInformation>>,
+	showResultsComponent: boolean,
+	setShowResultsComponent: (bool: boolean) => void
+
 }
 
 const testInformationInitialState: TestInformation = {
@@ -31,8 +35,11 @@ const testInformationInitialState: TestInformation = {
 export const TestInformationContext = createContext<TestInformationContextProps|undefined>({
 	highScores: [],
 	isTestSubmitted: false,
+	setIsTestSubmitted: () => {},
 	testInformation: testInformationInitialState,
 	setTestInformation: () => {},
+	showResultsComponent: false,
+	setShowResultsComponent: () => {}
 });
 
 export const useTestInformationContext = () => {
@@ -45,23 +52,26 @@ export const useTestInformationContext = () => {
 
 export const TestInformationProvider = ({children}: any) => {
 	const [highScores, setHighScores] = useState<TimedScoreDocument[] | WordCountScoreDocument[]>([]);
-	const [testResults, setTestResults] = useState<TestInformation>();
-	const [isTestSubmitted, setIsTestSubmitted] = useState<boolean>(false);
+	const [isTestSubmitted, setIsTestSubmitted] = useState<boolean>(localStorage.getItem("isSubmitted") === "true");
 	const [testInformation, setTestInformation] = useState<TestInformation>(testInformationInitialState);
+	const [showResultsComponent, setShowResultsComponent] = useState<boolean>(false);
 	
     
 	useEffect(() => {
 		console.log("TestInformationContext mounted");
-		
+		setIsTestSubmitted(localStorage.getItem("isSubmitted") === "true");
 	}, []);
 
 	const value: TestInformationContextProps = {
 		highScores,
 		isTestSubmitted,
+		setIsTestSubmitted,
 		testInformation, 
-		setTestInformation
+		setTestInformation,
+		showResultsComponent,
+		setShowResultsComponent
 	};
-
+	
 	return (
 		<TestInformationContext.Provider value={value}>
 			{children}
