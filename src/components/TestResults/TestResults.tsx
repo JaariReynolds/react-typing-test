@@ -12,22 +12,22 @@ import { useTestInformationContext } from "../../contexts/TestInformationContext
 
 export interface TestResultsProps {
    
-	showResultsComponent: boolean,
+	
 	resultsComponentOpacity: number,
 	resultsComponentDisplay: string
 }
 
-const TestResults = ({showResultsComponent, resultsComponentOpacity, resultsComponentDisplay}: TestResultsProps ) => {
+const TestResults = ({resultsComponentOpacity, resultsComponentDisplay}: TestResultsProps ) => {
 	const {user, userDocument, isHeaderOpen, setIsHeaderOpen} = useUserContext();
-	const {testInformation, setTestInformation} = useTestInformationContext();
+	const {testInformation, setTestInformation, showResultsComponent, isTestSubmitted, setIsTestSubmitted} = useTestInformationContext();
+
 	const [isCalculationsComplete, setIsCalculationsComplete] = useState<boolean>(false);
-	const [isTestSubmitted, setIsTestSubmitted] = useState<boolean>(localStorage.getItem("isSubmitted") === "true");
+
 	const isHeaderOpenRef = useRef<boolean>();
 	isHeaderOpenRef.current = isHeaderOpen;
 
 	useEffect(() => {
 		setIsCalculationsComplete(false);
-		setIsTestSubmitted(localStorage.getItem("isSubmitted") === "true");
 	}, []);
 	
 	// once results screen shown, calculate extra info to show 

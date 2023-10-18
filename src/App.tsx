@@ -20,12 +20,14 @@ import UpdateCssVariable from "./components/HelperComponents/UpdateCssVariable";
 import Header, { HeaderProps } from "./components/Header/Header";
 import { useUserContext } from "./contexts/UserContext";
 import { TestType } from "./enums";
+import { useTestInformationContext } from "./contexts/TestInformationContext";
 
 
 export const TRANSITION_DELAY = 200;
 
 function App() {
 	const {isHeaderOpen, setIsHeaderOpen} = useUserContext();
+	const {showResultsComponent, setShowResultsComponent} = useTestInformationContext();
 
 	const isHeaderOpenRef = useRef<boolean>();
 	isHeaderOpenRef.current = isHeaderOpen;
@@ -39,7 +41,6 @@ function App() {
 	const [reset, setReset] = useState<boolean>(false);
 	const [resetDivMargin, setResetDivMargin] = useState<string>("0rem");
 
-	const [showResultsComponent, setShowResultsComponent] = useState<boolean>(false);
 	const [resultsComponentOpacity, setResultsComponentOpacity] = useState<number>(0);
 	const [resultsComponentDisplay, setResultsComponentDisplay] = useState<string>("none");
 
@@ -225,15 +226,15 @@ function App() {
 	};
 
 	const completionBarProps: CompletionBarProps = {
-		testCompletionPercentage, showResultsComponent
+		testCompletionPercentage
 	};
 
 	const typingTestProps: TypingTestProps = {
-		testLengthWords, testLengthSeconds, testType, includeNumbers, includePunctuation, reset, setReset, inputRef, showResultsComponent, setShowResultsComponent, testRunning, setTestRunning, testTimeMilliSeconds, setTestTimeMilliSeconds, setTestCompletionPercentage, testComplete, setTestComplete, testFocused, setTestFocused, pressedKeys, setPressedKeys, averageWPM, setAverageWPM, setWPMOpacity, setComponentOpacity, setIsAfkMidTest, caretVisible, setCaretVisible
+		testLengthWords, testLengthSeconds, testType, includeNumbers, includePunctuation, reset, setReset, inputRef, testRunning, setTestRunning, testTimeMilliSeconds, setTestTimeMilliSeconds, setTestCompletionPercentage, testComplete, setTestComplete, testFocused, setTestFocused, pressedKeys, setPressedKeys, averageWPM, setAverageWPM, setWPMOpacity, setComponentOpacity, setIsAfkMidTest, caretVisible, setCaretVisible
 	};
 
 	const typingTestResultsProps: TestResultsProps = {
-		showResultsComponent, resultsComponentOpacity, resultsComponentDisplay
+		resultsComponentOpacity, resultsComponentDisplay
 	};
 
 	const wordsPerMinuteProps: WordsPerMinuteProps = {
