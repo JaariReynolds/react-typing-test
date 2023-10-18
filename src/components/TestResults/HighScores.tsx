@@ -1,33 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { getHighScores } from "../../firebase/GET/scoreGets";
-import { TimedScoreDocument, WordCountScoreDocument } from "../../firebase/firestoreDocumentInterfaces";
+import React from "react";
+
 import { useTestInformationContext } from "../../contexts/TestInformationContext";
 
-
 const HighScores = () => {
-	const {testInformation, isTestSubmitted} = useTestInformationContext();
-
-	const [highScoresArray, setHighScoresArray] = useState<TimedScoreDocument[] | WordCountScoreDocument[]>([]);
-
-	const retrieveHighScores = async () => {
-		console.log("simulating retrieving highscores..");
-		//setHighScoresArray(await getHighScores(testType, testLength));
-	};
-
-	useEffect(() => {
-		retrieveHighScores();
-	}, []);
-
-	useEffect(() => {
-		if (isTestSubmitted) {
-			console.log("high scores component refetched");
-			//console.log(testType, " - testType,", testLength, " - testLength");
-			
-
-			retrieveHighScores();
-		}
-
-	}, [isTestSubmitted]);
+	const {highScores} = useTestInformationContext();
 
 	return (
 		<table>
@@ -39,7 +15,7 @@ const HighScores = () => {
 				</tr>
 			</thead>
 			<tbody>
-				{highScoresArray.map((highscore, index) => {
+				{highScores.map((highscore, index) => {
 					return (
 						<tr key={index}>
 							<td>{highscore.username}</td>
