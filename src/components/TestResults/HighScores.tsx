@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Timestamp } from "firebase/firestore";
 import { useTestInformationContext } from "../../contexts/TestInformationContext";
 
 const HighScores = () => {
@@ -12,6 +12,7 @@ const HighScores = () => {
 					<th>username</th>
 					<th>wpm</th>
 					<th>time</th>
+					<th>date</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -20,7 +21,8 @@ const HighScores = () => {
 						<tr key={index}>
 							<td>{highscore.username}</td>
 							<td>{highscore.wpm}</td>
-							<td>{highscore.testLengthMilliseconds}</td>
+							<td>{highscore.testLengthSeconds}</td>
+							<td>{highscore.submissionDate.toDate().toDateString()}</td>
 						</tr>
 					);
 				})}

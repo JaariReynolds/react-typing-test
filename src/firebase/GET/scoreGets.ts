@@ -33,9 +33,9 @@ const getHighScoresForWordCountTest = async (wordCount: number) => {
 	}
 };
 
-const getHighScoresForTimedTest = async (testLengthMilliseconds: number) => {
+const getHighScoresForTimedTest = async (testLengthSeconds: number) => {
 	try {
-		const highScoresQuery = query(timedHighScoresCollectionRef, where("testLengthMilliseconds", "==", testLengthMilliseconds), orderBy("wpm", "desc"), limit(10));
+		const highScoresQuery = query(timedHighScoresCollectionRef, where("testLengthSeconds", "==", testLengthSeconds), orderBy("wpm", "desc"), limit(10));
 		const data = await getDocs(highScoresQuery);
 
 		if (data.empty)

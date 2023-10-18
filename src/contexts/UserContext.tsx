@@ -5,6 +5,7 @@ import { User, onAuthStateChanged } from "firebase/auth";
 import UpdateCssVariablePaletteObject from "../components/HelperComponents/UpdateCssVariablePaletteObject";
 import { UserDocument } from "../firebase/firestoreDocumentInterfaces";
 import { getUserFromUserId } from "../firebase/GET/userGets";
+import { Timestamp } from "firebase/firestore";
 
 interface UserInfo {
     user: User | null,
@@ -20,7 +21,7 @@ const userDocumentInitialState : UserDocument = {
 	email: "",
 	username: "",
 	testSummaries: [],
-	creationDate: new Date()
+	creationDate: Timestamp.now()
 };
 
 export const UserContext = createContext<UserInfo|undefined>(

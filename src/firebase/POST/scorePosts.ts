@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, getDocs, limit, query, updateDoc, where } from "firebase/firestore";
+import { Timestamp, addDoc, collection, doc, getDocs, limit, query, updateDoc, where } from "firebase/firestore";
 import { TestInformation } from "../../interfaces/WordStructure";
 import { database } from "../firebase";
 import { TimedScoreDocument, WordCountScoreDocument } from "../firestoreDocumentInterfaces";
@@ -22,11 +22,11 @@ const createTimedScoreDocument = async (username: string, scoreObject: TestInfor
 	const timedScoresCollectionRef = collection(database, "timedScores");
 	const newTimedScoreObject: TimedScoreDocument = {
 		username: username,
-		testLengthMilliseconds: scoreObject.timeElapsedMilliSeconds,
+		testLengthSeconds: scoreObject.timeElapsedMilliSeconds / 1000,
 		wpm: scoreObject.averageWPM,
 		accuracy: scoreObject.accuracy,
 		consistency: scoreObject.consistency,
-		submissionDate: new Date()
+		submissionDate: Timestamp.now()
 	};
 
 	// add score document, then check if highscore document needs to be overwritten
@@ -43,11 +43,11 @@ const createWordCountScoreDocument = async (username: string, scoreObject: TestI
 	const newWordCountScoreObject: WordCountScoreDocument = {
 		username: username,
 		wordCount: scoreObject.words.length,
-		testLengthMilliseconds: scoreObject.timeElapsedMilliSeconds,
+		testLengthSeconds: scoreObject.timeElapsedMilliSeconds / 1000,
 		wpm: scoreObject.averageWPM,
 		accuracy: scoreObject.accuracy,
 		consistency: scoreObject.consistency,
-		submissionDate: new Date()
+		submissionDate: Timestamp.now()
 	};
 
 	// add score document, then check if highscore document needs to be overwritten
@@ -64,7 +64,7 @@ const updateTimedHighScoreDocument = async (username: string, timedScoreObject: 
 		const highScoreQuery = query(
 			timedHighScoresCollectionRef, 
 			where("username", "==", username), 
-			where("testLengthMilliseconds", "==", timedScoreObject.testLengthMilliseconds), limit(1));
+			where("testLengthSeconds", "==", timedScoreObject.testLengthSeconds), limit(1));
 
 		const data = await getDocs(highScoreQuery);
 	
