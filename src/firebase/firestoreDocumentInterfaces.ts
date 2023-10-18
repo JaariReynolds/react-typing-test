@@ -1,27 +1,29 @@
+import { Timestamp } from "firebase/firestore";
+
 export interface UserDocument {
     email: string,
     username: string,
     testSummaries: TestSummary[],
-    creationDate: Date,
+    creationDate: Timestamp,
 }
 
 export interface TimedScoreDocument {
     username: string,
-    testLengthMilliseconds: number,
+    testLengthSeconds: number,
     wpm: number,
     accuracy: number,
     consistency: number,
-    submissionDate: Date
+    submissionDate: Timestamp
 }
 
 export interface WordCountScoreDocument {
     username: string,
     wordCount: number,
-    testLengthMilliseconds: number,
+    testLengthSeconds: number,
     wpm: number,
     accuracy: number,
     consistency: number,
-    submissionDate: Date
+    submissionDate: Timestamp
 }
 
 export interface TestSummary {

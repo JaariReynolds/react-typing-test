@@ -1,5 +1,5 @@
 import { database } from "../firebase";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { Timestamp, doc, getDoc, setDoc } from "firebase/firestore";
 import { TestSummary, UserDocument } from "../firestoreDocumentInterfaces";
 import { TestInformation } from "../../interfaces/WordStructure";
 import { TestType } from "../../enums";
@@ -11,7 +11,7 @@ export const createUserDocument = async (userId: string, email: string, username
 			email: email,
 			username: username,
 			testSummaries: [],
-			creationDate: new Date(),
+			creationDate: Timestamp.now()
 		};
 
 		await setDoc(newUserDocument, newUserObject);
