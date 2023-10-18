@@ -4,13 +4,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
 import { faFont } from "@fortawesome/free-solid-svg-icons";
 import { TestType } from "../../enums";
+import { useTestInformationContext } from "../../contexts/TestInformationContext";
 
-interface IProps {
-    testType: TestType,
-    setTestType: React.Dispatch<React.SetStateAction<TestType>>,
-}
 
-const TestTypeSelector = ({testType, setTestType}: IProps) => {
+const TestTypeSelector = () => {
+	const {testType, setTestType} = useTestInformationContext();
+
 	const handleOptionChange = (event:React.ChangeEvent<HTMLInputElement>) => {
 		setTestType(event.target.value as TestType);
 		localStorage.setItem("testType", event.target.value);

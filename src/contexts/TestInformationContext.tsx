@@ -16,7 +16,17 @@ interface TestInformationContextProps {
 	setTestInformation: React.Dispatch<React.SetStateAction<TestInformation>>,
 	showResultsComponent: boolean,
 	setShowResultsComponent: (bool: boolean) => void,
-	isCalculationsComplete: boolean
+	isCalculationsComplete: boolean,
+	testLengthWords: number,
+	setTestLengthWords: (testLength: number) => void,
+	testLengthSeconds: number,
+	setTestLengthSeconds: (testLength: number) => void,
+	testType: TestType,
+	setTestType: (testType: TestType) => void,
+	includePunctuation: boolean,
+	setIncludePunctuation: (bool: boolean) => void
+	includeNumbers: boolean,
+	setIncludeNumbers: (bool: boolean) => void
 }
 
 const testInformationInitialState: TestInformation = {
@@ -42,7 +52,17 @@ export const TestInformationContext = createContext<TestInformationContextProps|
 	setTestInformation: () => {},
 	showResultsComponent: false,
 	setShowResultsComponent: () => {},
-	isCalculationsComplete: false
+	isCalculationsComplete: false,
+	testLengthWords: 15,
+	setTestLengthWords: () => {},
+	testLengthSeconds: 15,
+	setTestLengthSeconds: () => {},
+	testType: TestType.Words,
+	setTestType: () => {},
+	includePunctuation: false,
+	setIncludePunctuation: () => {},
+	includeNumbers: false,
+	setIncludeNumbers: () => {}
 });
 
 export const useTestInformationContext = () => {
@@ -61,11 +81,17 @@ export const TestInformationProvider = ({children}: any) => {
 
 	const [isCalculationsComplete, setIsCalculationsComplete] = useState<boolean>(false);
 
-	
-    
+	const [testLengthWords, setTestLengthWords] = useState<number>(parseInt( localStorage.getItem("testLengthWords") ?? "25"));
+	const [testLengthSeconds, setTestLengthSeconds] = useState<number>(parseInt( localStorage.getItem("testLengthSeconds") ?? "15"));
+	const [testType, setTestType] = useState<TestType>(localStorage.getItem("testType") as TestType ?? TestType.Words);
+	const [includePunctuation, setIncludePunctuation] = useState<boolean>(localStorage.getItem("testIncludePunctuation") === "true" ?? false);
+	const [includeNumbers, setIncludeNumbers] = useState<boolean>(localStorage.getItem("testIncludeNumbers") === "true" ?? false);
+
+
 	useEffect(() => {
 		console.log("TestInformationContext mounted");
 		setIsTestSubmitted(localStorage.getItem("isSubmitted") === "true");
+
 	}, []);
 
 	// once results screen shown, calculate final info for the TestInformation object
@@ -100,7 +126,17 @@ export const TestInformationProvider = ({children}: any) => {
 		setTestInformation,
 		showResultsComponent,
 		setShowResultsComponent,
-		isCalculationsComplete
+		isCalculationsComplete,
+		testLengthWords,
+		setTestLengthWords,
+		testLengthSeconds,
+		setTestLengthSeconds,
+		testType,
+		setTestType,
+		includePunctuation,
+		setIncludePunctuation,
+		includeNumbers,
+		setIncludeNumbers
 	};
 	
 	return (

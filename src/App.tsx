@@ -6,7 +6,7 @@ import "./App.scss";
 import TypingTest, { TypingTestProps } from "./components/TypingTest/TypingTest";
 import TestResults, { TestResultsProps } from "./components/TestResults/TestResults";
 import ResetButton, { ResetButtonProps } from "./components/ResetButton";
-import TestOptions, { TestOptionsProps } from "./components/TestOptions/TestOptions";
+import TestOptions from "./components/TestOptions/TestOptions";
 import CompletionBar, { CompletionBarProps } from "./components/CompletionBar";
 import WordsPerMinute, { WordsPerMinuteProps } from "./components/WordsPerMinute";
 import CapsLockIndicator, { CapsLockIndicatorProps } from "./components/CapsLockIndicator";
@@ -19,7 +19,6 @@ import UpdateCssVariable from "./components/HelperComponents/UpdateCssVariable";
 
 import Header, { HeaderProps } from "./components/Header/Header";
 import { useUserContext } from "./contexts/UserContext";
-import { TestType } from "./enums";
 import { useTestInformationContext } from "./contexts/TestInformationContext";
 
 
@@ -32,12 +31,6 @@ function App() {
 	const isHeaderOpenRef = useRef<boolean>();
 	isHeaderOpenRef.current = isHeaderOpen;
 
-	const [testLengthWords, setTestLengthWords] = useState<number>(parseInt( localStorage.getItem("testLengthWords") ?? "25"));
-	const [testLengthSeconds, setTestLengthSeconds] = useState<number>(parseInt( localStorage.getItem("testLengthSeconds") ?? "15"));
-	const [testType, setTestType] = useState<TestType>(localStorage.getItem("testType") as TestType ?? TestType.Words);
-	const [includePunctuation, setIncludePunctuation] = useState<boolean>(localStorage.getItem("testIncludePunctuation") === "true" ?? false);
-	const [includeNumbers, setIncludeNumbers] = useState<boolean>(localStorage.getItem("testIncludeNumbers") === "true" ?? false);
-
 	const [reset, setReset] = useState<boolean>(false);
 	const [resetDivMargin, setResetDivMargin] = useState<string>("0rem");
 
@@ -49,7 +42,6 @@ function App() {
 	const [testComplete, setTestComplete] = useState<boolean>(false);
 	const [componentOpacity, setComponentOpacity] = useState<number>(1);
 
-	const [testTimeMilliSeconds, setTestTimeMilliSeconds] = useState<number>(0);
 	const [testCompletionPercentage, setTestCompletionPercentage] = useState<number>(0);
 	const [pressedKeys, setPressedKeys] = useState<string[]>([]); 
 	const sitePressedKeysRef = useRef<Set<string>>(new Set());
@@ -217,10 +209,6 @@ function App() {
 		isAfkMidTest
 	};
 
-	const testOptionsProps: TestOptionsProps = {
-		testType, setTestType, includeNumbers, setIncludeNumbers, includePunctuation, setIncludePunctuation, testLengthWords, setTestLengthWords, testLengthSeconds, setTestLengthSeconds
-	};	
-
 	const capsLockIndicatorProps: CapsLockIndicatorProps = {
 		testComplete, capsLockOpacity
 	};
@@ -230,7 +218,7 @@ function App() {
 	};
 
 	const typingTestProps: TypingTestProps = {
-		testLengthWords, testLengthSeconds, testType, includeNumbers, includePunctuation, reset, setReset, inputRef, testRunning, setTestRunning, testTimeMilliSeconds, setTestTimeMilliSeconds, setTestCompletionPercentage, testComplete, setTestComplete, testFocused, setTestFocused, pressedKeys, setPressedKeys, averageWPM, setAverageWPM, setWPMOpacity, setComponentOpacity, setIsAfkMidTest, caretVisible, setCaretVisible
+		reset, setReset, inputRef, testRunning, setTestRunning, setTestCompletionPercentage, testComplete, setTestComplete, testFocused, setTestFocused, pressedKeys, setPressedKeys, averageWPM, setAverageWPM, setWPMOpacity, setComponentOpacity, setIsAfkMidTest, caretVisible, setCaretVisible
 	};
 
 	const typingTestResultsProps: TestResultsProps = {
@@ -256,7 +244,7 @@ function App() {
 				<Header {...headerProps}/>
 				<div className="inner-container">
 					<AfkDetectedIndicator {...afkDetectedIndicatorProps}/>
-					<TestOptions {...testOptionsProps}/>
+					<TestOptions />
 					<CapsLockIndicator {...capsLockIndicatorProps}/>
 					<CompletionBar {...completionBarProps}/>		
 
