@@ -4,10 +4,9 @@
 
 
 .header {
-
     button:hover {
         color: var(--secondary-highlight-colour);
-        transition: color 0.15s ease-in-out;
+        @include mixins.transition-hover-button();
     }
 
     display: block;
