@@ -9,6 +9,8 @@ import Statistics from "./Statistics";
 import HighScores from "./HighScores";
 import { updateUserSummary } from "../../firebase/POST/userPosts";
 import { useTestInformationContext } from "../../contexts/TestInformationContext";
+import { calculateAccuracy } from "../../functions/calculations/calculateAccuracy";
+import { calculateConsistency } from "../../functions/calculations/calculateConsistency";
 
 export interface TestResultsProps {
    
@@ -35,8 +37,8 @@ const TestResults = ({resultsComponentOpacity, resultsComponentDisplay}: TestRes
 		if (showResultsComponent) {	
 			setIsCalculationsComplete(false);
 
-			const accuracy = calculateAccuracy();
-			const consistency = calculateConsistency();	
+			const accuracy = calculateAccuracy(testInformation);
+			const consistency = calculateConsistency(testInformation);	
 
 			setTestInformation({
 				...testInformation,
@@ -74,31 +76,6 @@ const TestResults = ({resultsComponentOpacity, resultsComponentDisplay}: TestRes
 		setIsHeaderOpen(true);
 	};
 
-	// accuracy = (num characters in test - hard errors) / num characters in test
-	const calculateAccuracy = (): number => {
-		//NEED TO FIX : NOT WORKING AS INTENDED FOR SOME REASON
-		const correctCharacters = testInformation.keyPressCount - testInformation.errorCountSoft;
-		const acc = correctCharacters / testInformation.keyPressCount;
-		return acc;
-	};
-
-	// consistency = standard deviation from average wpm
-	const calculateConsistency = (): number => {	
-		const wpmArray = testInformation.rawWPMArray.map(wpmInterval => wpmInterval.wpm);
-	
-		if (wpmArray.length <= 1) 
-			return 100;
-		
-		// calculate standard deviation of WPM values
-		const squaredDifferences = wpmArray.map(wpm => Math.pow(wpm - testInformation.averageWPM, 2));
-		const variance = squaredDifferences.reduce((sum, squaredDifference) => sum + squaredDifference, 0) / (wpmArray.length - 1);
-		const standardDeviation = Math.sqrt(variance);
-
-		// expressed as a percentage (of 1)
-		const consistency = 1 - (standardDeviation / testInformation.averageWPM);		
-		return consistency;
-	};
-
 	return (
 		<>	
 			{showResultsComponent &&
@@ -112,9 +89,7 @@ const TestResults = ({resultsComponentOpacity, resultsComponentDisplay}: TestRes
 				</div>
 				<WpmGraph /> 
 				<Statistics />
-				<HighScores />
-				
-				 
+				<HighScores /> 
 			</div>
 			}
 		</>		
