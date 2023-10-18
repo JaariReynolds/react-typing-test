@@ -103,7 +103,7 @@ const TestResults = ({resultsComponentOpacity, resultsComponentDisplay}: TestRes
 		<>	
 			{showResultsComponent &&
 			<div style={{opacity: resultsComponentOpacity, display: resultsComponentDisplay}} className="test-results-div">
-				<div className="grid-item score-submit-row"> 
+				<div className="score-submit-row"> 
 					{user ? 
 						<div>{isTestSubmitted ? "test submitted" : "submitting test..."} </div> 
 						:

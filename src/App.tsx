@@ -27,7 +27,7 @@ export const TRANSITION_DELAY = 200;
 
 function App() {
 	const {isHeaderOpen, setIsHeaderOpen} = useUserContext();
-	const {showResultsComponent, setShowResultsComponent} = useTestInformationContext();
+	const {setShowResultsComponent} = useTestInformationContext();
 
 	const isHeaderOpenRef = useRef<boolean>();
 	isHeaderOpenRef.current = isHeaderOpen;
