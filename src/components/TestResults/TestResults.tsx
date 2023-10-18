@@ -107,7 +107,7 @@ const TestResults = ({resultsComponentOpacity, resultsComponentDisplay}: TestRes
 					{user ? 
 						<div>{isTestSubmitted ? "test submitted" : "submitting test..."} </div> 
 						:
-						<button onClick={handleOpenHeader}>login to submit score</button>	
+						<button className="login-prompt" onClick={handleOpenHeader}>login to submit score</button>	
 					}
 				</div>
 				<WpmGraph /> 
