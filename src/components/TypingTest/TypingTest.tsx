@@ -21,25 +21,18 @@ import { TestType } from "../../enums";
 import { useTestInformationContext } from "../../contexts/TestInformationContext";
 
 const SPACEBAR = "Spacebar";
-const TIMED_TEST_LENGTH = 50;
+const TIMED_TEST_LENGTH = 50; // starting length of test (in words) for a timed test
 const WORDS_TO_ADD = 15;
 const AVERAGE_WORD_LENGTH = 5; // standard length used to calculate WPM
 const AFK_SECONDS_THRESHOLD = 7;
 const EXCLUDED_FINAL_MILLISECONDS = 400;
 
 export interface TypingTestProps {
-    testLengthWords: number,
-	testLengthSeconds: number,
-	testType: TestType,
-    includeNumbers: boolean,
-    includePunctuation: boolean,
-    reset: boolean,
+	reset: boolean,
 	setReset: React.Dispatch<React.SetStateAction<boolean>>,
 	inputRef: RefObject<HTMLInputElement>,
 	testRunning: boolean,
 	setTestRunning: React.Dispatch<React.SetStateAction<boolean>>,
-	testTimeMilliSeconds: number,
-	setTestTimeMilliSeconds: React.Dispatch<React.SetStateAction<number>>,
 	setTestCompletionPercentage: React.Dispatch<React.SetStateAction<number>>,
 	testComplete: boolean,
 	setTestComplete: React.Dispatch<React.SetStateAction<boolean>>,
@@ -57,18 +50,11 @@ export interface TypingTestProps {
 }
 
 const TypingTest = ({
-	testLengthWords,
-	testLengthSeconds,
-	testType,
-	includeNumbers,
-	includePunctuation,
 	reset,
 	setReset,
 	inputRef,
 	testRunning,
 	setTestRunning,
-	testTimeMilliSeconds,
-	setTestTimeMilliSeconds,
 	setTestCompletionPercentage,
 	testComplete,
 	setTestComplete,
@@ -83,8 +69,8 @@ const TypingTest = ({
 	setIsAfkMidTest,
 	caretVisible,
 	setCaretVisible}: TypingTestProps) => {
-	const {testInformation, setTestInformation, setShowResultsComponent} = useTestInformationContext()
-	;
+	const {testInformation, setTestInformation, setShowResultsComponent, testLengthWords, testLengthSeconds, testType, includeNumbers, includePunctuation} = useTestInformationContext();
+	const [testTimeMilliSeconds, setTestTimeMilliSeconds] = useState<number>(0);
 	const [currentInputWord, setCurrentInputWord] = useState<string>("");
 	const [inputWordsArray, setInputWordsArray] = useState<string[]>([]);
 	const [intervalId, setIntervalId] = useState<NodeJS.Timer|null>(null);	
