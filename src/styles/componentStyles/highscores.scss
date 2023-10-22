@@ -1,0 +1,18 @@
+@use "../_constants.scss";
+@use "../_variables.scss";
+@use "../_mixins.scss";
+
+
+
+.highscores-div {
+    margin-top: 1rem;
+
+    .highscores-table {
+        width: 100%;
+    }
+
+    .highscores-login-prompt {
+        text-align: center;
+    }
+
+}
