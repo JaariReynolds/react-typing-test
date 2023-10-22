@@ -9,15 +9,17 @@ export interface UserDocument {
 
 export interface TimedScoreDocument {
     username: string,
+    testType: string
     testLengthSeconds: number,
     wpm: number,
     accuracy: number,
     consistency: number,
-    submissionDate: Timestamp
+    submissionDate: Timestamp,
 }
 
 export interface WordCountScoreDocument {
     username: string,
+    testType: string,
     wordCount: number,
     testLengthSeconds: number,
     wpm: number,

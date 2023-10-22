@@ -22,6 +22,7 @@ const createTimedScoreDocument = async (username: string, scoreObject: TestInfor
 	const timedScoresCollectionRef = collection(database, "timedScores");
 	const newTimedScoreObject: TimedScoreDocument = {
 		username: username,
+		testType: scoreObject.testType.toString(),
 		testLengthSeconds: scoreObject.timeElapsedMilliSeconds / 1000,
 		wpm: scoreObject.averageWPM,
 		accuracy: scoreObject.accuracy,
@@ -42,6 +43,7 @@ const createWordCountScoreDocument = async (username: string, scoreObject: TestI
 	const wordCountScoresCollectionRef = collection(database, "wordCountScores");
 	const newWordCountScoreObject: WordCountScoreDocument = {
 		username: username,
+		testType: scoreObject.testType.toString(),
 		wordCount: scoreObject.words.length,
 		testLengthSeconds: scoreObject.timeElapsedMilliSeconds / 1000,
 		wpm: scoreObject.averageWPM,
