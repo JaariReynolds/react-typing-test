@@ -1,5 +1,4 @@
 import React from "react";
-import { Timestamp } from "firebase/firestore";
 import { useTestInformationContext } from "../../contexts/TestInformationContext";
 
 const HighScores = () => {
