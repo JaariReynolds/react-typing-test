@@ -46,17 +46,23 @@ const TestResults = ({resultsComponentOpacity, resultsComponentDisplay}: TestRes
 		setIsHeaderOpen(true);
 	};
 
+	const scoreSubmittedResponse = () => {
+		return (
+			<div className="score-submit-row"> 
+				{user ? 
+					<div>{isTestSubmitted ? "test submitted" : "submitting test..."} </div> 
+					:
+					<button className="login-prompt" onClick={handleOpenHeader}>login to submit score and view highscores</button>	
+				}
+			</div>
+		);
+	};
+
 	return (
 		<>	
 			{showResultsComponent &&
 			<div style={{opacity: resultsComponentOpacity, display: resultsComponentDisplay}} className="test-results-div">
-				<div className="score-submit-row"> 
-					{user ? 
-						<div>{isTestSubmitted ? "test submitted" : "submitting test..."} </div> 
-						:
-						<button className="login-prompt" onClick={handleOpenHeader}>login to submit score</button>	
-					}
-				</div>
+				{scoreSubmittedResponse()}
 				<WpmGraph /> 
 				<Statistics />
 				<HighScores /> 
