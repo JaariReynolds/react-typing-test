@@ -6,7 +6,7 @@ import { TestInformation } from "../interfaces/WordStructure";
 import { TestType } from "../enums";
 import { calculateAccuracy } from "../functions/calculations/calculateAccuracy";
 import { calculateConsistency } from "../functions/calculations/calculateConsistency";
-
+import { useUserContext } from "./UserContext";
 
 interface TestInformationContextProps {
     highScores: TimedScoreDocument[] | WordCountScoreDocument[],
@@ -78,6 +78,7 @@ export const useTestInformationContext = () => {
 };
 
 export const TestInformationProvider = ({children}: any) => {
+	const {user, userDocument} = useUserContext();
 	const [testInformation, setTestInformation] = useState<TestInformation>(testInformationInitialState);
 	const [testCompletionPercentage, setTestCompletionPercentage] = useState<number>(0);
 	const [isTestSubmitted, setIsTestSubmitted] = useState<boolean>(localStorage.getItem("isSubmitted") === "true");
@@ -91,6 +92,7 @@ export const TestInformationProvider = ({children}: any) => {
 	const [testType, setTestType] = useState<TestType>(localStorage.getItem("testType") as TestType ?? TestType.Words);
 	const [includePunctuation, setIncludePunctuation] = useState<boolean>(localStorage.getItem("testIncludePunctuation") === "true" ?? false);
 	const [includeNumbers, setIncludeNumbers] = useState<boolean>(localStorage.getItem("testIncludeNumbers") === "true" ?? false);
+	const [testOptionsChanged, setTestOptionsChanged] = useState<boolean>(false);
 	const highScoresTestLength = testType === TestType.Words ? testLengthWords : testLengthSeconds;
 
 	const fetchHighScores = async () => {
@@ -100,8 +102,56 @@ export const TestInformationProvider = ({children}: any) => {
 	useEffect(() => {
 		console.log("TestInformationContext mounted");
 		setIsTestSubmitted(localStorage.getItem("isSubmitted") === "true");
-		fetchHighScores();
 	}, []);
+
+	
+	useEffect(() => {
+		// if test options change, clear the currently fetched highscores - allows repopulation once a new score is submitted
+		setHighScores([]);
+		setTestOptionsChanged(true);
+	}, [testType, testLengthSeconds, testLengthWords, includeNumbers, includePunctuation, user]);
+
+
+	useEffect(() => {
+		if (!isTestSubmitted) return;
+
+		fetchHighScores();
+
+	}, [isTestSubmitted]);
+
+	// refetch highscore situations
+	const checkHighScoreRefetchSituations = () => {
+		// if no highscores previously fetched, refetch now (guaranteed at least 1 now)
+		if (highScores.length == 0) {
+			fetchHighScores();
+			return;
+		}
+		
+		// ALSO HAS MINOR FLAW - user can flick through test options before settling back on the exact same test options as before 
+		// if test options were changed previously, refetch 
+		if (testOptionsChanged) {
+			console.log("refetch because test optiosn were changed");
+			fetchHighScores();
+			setTestOptionsChanged(false);
+			return;
+		}
+
+		// // if testType OR testLength of current test is different to previously fetched highscores, refetch
+		// if (highScores[0].testType !== testInformation.testType || (highScores[0].testType == TestType.Time && highScores[0].testLengthSeconds !== testLengthSeconds) || (highScores[0].testType == TestType.Words && (highScores as WordCountScoreDocument[])[0].wordCount !== testLengthWords)) {
+		// 	fetchHighScores();
+		// 	return;
+		// }
+
+		// HAS FLAWS - doesnt take into consideration if the user already has a highscore
+		// if user has broken into the highscores, refetch		
+		const lowestHighScore = highScores[highScores.length - 1];
+		if (testInformation.averageWPM > lowestHighScore!.wpm) {
+			console.log("better score than previous worst, refetching high scores");
+			fetchHighScores();	
+			return;
+		}
+		
+	};
 
 	// once results screen shown, calculate final info for the TestInformation object
 	useEffect(() => {
