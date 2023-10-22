@@ -103,7 +103,6 @@ export const TestInformationProvider = ({children}: any) => {
 		console.log("TestInformationContext mounted");
 		setIsTestSubmitted(localStorage.getItem("isSubmitted") === "true");
 	}, []);
-
 	
 	useEffect(() => {
 		// if test options change, clear the currently fetched highscores - allows repopulation once a new score is submitted
@@ -117,7 +116,7 @@ export const TestInformationProvider = ({children}: any) => {
 
 		fetchHighScores();
 
-	}, [isTestSubmitted]);
+	}, [isTestSubmitted, user]);
 
 	// refetch highscore situations
 	const checkHighScoreRefetchSituations = () => {
