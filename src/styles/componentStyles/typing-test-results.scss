@@ -16,9 +16,12 @@
     .score-submit-row {
         text-align: center;
 
-        :hover {
-            @include mixins.transition-hover-button();
-            color: var(--primary-highlight-colour);
+        .login-prompt {
+            &:hover {
+                @include mixins.transition-hover-button();
+                color: var(--primary-highlight-colour);
+            }
+
         }
     }
 
