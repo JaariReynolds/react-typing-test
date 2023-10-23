@@ -11,15 +11,15 @@ const HighScores = () => {
 	const renderHighScores = () => {
 		if (user) {
 			return (
-				<table className="highscores-table">
+				<table>
 					<thead>
 						<tr>
 							<th>rank</th>
 							<th>username</th>
-							<th>wpm</th>
-							<th>accuracy</th>
-							<th>consistency</th>
-							<th>time</th>							
+							<th className="right-align">wpm</th>
+							<th className="right-align">accuracy</th>
+							<th className="right-align">consistency</th>
+							{/* <th>time</th>*/}
 						</tr>
 					</thead>
 					<tbody>
@@ -28,10 +28,10 @@ const HighScores = () => {
 								<tr key={index}>
 									<td>{index + 1}</td>
 									<td>{highscore.username}</td>
-									<td>{highscore.wpm}</td>
-									<td>{(highscore.accuracy * 100).toFixed(2)}%</td>
-									<td>{(highscore.consistency * 100).toFixed(2)}%</td>
-									<td>{highscore.testLengthSeconds}s</td>
+									<td className="right-align">{highscore.wpm}</td>
+									<td className="right-align">{(highscore.accuracy * 100).toFixed(2)}%</td>
+									<td className="right-align">{(highscore.consistency * 100).toFixed(2)}%</td>
+									{/* <td>{highscore.testLengthSeconds}s</td> */}
 								</tr>
 							);
 						})}

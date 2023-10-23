@@ -7,8 +7,27 @@
 .highscores-div {
     margin-top: 1rem;
 
-    .highscores-table {
+    table {
         width: 100%;
+        //border: 2px solid var(--primary-highlight-colour);
+
+
+        thead {
+            //border-bottom: 2px solid var(--primary-highlight-colour);
+        }
+
+        th,
+        td {
+            //border-right: 2px solid var(--primary-highlight-colour);
+            padding: 0.2rem 0.4rem;
+
+            &.right-align {
+                text-align: right;
+            }
+        }
+
+
+
     }
 
     .highscores-login-prompt {
