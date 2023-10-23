@@ -6,12 +6,12 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { isUsernameAvailable } from "../../firebase/GET/userGets";
 
 enum Tab {
-    Login = "login",
+    LogIn = "log in",
     SignUp = "sign up"
 }
 
 const LoginOrSignUp = () => {
-	const [activeTab, setActiveTab] = useState<Tab>(Tab.Login);
+	const [activeTab, setActiveTab] = useState<Tab>(Tab.LogIn);
 
 	const emailRef = useRef<HTMLInputElement>(null);
 	const passwordRef = useRef<HTMLInputElement>(null);
@@ -68,9 +68,9 @@ const LoginOrSignUp = () => {
 	};
 
 	return (
-		<div style={{height: activeTab === Tab.Login ? "15rem" : "22rem"}} className="account-container">
+		<div style={{height: activeTab === Tab.LogIn ? "15rem" : "22rem"}} className="account-container">
 			<div className="tab-container">
-				<button className={activeTab === Tab.Login ? "tab-selected" : ""} onClick={() => handleTabClick(Tab.Login)}>{Tab.Login.toString()}</button>
+				<button className={activeTab === Tab.LogIn ? "tab-selected" : ""} onClick={() => handleTabClick(Tab.LogIn)}>{Tab.LogIn.toString()}</button>
 				<button className={activeTab === Tab.SignUp ? "tab-selected" : ""} onClick={() => handleTabClick(Tab.SignUp)}>{Tab.SignUp.toString()}</button>
 			</div>
 
@@ -137,7 +137,7 @@ const LoginOrSignUp = () => {
 			</form>
 			}
             
-			{activeTab === Tab.Login && 
+			{activeTab === Tab.LogIn && 
             <form onSubmit={handleSignIn} className="form-container" noValidate>
             	<div className="form-field">
             		<label htmlFor="loginEmail">email</label>
@@ -169,7 +169,7 @@ const LoginOrSignUp = () => {
             	<div className="error-message">
             		{errorMessage}
             	</div>	
-            	<button className="submit-button" type="submit">{Tab.Login.toString()}</button>
+            	<button className="submit-button" type="submit">{Tab.LogIn.toString()}</button>
             </form>
 			}			
 		</div>
