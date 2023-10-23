@@ -60,14 +60,15 @@ const TestResults = ({resultsComponentOpacity, resultsComponentDisplay}: TestRes
 
 	return (
 		<>	
-			{showResultsComponent &&
+			
 			<div style={{opacity: resultsComponentOpacity, display: resultsComponentDisplay}} className="test-results-div">
 				{scoreSubmittedResponse()}
-				<WpmGraph /> 
+				{showResultsComponent && <WpmGraph />}
+				 
 				<Statistics />
 				<HighScores /> 
 			</div>
-			}
+			
 		</>		
 	);
 };
