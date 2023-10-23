@@ -23,7 +23,7 @@ const AccountDashboard = () => {
 			<div className="logout-button">
 				<button onClick={() => signOut()}>
 					<FontAwesomeIcon icon={faDoorOpen} className="icon"/>
-					logout
+					log out
 				</button>
 			</div>
 		</div>
