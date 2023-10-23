@@ -19,8 +19,8 @@ const Statistics = () => {
 				<span className="wpm-label">wpm</span>
 			</div>
 			<div className="grid-item">
-				<div className="score">{testInformation.errorCountHard}/{testInformation.errorCountSoft}</div>					
-				<div className="label">hard/soft errors</div>						
+				<div className="score">{testInformation.errorCountHard + testInformation.errorCountSoft}</div>					
+				<div className="label">errors</div>						
 			</div>		
 			<div className="grid-item">
 				<div className="score">{(testInformation.consistency * 100).toFixed(2)}%</div>					
