@@ -6,7 +6,7 @@ import WpmGraph from "./WpmGraph";
 import { createScoreDocument } from "../../firebase/POST/scorePosts";
 import { useUserContext } from "../../contexts/UserContext";
 import Statistics from "./Statistics";
-import HighScores from "./HighScores";
+import Leaderboard from "./Leaderboard";
 import { updateUserSummary } from "../../firebase/POST/userPosts";
 import { useTestInformationContext } from "../../contexts/TestInformationContext";
 
@@ -84,7 +84,7 @@ const TestResults = ({resultsComponentOpacity, resultsComponentDisplay}: TestRes
 
 				<div className="tabbed-content">
 					{activeTab === ResultsTab.Statistics && <Statistics />}
-					{activeTab === ResultsTab.Leaderboard && <HighScores /> }
+					{activeTab === ResultsTab.Leaderboard && <Leaderboard /> }
 				</div>
 				
 				

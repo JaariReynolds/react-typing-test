@@ -1,14 +1,14 @@
 import React from "react";
 import { useTestInformationContext } from "../../contexts/TestInformationContext";
 import { useUserContext } from "../../contexts/UserContext";
-import "../../styles/componentStyles/highscores.scss";
+import "../../styles/componentStyles/leaderboard.scss";
 
 
-const HighScores = () => {
+const Leaderboard = () => {
 	const {user} = useUserContext();
 	const {highScores} = useTestInformationContext();
 
-	const renderHighScores = () => {
+	const renderLeaderboard = () => {
 		if (user) {
 			return (
 				<table>
@@ -46,10 +46,10 @@ const HighScores = () => {
 	};
 
 	return (
-		<div className="highscores-div">
-			{renderHighScores()}
+		<div className="leaderboard-div">
+			{renderLeaderboard()}
 		</div>	
 	);
 };
 
-export default HighScores;
+export default Leaderboard;
