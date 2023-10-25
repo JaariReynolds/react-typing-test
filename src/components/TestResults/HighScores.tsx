@@ -19,7 +19,7 @@ const HighScores = () => {
 							<th className="right-align">wpm</th>
 							<th className="right-align">accuracy</th>
 							<th className="right-align">consistency</th>
-							{/* <th>time</th>*/}
+							<th className="right-align">submission date</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -31,12 +31,16 @@ const HighScores = () => {
 									<td className="right-align">{highscore.wpm}</td>
 									<td className="right-align">{(highscore.accuracy * 100).toFixed(2)}%</td>
 									<td className="right-align">{(highscore.consistency * 100).toFixed(2)}%</td>
-									{/* <td>{highscore.testLengthSeconds}s</td> */}
+									<td className="right-align">{highscore.submissionDate.toDate().toDateString()}</td>
 								</tr>
 							);
 						})}
 					</tbody>
 				</table>
+			);
+		} else {
+			return (
+				<div className="leaderboard-login-prompt">log in... or else... &#x1f44a;&#128064;</div>
 			);
 		}
 	};
