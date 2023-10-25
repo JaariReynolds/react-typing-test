@@ -44,18 +44,14 @@ const WpmGraph = () => {
 						tick={{fill: colourPalette.baseFontColour}}
 						dataKey="interval" 
 						height={40}
-						label={{
-							value: "Seconds", 
-							dy: 15,
-							fill: colourPalette.baseFontColour
-						}}
+						
 					/>
 					<YAxis 
 						tick={{fill:colourPalette.baseFontColour}} 
 						dataKey="rawWPM"
 						domain={[0, "dataMax + 10"]}
 						label={{
-							value: "Words per Minute", 
+							value: "words per minute", 
 							dx: -25, 
 							angle: -90,
 							fill: colourPalette.baseFontColour
