@@ -1,4 +1,5 @@
 import React from "react";
+import "../../styles/componentStyles/statistics.scss";
 import { useTestInformationContext } from "../../contexts/TestInformationContext";
 
 const Statistics = () => {
