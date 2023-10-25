@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-key */
 import "../../styles/componentStyles/typing-test-results.scss";
 
-import React, { useEffect, useRef} from "react";
+import React, { useEffect, useRef, useState} from "react";
 import WpmGraph from "./WpmGraph";
 import { createScoreDocument } from "../../firebase/POST/scorePosts";
 import { useUserContext } from "../../contexts/UserContext";
@@ -11,18 +11,27 @@ import { updateUserSummary } from "../../firebase/POST/userPosts";
 import { useTestInformationContext } from "../../contexts/TestInformationContext";
 
 export interface TestResultsProps {
-   
-	
 	resultsComponentOpacity: number,
 	resultsComponentDisplay: string
+}
+
+enum ResultsTab {
+	Statistics = "statistics",
+	Leaderboard = "leaderboard"
 }
 
 const TestResults = ({resultsComponentOpacity, resultsComponentDisplay}: TestResultsProps ) => {
 	const {user, userDocument, isHeaderOpen, setIsHeaderOpen} = useUserContext();
 	const {testInformation, showResultsComponent, isTestSubmitted, setIsTestSubmitted, isCalculationsComplete} = useTestInformationContext();
+	const [activeTab, setActiveTab] = useState<ResultsTab>(ResultsTab.Statistics);
 
 	const isHeaderOpenRef = useRef<boolean>();
 	isHeaderOpenRef.current = isHeaderOpen;
+
+	useEffect(() => {
+		if (showResultsComponent)
+			setActiveTab(ResultsTab.Statistics);
+	}, [showResultsComponent]);
 	
 	// submit score when test hasnt already been submitted, user is logged in, and all result calculations are done
 	useEffect(() => {
@@ -58,15 +67,28 @@ const TestResults = ({resultsComponentOpacity, resultsComponentDisplay}: TestRes
 		);
 	};
 
+	const handleTabClick = (tab: ResultsTab) => {
+		setActiveTab(tab);
+	};
+
 	return (
-		<>	
-			
+		<>				
 			<div style={{opacity: resultsComponentOpacity, display: resultsComponentDisplay}} className="test-results-div">
 				{scoreSubmittedResponse()}
 				{showResultsComponent && <WpmGraph />}
-				 
-				<Statistics />
-				<HighScores /> 
+				
+				<div className="tab-container">
+					<button className={activeTab === ResultsTab.Statistics ? "tab-selected first" : "first"} onClick={() => handleTabClick(ResultsTab.Statistics)}>{ResultsTab.Statistics.toString()}</button>
+					<button className={activeTab === ResultsTab.Leaderboard ? "tab-selected" : ""} onClick={() => handleTabClick(ResultsTab.Leaderboard)}>{ResultsTab.Leaderboard.toString()}</button>
+				</div>
+
+				<div className="tabbed-content">
+					{activeTab === ResultsTab.Statistics && <Statistics />}
+					{activeTab === ResultsTab.Leaderboard && <HighScores /> }
+				</div>
+				
+				
+				
 			</div>
 			
 		</>		
