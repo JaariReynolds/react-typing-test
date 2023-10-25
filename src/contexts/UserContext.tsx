@@ -4,12 +4,13 @@ import { auth } from "../firebase/firebase";
 import { User, onAuthStateChanged } from "firebase/auth";
 import UpdateCssVariablePaletteObject from "../components/HelperComponents/UpdateCssVariablePaletteObject";
 import { UserDocument } from "../firebase/firestoreDocumentInterfaces";
-import { getUserFromUserId } from "../firebase/GET/userGets";
+import { getUser } from "../firebase/GET/userGets";
 import { Timestamp } from "firebase/firestore";
 
 interface UserInfo {
     user: User | null,
-	userDocument: UserDocument | null
+	userDocument: UserDocument | null,
+	setUserDocument: (userDocument: UserDocument) => void,
 	selectedPaletteId: number,
 	setSelectedPaletteId: (id: number) => void,
 	isHeaderOpen: boolean,
@@ -28,6 +29,7 @@ export const UserContext = createContext<UserInfo|undefined>(
 	{
 		user: null,
 		userDocument: userDocumentInitialState,
+		setUserDocument: () => {},
 		selectedPaletteId: 0,
 		setSelectedPaletteId: () => {},
 		isHeaderOpen: false,
@@ -56,12 +58,12 @@ export const UserProvider = ({children}: any) => {
 		const unsubscribe = onAuthStateChanged(auth, (user) => {
 			if (user) {
 				try {
-					getUserFromUserId(user.uid)
+					getUser(user.uid)
 						.then(userData => {
-							setUserDocument(userData as UserDocument);
+							setUserDocument(userData);
 						});
 				} catch (error) {
-					console.log(error);
+					console.error(error);
 				}
 				setUser(user);
 			}
@@ -91,6 +93,7 @@ export const UserProvider = ({children}: any) => {
 	const value: UserInfo = {
 		user,
 		userDocument,
+		setUserDocument,
 		selectedPaletteId,
 		setSelectedPaletteId,
 		isHeaderOpen,
