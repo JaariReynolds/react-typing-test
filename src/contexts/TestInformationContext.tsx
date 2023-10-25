@@ -7,6 +7,7 @@ import { TestType } from "../enums";
 import { calculateAccuracy } from "../functions/calculations/calculateAccuracy";
 import { calculateConsistency } from "../functions/calculations/calculateConsistency";
 import { useUserContext } from "./UserContext";
+import { getUser } from "../firebase/GET/userGets";
 
 interface TestInformationContextProps {
     highScores: TimedScoreDocument[] | WordCountScoreDocument[],
@@ -78,7 +79,7 @@ export const useTestInformationContext = () => {
 };
 
 export const TestInformationProvider = ({children}: any) => {
-	const {user, userDocument} = useUserContext();
+	const {user, userDocument, setUserDocument} = useUserContext();
 	const [testInformation, setTestInformation] = useState<TestInformation>(testInformationInitialState);
 	const [testCompletionPercentage, setTestCompletionPercentage] = useState<number>(0);
 	const [isTestSubmitted, setIsTestSubmitted] = useState<boolean>(localStorage.getItem("isSubmitted") === "true");
@@ -99,6 +100,14 @@ export const TestInformationProvider = ({children}: any) => {
 		setHighScores(await getHighScores(testType, highScoresTestLength));		
 	};
 
+	const fetchUser = async (userId: string) => {
+		const userDoc = await getUser(userId);
+		if (!userDoc)
+			return;
+	
+		setUserDocument(userDoc);
+	};
+
 	useEffect(() => {
 		console.log("TestInformationContext mounted");
 		setIsTestSubmitted(localStorage.getItem("isSubmitted") === "true");
@@ -112,13 +121,15 @@ export const TestInformationProvider = ({children}: any) => {
 
 
 	useEffect(() => {
-		if (!isTestSubmitted) return;
+		if (!isTestSubmitted || !user) 
+			return;
 
 		fetchHighScores();
-
+		fetchUser(user.uid);
+			
 	}, [isTestSubmitted, user]);
 
-	// refetch highscore situations
+	// refetch highscore situations - may come back to at a later stage
 	const checkHighScoreRefetchSituations = () => {
 		// if no highscores previously fetched, refetch now (guaranteed at least 1 now)
 		if (highScores.length == 0) {
