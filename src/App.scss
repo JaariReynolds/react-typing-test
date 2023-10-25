@@ -64,6 +64,30 @@ body {
   user-select: none;
 }
 
+.tab-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+
+  .tab-selected {
+    color: var(--primary-highlight-colour);
+  }
+
+  button {
+    @include mixins.transition-hover-button();
+    font-weight: constants.$bold-font-weight;
+
+
+    &:hover {
+      color: var(--secondary-highlight-colour);
+
+    }
+  }
+
+}
+
+
+
 @keyframes fa-spin-custom {
   from {
     transform: rotate(0deg);
