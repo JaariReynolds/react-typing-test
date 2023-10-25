@@ -19,11 +19,10 @@
     border-bottom: 3px solid var(--base-font-colour);
     background-color: var(--background-colour);
     opacity: var(--component-opacity);
-
     transition: background-color 0.3s ease-in-out,
     opacity constants.$component-opacity-fade-duration ease-in-out,
     border-bottom 0.3s ease-in-out,
-    height .3s ease-out;
+    height 0.3s ease-in-out;
 
     .icon {
         margin-right: constants.$standard-icon-spacing;
