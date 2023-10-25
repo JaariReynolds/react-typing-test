@@ -2,12 +2,37 @@
 @use "../_variables.scss";
 @use "../_mixins.scss";
 
-.account-dashboard {
-    display: block;
-    position: absolute;
-
-    .logout-button {
-        position: relative;
-        top: 17.5rem;
+@media (max-width: 670px) {
+    .account-dashboard {
+        grid-template-columns: repeat(1, 1fr);
+        height: 46rem;
     }
+}
+
+@media (min-width: 671px) {
+    .account-dashboard {
+        grid-template-columns: repeat(2, 1fr);
+        height: 23rem;
+
+    }
+}
+
+.account-dashboard {
+    //border: 2px solid blue;
+    display: grid;
+
+
+    .secondary-summary {
+        display: grid;
+        outline: 2px solid green;
+
+        table {
+            border: 2px solid blue;
+            text-align: center;
+        }
+
+
+    }
+
+    .logout-button {}
 }
