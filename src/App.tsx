@@ -165,7 +165,7 @@ function App() {
 	useEffect(() => {
 		if (testComplete) { // show results, hide wpm, set opacity after delay
 			setResultsComponentDisplay("block");
-			setResetDivMargin("11rem");
+			setResetDivMargin("17rem");
 			setShowResultsComponent(true);
 			setWPMOpacity(0);
 
