@@ -21,8 +21,8 @@ import { TestType } from "../../enums";
 import { useTestInformationContext } from "../../contexts/TestInformationContext";
 
 const SPACEBAR = "Spacebar";
-const TIMED_TEST_LENGTH = 50; // starting length of test (in words) for a timed test
-const WORDS_TO_ADD = 15;
+const TIMED_TEST_LENGTH = 70; // starting length of test (in words) for a timed test
+const WORDS_TO_ADD = 20;
 const AVERAGE_WORD_LENGTH = 5; // standard length used to calculate WPM
 const AFK_SECONDS_THRESHOLD = 7;
 const EXCLUDED_FINAL_MILLISECONDS = 400;
