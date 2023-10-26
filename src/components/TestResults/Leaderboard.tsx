@@ -6,7 +6,7 @@ import "../../styles/componentStyles/leaderboard.scss";
 
 const Leaderboard = () => {
 	const {user} = useUserContext();
-	const {highScores} = useTestInformationContext();
+	const {leaderboard} = useTestInformationContext();
 
 	const renderLeaderboard = () => {
 		if (user) {
@@ -23,15 +23,15 @@ const Leaderboard = () => {
 						</tr>
 					</thead>
 					<tbody>
-						{highScores.map((highscore, index) => {
+						{leaderboard.map((score, index) => {
 							return (
 								<tr key={index}>
 									<td>{index + 1}</td>
-									<td>{highscore.username}</td>
-									<td className="right-align">{highscore.wpm}</td>
-									<td className="right-align">{(highscore.accuracy * 100).toFixed(2)}%</td>
-									<td className="right-align">{(highscore.consistency * 100).toFixed(2)}%</td>
-									<td className="right-align">{highscore.submissionDate.toDate().toDateString()}</td>
+									<td>{score.username}</td>
+									<td className="right-align">{score.wpm}</td>
+									<td className="right-align">{(score.accuracy * 100).toFixed(2)}%</td>
+									<td className="right-align">{(score.consistency * 100).toFixed(2)}%</td>
+									<td className="right-align">{score.submissionDate.toDate().toDateString()}</td>
 								</tr>
 							);
 						})}
