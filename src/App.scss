@@ -38,7 +38,6 @@ body {
     height: 100%;
     position: relative;
     margin-top: 8rem;
-    //filter: blur(2px);
   }
 
   .hidden-radio-button {
@@ -68,7 +67,6 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
 
-
   .tab-selected {
     color: var(--primary-highlight-colour);
   }
@@ -77,16 +75,22 @@ body {
     @include mixins.transition-hover-button();
     font-weight: constants.$bold-font-weight;
 
-
     &:hover {
       color: var(--secondary-highlight-colour);
-
     }
   }
-
 }
 
+::-webkit-scrollbar {
+  width: 0.7rem;
+}
 
+::-webkit-scrollbar-thumb {
+  background-color: var(--primary-highlight-colour);
+  padding: 1px;
+  border-radius: 0.25rem;
+  transition: background-color 0.3s ease-in-out;
+}
 
 @keyframes fa-spin-custom {
   from {
