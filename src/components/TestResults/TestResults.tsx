@@ -61,7 +61,7 @@ const TestResults = ({resultsComponentOpacity, resultsComponentDisplay}: TestRes
 				{user ? 
 					<div>{isTestSubmitted ? "test submitted" : "submitting test..."} </div> 
 					:
-					<button className="login-prompt" onClick={handleOpenHeader}>login to submit score and view highscores</button>	
+					<button className="login-prompt" onClick={handleOpenHeader}>login to submit score and view leaderboard</button>	
 				}
 			</div>
 		);

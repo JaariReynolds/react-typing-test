@@ -3,23 +3,23 @@ import { timedHighScoresCollectionRef, wordCountHighScoresCollectionRef } from "
 import { TimedScoreDocument, WordCountScoreDocument } from "../firestoreDocumentInterfaces";
 import { TestType } from "../../enums";
 
-// gets the top 10 highscores for the respective test type and test length
-export const getHighScores = async (testType: TestType, testLength: number): Promise<TimedScoreDocument[] | WordCountScoreDocument[]> => {
+export const getLeaderboard = async (testType: TestType, testLength: number): Promise<TimedScoreDocument[] | WordCountScoreDocument[]> => {
 	switch (testType) {
 	case TestType.Time:
-		return getHighScoresForTimedTest(testLength);
+		return getLeaderboardForTimedTest(testLength);
 	case TestType.Words:
-		return getHighScoresForWordCountTest(testLength);
+		return getLeaderboardForWordCountTest(testLength);
 	}
 };
 
-const getHighScoresForWordCountTest = async (wordCount: number) => {
+// gets the top 10 leaderboard for word count tests
+const getLeaderboardForWordCountTest = async (wordCount: number) => {
 	try {
-		const highScoresQuery = query(wordCountHighScoresCollectionRef, where("wordCount", "==", wordCount), orderBy("wpm", "desc"), limit(10));
-		const data = await getDocs(highScoresQuery);
+		const leaderboardQuery = query(wordCountHighScoresCollectionRef, where("wordCount", "==", wordCount), orderBy("wpm", "desc"), limit(10));
+		const data = await getDocs(leaderboardQuery);
 
 		if (data.empty)
-			throw new Error("unable to retrieve highscores");
+			throw new Error("unable to retrieve leaderboard");
 
 		const wordCountScoreDocumentArray: WordCountScoreDocument[] = [];
 		data.forEach((doc) => {
@@ -33,13 +33,14 @@ const getHighScoresForWordCountTest = async (wordCount: number) => {
 	}
 };
 
-const getHighScoresForTimedTest = async (testLengthSeconds: number) => {
+// gets the top 10 leaderboard for timed tests
+const getLeaderboardForTimedTest = async (testLengthSeconds: number) => {
 	try {
-		const highScoresQuery = query(timedHighScoresCollectionRef, where("testLengthSeconds", "==", testLengthSeconds), orderBy("wpm", "desc"), limit(10));
-		const data = await getDocs(highScoresQuery);
+		const leaderboardQuery = query(timedHighScoresCollectionRef, where("testLengthSeconds", "==", testLengthSeconds), orderBy("wpm", "desc"), limit(10));
+		const data = await getDocs(leaderboardQuery);
 
 		if (data.empty)
-			throw new Error("unable to retrieve highscores");
+			throw new Error("unable to retrieve leaderboard");
 
 		const timeScoreDocumentArray: TimedScoreDocument[] = [];
 		data.forEach((doc) => {
