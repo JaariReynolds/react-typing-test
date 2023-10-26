@@ -13,10 +13,15 @@ Monkeytype-inspired minimal typing test app created with React and Typescript. S
   * Smooth caret during the test
   * WPM graph and general typing test statistics on completion
   * Test words scroll to reveal more words as the test is progressed (mostly only noticeable on smaller screen widths)
+  * LocalStorage user preferences
+  * Login and leaderboard
 
 - Work in progress:
-  * Login and highscores (currently working on)
-  * LocalStorage user preferences
+  * User dashboard (working on)
+  * User friendly loading states for fetches, waiting periods
+  * Results screen statistics hover for additional information
+  * Firestore/firebase retries 
+  * Overall user rank calculation 
   * Punctuation option overhaul, currently feels too random/inconsistent
   * A few bugs 
   
