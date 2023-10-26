@@ -18,6 +18,8 @@
         text-align: center;
 
         .login-prompt {
+            z-index: 100;
+
             &:hover {
                 @include mixins.transition-hover-button();
                 color: var(--primary-highlight-colour);
@@ -35,15 +37,6 @@
         margin: auto;
         padding-top: 1rem;
         width: 90%;
-        border-bottom: 2px solid var(--primary-highlight-colour);
-
-        .tab-selected {
-            border-bottom: 4px solid var(--primary-highlight-colour);
-        }
-
-        .first {
-            border-right: 2px solid var(--primary-highlight-colour);
-        }
     }
 
     .tabbed-content {
