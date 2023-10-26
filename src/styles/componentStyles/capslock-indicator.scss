@@ -12,6 +12,7 @@
   font-size: constants.$base-font-size;
   cursor: default;
   transition: opacity 0.1s ease-in-out;
+  z-index: -1;
 
   .capslock-indicator-contents {
     align-items: center;
