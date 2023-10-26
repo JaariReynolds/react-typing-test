@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import React, { useContext, useState, useEffect, createContext } from "react";
 import { TimedScoreDocument, WordCountScoreDocument } from "../firebase/firestoreDocumentInterfaces";
-import { getHighScores } from "../firebase/GET/scoreGets";
+import { getLeaderboard as getLeaderboard } from "../firebase/GET/scoreGets";
 import { TestInformation } from "../interfaces/WordStructure";
 import { TestType } from "../enums";
 import { calculateAccuracy } from "../functions/calculations/calculateAccuracy";
@@ -10,7 +10,7 @@ import { useUserContext } from "./UserContext";
 import { getUser } from "../firebase/GET/userGets";
 
 interface TestInformationContextProps {
-    highScores: TimedScoreDocument[] | WordCountScoreDocument[],
+    leaderboard: TimedScoreDocument[] | WordCountScoreDocument[],
     isTestSubmitted: boolean,
 	setIsTestSubmitted: (bool: boolean) => void,
 	testInformation: TestInformation,
@@ -48,7 +48,7 @@ const testInformationInitialState: TestInformation = {
 };
 
 export const TestInformationContext = createContext<TestInformationContextProps|undefined>({
-	highScores: [],
+	leaderboard: [],
 	isTestSubmitted: false,
 	setIsTestSubmitted: () => {},
 	testInformation: testInformationInitialState,
@@ -86,7 +86,7 @@ export const TestInformationProvider = ({children}: any) => {
 	const [isCalculationsComplete, setIsCalculationsComplete] = useState<boolean>(false);
 	const [showResultsComponent, setShowResultsComponent] = useState<boolean>(false);
 
-	const [highScores, setHighScores] = useState<TimedScoreDocument[] | WordCountScoreDocument[]>([]);
+	const [leaderboard, setLeaderboard] = useState<TimedScoreDocument[] | WordCountScoreDocument[]>([]);
 
 	const [testLengthWords, setTestLengthWords] = useState<number>(parseInt( localStorage.getItem("testLengthWords") ?? "25"));
 	const [testLengthSeconds, setTestLengthSeconds] = useState<number>(parseInt( localStorage.getItem("testLengthSeconds") ?? "30"));
@@ -94,10 +94,10 @@ export const TestInformationProvider = ({children}: any) => {
 	const [includePunctuation, setIncludePunctuation] = useState<boolean>(localStorage.getItem("testIncludePunctuation") === "true" ?? false);
 	const [includeNumbers, setIncludeNumbers] = useState<boolean>(localStorage.getItem("testIncludeNumbers") === "true" ?? false);
 	const [testOptionsChanged, setTestOptionsChanged] = useState<boolean>(false);
-	const highScoresTestLength = testType === TestType.Words ? testLengthWords : testLengthSeconds;
+	const leaderboardTestLength = testType === TestType.Words ? testLengthWords : testLengthSeconds;
 
-	const fetchHighScores = async () => {
-		setHighScores(await getHighScores(testType, highScoresTestLength));		
+	const fetchLeaderboard = async () => {
+		setLeaderboard(await getLeaderboard(testType, leaderboardTestLength));		
 	};
 
 	const fetchUser = async (userId: string) => {
@@ -114,8 +114,8 @@ export const TestInformationProvider = ({children}: any) => {
 	}, []);
 	
 	useEffect(() => {
-		// if test options change, clear the currently fetched highscores - allows repopulation once a new score is submitted
-		setHighScores([]);
+		// if test options change, clear the currently fetched leaderboard - allows repopulation once a new score is submitted
+		setLeaderboard([]);
 		setTestOptionsChanged(true);
 	}, [testType, testLengthSeconds, testLengthWords, includeNumbers, includePunctuation, user]);
 
@@ -124,16 +124,16 @@ export const TestInformationProvider = ({children}: any) => {
 		if (!isTestSubmitted || !user) 
 			return;
 
-		fetchHighScores();
+		fetchLeaderboard();
 		fetchUser(user.uid);
 			
 	}, [isTestSubmitted, user]);
 
-	// refetch highscore situations - may come back to at a later stage
+	// refetch leaderboard situations - may come back to at a later stage
 	const checkHighScoreRefetchSituations = () => {
 		// if no highscores previously fetched, refetch now (guaranteed at least 1 now)
-		if (highScores.length == 0) {
-			fetchHighScores();
+		if (leaderboard.length == 0) {
+			fetchLeaderboard();
 			return;
 		}
 		
@@ -141,7 +141,7 @@ export const TestInformationProvider = ({children}: any) => {
 		// if test options were changed previously, refetch 
 		if (testOptionsChanged) {
 			console.log("refetch because test optiosn were changed");
-			fetchHighScores();
+			fetchLeaderboard();
 			setTestOptionsChanged(false);
 			return;
 		}
@@ -154,10 +154,10 @@ export const TestInformationProvider = ({children}: any) => {
 
 		// HAS FLAWS - doesnt take into consideration if the user already has a highscore
 		// if user has broken into the highscores, refetch		
-		const lowestHighScore = highScores[highScores.length - 1];
+		const lowestHighScore = leaderboard[leaderboard.length - 1];
 		if (testInformation.averageWPM > lowestHighScore!.wpm) {
 			console.log("better score than previous worst, refetching high scores");
-			fetchHighScores();	
+			fetchLeaderboard();	
 			return;
 		}
 		
@@ -188,7 +188,7 @@ export const TestInformationProvider = ({children}: any) => {
 	}, [showResultsComponent]);
 
 	const value: TestInformationContextProps = {
-		highScores,
+		leaderboard,
 		isTestSubmitted,
 		setIsTestSubmitted,
 		testInformation, 
