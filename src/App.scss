@@ -66,10 +66,17 @@ body {
 .tab-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  border-bottom: 2px solid var(--primary-highlight-colour);
+
 
   .tab-selected {
     color: var(--primary-highlight-colour);
+    border-bottom: 4px solid var(--primary-highlight-colour);
   }
+
+  // .first {
+  //   border-right: 2px solid var(--primary-highlight-colour);
+  // }
 
   button {
     @include mixins.transition-hover-button();
