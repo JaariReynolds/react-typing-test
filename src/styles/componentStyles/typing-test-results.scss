@@ -8,7 +8,7 @@
     transition-duration: constants.$component-opacity-fade-duration;
     max-width: 100%;
     font-size: constants.$base-font-size;
-    margin-top: -3rem;
+    margin-top: -4rem;
 
     & * {
         @include mixins.general-color-transition();
@@ -33,8 +33,8 @@
 
     .tab-container {
         margin: auto;
-        padding-top: 2rem;
-        width: 80%;
+        padding-top: 1rem;
+        width: 90%;
         border-bottom: 2px solid var(--primary-highlight-colour);
 
         .tab-selected {
@@ -47,7 +47,7 @@
     }
 
     .tabbed-content {
-        width: 80%;
+        width: 90%;
         margin: auto;
     }
 }

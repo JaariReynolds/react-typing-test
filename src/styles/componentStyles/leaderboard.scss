@@ -6,6 +6,12 @@
 
 .leaderboard-div {
     margin-top: 1rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    max-height: 20rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-gutter: stable both-edges;
 
     table {
         width: 100%;
@@ -16,7 +22,7 @@
 
         th,
         td {
-            padding: 0.2rem 0.4rem;
+            padding: 0.1rem 0.4rem;
 
             &.right-align {
                 text-align: right;
