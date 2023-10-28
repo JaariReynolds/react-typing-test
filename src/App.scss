@@ -71,12 +71,7 @@ body {
 
   .tab-selected {
     color: var(--primary-highlight-colour);
-    border-bottom: 4px solid var(--primary-highlight-colour);
   }
-
-  // .first {
-  //   border-right: 2px solid var(--primary-highlight-colour);
-  // }
 
   button {
     @include mixins.transition-hover-button();
@@ -85,6 +80,15 @@ body {
     &:hover {
       color: var(--secondary-highlight-colour);
     }
+  }
+
+  .tab-selected-underline {
+    grid-column: span 2;
+    z-index: -1;
+    height: 4px;
+    width: 50%;
+    background-color: var(--primary-highlight-colour);
+    transition: transform 0.15s ease-in-out;
   }
 }
 

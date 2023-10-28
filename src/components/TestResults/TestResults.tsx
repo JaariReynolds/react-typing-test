@@ -75,20 +75,16 @@ const TestResults = ({resultsComponentOpacity, resultsComponentDisplay}: TestRes
 		<>				
 			<div style={{opacity: resultsComponentOpacity, display: resultsComponentDisplay}} className="test-results-div">
 				{scoreSubmittedResponse()}
-				{showResultsComponent && <WpmGraph />}
-				
+				{showResultsComponent && <WpmGraph />}			
 				<div className="tab-container">
-					<button className={activeTab === ResultsTab.Statistics ? "tab-selected first" : "first"} onClick={() => handleTabClick(ResultsTab.Statistics)}>{ResultsTab.Statistics.toString()}</button>
+					<button className={activeTab === ResultsTab.Statistics ? "tab-selected" : ""} onClick={() => handleTabClick(ResultsTab.Statistics)}>{ResultsTab.Statistics.toString()}</button>
 					<button className={activeTab === ResultsTab.Leaderboard ? "tab-selected" : ""} onClick={() => handleTabClick(ResultsTab.Leaderboard)}>{ResultsTab.Leaderboard.toString()}</button>
+					<div className="tab-selected-underline" style={{transform: activeTab === ResultsTab.Statistics ? "translateX(0%)" : "translateX(100%)"}}></div>
 				</div>
-
 				<div className="tabbed-content">
 					{activeTab === ResultsTab.Statistics && <Statistics />}
 					{activeTab === ResultsTab.Leaderboard && <Leaderboard /> }
-				</div>
-				
-				
-				
+				</div>			
 			</div>
 			
 		</>		
