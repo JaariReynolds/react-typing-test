@@ -6,24 +6,23 @@ import { useUserContext } from "../../contexts/UserContext";
 import "../../styles/componentStyles/account-dashboard.scss";
 import { TestType } from "../../enums";
 import { TestSummary } from "../../firebase/firestoreDocumentInterfaces";
+import MainSumary from "./MainSummary";
+import SecondarySummary from "./SecondarySummary";
+
+enum AccountTab {
+	Main = "overview",
+	Secondary = "test averages"
+}
 
 const AccountDashboard = () => {
 	const {userDocument} = useUserContext();
 	const [sortedSummaries, setSortedSummaries] = useState<TestSummary[]>([]);
+	const [activeTab, setActiveTab] = useState<AccountTab>(AccountTab.Main);
 
-	//#region test summary constants - might use this instead in the future, keeping for now 
-	const words10 = userDocument?.testSummaries.find(summary => summary.testType == TestType.Words && summary.testLength == 10);
-	const words25 = userDocument?.testSummaries.find(summary => summary.testType == TestType.Words && summary.testLength == 25);
-	const words50 = userDocument?.testSummaries.find(summary => summary.testType == TestType.Words && summary.testLength == 50);
-	const words75 = userDocument?.testSummaries.find(summary => summary.testType == TestType.Words && summary.testLength == 75);
-	const words100 = userDocument?.testSummaries.find(summary => summary.testType == TestType.Words && summary.testLength == 100);
-
-	const timed15 = userDocument?.testSummaries.find(summary => summary.testType == TestType.Time && summary.testLength == 15);
-	const timed30 = userDocument?.testSummaries.find(summary => summary.testType == TestType.Time && summary.testLength == 30);
-	const timed45 = userDocument?.testSummaries.find(summary => summary.testType == TestType.Time && summary.testLength == 45);
-	const timed60 = userDocument?.testSummaries.find(summary => summary.testType == TestType.Time && summary.testLength == 60);
-	const timed120 = userDocument?.testSummaries.find(summary => summary.testType == TestType.Time && summary.testLength == 120);
-	//#endregion
+	useEffect(() => {
+		if (userDocument)
+			setSortedSummaries(sortSummaries(userDocument!.testSummaries));
+	}, [userDocument]);
 
 	const sortSummaries = (unsortedSummaries: TestSummary[] | undefined): TestSummary[] => {
 		if (typeof unsortedSummaries === "undefined") {
@@ -45,50 +44,42 @@ const AccountDashboard = () => {
 			});
 	};
 
-	useEffect(() => {
-		if (userDocument)
-			setSortedSummaries(sortSummaries(userDocument!.testSummaries));
-	}, [userDocument]);
+	const handleTabClick = (tab: AccountTab) => {
+		setActiveTab(tab);
+	};
+
 
 	// already assumes there is a user logged in 
 	return (
 		<div className="account-dashboard">		
-			<div className="main-summary">
-				main
-				<button onClick={() => signOut()}>
-					<FontAwesomeIcon icon={faDoorOpen} className="icon"/>
+			<div className="tab-container">
+				<div className="tab-selector">
+					<button 
+						className={activeTab === AccountTab.Main ? "tab-selected" : ""} 
+						onClick={() => handleTabClick(AccountTab.Main)}>
+						{AccountTab.Main.toString()}
+					</button>
+					<button 
+						className={activeTab === AccountTab.Secondary ? "tab-selected" : ""} 
+						onClick={() => handleTabClick(AccountTab.Secondary)}>
+						{AccountTab.Secondary.toString()}
+					</button>
+					<div 
+						className="tab-selected-underline" 
+						style={{transform: activeTab === AccountTab.Main ? "translateX(0%)" : "translateX(100%)"}}>
+					</div>
+				</div>
+
+				<div className="tabbed-content">
+					{activeTab === AccountTab.Main && <MainSumary />}
+					{activeTab === AccountTab.Secondary && <SecondarySummary />}
+				</div>
+			</div>
+
+			<button onClick={() => signOut()}>
+				<FontAwesomeIcon icon={faDoorOpen} className="icon"/>
 						log out
-				</button>
-				
-			</div>
-			<div className="secondary-summary">
-				<table>
-					<thead>
-						<tr>				
-							<td></td>
-							<td>wpm</td>
-							<td>highest wpm</td>
-							<td>accuracy</td>
-							<td>consistency</td>
-							<td>submissions</td>
-						</tr>
-					</thead>
-					<tbody>
-						{sortedSummaries.map((summary, index) => {
-							return (
-								<tr key={index}>
-									<td>{summary.testType} {summary.testLength}</td>
-									<td>{summary.averageWpm.toFixed(0)}</td>
-									<td>{summary.highestWpm}</td>
-									<td>{(summary.averageAccuracy * 100).toFixed(2)}%</td>
-									<td>{(summary.averageConsistency * 100).toFixed(2)}%</td>
-									<td>{summary.submissionCount}</td>
-								</tr>
-							);
-						})}
-					</tbody> 
-				</table>
-			</div>
+			</button>					
 		</div>
 	);
 };

@@ -18,21 +18,24 @@
 }
 
 .account-dashboard {
-    //border: 2px solid blue;
-    display: grid;
 
 
-    .secondary-summary {
-        display: grid;
-        outline: 2px solid green;
-
-        table {
-            border: 2px solid blue;
-            text-align: center;
-        }
-
+    .tab-container {
+        width: 70%;
+        margin: auto;
 
     }
 
-    .logout-button {}
+    .tab-selector {
+        margin: -0.5rem auto 0;
+        max-width: 120rem;
+        //width: 80%;
+
+    }
+
+    .tabbed-content {
+        padding-top: 1rem;
+        height: 22.5rem;
+
+    }
 }
