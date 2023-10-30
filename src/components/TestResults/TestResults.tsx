@@ -76,7 +76,7 @@ const TestResults = ({resultsComponentOpacity, resultsComponentDisplay}: TestRes
 			<div style={{opacity: resultsComponentOpacity, display: resultsComponentDisplay}} className="test-results-div">
 				{scoreSubmittedResponse()}
 				{showResultsComponent && <WpmGraph />}			
-				<div className="tab-container">
+				<div className="tab-selector">
 					<button className={activeTab === ResultsTab.Statistics ? "tab-selected" : ""} onClick={() => handleTabClick(ResultsTab.Statistics)}>{ResultsTab.Statistics.toString()}</button>
 					<button className={activeTab === ResultsTab.Leaderboard ? "tab-selected" : ""} onClick={() => handleTabClick(ResultsTab.Leaderboard)}>{ResultsTab.Leaderboard.toString()}</button>
 					<div className="tab-selected-underline" style={{transform: activeTab === ResultsTab.Statistics ? "translateX(0%)" : "translateX(100%)"}}></div>

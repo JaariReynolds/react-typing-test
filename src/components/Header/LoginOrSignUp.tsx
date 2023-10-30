@@ -69,7 +69,7 @@ const LoginOrSignUp = () => {
 
 	return (
 		<div style={{height: activeTab === Tab.LogIn ? "15.5rem" : "22.5rem"}} className="account-container">
-			<div className="tab-container">
+			<div className="tab-selector">
 				<button className={activeTab === Tab.LogIn ? "tab-selected" : ""} onClick={() => handleTabClick(Tab.LogIn)}>{Tab.LogIn.toString()}</button>
 				<button className={activeTab === Tab.SignUp ? "tab-selected" : ""} onClick={() => handleTabClick(Tab.SignUp)}>{Tab.SignUp.toString()}</button>
 				<div className="tab-selected-underline" style={{transform: activeTab === Tab.LogIn ? "translateX(0%)" : "translateX(100%)"}}></div>
