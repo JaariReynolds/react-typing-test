@@ -1,0 +1,79 @@
+@use "../_constants.scss";
+@use "../_variables.scss";
+@use "../_mixins.scss";
+
+.secondary-summary-div {
+    .overflow-table {
+        overflow-x: scroll;
+
+        table {
+            width: 100%;
+            table-layout: fixed;
+            min-width: 800px;
+            //max-width: 1500px;
+            margin: auto;
+            border-collapse: separate;
+            border-spacing: 0;
+
+            .right-align {
+                text-align: right;
+            }
+
+            .sticky {
+                position: -webkit-sticky;
+                position: sticky;
+                background-color: var(--background-colour);
+
+                &.first-column {
+                    left: -0.1rem;
+                    //border: 2px solid blue;
+                }
+
+                &.second-column {
+                    left: 6rem;
+                    border-right: 1px solid black;
+                }
+            }
+
+            thead {
+                //font-size: 1.5rem;
+                ///border-bottom: 2px solid black;
+            }
+
+            tbody {
+                tr:first-child td {
+                    padding-top: 0.5rem;
+                }
+
+                tr:last-child td {
+                    padding-bottom: 0.5rem;
+                }
+
+                tr:nth-child(5) td {
+                    padding-bottom: 0.5rem;
+
+                }
+
+                tr:nth-child(6) td {
+                    padding-top: 0.5rem;
+                }
+
+            }
+
+            .test-type-label {
+                font-size: 1.5rem;
+                text-align: center;
+            }
+
+            th,
+            td {
+                //padding: 0.1rem 0.5rem;
+                //border: 1px solid black;
+            }
+
+            td {
+                border-bottom: 1px solid black;
+            }
+        }
+    }
+}
