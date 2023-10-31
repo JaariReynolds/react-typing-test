@@ -1,5 +1,5 @@
 import React from "react";
-import "../../styles/componentStyles/main-summary.scss";
+import "./main-summary.scss";
 
 const MainSumary = () => {
 	return (

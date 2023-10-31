@@ -3,7 +3,7 @@ import { signOut, updateDisplayName } from "../../firebase/accountFunctions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDoorOpen } from "@fortawesome/free-solid-svg-icons";
 import { useUserContext } from "../../contexts/UserContext";
-import "../../styles/componentStyles/account-dashboard.scss";
+import "./account-dashboard.scss";
 import { TestType } from "../../enums";
 import { TestSummary } from "../../firebase/firestoreDocumentInterfaces";
 import MainSumary from "./MainSummary";

@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import "../../styles/componentStyles/login-or-sign-up.scss";
+import "./login-or-sign-up.scss";
 import {signUp, signIn} from "../../firebase/accountFunctions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
