@@ -1,14 +1,12 @@
 import React from "react";
 import { useTestInformationContext } from "../../contexts/TestInformationContext";
 import { useUserContext } from "../../contexts/UserContext";
-import "../../styles/componentStyles/leaderboard.scss";
+import "./leaderboard.scss";
 
 
 const Leaderboard = () => {
 	const {user} = useUserContext();
 	const {leaderboard} = useTestInformationContext();
-
-	
 
 	const renderLeaderboard = () => {
 		if (user && leaderboard) {
