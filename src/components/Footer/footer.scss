@@ -1,6 +1,5 @@
-@use "../_constants.scss";
-@use "../_variables.scss";
-@use "../_mixins.scss";
+@use "../../styles/mixins";
+@use "../../styles/constants";
 
 .footer {
     box-shadow: 0 0 12px black;
@@ -35,10 +34,7 @@
         }
     }
 
-
-
     .icon {
         margin-right: constants.$standard-icon-spacing;
     }
-
 }
