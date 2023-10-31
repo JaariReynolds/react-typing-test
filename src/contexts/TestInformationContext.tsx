@@ -122,49 +122,14 @@ export const TestInformationProvider = ({children}: any) => {
 		setTestOptionsChanged(true);
 	}, [testType, testLengthSeconds, testLengthWords, includeNumbers, includePunctuation, user]);
 
-
 	useEffect(() => {
 		if (!isTestSubmitted || !user) 
 			return;
 
-		//fetchLeaderboard();
+		fetchLeaderboard();
 		fetchUser(user.uid);
 			
 	}, [isTestSubmitted, user]);
-
-	// refetch leaderboard situations - may come back to at a later stage
-	const checkHighScoreRefetchSituations = () => {
-		// if no highscores previously fetched, refetch now (guaranteed at least 1 now)
-		if (leaderboard.length == 0) {
-			fetchLeaderboard();
-			return;
-		}
-		
-		// ALSO HAS MINOR FLAW - user can flick through test options before settling back on the exact same test options as before 
-		// if test options were changed previously, refetch 
-		if (testOptionsChanged) {
-			console.log("refetch because test optiosn were changed");
-			fetchLeaderboard();
-			setTestOptionsChanged(false);
-			return;
-		}
-
-		// // if testType OR testLength of current test is different to previously fetched highscores, refetch
-		// if (highScores[0].testType !== testInformation.testType || (highScores[0].testType == TestType.Time && highScores[0].testLengthSeconds !== testLengthSeconds) || (highScores[0].testType == TestType.Words && (highScores as WordCountScoreDocument[])[0].wordCount !== testLengthWords)) {
-		// 	fetchHighScores();
-		// 	return;
-		// }
-
-		// HAS FLAWS - doesnt take into consideration if the user already has a highscore
-		// if user has broken into the highscores, refetch		
-		const lowestHighScore = leaderboard[leaderboard.length - 1];
-		if (testInformation.averageWPM > lowestHighScore!.wpm) {
-			console.log("better score than previous worst, refetching high scores");
-			fetchLeaderboard();	
-			return;
-		}
-		
-	};
 
 	// once results screen shown, calculate final info for the TestInformation object
 	useEffect(() => {
