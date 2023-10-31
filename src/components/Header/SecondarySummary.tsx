@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-key */
 import React from "react";
-import "../../styles/componentStyles/secondary-summary.scss";
+import "./secondary-summary.scss";
 import { useUserContext } from "../../contexts/UserContext";
 import { TestType } from "../../enums";
 

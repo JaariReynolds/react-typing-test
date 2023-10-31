@@ -1,6 +1,5 @@
-@use "../_constants.scss";
-@use "../_variables.scss";
-@use "../_mixins.scss";
+@use "../../styles/mixins";
+@use "../../styles/constants";
 
 .account-container {
     margin-left: auto;

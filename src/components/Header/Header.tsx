@@ -1,5 +1,5 @@
 import React from "react";
-import "../../styles/componentStyles/header.scss";
+import "./header.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import LoginOrSignUp from "./LoginOrSignUp";
@@ -8,7 +8,6 @@ import { useUserContext } from "../../contexts/UserContext";
 
 export interface HeaderProps {
     headerRef: React.RefObject<HTMLDivElement>
-   
 }
 
 const Header = ({headerRef}: HeaderProps) => {
