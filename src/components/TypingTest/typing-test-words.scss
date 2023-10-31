@@ -1,0 +1,55 @@
+@use "../../styles/mixins";
+@use "../../styles/constants";
+
+
+.words-container {
+    @include mixins.transition-words();
+    display: flex;
+    flex-wrap: wrap;
+    max-height: var(--test-words-max-height);
+    font-size: 2rem; // 'scroll transition' amount is dependent on the text properties in this class
+    line-height: constants.$word-line-height;
+    position: absolute;
+
+    .caret {
+        transition-property: left, top, background-color;
+        transition-timing-function: linear, linear, ease-in-out;
+        transition-duration: 0.125s, 0.125s, 0.3s;
+        background-color: var(--primary-highlight-colour);
+        border-radius: 0.25rem;
+        width: .2rem;
+        position: absolute;
+        height: constants.$word-line-height; // should always match line height of words ^
+
+        &.awaiting-input {
+            animation: blinking-caret 1.2s linear infinite;
+        }
+    }
+
+    .word {
+        margin-right: 1.25rem;
+
+        &.last-word-in-line {
+            text-decoration: underline;
+        }
+
+        .letter {
+            @include mixins.transition-text-color();
+            transition-duration: constants.$letter-colour-transition-duration;
+            border-left: 3px solid transparent;
+
+            // if these are changed, need to update letterColour() in TypingTest.tsx
+            &.base-text-colour {
+                color: var(--base-font-colour);
+            }
+
+            &.correct-text-colour {
+                color: var(--secondary-highlight-colour);
+            }
+
+            &.incorrect-text-colour {
+                color: constants.$incorrect-font-colour;
+            }
+        }
+    }
+}

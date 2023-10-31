@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable react/jsx-key */
 /* eslint-disable linebreak-style */
-import "../../styles/componentStyles/typing-test.scss";
+import "./typing-test.scss";
 
 import React, { useEffect, useState, useRef, RefObject } from "react"; 
 import { testWordsGenerator } from "../../functions/wordGeneration/testWordsGenerators";

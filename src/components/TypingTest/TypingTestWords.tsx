@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-key */
+import "./typing-test-words.scss";
 import React, { useEffect, useRef, useState } from "react";
-import { TestInformation, CompletionStatus, Word } from "../../interfaces/WordStructure";
+import { CompletionStatus, Word } from "../../interfaces/WordStructure";
 import { calculateTestWordsDivOffset } from "../../functions/calculations/calculateTestWordsDivOffset";
 import UpdateCssVariable from "../HelperComponents/UpdateCssVariable";
 import { useTestInformationContext } from "../../contexts/TestInformationContext";
@@ -259,21 +260,8 @@ export const TypingTestWords = ({testRunning, testComplete, testFocused, inputWo
 		return "";
 	};
 
-	
-
 	return (
-		<>
-			{/* <div className="debug">
-				<div>
-					current caret width: {caretPosition}
-				</div>
-				<div>
-					current caret line is : {currentCaretLine}
-				</div>
-				<div>
-					comparing to width of: {actualLineWidths[currentCaretLine]}
-				</div>
-			</div> */}
+		<>			
 			<div style={wordsContainerStyling} ref={testWordsDivRef} className="words-container">
 				<div style={caretStyling} className={`caret ${blinkingCaret()}`}></div>
 				{testInformation.words.map((word, wordIndex) => {
@@ -297,5 +285,3 @@ export const TypingTestWords = ({testRunning, testComplete, testFocused, inputWo
 		</>		
 	);
 };
-
-//${blinkingCaret(letter)} ${letterActive(letter.active)}

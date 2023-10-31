@@ -1,4 +1,5 @@
 import React from "react";
+import "./typing-test-input.scss";
 
 export interface TypingTestInputProps {
     inputRef: React.RefObject<HTMLInputElement>,
