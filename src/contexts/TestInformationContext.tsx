@@ -11,6 +11,7 @@ import { getUser } from "../firebase/GET/userGets";
 
 interface TestInformationContextProps {
     leaderboard: TimedScoreDocument[] | WordCountScoreDocument[],
+	fetchLeaderboard: () => void,
     isTestSubmitted: boolean,
 	setIsTestSubmitted: (bool: boolean) => void,
 	testInformation: TestInformation,
@@ -49,6 +50,7 @@ const testInformationInitialState: TestInformation = {
 
 export const TestInformationContext = createContext<TestInformationContextProps|undefined>({
 	leaderboard: [],
+	fetchLeaderboard: () => {},
 	isTestSubmitted: false,
 	setIsTestSubmitted: () => {},
 	testInformation: testInformationInitialState,
@@ -97,6 +99,7 @@ export const TestInformationProvider = ({children}: any) => {
 	const leaderboardTestLength = testType === TestType.Words ? testLengthWords : testLengthSeconds;
 
 	const fetchLeaderboard = async () => {
+		console.log("leaderboard fetched");
 		setLeaderboard(await getLeaderboard(testType, leaderboardTestLength));		
 	};
 
@@ -124,7 +127,7 @@ export const TestInformationProvider = ({children}: any) => {
 		if (!isTestSubmitted || !user) 
 			return;
 
-		fetchLeaderboard();
+		//fetchLeaderboard();
 		fetchUser(user.uid);
 			
 	}, [isTestSubmitted, user]);
@@ -189,6 +192,7 @@ export const TestInformationProvider = ({children}: any) => {
 
 	const value: TestInformationContextProps = {
 		leaderboard,
+		fetchLeaderboard,
 		isTestSubmitted,
 		setIsTestSubmitted,
 		testInformation, 
