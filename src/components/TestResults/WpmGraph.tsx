@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
-import { ColourPaletteStructure, colourPalettes } from "../../interfaces/ColourPalettes";
+import { colourPalettes } from "../../interfaces/ColourPalettes";
 import { useTestInformationContext } from "../../contexts/TestInformationContext";
 import { useUserContext } from "../../contexts/UserContext";
-
+import "./wpm-graph.scss";
 
 interface DataPoint {
 	interval: number,
@@ -15,7 +15,6 @@ const WpmGraph = () => {
 	const {testInformation} = useTestInformationContext();
 	const {selectedPaletteId} = useUserContext();
 	const [graphData, setGraphData] = useState<DataPoint[]>([]);
-
 	const colourPalette = colourPalettes[selectedPaletteId];
 
 	useEffect(() => {		

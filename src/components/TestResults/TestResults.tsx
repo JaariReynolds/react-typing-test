@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-key */
-import "../../styles/componentStyles/typing-test-results.scss";
+import "./test-results.scss";
 
 import React, { useEffect, useRef, useState} from "react";
 import WpmGraph from "./WpmGraph";

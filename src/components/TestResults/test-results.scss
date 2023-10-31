@@ -1,0 +1,39 @@
+@use "../../styles/mixins";
+@use "../../styles/constants";
+
+.test-results-div {
+    transition-property: opacity;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: constants.$component-opacity-fade-duration;
+    max-width: 100%;
+    font-size: constants.$base-font-size;
+    margin-top: -4rem;
+
+    & * {
+        @include mixins.general-color-transition();
+    }
+
+    .score-submit-row {
+        text-align: center;
+
+        .login-prompt {
+            z-index: 100;
+
+            &:hover {
+                @include mixins.transition-hover-button();
+                color: var(--primary-highlight-colour);
+            }
+        }
+    }
+
+    .tab-selector {
+        margin: auto;
+        padding-top: 1rem;
+        width: 90%;
+    }
+
+    .tabbed-content {
+        width: 90%;
+        margin: auto;
+    }
+}
