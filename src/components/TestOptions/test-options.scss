@@ -1,6 +1,5 @@
-@use "../_constants.scss";
-@use "../_variables.scss";
-@use "../_mixins.scss";
+@use "../../styles/mixins";
+@use "../../styles/constants";
 
 @media (max-width: 670px) {
     .test-options {
@@ -49,12 +48,10 @@
             color: var(--base-font-colour);
             @include mixins.transition-hover-button();
 
-
             :hover {
                 cursor: pointer;
                 color: var(--secondary-highlight-colour);
                 @include mixins.transition-hover-button();
-
             }
 
             .selectable-label {
