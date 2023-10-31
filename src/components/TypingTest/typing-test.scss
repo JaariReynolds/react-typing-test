@@ -1,0 +1,14 @@
+@use "../../styles/mixins";
+@use "../../styles/constants";
+
+.typing-test {
+    margin-top: 3rem;
+    -webkit-user-select: none;
+    user-select: none;
+    grid-area: 1 / 1;
+    width: 100%;
+    height: var(--test-words-max-height);
+    overflow: hidden;
+    position: absolute;
+    font-weight: 300;
+}
