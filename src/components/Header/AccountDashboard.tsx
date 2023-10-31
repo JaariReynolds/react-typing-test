@@ -16,38 +16,26 @@ enum AccountTab {
 
 const AccountDashboard = () => {
 	const {userDocument} = useUserContext();
-	const [sortedSummaries, setSortedSummaries] = useState<TestSummary[]>([]);
 	const [activeTab, setActiveTab] = useState<AccountTab>(AccountTab.Main);
 
-	useEffect(() => {
-		if (userDocument)
-			setSortedSummaries(sortSummaries(userDocument!.testSummaries));
-	}, [userDocument]);
+	const words10 = userDocument?.testSummaries.find(summary => summary.testType == TestType.Words && summary.testLength == 10);
+	const words25 = userDocument?.testSummaries.find(summary => summary.testType == TestType.Words && summary.testLength == 25);
+	const words50 = userDocument?.testSummaries.find(summary => summary.testType == TestType.Words && summary.testLength == 50);
+	const words75 = userDocument?.testSummaries.find(summary => summary.testType == TestType.Words && summary.testLength == 75);
+	const words100 = userDocument?.testSummaries.find(summary => summary.testType == TestType.Words && summary.testLength == 100);
 
-	const sortSummaries = (unsortedSummaries: TestSummary[] | undefined): TestSummary[] => {
-		if (typeof unsortedSummaries === "undefined") {
-			return [];
-		}
+	const timed15 = userDocument?.testSummaries.find(summary => summary.testType == TestType.Time && summary.testLength == 15);
+	const timed30 = userDocument?.testSummaries.find(summary => summary.testType == TestType.Time && summary.testLength == 30);
+	const timed45 = userDocument?.testSummaries.find(summary => summary.testType == TestType.Time && summary.testLength == 45);
+	const timed60 = userDocument?.testSummaries.find(summary => summary.testType == TestType.Time && summary.testLength == 60);
+	const timed120 = userDocument?.testSummaries.find(summary => summary.testType == TestType.Time && summary.testLength == 120);
+	//#endregion
 
-		return unsortedSummaries
-			.sort((a, b) => 
-				a.testLength - b.testLength
-			)
-			.sort((a, b) => {
-				if (a.testType < b.testType) {
-					return -1;
-				}
-				if (a.testType > b.testType) {
-					return 1;
-				}
-				return 0;
-			});
-	};
+	const sortedSummaries = [timed15, timed30, timed45, timed60, timed120, words10, words25, words50, words75, words100];	
 
 	const handleTabClick = (tab: AccountTab) => {
 		setActiveTab(tab);
 	};
-
 
 	// already assumes there is a user logged in 
 	return (
@@ -71,8 +59,8 @@ const AccountDashboard = () => {
 				</div>
 
 				<div className="tabbed-content">
-					{activeTab === AccountTab.Main && <MainSumary />}
-					{activeTab === AccountTab.Secondary && <SecondarySummary />}
+					{activeTab === AccountTab.Main && <MainSumary sortedSummaries={sortedSummaries}/>}
+					{activeTab === AccountTab.Secondary && <SecondarySummary sortedSummaries={sortedSummaries} />}
 				</div>
 			</div>
 
