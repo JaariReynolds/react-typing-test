@@ -8,8 +8,10 @@ const Leaderboard = () => {
 	const {user} = useUserContext();
 	const {leaderboard} = useTestInformationContext();
 
+	
+
 	const renderLeaderboard = () => {
-		if (user) {
+		if (user && leaderboard) {
 			return (
 				<table>
 					<thead>
@@ -38,7 +40,8 @@ const Leaderboard = () => {
 					</tbody>
 				</table>
 			);
-		} else {
+		} 
+		else {
 			return (
 				<div className="leaderboard-login-prompt">log in... or else... &#x1f44a;&#128064;</div>
 			);
