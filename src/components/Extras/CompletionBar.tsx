@@ -1,8 +1,6 @@
 import React from "react";
-import "../styles/componentStyles/completion-bar.scss";
-import { useTestInformationContext } from "../contexts/TestInformationContext";
-
-
+import "./completion-bar.scss";
+import { useTestInformationContext } from "../../contexts/TestInformationContext";
 
 const CompletionBar = () => {
 	const {showResultsComponent, testCompletionPercentage} = useTestInformationContext();

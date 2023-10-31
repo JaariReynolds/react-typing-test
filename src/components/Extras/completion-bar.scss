@@ -1,5 +1,4 @@
-@use "../_constants.scss";
-@use "../_variables.scss";
+@use "../../styles/constants";
 
 .completion-bar {
     display: flex;
@@ -9,6 +8,9 @@
     background-color: var(--primary-highlight-colour);
     width: 0;
     max-width: 100%;
-    transition: width constants.$completion-bar-transition-duration linear, background-color 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    transition:
+        width constants.$completion-bar-transition-duration linear,
+        background-color 0.3s ease-in-out,
+        opacity 0.3s ease-in-out;
     margin-top: 1rem;
 }

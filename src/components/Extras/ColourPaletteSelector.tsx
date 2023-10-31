@@ -1,8 +1,8 @@
-import "../styles/componentStyles/colour-palette-selector.scss";
+import "./colour-palette-selector.scss";
 
 import React, { RefObject, useEffect, useState } from "react";
-import { colourPalettes, ColourPaletteStructure } from "../interfaces/ColourPalettes";
-import { useUserContext } from "../contexts/UserContext";
+import { colourPalettes, ColourPaletteStructure } from "../../interfaces/ColourPalettes";
+import { useUserContext } from "../../contexts/UserContext";
 
 export interface ColourPaletteSelectorProps {
 
@@ -38,7 +38,6 @@ const ColourPaletteSelector = ({showColourPalettes, colourPaletteDivRef}: Colour
 		maxHeight: containerMaxHeight,
 		opacity: showColourPalettes ? 1 : 0
 	} as React.CSSProperties;
-
 
 	const colourPaletteLayout = (colourPalette: ColourPaletteStructure) => {
 		return (

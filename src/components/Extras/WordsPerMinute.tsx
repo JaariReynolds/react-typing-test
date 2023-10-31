@@ -1,5 +1,4 @@
-import "../styles/componentStyles/words-per-minute.scss";
-
+import "./words-per-minute.scss";
 import React from "react";
 
 export interface WordsPerMinuteProps {

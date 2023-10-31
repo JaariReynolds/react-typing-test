@@ -1,6 +1,5 @@
-@use "../_constants.scss";
-@use "../_variables.scss";
-@use "../_mixins.scss";
+@use "../../styles/mixins";
+@use "../../styles/constants";
 
 .reset-container {
     display: block;
@@ -28,8 +27,6 @@
         position: relative;
         left: 50%;
         transform: translateX(-50%);
-
-
 
         &:focus {
             background-color: var(--base-font-colour);
