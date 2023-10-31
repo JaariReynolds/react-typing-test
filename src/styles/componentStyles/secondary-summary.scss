@@ -6,13 +6,19 @@
     .overflow-table {
         overflow-x: scroll;
 
-        table {
+        border-left: 1rem solid transparent;
+        border-right: 1rem solid transparent;
+
+        &::-webkit-scrollbar {
+            height: 0.7rem;
+        }
+
+        .horizontal-table {
             width: 100%;
             table-layout: fixed;
             min-width: 800px;
-            //max-width: 1500px;
+            max-width: 1600px;
             margin: auto;
-            border-collapse: separate;
             border-spacing: 0;
 
             .right-align {
@@ -25,55 +31,34 @@
                 background-color: var(--background-colour);
 
                 &.first-column {
-                    left: -0.1rem;
-                    //border: 2px solid blue;
+                    left: 0;
+                    width: 6.5rem;
                 }
 
                 &.second-column {
-                    left: 6rem;
-                    border-right: 1px solid black;
+                    left: 6.5rem;
+                    width: 3rem;
                 }
             }
 
             thead {
-                //font-size: 1.5rem;
-                ///border-bottom: 2px solid black;
+                font-size: 1.1rem;
+                border-bottom: 0.25rem solid transparent;
             }
 
             tbody {
-                tr:first-child td {
-                    padding-top: 0.5rem;
+
+                tr:nth-child(5) th,
+                tr:nth-child(5) td,
+                tr:last-child td,
+                tr:last-child th {
+                    border-bottom: 1rem solid transparent;
                 }
-
-                tr:last-child td {
-                    padding-bottom: 0.5rem;
-                }
-
-                tr:nth-child(5) td {
-                    padding-bottom: 0.5rem;
-
-                }
-
-                tr:nth-child(6) td {
-                    padding-top: 0.5rem;
-                }
-
             }
+        }
 
-            .test-type-label {
-                font-size: 1.5rem;
-                text-align: center;
-            }
-
-            th,
-            td {
-                //padding: 0.1rem 0.5rem;
-                //border: 1px solid black;
-            }
-
-            td {
-                border-bottom: 1px solid black;
-            }
+        .test-type-label {
+            font-size: 1.5rem;
         }
     }
 }

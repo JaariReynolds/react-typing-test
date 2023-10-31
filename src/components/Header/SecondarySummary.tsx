@@ -21,17 +21,17 @@ const SecondarySummary = () => {
 	const timed120 = userDocument?.testSummaries.find(summary => summary.testType == TestType.Time && summary.testLength == 120);
 	//#endregion
 
-	const sortedSummaries = [timed15, timed30, timed45, timed60, timed120, words10, words25, words50, words75, words100];
+	const sortedSummaries = [timed15, timed30, timed45, timed60, timed120, words10, words25, words50, words75, words100];	
 	const timeWordColumnArray = [15, 30, 45, 60, 120, 10, 25, 50, 75, 100];
 
-	return (
+	return (		
 		<div className="secondary-summary-div">
 			<div className="overflow-table">
-				<table>
+				<table className="horizontal-table">
 					<thead>
 						<tr>
 							<th className="sticky first-column"></th>
-							<th className="sticky second-column">length</th>
+							<th className="sticky second-column"></th>
 							<th className="right-align">wpm</th>
 							<th className="right-align">peak wpm</th>
 							<th className="right-align">accuracy</th>
@@ -43,23 +43,23 @@ const SecondarySummary = () => {
 						{sortedSummaries.map((summary, index) => {						
 							return (
 								<tr key={index}>	
-									{index == 0 && <td rowSpan={5} className="test-type-label sticky first-column">time</td>}						
-									{index == 5 && <td rowSpan={5} className="test-type-label sticky first-column">words</td>}		
-										
-									<td className="sticky second-column">{timeWordColumnArray[index]}</td>
-									<td className="right-align">{summary ? summary.averageWpm.toFixed(0) : "n/a"}</td>
-									<td className="right-align">{summary ? summary.highestWpm : "n/a"}</td>
-									<td className="right-align">{summary ? (summary.averageAccuracy * 100).toFixed(2) + "%" : "n/a"}</td>
-									<td className="right-align">{summary ?(summary.averageConsistency * 100).toFixed(2) + "%" : "n/a"}</td>
-									<td className="right-align">{summary ? summary.submissionCount : 0}</td>
+									{index == 0 && 
+										<th rowSpan={5} className="test-type-label sticky first-column">time</th>}						
+									{index == 5 && 
+										<th rowSpan={5} className="test-type-label sticky first-column">words</th>}		
+									<th className="sticky second-column">{timeWordColumnArray[index]}</th>
+									<td className="right-align">{summary ? summary.averageWpm.toFixed(0) : "-"}</td>
+									<td className="right-align">{summary ? summary.highestWpm : "-"}</td>
+									<td className="right-align">{summary ? (summary.averageAccuracy * 100).toFixed(2) + "%" : "-"}</td>
+									<td className="right-align">{summary ?(summary.averageConsistency * 100).toFixed(2) + "%" : "-"}</td>
+									<td className="right-align">{summary ? summary.submissionCount : "-"}</td>
 								</tr>
 							);
 						})}
-
 					</tbody>
 				</table>
 			</div>
-		</div>
+		</div>					
 	);
 };
 
