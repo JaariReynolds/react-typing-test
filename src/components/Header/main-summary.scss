@@ -1,3 +1,40 @@
+@media (max-width: 999px) {
+    .main-summary-div {
+        grid-template-columns: 1fr 1fr 1fr;
+
+        .level {
+            display: none;
+        }
+    }
+
+}
+
+@media (min-width: 1000px) {
+    .main-summary-div {
+        grid-template-columns: 15rem 1fr 1fr 1fr;
+    }
+}
+
+
 .main-summary-div {
-    border: 2px solid orange;
+    display: grid;
+    height: 27rem;
+    max-width: 1600px;
+    margin: auto;
+    gap: 1rem;
+    min-width: 400px;
+
+    div {
+        border: 1px solid black;
+    }
+
+    .level {
+        grid-row: 1 / span 2;
+        border: 1px solid black;
+    }
+
+    .experience-indicator {
+        height: 1.5rem;
+        grid-column: 1 / -1;
+    }
 }
