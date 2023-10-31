@@ -1,4 +1,4 @@
-import "../styles/componentStyles/reset-button.scss";
+import "./reset-button.scss";
 
 import React, {RefObject, useState} from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

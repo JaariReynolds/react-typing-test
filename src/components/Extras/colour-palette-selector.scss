@@ -1,8 +1,5 @@
-@use "../_constants.scss";
-@use "../_variables.scss";
-@use "../_mixins.scss";
-
-
+@use "../../styles/mixins";
+@use "../../styles/constants";
 
 .colour-palette-container {
     position: absolute;
@@ -48,7 +45,6 @@
                 display: flex;
                 justify-content: space-evenly;
                 align-items: center;
-
 
                 .colour-preview {
                     width: 1.5rem;

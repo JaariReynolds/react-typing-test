@@ -1,6 +1,5 @@
-@use "../_constants.scss";
-@use "../_variables.scss";
-@use "../_mixins.scss";
+@use "../../styles/mixins";
+@use "../../styles/constants";
 
 .afk-indicator-container {
     @include mixins.transition-opacity(opacity);
@@ -8,7 +7,7 @@
     border-radius: 0.5rem;
     display: flex;
     position: absolute;
-    top: -5rem;
+    top: -3.5rem;
     left: 50%;
     transform: translateX(-50%);
     width: 21.5rem;
