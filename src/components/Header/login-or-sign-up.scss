@@ -17,7 +17,6 @@
         &:hover {
             color: var(--secondary-highlight-colour);
             @include mixins.transition-hover-button();
-
         }
 
         &.submit-button:hover {
@@ -63,7 +62,6 @@
                     background-color: var(--base-font-colour);
                     border-radius: 0 0.4rem 0.4rem 0;
                 }
-
             }
         }
 
