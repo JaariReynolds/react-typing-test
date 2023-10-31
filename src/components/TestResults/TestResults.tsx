@@ -22,7 +22,7 @@ enum ResultsTab {
 
 const TestResults = ({resultsComponentOpacity, resultsComponentDisplay}: TestResultsProps ) => {
 	const {user, userDocument, isHeaderOpen, setIsHeaderOpen} = useUserContext();
-	const {testInformation, showResultsComponent, isTestSubmitted, setIsTestSubmitted, isCalculationsComplete} = useTestInformationContext();
+	const {testInformation, showResultsComponent, isTestSubmitted, setIsTestSubmitted, isCalculationsComplete, leaderboard, fetchLeaderboard} = useTestInformationContext();
 	const [activeTab, setActiveTab] = useState<ResultsTab>(ResultsTab.Statistics);
 
 	const isHeaderOpenRef = useRef<boolean>();
@@ -32,6 +32,11 @@ const TestResults = ({resultsComponentOpacity, resultsComponentDisplay}: TestRes
 		if (showResultsComponent)
 			setActiveTab(ResultsTab.Statistics);
 	}, [showResultsComponent]);
+
+	useEffect(() => {
+		if (user && activeTab === ResultsTab.Leaderboard && leaderboard.length === 0)
+			fetchLeaderboard();
+	}, [activeTab]);
 	
 	// submit score when test hasnt already been submitted, user is logged in, and all result calculations are done
 	useEffect(() => {
