@@ -1,13 +1,9 @@
 /* eslint-disable react/jsx-key */
 import React from "react";
 import "./secondary-summary.scss";
-import { useUserContext } from "../../contexts/UserContext";
 import { TestSummary } from "../../firebase/firestoreDocumentInterfaces";
 
 const SecondarySummary = ({ sortedSummaries }: { sortedSummaries: (TestSummary|undefined)[]}) => {
-	const {userDocument} = useUserContext();
-
-	//#region test summary constants  
 	const timeWordColumnArray = [15, 30, 45, 60, 120, 10, 25, 50, 75, 100];
 
 	return (		
