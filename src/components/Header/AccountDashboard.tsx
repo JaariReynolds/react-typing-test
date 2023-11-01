@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-import { signOut, updateDisplayName } from "../../firebase/accountFunctions";
+import React, { useEffect, useState } from "react";
+import { signOut } from "../../firebase/accountFunctions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDoorOpen } from "@fortawesome/free-solid-svg-icons";
 import { useUserContext } from "../../contexts/UserContext";
@@ -15,23 +15,27 @@ enum AccountTab {
 }
 
 const AccountDashboard = () => {
-	const {userDocument} = useUserContext();
+	const {user, userDocument} = useUserContext();
 	const [activeTab, setActiveTab] = useState<AccountTab>(AccountTab.Main);
+	
+	const [sortedSummaries, setSortedSummaries] = useState<(TestSummary|undefined)[]>([]);
 
-	const words10 = userDocument?.testSummaries.find(summary => summary.testType == TestType.Words && summary.testLength == 10);
-	const words25 = userDocument?.testSummaries.find(summary => summary.testType == TestType.Words && summary.testLength == 25);
-	const words50 = userDocument?.testSummaries.find(summary => summary.testType == TestType.Words && summary.testLength == 50);
-	const words75 = userDocument?.testSummaries.find(summary => summary.testType == TestType.Words && summary.testLength == 75);
-	const words100 = userDocument?.testSummaries.find(summary => summary.testType == TestType.Words && summary.testLength == 100);
+	useEffect(() => {
+		if (!user) return; 
+		const words10 = userDocument?.testSummaries.find(summary => summary.testType == TestType.Words && summary.testLength == 10);
+		const words25 = userDocument?.testSummaries.find(summary => summary.testType == TestType.Words && summary.testLength == 25);
+		const words50 = userDocument?.testSummaries.find(summary => summary.testType == TestType.Words && summary.testLength == 50);
+		const words75 = userDocument?.testSummaries.find(summary => summary.testType == TestType.Words && summary.testLength == 75);
+		const words100 = userDocument?.testSummaries.find(summary => summary.testType == TestType.Words && summary.testLength == 100);
+	
+		const timed15 = userDocument?.testSummaries.find(summary => summary.testType == TestType.Time && summary.testLength == 15);
+		const timed30 = userDocument?.testSummaries.find(summary => summary.testType == TestType.Time && summary.testLength == 30);
+		const timed45 = userDocument?.testSummaries.find(summary => summary.testType == TestType.Time && summary.testLength == 45);
+		const timed60 = userDocument?.testSummaries.find(summary => summary.testType == TestType.Time && summary.testLength == 60);
+		const timed120 = userDocument?.testSummaries.find(summary => summary.testType == TestType.Time && summary.testLength == 120);
 
-	const timed15 = userDocument?.testSummaries.find(summary => summary.testType == TestType.Time && summary.testLength == 15);
-	const timed30 = userDocument?.testSummaries.find(summary => summary.testType == TestType.Time && summary.testLength == 30);
-	const timed45 = userDocument?.testSummaries.find(summary => summary.testType == TestType.Time && summary.testLength == 45);
-	const timed60 = userDocument?.testSummaries.find(summary => summary.testType == TestType.Time && summary.testLength == 60);
-	const timed120 = userDocument?.testSummaries.find(summary => summary.testType == TestType.Time && summary.testLength == 120);
-	//#endregion
-
-	const sortedSummaries = [timed15, timed30, timed45, timed60, timed120, words10, words25, words50, words75, words100];	
+		setSortedSummaries([timed15, timed30, timed45, timed60, timed120, words10, words25, words50, words75, words100]);
+	}, [userDocument]);
 
 	const handleTabClick = (tab: AccountTab) => {
 		setActiveTab(tab);
