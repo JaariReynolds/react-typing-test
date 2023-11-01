@@ -19,7 +19,7 @@ const Leaderboard = () => {
 							<th className="right-align">wpm</th>
 							<th className="right-align">accuracy</th>
 							<th className="right-align">consistency</th>
-							<th className="right-align">submission date</th>
+							<th className="right-align">date</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -31,7 +31,7 @@ const Leaderboard = () => {
 									<td className="right-align">{score.wpm}</td>
 									<td className="right-align">{(score.accuracy * 100).toFixed(2)}%</td>
 									<td className="right-align">{(score.consistency * 100).toFixed(2)}%</td>
-									<td className="right-align">{score.submissionDate.toDate().toDateString()}</td>
+									<td className="right-align">{score.submissionDate.toDate().toLocaleDateString("en-AU")}</td>
 								</tr>
 							);
 						})}
