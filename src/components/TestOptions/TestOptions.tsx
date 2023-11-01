@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import TestTypeSelector from "./TestTypeSelector";
 import NumberSelector from "./NumberSelector";
 import PunctuationSelector from "./PunctuationSelector";
@@ -20,4 +20,4 @@ const TestOptions = () => {
 	);
 };
 
-export default TestOptions;
+export default memo(TestOptions);

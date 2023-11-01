@@ -1,6 +1,6 @@
 import "./colour-palette-selector.scss";
 
-import React, { RefObject, useEffect, useState } from "react";
+import React, { RefObject, useEffect, useState, memo } from "react";
 import { colourPalettes, ColourPaletteStructure } from "../../interfaces/ColourPalettes";
 import { useUserContext } from "../../contexts/UserContext";
 
@@ -74,4 +74,4 @@ const ColourPaletteSelector = ({showColourPalettes, colourPaletteDivRef}: Colour
 	);
 };
 
-export default ColourPaletteSelector;
+export default memo(ColourPaletteSelector);

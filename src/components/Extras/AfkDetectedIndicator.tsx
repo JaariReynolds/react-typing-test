@@ -1,6 +1,6 @@
 import "./afk-detected-indicator.scss";
 
-import React from "react";
+import React, { memo } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faKeyboard } from "@fortawesome/free-solid-svg-icons";
 
@@ -9,6 +9,7 @@ export interface AfkDetectedIndicatorProps {
 }
 
 export const AfkDetectedIndicator = ({isAfkMidTest}: AfkDetectedIndicatorProps) => {
+
 	return (
 		<div style={{"opacity": isAfkMidTest ? 1 : 0}} className="afk-indicator-container">
 			<div className="afk-indicator-contents">
@@ -19,4 +20,4 @@ export const AfkDetectedIndicator = ({isAfkMidTest}: AfkDetectedIndicatorProps) 
 	);
 };
 
-export default AfkDetectedIndicator;
+export default memo(AfkDetectedIndicator);
