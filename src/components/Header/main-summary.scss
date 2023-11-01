@@ -3,10 +3,9 @@
         grid-template-columns: 1fr 1fr 1fr;
 
         .level {
-            display: none;
+            display: none !important;
         }
     }
-
 }
 
 @media (min-width: 1000px) {
@@ -15,26 +14,74 @@
     }
 }
 
-
 .main-summary-div {
     display: grid;
-    height: 27rem;
-    max-width: 1600px;
-    margin: auto;
+    grid-template-rows: 1fr 1fr 1.5rem;
     gap: 1rem;
-    min-width: 400px;
-
-    div {
-        border: 1px solid black;
-    }
+    min-width: 25rem;
+    max-width: 100rem;
+    height: 20rem;
+    margin: auto;
 
     .level {
         grid-row: 1 / span 2;
-        border: 1px solid black;
+        border: 2px solid var(--base-font-colour);
+        border-radius: 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        font-size: 6rem;
+
+        color: var(--primary-highlight-colour);
+
+        .level-label {
+            font-size: 1.5rem;
+            color: var(--base-font-colour);
+        }
+    }
+
+    .statistic {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        font-size: 2.5rem;
+        text-align: center;
+        border: 2px solid var(--base-font-colour);
+        border-radius: 0.5rem;
+        color: var(--primary-highlight-colour);
+
+        .statistic-label {
+            font-size: 1.5rem;
+            color: var(--base-font-colour);
+
+        }
     }
 
     .experience-indicator {
         height: 1.5rem;
         grid-column: 1 / -1;
+        border: 2px solid var(--base-font-colour);
+        border-radius: 2rem;
+        position: relative;
+
+        .current-experience-text {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            //border: 2px solid black;
+            margin-top: -0.15rem;
+            font-weight: bold;
+            color: var(--secondary-highlight-colour);
+        }
+
+        .current-experience-bar {
+            height: 100%;
+            width: 78.4%;
+            border-radius: 2rem;
+            background-color: var(--primary-highlight-colour);
+            z-index: -1;
+        }
     }
 }
