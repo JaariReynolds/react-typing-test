@@ -4,7 +4,7 @@
 /* eslint-disable linebreak-style */
 import "./typing-test.scss";
 
-import React, { useEffect, useState, useRef, RefObject } from "react"; 
+import React, { useEffect, useState, useRef, RefObject, memo } from "react"; 
 import { testWordsGenerator } from "../../functions/wordGeneration/testWordsGenerators";
 import { CompletionStatus, NumberPair } from "../../interfaces/WordStructure";
 import { calculateCorrectCharacters } from "../../functions/calculations/calculateCorrectCharacters";
@@ -198,6 +198,7 @@ const TypingTest = ({
 		}	
 	}, [testTimeMilliSeconds]);
 
+	
 	const afkDetection = (keyPressArray: number[]) => {
 		// if the last few seconds (AFK_SECONDS_THRESHOLD) all have the same key press count, force reset 
 		const lastFewSeconds = keyPressArray.slice(-AFK_SECONDS_THRESHOLD);
@@ -526,4 +527,4 @@ const TypingTest = ({
 	);
 };
 
-export default TypingTest;
+export default memo(TypingTest);

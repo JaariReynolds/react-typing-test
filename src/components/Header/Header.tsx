@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import "./header.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
@@ -25,4 +25,4 @@ const Header = ({headerRef}: HeaderProps) => {
 	);
 };
 
-export default Header;
+export default memo(Header);
