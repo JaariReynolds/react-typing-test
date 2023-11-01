@@ -1,23 +1,14 @@
-import React, { useEffect, useMemo } from "react";
+import React from "react";
 import "./main-summary.scss";
-import { useUserContext } from "../../contexts/UserContext";
 import { TestSummary } from "../../firebase/firestoreDocumentInterfaces";
 
 const MainSumary = ({sortedSummaries} : {sortedSummaries: (TestSummary|undefined)[]} ) => {
-	const {userDocument} = useUserContext();
 	const filteredSummaries: TestSummary[] = sortedSummaries.filter((summary): summary is TestSummary => summary !== undefined);
 
-	const peakWpm = filteredSummaries.reduce((max, current) => {
-		return current.highestWpm > max ? current.highestWpm : max; 
-	}, 0);
-
-	const averageWpm = (filteredSummaries
-		.reduce((total, summary) => total + summary.averageWpm, 0) / filteredSummaries.length).toFixed(2);
-	 
+	const peakWpm = filteredSummaries.reduce((max, current) => current.highestWpm > max ? current.highestWpm : max, 0);
+	const averageWpm = (filteredSummaries.reduce((total, summary) => total + summary.averageWpm, 0) / filteredSummaries.length).toFixed(2);
 	const averageConsistency = ((filteredSummaries.reduce((total, summary) => total + summary.averageConsistency, 0) / filteredSummaries.length) * 100).toFixed(2);
- 
 	const averageAccuracy = ((filteredSummaries.reduce((total, summary) => total + summary.averageAccuracy, 0) / filteredSummaries.length) * 100).toFixed(2);
-
 	const submissions = filteredSummaries.reduce((total, summary) => total + summary.submissionCount, 0);
 
 	return (
@@ -28,23 +19,24 @@ const MainSumary = ({sortedSummaries} : {sortedSummaries: (TestSummary|undefined
 			</div>
 			
 			<div className="statistic">
-				{peakWpm}
+				{peakWpm == 0 ? "-" : peakWpm}
 				<div className="statistic-label">peak wpm</div>
 			</div>
 			<div className="statistic">
-				{averageWpm}
+				{isNaN(parseFloat(averageWpm)) ? "-" : averageWpm}
 				<div className="statistic-label">wpm</div>
 			</div>
 			<div className="statistic">
-				{averageAccuracy}%
+				{isNaN(parseFloat(averageAccuracy)) ? "-" : averageAccuracy + "%"}
 				<div className="statistic-label">accuracy</div>
 			</div>
 			<div className="statistic">
-				{averageConsistency}%
+				{isNaN(parseFloat(averageConsistency)) ? "-" : averageConsistency + "%"}
+
 				<div className="statistic-label">consistency</div>
 			</div>
 			<div className="statistic">
-				{submissions}
+				{submissions == 0 ? "-" : submissions}
 				<div className="statistic-label">submissions</div>
 			</div>
 			<div className="statistic">
