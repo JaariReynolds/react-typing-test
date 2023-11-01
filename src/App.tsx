@@ -112,23 +112,6 @@ function App() {
 		}
 	};
 
-	// maybe add back in once i find a key combo that doesnt clash with any browser
-	const handleSiteKeyCombos = () => {
-		// shortcut: ctrl + q to show themes overlay
-		if (sitePressedKeysRef.current.has("Control") && sitePressedKeysRef.current.has("q") && inputRef.current) { 
-			if (!showColourPaletteStateRef.current) {
-				console.log("test blurred");
-				setShowColourPalettes(true);
-				return;
-			}
-			else if (showColourPaletteStateRef.current && inputRef.current) { // give focus to input field once closed
-				setShowColourPalettes(false);
-				inputRef.current.focus();
-				return;
-			}
-		}
-	};
-
 	//#region useEffects
 	useEffect(() => {
 		window.addEventListener("keydown", handleSiteKeyDown);
