@@ -17,9 +17,9 @@ const Leaderboard = () => {
 							<th>rank</th>
 							<th>username</th>
 							<th className="right-align">wpm</th>
-							<th className="right-align">accuracy</th>
-							<th className="right-align">consistency</th>
-							<th className="right-align">date</th>
+							<th className="right-align third">accuracy</th>
+							<th className="right-align forth">consistency</th>
+							<th className="right-align fifth">date</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -29,9 +29,9 @@ const Leaderboard = () => {
 									<td>{index + 1}</td>
 									<td>{score.username}</td>
 									<td className="right-align">{score.wpm}</td>
-									<td className="right-align">{(score.accuracy * 100).toFixed(2)}%</td>
-									<td className="right-align">{(score.consistency * 100).toFixed(2)}%</td>
-									<td className="right-align">{score.submissionDate.toDate().toLocaleDateString("en-AU")}</td>
+									<td className="right-align third">{(score.accuracy * 100).toFixed(2)}%</td>
+									<td className="right-align forth">{(score.consistency * 100).toFixed(2)}%</td>
+									<td className="right-align fifth">{score.submissionDate.toDate().toLocaleDateString("en-AU")}</td>
 								</tr>
 							);
 						})}

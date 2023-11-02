@@ -3,14 +3,12 @@
     padding-left: 0.5rem;
     padding-right: 0.5rem;
     max-height: 20rem;
-    overflow-x: scroll;
+    overflow-x: hidden;
     overflow-y: auto;
-
 
     &::-webkit-scrollbar {
         height: 0.7rem;
     }
-
 
     table {
         width: 100%;
@@ -27,6 +25,30 @@
 
             &.right-align {
                 text-align: right;
+            }
+        }
+
+        @media (max-width: 1080px) {
+
+            td.fifth,
+            th.fifth {
+                display: none;
+            }
+        }
+
+        @media (max-width: 850px) {
+
+            td.forth,
+            th.forth {
+                display: none;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            td.third,
+            th.third {
+                display: none;
             }
         }
     }
