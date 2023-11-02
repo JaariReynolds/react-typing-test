@@ -11,7 +11,7 @@ import SecondarySummary from "./SecondarySummary";
 
 enum AccountTab {
 	Main = "overview",
-	Secondary = "test averages"
+	Secondary = "averages"
 }
 
 const AccountDashboard = () => {
