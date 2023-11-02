@@ -15,9 +15,9 @@ const Statistics = () => {
 				<div className="score">{(testInformation.accuracy * 100).toFixed(2)}%</div>						
 				<div className="label">accuracy</div>
 			</div>
-			<div className="grid-item wpm">
-				{testInformation.averageWPM}	
-				<span className="wpm-label">wpm</span>
+			<div className="grid-item wpm-grid">
+				<div className="wpm">{testInformation.averageWPM}</div>
+				<div className="wpm-label">wpm</div>
 			</div>
 			<div className="grid-item">
 				<div className="score">{testInformation.errorCountHard + testInformation.errorCountSoft}</div>					

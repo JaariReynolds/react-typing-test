@@ -2,9 +2,9 @@
     margin-top: 1rem;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
-    max-height: 20rem;
     overflow-x: hidden;
-    overflow-y: auto;
+    overflow-y: scroll;
+    scrollbar-gutter: stable both-edges;
 
     &::-webkit-scrollbar {
         height: 0.7rem;
@@ -28,33 +28,35 @@
             }
         }
 
-        @media (max-width: 1080px) {
 
-            td.fifth,
-            th.fifth {
-                display: none;
-            }
-        }
-
-        @media (max-width: 850px) {
-
-            td.forth,
-            th.forth {
-                display: none;
-            }
-        }
-
-        @media (max-width: 600px) {
-
-            td.third,
-            th.third {
-                display: none;
-            }
-        }
     }
 
     .leaderboard-login-prompt {
         text-align: center;
         font-size: 30px;
+    }
+}
+
+@media (max-width: 1120px) {
+
+    td.fifth,
+    th.fifth {
+        display: none;
+    }
+}
+
+@media (max-width: 900px) {
+
+    td.forth,
+    th.forth {
+        display: none;
+    }
+}
+
+@media (max-width: 645px) {
+
+    td.third,
+    th.third {
+        display: none;
     }
 }
