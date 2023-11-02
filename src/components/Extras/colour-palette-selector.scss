@@ -5,6 +5,7 @@
     position: absolute;
     top: 65%;
     width: 70%;
+    min-width: constants.$min-width;
     background-color: var(--background-colour);
     opacity: 0;
     z-index: 100;
@@ -36,7 +37,7 @@
 
             &:hover {
                 cursor: pointer;
-                outline: 3px solid constants.$correct-font-colour;
+                outline: 3px solid var(--base-font-colour);
             }
 
             .selectable-colour-palette-label {
