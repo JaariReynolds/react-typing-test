@@ -1,40 +1,54 @@
 @use "../../styles/constants";
 
-
 .test-results-statistics {
     margin-top: 1rem;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, 5rem);
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 5rem 5rem;
+    height: 18rem;
 
     .grid-item {
-        display: block;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
         text-align: center;
 
         .score {
             color: var(--primary-highlight-colour);
             font-size: 2.3rem;
+            line-height: 2.3rem;
         }
 
         .label {
-            margin-top: -0.7rem;
             color: var(--base-font-colour);
         }
 
-        &.wpm {
-            display: grid;
+        &.wpm-grid {
             grid-row: span 2;
-            grid-column: 3;
-            text-align: center;
-            font-size: 5.5rem;
             color: var(--primary-highlight-colour);
+
+            .wpm {
+                font-size: 5.5rem;
+                line-height: 5.4rem;
+            }
 
             .wpm-label {
                 color: var(--base-font-colour);
-                grid-area: 2/1;
-                margin-top: -2.2rem;
-                font-size: constants.$base-font-size;
             }
+        }
+    }
+}
+
+@media (max-width: 830px) {
+    .test-results-statistics {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 8rem 5rem 5rem;
+
+        .grid-item.wpm-grid {
+            grid-row: 1 / span 1;
+            grid-column: 1 / -1;
+
+            justify-content: center;
         }
     }
 }
