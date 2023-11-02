@@ -6,6 +6,7 @@
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: constants.$component-opacity-fade-duration;
     max-width: 100%;
+    min-width: constants.$min-width;
     font-size: constants.$base-font-size;
     margin-top: -4rem;
 
@@ -35,5 +36,6 @@
     .tabbed-content {
         width: 90%;
         margin: auto;
+        height: 20rem;
     }
 }

@@ -1,21 +1,10 @@
 @use "../../styles/mixins";
 @use "../../styles/constants";
 
-@media (max-width: 670px) {
-    .test-options {
-        grid-template-columns: repeat(1, 1fr);
-    }
-}
-
-@media (min-width: 671px) {
-    .test-options {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
 .test-options {
     display: grid;
     font-size: constants.$base-font-size;
+    min-width: constants.$min-width;
     @include mixins.transition-opacity(var(--component-opacity));
 
     .test-options-icon {
@@ -60,5 +49,17 @@
                 font-weight: constants.$bold-font-weight;
             }
         }
+    }
+}
+
+@media (max-width: 670px) {
+    .test-options {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+@media (min-width: 671px) {
+    .test-options {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
