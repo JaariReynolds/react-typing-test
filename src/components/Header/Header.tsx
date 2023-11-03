@@ -20,7 +20,7 @@ const Header = ({headerRef}: HeaderProps) => {
 				{userDocument ? userDocument.username : "log in"}
 			</button>
 			
-			{user ? <AccountDashboard/> : <LoginOrSignUp/>}
+			{user && userDocument ? <AccountDashboard/> : <LoginOrSignUp/>}
 		</div>
 	);
 };
