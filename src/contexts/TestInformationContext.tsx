@@ -97,7 +97,6 @@ export const TestInformationProvider = ({children}: any) => {
 	const [testType, setTestType] = useState<TestType>(localStorage.getItem("testType") as TestType ?? TestType.Time);
 	const [includePunctuation, setIncludePunctuation] = useState<boolean>(localStorage.getItem("testIncludePunctuation") === "true" ?? false);
 	const [includeNumbers, setIncludeNumbers] = useState<boolean>(localStorage.getItem("testIncludeNumbers") === "true" ?? false);
-	const [testOptionsChanged, setTestOptionsChanged] = useState<boolean>(false);
 	const leaderboardTestLength = testType === TestType.Words ? testLengthWords : testLengthSeconds;
 
 	const fetchLeaderboard = async () => {
@@ -119,7 +118,7 @@ export const TestInformationProvider = ({children}: any) => {
 		const newTestInformationObject: TestInformation = {...testInformation, accuracy: accuracy, consistency: consistency};
 
 		const experience = calculateExperience(newTestInformationObject); // requires the new accuracy and consistency stats
-		const finalTestInformationObject: TestInformation = {...testInformation, experience: experience};
+		const finalTestInformationObject: TestInformation = {...newTestInformationObject, experience: experience};
 		return finalTestInformationObject;
 	};
 
@@ -132,7 +131,6 @@ export const TestInformationProvider = ({children}: any) => {
 	useEffect(() => {
 		// if test options change, clear the currently fetched leaderboard - allows repopulation once a new score is submitted
 		setLeaderboard([]);
-		setTestOptionsChanged(true);
 	}, [testType, testLengthSeconds, testLengthWords, includeNumbers, includePunctuation, user]);
 
 	useEffect(() => {
@@ -152,7 +150,6 @@ export const TestInformationProvider = ({children}: any) => {
 	
 			const newTestStatistics = finaliseTestStatistics(testInformation);
 			setTestInformation(newTestStatistics);
-			console.log("test statistics: ", newTestStatistics);
 
 			setIsCalculationsComplete(true);
 			console.log("test calculations done");
