@@ -7,7 +7,7 @@ import { createScoreDocument } from "../../firebase/POST/scorePosts";
 import { useUserContext } from "../../contexts/UserContext";
 import Statistics from "./Statistics";
 import Leaderboard from "./Leaderboard";
-import { updateUserSummary } from "../../firebase/POST/userPosts";
+import { updateUserStatistics } from "../../firebase/POST/userPosts";
 import { useTestInformationContext } from "../../contexts/TestInformationContext";
 
 export interface TestResultsProps {
@@ -48,7 +48,7 @@ const TestResults = ({resultsComponentOpacity, resultsComponentDisplay}: TestRes
 		try {
 			setIsTestSubmitted(false);
 			await createScoreDocument(userDocument!.username, testInformation);
-			await updateUserSummary(user!.uid, testInformation);
+			await updateUserStatistics(user!.uid, testInformation);
 			localStorage.setItem("isSubmitted", "true");
 			setIsTestSubmitted(true);
 		} catch (error) {
