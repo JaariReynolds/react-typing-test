@@ -6,8 +6,15 @@
     overflow-y: scroll;
     scrollbar-gutter: stable both-edges;
 
+
     &::-webkit-scrollbar {
         height: 0.7rem;
+    }
+
+    .loading-icon-container {
+        width: 100%;
+        text-align: center;
+        font-size: 3rem;
     }
 
     table {
