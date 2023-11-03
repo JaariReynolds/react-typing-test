@@ -2,13 +2,17 @@ import { TestInformation, Word } from "../../interfaces/WordStructure";
 import { calculateCorrectWords } from "./calculateCorrectWords";
 
 const EXPERIENCE_LEVELLING_EXPONENT = 1.2;
+const INCLUDE_NUMBERS_MULTIPLIER = 1.05;
+const INCLUDE_PUNCTUATION_MULTIPLIER = 1.05;
 
 // amount of experience gained from completing the test provided
 export const calculateExperience = (testInformation: TestInformation): number => {
 	const totalExperience = 
 		Math.round(baseExperience(testInformation.words) 
 		* testInformation.accuracy 
-		* testInformation.consistency);
+		* testInformation.consistency
+		* (testInformation.includeNumbers ? INCLUDE_NUMBERS_MULTIPLIER : 1)
+		* (testInformation.includePunctuation ? INCLUDE_PUNCTUATION_MULTIPLIER : 1));
 
 	console.log("total experience: ", totalExperience);
 	return totalExperience;
