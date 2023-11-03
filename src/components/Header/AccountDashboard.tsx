@@ -9,7 +9,7 @@ import { TestSummary } from "../../firebase/firestoreDocumentInterfaces";
 import MainSumary from "./MainSummary";
 import SecondarySummary from "./SecondarySummary";
 
-enum AccountTab {
+export enum AccountTab {
 	Main = "overview",
 	Secondary = "averages"
 }
@@ -63,7 +63,7 @@ const AccountDashboard = () => {
 				</div>
 
 				<div className="tabbed-content">
-					{activeTab === AccountTab.Main && <MainSumary sortedSummaries={sortedSummaries}/>}
+					{activeTab === AccountTab.Main && <MainSumary sortedSummaries={sortedSummaries} userDocument={userDocument} activeTab={activeTab}/>}
 					{activeTab === AccountTab.Secondary && <SecondarySummary sortedSummaries={sortedSummaries} />}
 				</div>
 			</div>
