@@ -92,6 +92,10 @@ body {
   }
 }
 
+.loading-icon {
+  color: var(--base-font-colour);
+}
+
 ::-webkit-scrollbar {
   width: 0.7rem;
 }
