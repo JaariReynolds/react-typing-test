@@ -31,8 +31,6 @@ const MainSumary = ({sortedSummaries, userDocument, activeTab}: MainSummaryProps
 
 	}, [isHeaderOpen]);
 
-	console.log("rerender");
-
 	const filteredSummaries: TestSummary[] = sortedSummaries.filter((summary): summary is TestSummary => summary !== undefined);
 	const peakWpm = filteredSummaries.reduce((max, current) => current.highestWpm > max ? current.highestWpm : max, 0);
 	const averageWpm = (filteredSummaries.reduce((total, summary) => total + summary.averageWpm, 0) / filteredSummaries.length).toFixed(2);

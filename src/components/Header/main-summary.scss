@@ -58,9 +58,9 @@
 
         .current-experience-bar {
             height: 100%;
-            width: 78.4%;
             border-radius: 2rem;
             background-color: var(--primary-highlight-colour);
+            transition: width 0.3s linear;
             z-index: -1;
         }
     }
