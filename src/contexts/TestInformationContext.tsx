@@ -48,6 +48,8 @@ const testInformationInitialState: TestInformation = {
 	consistency: 0, 
 	experience: 0,
 	testType: TestType.Words,
+	includeNumbers: false,
+	includePunctuation: false
 };
 
 export const TestInformationContext = createContext<TestInformationContextProps|undefined>({

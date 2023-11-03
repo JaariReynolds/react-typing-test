@@ -70,8 +70,10 @@ export interface TestInformation {
 	averageWPM: number // wpmArray averaged
 	accuracy: number // (characterCount - errorCountHard) / characterCount
 	consistency: number
-	testType: TestType
 	experience: number
+	testType: TestType
+	includeNumbers: boolean,
+	includePunctuation: boolean
 } 
 
 
