@@ -1,8 +1,9 @@
 import { database } from "../firebase";
 import { Timestamp, doc, getDoc, setDoc } from "firebase/firestore";
-import { TestSummary, UserDocument } from "../firestoreDocumentInterfaces";
+import { Level, TestSummary, UserDocument } from "../firestoreDocumentInterfaces";
 import { TestInformation } from "../../interfaces/WordStructure";
 import { TestType } from "../../enums";
+import { calculateRequiredExperience } from "../../functions/calculations/calculateExperience";
 
 export const createUserDocument = async (userId: string, email: string, username: string) => {
 	try {
@@ -27,7 +28,7 @@ export const createUserDocument = async (userId: string, email: string, username
 	}
 };
 
-export const updateUserSummary = async (userId: string, scoreObject: TestInformation) => {
+export const updateUserStatistics = async (userId: string, scoreObject: TestInformation) => {
 	try {
 		const userRef = doc(database, "users", userId);
 		const data = await getDoc(userRef);
@@ -36,9 +37,10 @@ export const updateUserSummary = async (userId: string, scoreObject: TestInforma
 			throw new Error("user does not exist");
 
 		const userDocument: UserDocument = data.data() as UserDocument; 
-		const testSummaries = userDocument.testSummaries;
 		
+		//#region update userSummary
 		// check if a summary already exists for the test parameters provided 
+		const testSummaries = userDocument.testSummaries;
 		let matchingSummary = testSummaries.find((summary) => summary.testType === scoreObject.testType.toString() && (summary.testLength === scoreObject.words.length || summary.testLength === scoreObject.timeElapsedMilliSeconds / 1000));
 		
 		if (matchingSummary) { // update existing summary
@@ -54,8 +56,37 @@ export const updateUserSummary = async (userId: string, scoreObject: TestInforma
 			matchingSummary = createNewTestSummary(scoreObject);
 			testSummaries.push(matchingSummary);
 		}
+		//#endregion
 
-		await setDoc(userRef, {testSummaries: testSummaries}, {merge: true});
+		//#region update level
+		const experienceGained = scoreObject.experience;
+		const level = userDocument.level;
+
+		let newLevel = level.currentLevel;
+		let newCurrentExperience = level.experience.currentExperience;
+		let newRequiredExperience = level.experience.requiredExperience;
+
+		// if more than enough experience to level up
+		if (experienceGained > level.experience.requiredExperience - level.experience.currentExperience) {
+			newLevel = level.currentLevel + 1;
+			newCurrentExperience = experienceGained - (level.experience.requiredExperience - level.experience.currentExperience);
+			newRequiredExperience = calculateRequiredExperience(newLevel);
+		}
+		// otherwise, add new experience to current
+		else {
+			newCurrentExperience = experienceGained + level.experience.currentExperience;
+		}
+
+		const newLevelObject: Level = {
+			currentLevel: newLevel,
+			experience: {
+				currentExperience: newCurrentExperience,
+				requiredExperience: newRequiredExperience
+			}
+		};
+
+		//#endregion
+		await setDoc(userRef, {testSummaries: testSummaries, level: newLevelObject}, {merge: true});
 		
 	} catch (error) {
 		console.error(error);
