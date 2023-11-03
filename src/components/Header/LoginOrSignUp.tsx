@@ -1,8 +1,8 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import "./login-or-sign-up.scss";
 import {signUp, signIn} from "../../firebase/accountFunctions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faEyeSlash, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { isUsernameAvailable } from "../../firebase/GET/userGets";
 
 enum Tab {
@@ -22,6 +22,7 @@ const LoginOrSignUp = () => {
 	const [showPassword, setShowPassword] = useState<boolean>(false);
 	const [showConfirmPassword, setshowConfirmPassword] = useState<boolean>(false);
 
+	const [loading, setLoading] = useState<boolean>(false);
 
 	const handleSignUp = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -31,8 +32,28 @@ const LoginOrSignUp = () => {
 			return;
 		}
 
+		if (emailRef.current.value.trim().length == 0) {
+			setErrorMessage("please enter an email");
+			return;
+		}
+
+		if (usernameRef.current.value.trim().length == 0) {
+			setErrorMessage("please enter a username");
+			return;
+		}
+
 		if (usernameRef.current.value.trim().length < 3) {
 			setErrorMessage("username too short");
+			return;
+		}
+
+		if (passwordRef.current.value.trim().length === 0) {
+			setErrorMessage("please enter a password");
+			return;
+		}
+
+		if (passwordRef.current.value !== confirmPasswordRef.current.value) {
+			setErrorMessage("passwords do not match");
 			return;
 		}
 
@@ -41,12 +62,14 @@ const LoginOrSignUp = () => {
 			return;
 		}
 
-		if (passwordRef.current.value !== confirmPasswordRef.current.value) {
-			setErrorMessage("passwords do not match");
-			return;
+		try {
+			setLoading(true);
+			setErrorMessage(await signUp(emailRef.current.value, passwordRef.current.value, usernameRef.current.value));		
+			setLoading(false);
+		} catch (error) {
+			console.error(error);
 		}
-		
-		setErrorMessage(await signUp(emailRef.current.value, passwordRef.current.value, usernameRef.current.value));		
+	
 	};
 
 	const handleSignIn = async (e: React.FormEvent) => {
@@ -57,8 +80,25 @@ const LoginOrSignUp = () => {
 			return;
 		} 
 
-		setErrorMessage(await signIn(emailRef.current.value, passwordRef.current.value));
+		if (emailRef.current.value.trim().length === 0) {
+			setErrorMessage("please enter a username");
+			return;
+		}
+
+		if (passwordRef.current.value.trim().length === 0) {
+			setErrorMessage("please enter a password");
+			return;
+		}
+
+		try {
+			setLoading(true);
+			setErrorMessage(await signIn(emailRef.current.value, passwordRef.current.value));
+			setLoading(false);	
+		} catch (error) {
+			console.error(error);
+		}
 	};
+
 
 	const handleTabClick = (tab: Tab) => {
 		setActiveTab(tab);
@@ -133,9 +173,9 @@ const LoginOrSignUp = () => {
 					</div>
 				</div>
 				<div className="error-message">
-					{errorMessage}
+					{loading ? <FontAwesomeIcon className="loading-icon" icon={faSpinner} spin/> : errorMessage}
 				</div>			
-				<button className="submit-button" type="submit">{Tab.SignUp.toString()}</button>
+				<button className="submit-button" disabled={loading} type="submit">{Tab.SignUp.toString()}</button>
 			</form>
 			}
             
@@ -169,9 +209,9 @@ const LoginOrSignUp = () => {
             		</div>	
             	</div>
             	<div className="error-message">
-            		{errorMessage}
+            		{loading ? <FontAwesomeIcon className="loading-icon" icon={faSpinner} spin/> : errorMessage}
             	</div>	
-            	<button className="submit-button" type="submit">{Tab.LogIn.toString()}</button>
+            	<button className="submit-button" disabled={loading} type="submit">{Tab.LogIn.toString()}</button>
             </form>
 			}			
 		</div>
