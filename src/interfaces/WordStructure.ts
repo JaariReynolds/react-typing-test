@@ -71,6 +71,7 @@ export interface TestInformation {
 	accuracy: number // (characterCount - errorCountHard) / characterCount
 	consistency: number
 	testType: TestType
+	experience: number
 } 
 
 

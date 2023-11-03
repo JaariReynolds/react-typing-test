@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import React, { useContext, useState, useEffect, createContext } from "react";
-import { TimedScoreDocument, WordCountScoreDocument } from "../firebase/firestoreDocumentInterfaces";
+import { Experience, Level, TimedScoreDocument, WordCountScoreDocument } from "../firebase/firestoreDocumentInterfaces";
 import { getLeaderboard as getLeaderboard } from "../firebase/GET/scoreGets";
 import { TestInformation } from "../interfaces/WordStructure";
 import { TestType } from "../enums";
@@ -8,6 +8,7 @@ import { calculateAccuracy } from "../functions/calculations/calculateAccuracy";
 import { calculateConsistency } from "../functions/calculations/calculateConsistency";
 import { useUserContext } from "./UserContext";
 import { getUser } from "../firebase/GET/userGets";
+import { calculateExperience } from "../functions/calculations/calculateExperience";
 
 interface TestInformationContextProps {
     leaderboard: TimedScoreDocument[] | WordCountScoreDocument[],
@@ -45,7 +46,8 @@ const testInformationInitialState: TestInformation = {
 	averageWPM: 0, 
 	accuracy: 0, 
 	consistency: 0, 
-	testType: TestType.Words
+	experience: 0,
+	testType: TestType.Words,
 };
 
 export const TestInformationContext = createContext<TestInformationContextProps|undefined>({
@@ -111,6 +113,17 @@ export const TestInformationProvider = ({children}: any) => {
 		setUserDocument(userDoc);
 	};
 
+	const finaliseTestStatistics = (testInformation: TestInformation): TestInformation => {
+		const accuracy = calculateAccuracy(testInformation);
+		const consistency = calculateConsistency(testInformation);	
+		const newTestInformationObject: TestInformation = {...testInformation, accuracy: accuracy, consistency: consistency};
+
+		const experience = calculateExperience(newTestInformationObject); // requires the new accuracy and consistency stats
+		const finalTestInformationObject: TestInformation = {...testInformation, experience: experience};
+		return finalTestInformationObject;
+	};
+
+
 	useEffect(() => {
 		console.log("TestInformationContext mounted");
 		setIsTestSubmitted(localStorage.getItem("isSubmitted") === "true");
@@ -137,14 +150,9 @@ export const TestInformationProvider = ({children}: any) => {
 			console.log("calculating test results..");
 			setIsCalculationsComplete(false);
 	
-			const accuracy = calculateAccuracy(testInformation);
-			const consistency = calculateConsistency(testInformation);	
-
-			setTestInformation({
-				...testInformation,
-				accuracy: accuracy,
-				consistency: consistency	
-			});	
+			const newTestStatistics = finaliseTestStatistics(testInformation);
+			setTestInformation(newTestStatistics);
+			console.log("test statistics: ", newTestStatistics);
 
 			setIsCalculationsComplete(true);
 			console.log("test calculations done");
