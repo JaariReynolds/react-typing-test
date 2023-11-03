@@ -1,6 +1,6 @@
 README.md last updated: 4/11/2023
 
-App not yet live.
+Authentication branch not yet live.
 
 Monkeytype-inspired minimal typing test app created with React and Typescript. Still a work in progress.
 
