@@ -42,5 +42,5 @@ export const testWordsGenerator = (testLengthWords: number, numbers: boolean, pu
 	// num of words - 1 = minimum number of 'spacebars' needed to complete the test
 	characterCount += randomWordArray.length - 1;
 
-	return {words: randomWordArray, errorCountHard: 0, errorCountSoft: 0, timeElapsedMilliSeconds: 0, characterCount: characterCount, keyPressCount: 0, rawWPMArray: [], currentAverageWPMArray: [], averageWPM: 0, accuracy: 0, consistency: 0, testType: testType};
+	return {words: randomWordArray, errorCountHard: 0, errorCountSoft: 0, timeElapsedMilliSeconds: 0, characterCount: characterCount, keyPressCount: 0, rawWPMArray: [], currentAverageWPMArray: [], averageWPM: 0, accuracy: 0, consistency: 0, experience: 0, testType: testType};
 };
