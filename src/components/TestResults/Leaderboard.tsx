@@ -2,14 +2,23 @@ import React from "react";
 import { useTestInformationContext } from "../../contexts/TestInformationContext";
 import { useUserContext } from "../../contexts/UserContext";
 import "./leaderboard.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 
 const Leaderboard = () => {
 	const {user} = useUserContext();
-	const {leaderboard} = useTestInformationContext();
+	const {leaderboard, leaderboardLoading} = useTestInformationContext();
 
 	const renderLeaderboard = () => {
-		if (user && leaderboard) {
+		if (leaderboardLoading && leaderboard.length === 0) {
+			return (
+				<div className="loading-icon-container">
+					<FontAwesomeIcon className="loading-icon" icon={faSpinner} spin/>
+				</div>
+			);
+		}	
+		else if (user && leaderboard && leaderboard.length > 0) {
 			return (
 				<table>
 					<thead>

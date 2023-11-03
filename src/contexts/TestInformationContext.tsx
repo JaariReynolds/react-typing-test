@@ -12,6 +12,7 @@ import { calculateExperience } from "../functions/calculations/calculateExperien
 
 interface TestInformationContextProps {
     leaderboard: TimedScoreDocument[] | WordCountScoreDocument[],
+	leaderboardLoading: boolean,
 	fetchLeaderboard: () => void,
     isTestSubmitted: boolean,
 	setIsTestSubmitted: (bool: boolean) => void,
@@ -54,6 +55,7 @@ const testInformationInitialState: TestInformation = {
 
 export const TestInformationContext = createContext<TestInformationContextProps|undefined>({
 	leaderboard: [],
+	leaderboardLoading: false,
 	fetchLeaderboard: () => {},
 	isTestSubmitted: false,
 	setIsTestSubmitted: () => {},
@@ -93,6 +95,7 @@ export const TestInformationProvider = ({children}: any) => {
 	const [showResultsComponent, setShowResultsComponent] = useState<boolean>(false);
 
 	const [leaderboard, setLeaderboard] = useState<TimedScoreDocument[] | WordCountScoreDocument[]>([]);
+	const [leaderboardLoading, setLeaderboardLoading] = useState<boolean>(false);
 
 	const [testLengthWords, setTestLengthWords] = useState<number>(parseInt( localStorage.getItem("testLengthWords") ?? "25"));
 	const [testLengthSeconds, setTestLengthSeconds] = useState<number>(parseInt( localStorage.getItem("testLengthSeconds") ?? "30"));
@@ -103,7 +106,15 @@ export const TestInformationProvider = ({children}: any) => {
 
 	const fetchLeaderboard = async () => {
 		console.log("leaderboard fetched");
-		setLeaderboard(await getLeaderboard(testType, leaderboardTestLength));		
+		try {
+			setLeaderboardLoading(true);		
+			setLeaderboard(await getLeaderboard(testType, leaderboardTestLength));		
+			
+		} catch (error) {
+			console.error(error);
+		} finally {
+			setLeaderboardLoading(false);	
+		}
 	};
 
 	const fetchUser = async (userId: string) => {
@@ -164,6 +175,7 @@ export const TestInformationProvider = ({children}: any) => {
 
 	const value: TestInformationContextProps = {
 		leaderboard,
+		leaderboardLoading,
 		fetchLeaderboard,
 		isTestSubmitted,
 		setIsTestSubmitted,
