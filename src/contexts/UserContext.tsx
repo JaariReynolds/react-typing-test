@@ -22,7 +22,14 @@ const userDocumentInitialState : UserDocument = {
 	email: "",
 	username: "",
 	testSummaries: [],
-	creationDate: Timestamp.now()
+	creationDate: Timestamp.now(),
+	level: {
+		currentLevel: 1,
+		experience: {
+			currentExperience: 0,
+			requiredExperience: 100
+		}
+	}
 };
 
 export const UserContext = createContext<UserInfo|undefined>(
@@ -86,6 +93,7 @@ export const UserProvider = ({children}: any) => {
 	useEffect(() => {
 		localStorage.setItem("selectedPaletteId", selectedPaletteId.toString());
 	}, [selectedPaletteId]);
+	
 
 	
 	UpdateCssVariablePaletteObject(selectedPaletteId);

@@ -11,7 +11,14 @@ export const createUserDocument = async (userId: string, email: string, username
 			email: email,
 			username: username,
 			testSummaries: [],
-			creationDate: Timestamp.now()
+			creationDate: Timestamp.now(),
+			level: {
+				currentLevel: 1,
+				experience: {
+					currentExperience: 0,
+					requiredExperience: 100
+				}
+			}
 		};
 
 		await setDoc(newUserDocument, newUserObject);
@@ -50,7 +57,6 @@ export const updateUserSummary = async (userId: string, scoreObject: TestInforma
 
 		await setDoc(userRef, {testSummaries: testSummaries}, {merge: true});
 		
-
 	} catch (error) {
 		console.error(error);
 	}
