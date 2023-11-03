@@ -38,6 +38,8 @@
 
             label {
                 display: block;
+                -webkit-user-select: none;
+                user-select: none;
             }
 
             input {
