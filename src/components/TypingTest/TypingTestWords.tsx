@@ -2,7 +2,6 @@
 import "./typing-test-words.scss";
 import React, { useEffect, useRef, useState } from "react";
 import { CompletionStatus, Word } from "../../interfaces/WordStructure";
-import { calculateTestWordsDivOffset } from "../../functions/calculations/calculateTestWordsDivOffset";
 import UpdateCssVariable from "../HelperComponents/UpdateCssVariable";
 import { useTestInformationContext } from "../../contexts/TestInformationContext";
 import { calculateCaretLine } from "../../functions/calculations/calculateCaretLine";
@@ -178,7 +177,7 @@ export const TypingTestWords = ({testRunning, testComplete, testFocused, inputWo
 
 	useEffect(() => {		
 		// calculates how many lines the whole displayed word div + caret should move 
-		let numOffsetLines = calculateTestWordsDivOffset(testInformation.words);
+		let numOffsetLines = calculateCaretLine(testInformation.words);
 
 		// basically, don't start scrolling the word div until we have finished typing the 2nd line of words, then scroll words and move caret such that the focused line will always be the middle one
 		numOffsetLines = (numOffsetLines <= 1) ? 0 : numOffsetLines-1; 
