@@ -24,22 +24,25 @@
 
         thead {
             border-bottom: 2px solid var(--base-font-colour);
+            transition: border-bottom 0.3s ease-in-out;
         }
 
         th,
         td {
+            color: var(--base-font-colour);
+            transition: color 0.3s ease-in-out;
             padding: 0.1rem 0.6rem;
 
             &.right-align {
                 text-align: right;
             }
         }
-
-
     }
 
     .leaderboard-login-prompt {
         text-align: center;
+        color: var(--base-font-colour);
+        transition: color 0.3s ease-in-out;
         font-size: 30px;
     }
 }

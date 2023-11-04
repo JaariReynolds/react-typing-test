@@ -67,7 +67,7 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   border-bottom: 2px solid var(--base-font-colour);
-
+  transition: color 0.3s ease-in-out;
 
   .tab-selected {
     color: var(--primary-highlight-colour);
@@ -76,6 +76,7 @@ body {
   button {
     @include mixins.transition-hover-button();
     font-weight: constants.$bold-font-weight;
+    color: var(--base-font-colour);
 
     &:hover {
       color: var(--secondary-highlight-colour);
@@ -88,7 +89,9 @@ body {
     height: 4px;
     width: 50%;
     background-color: var(--base-font-colour);
-    transition: transform 0.2s ease-in-out;
+    transition:
+      transform 0.2s ease-in-out,
+      color 0.3s ease-in-out;
   }
 }
 
