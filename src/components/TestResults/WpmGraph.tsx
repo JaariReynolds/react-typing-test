@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useRef} from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { colourPalettes } from "../../interfaces/ColourPalettes";
 import { useTestInformationContext } from "../../contexts/TestInformationContext";
@@ -15,13 +15,21 @@ const WpmGraph = () => {
 	const {testInformation} = useTestInformationContext();
 	const {selectedPaletteId} = useUserContext();
 	const [graphData, setGraphData] = useState<DataPoint[]>([]);
+	
 	const colourPalette = colourPalettes[selectedPaletteId];
+	
+
+	const yAxisMax = useRef<number>(0);
+	
 
 	useEffect(() => {		
 		// combines raw and average datapoints at each interval into 1 type
 		const combinedArray = testInformation.rawWPMArray.map((rawWPM, index) => {	
 			return {interval: rawWPM.interval, rawWPM: rawWPM.wpm, averageWPM: testInformation.currentAverageWPMArray[index].wpm};
 		});
+
+		yAxisMax.current = Math.ceil((Math.max(...combinedArray.map(interval => interval.rawWPM)) + 10) / 20) * 20;
+		
 		setGraphData(combinedArray);	
 	}, []);
 
@@ -41,14 +49,15 @@ const WpmGraph = () => {
 				<LineChart data={graphData}>
 					<XAxis 
 						tick={{fill: colourPalette.baseFontColour}}
+						//interval={"preserveEnd"}						
 						dataKey="interval" 
-						height={40}
+						height={30}
 						
 					/>
 					<YAxis 
 						tick={{fill:colourPalette.baseFontColour}} 
 						dataKey="rawWPM"
-						domain={[0, "dataMax + 10"]}
+						domain={[0, yAxisMax.current]}						
 						label={{
 							value: "words per minute", 
 							dx: -25, 
@@ -56,7 +65,7 @@ const WpmGraph = () => {
 							fill: colourPalette.baseFontColour
 						}}
 					/>
-					<CartesianGrid stroke={colourPalette.baseFontColour} strokeWidth={0.7} fill={colourPalette.baseFontColour} fillOpacity={0.2}/>
+					<CartesianGrid stroke={colourPalette.baseFontColour} strokeWidth={0.7} fill={colourPalette.baseFontColour} fillOpacity={0.2} />
 					<Line type="monotone" dataKey="rawWPM" name="raw" stroke={colourPalette.secondaryHighlightColour} strokeWidth={2} dot={false}/>
 					<Line type="monotone" dataKey="averageWPM" name="average" stroke={colourPalette.primaryHighlightColour} strokeWidth={5} dot={false} opacity={1}/>
 					<Tooltip contentStyle={toolTipStyle} cursor={false} labelFormatter={customTooltipLabel}/>
