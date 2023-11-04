@@ -517,13 +517,11 @@ const TypingTest = ({
 		testRunning, testComplete, testFocused, inputWordsArray, reset, caretPosition, setCaretPosition, currentInputWord, inputRef, opacity, caretVisible
 	};
 
-	return (    
-	
+	return (    	
 		<div className="typing-test">
 			<TypingTestInput {...typingTestInputProps}/>
 			<TypingTestWords {...typingTestWordsProps}/>		
 		</div>  
-		
 	);
 };
 

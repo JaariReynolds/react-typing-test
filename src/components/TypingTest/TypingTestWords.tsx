@@ -174,6 +174,8 @@ export const TypingTestWords = ({testRunning, testComplete, testFocused, inputWo
 			setCaretPosition(0);		
 		else 
 			calculateCaretPosition(caretLine);	
+
+		console.log("typing test useeffect");
 		
 		// testComplete included in dependencies so that the caret moves on the final letter that completes the test
 	}, [testWordsRef.current, testComplete]);
