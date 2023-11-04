@@ -5,6 +5,9 @@ import { CompletionStatus, Word } from "../../interfaces/WordStructure";
 import { calculateTestWordsDivOffset } from "../../functions/calculations/calculateTestWordsDivOffset";
 import UpdateCssVariable from "../HelperComponents/UpdateCssVariable";
 import { useTestInformationContext } from "../../contexts/TestInformationContext";
+import { calculateCaretLine } from "../../functions/calculations/calculateCaretLine";
+import { calculateCurrentLetterIndex } from "../../functions/calculations/calculateCurrentLetterIndex";
+import { calculateCurrentDistanceCovered } from "../../functions/calculations/calculateCurrentDistanceCovered";
 
 export interface TypingTestWordsProps {
     testRunning: boolean,
@@ -191,42 +194,13 @@ export const TypingTestWords = ({testRunning, testComplete, testFocused, inputWo
 
 	// is called whenever testInformation.words changes
 	const calculateCaretPosition = () => {
-		// get the number of letters that aren't LetterCompletionStatus type 'none'
-		const currentLetterIndex = testInformation.words
-			.flatMap((letterArray) => [...letterArray.word])
-			.reduce((totalCompletedLetters, letter) => {
-				if (letter.status !== CompletionStatus.None) 
-					return totalCompletedLetters + 1;
-				else 
-					return totalCompletedLetters;
-			}, 0) - 1;		
-		
-		// gets number lines that have been 'submitted' aka caret line 
-		const completedLastLineWords = testInformation.words.reduce((total, word) => {
-			if (word.isLastWordInLine && word.status !== CompletionStatus.None && !word.active)
-				return total + 1;
-			else
-				return total;
-		 }, 0);
+		const currentLetterIndex =	calculateCurrentLetterIndex(testInformation.words);
+		const caretLine = calculateCaretLine(testInformation.words); 
+		const currentDistanceCovered = calculateCurrentDistanceCovered(currentLetterIndex, MARGIN_RIGHT, caretLine, letterWidths.current, inputWordsArray, actualLineWidths);
 
-		let currentDistanceCovered = 0;
-
-		// get the total width of letter spans typed so far
-		currentDistanceCovered = letterWidths.current
-			.slice(0, currentLetterIndex + 1)
-			.reduce((totalWidth, letterWidth) => totalWidth + letterWidth, 0)
-			+ (inputWordsArray.length * MARGIN_RIGHT) // add in spaces between words
-			- (completedLastLineWords * MARGIN_RIGHT); // remove spaces for last word in line
-				
-		setCurrentCaretLine(completedLastLineWords);
-		
-		const completedLineWidths = actualLineWidths
-			.slice(0, completedLastLineWords)
-			.reduce((total, line) => total + line, 0);
-		
-		currentDistanceCovered -= completedLineWidths;
 		// set caret position accordingly
 		setCaretPosition(currentDistanceCovered);	
+		setCurrentCaretLine(caretLine);
 	};
 
 	const addToLetterRefs = (letterSpan: any) => {
