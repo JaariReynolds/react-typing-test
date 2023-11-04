@@ -15,11 +15,8 @@ const WpmGraph = () => {
 	const {testInformation} = useTestInformationContext();
 	const {selectedPaletteId} = useUserContext();
 	const [graphData, setGraphData] = useState<DataPoint[]>([]);
-	
-	const colourPalette = colourPalettes[selectedPaletteId];
-	
-
 	const yAxisMax = useRef<number>(0);
+	const colourPalette = colourPalettes[selectedPaletteId];
 	
 
 	useEffect(() => {		
@@ -28,6 +25,7 @@ const WpmGraph = () => {
 			return {interval: rawWPM.interval, rawWPM: rawWPM.wpm, averageWPM: testInformation.currentAverageWPMArray[index].wpm};
 		});
 
+		// nearest ceiling of 20 (+ 10) of the max raw wpm
 		yAxisMax.current = Math.ceil((Math.max(...combinedArray.map(interval => interval.rawWPM)) + 10) / 20) * 20;
 		
 		setGraphData(combinedArray);	
