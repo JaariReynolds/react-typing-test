@@ -7,6 +7,8 @@ import { useTestInformationContext } from "../../contexts/TestInformationContext
 import { calculateCaretLine } from "../../functions/calculations/calculateCaretLine";
 import { calculateCurrentLetterIndex } from "../../functions/calculations/calculateCurrentLetterIndex";
 import { calculateCurrentDistanceCovered } from "../../functions/calculations/calculateCurrentDistanceCovered";
+import { calculateLastWordsPerLine } from "../../functions/calculations/calculateLastWordsPerLine";
+import { calculateNumberOfSpannedLines } from "../../functions/calculations/calculateNumberOfSpannedLines";
 
 export interface TypingTestWordsProps {
     testRunning: boolean,
@@ -116,8 +118,6 @@ export const TypingTestWords = ({testRunning, testComplete, testFocused, inputWo
 		if (testWordObjectRef.current === null) return;
 
 		if (testInformation.words !== testWordsRef.current || windowSizeWidthRef.current !== windowSize.width) {
-			//console.log("recalculating edge words and caret position");
-
 			wordWidths.current.slice(0, testInformation.words.length);
 	
 			// store lengths of each displayed word div - does not include the margin right yet
@@ -129,15 +129,14 @@ export const TypingTestWords = ({testRunning, testComplete, testFocused, inputWo
 			// store and calculate lengths of words up until the limit (div width)
 			let lineWidthCurrentTotal = 0;
 			let lineWidthTotalArray: number[] = [];
-			//console.log(wordWidths);
+			
 			const finalLineIndexes = wordWidths.current.map((wordDiv, index) => {
 				const wordWidth = wordDiv + MARGIN_RIGHT;
 				
 				// if new word + space can fit on the same line		
-				if (lineWidthCurrentTotal + wordWidth <= windowSize.width * TEST_WORDS_DIV_WIDTH_PERCENTAGE) { // .width * 0.7 is because width of typingTestWords is 70% of window size (probably should put this in its own state eventually)
+				if (lineWidthCurrentTotal + wordWidth <= windowSize.width * TEST_WORDS_DIV_WIDTH_PERCENTAGE) { 
 					lineWidthCurrentTotal += wordWidth; // add it to the current
 				}
-				// else if new word can't fit on the same line
 				else { 
 					lineWidthTotalArray = [...lineWidthTotalArray, lineWidthCurrentTotal - MARGIN_RIGHT]; // store the current total width minus the final margin width (spacebar at end of line)
 					lineWidthCurrentTotal = wordWidth; // reset line starting with this word length
@@ -146,21 +145,9 @@ export const TypingTestWords = ({testRunning, testComplete, testFocused, inputWo
 			}).slice(0, testInformation.words.length);	
 	
 			// set isLastWordInLine for each word based on finalLineIndexes
-			const newTestWords = testInformation.words.map((word, wordIndex) => {
-				if (finalLineIndexes.includes(wordIndex)) 
-					return {...word, isLastWordInLine: true};			
-				else 
-					return {...word, isLastWordInLine: false};
-			}); 
+			const newTestWords = calculateLastWordsPerLine(testInformation.words, finalLineIndexes);
+			const numSpannedLines = calculateNumberOfSpannedLines(finalLineIndexes);
 		
-			const numSpannedLines = finalLineIndexes.reduce((total, index) => {
-				if (index !== undefined && total !== undefined) 
-					return total + 1;
-				else 
-					return total;
-			}, 0);
-			
-
 			// store the widths of each letter in an array
 			testWordIndividualLettersRef.current.forEach((letter, index) => {
 				if (letter) 
