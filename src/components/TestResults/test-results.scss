@@ -10,15 +10,12 @@
     font-size: constants.$base-font-size;
     margin-top: -4rem;
 
-    & * {
-        @include mixins.general-color-transition();
-    }
-
     .score-submit-row {
         text-align: center;
+        color: var(--base-font-colour);
+        transition: color 0.3s ease-in-out;
 
         .login-prompt {
-            z-index: 100;
 
             &:hover {
                 @include mixins.transition-hover-button();
