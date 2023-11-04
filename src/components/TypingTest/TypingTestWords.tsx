@@ -176,25 +176,25 @@ export const TypingTestWords = ({testRunning, testComplete, testFocused, inputWo
 	}, [windowSize.width, testInformation]);
 
 	useEffect(() => {		
-		// calculates how many lines the whole displayed word div + caret should move 
-		let numOffsetLines = calculateCaretLine(testInformation.words);
-
-		// basically, don't start scrolling the word div until we have finished typing the 2nd line of words, then scroll words and move caret such that the focused line will always be the middle one
-		numOffsetLines = (numOffsetLines <= 1) ? 0 : numOffsetLines-1; 
-
+		const caretLine = calculateCaretLine(testInformation.words);
+		
+		// don't start scrolling the word div until we have finished typing the 2nd line of words, then scroll words and move caret such that the focused line will always be the middle one
+		const numOffsetLines = (caretLine <= 1) ? 0 : caretLine - 1; 
 		setOffsetLines(numOffsetLines);
 		
 		if (inputWordsArray.length === 0 && currentInputWord.length === 0 && testRunning) 
+			// needed otherwise the caret reset will stutter while waiting for the testWordsRef to fully reset 
 			setCaretPosition(0);		
 		else 
-			calculateCaretPosition();	
+			calculateCaretPosition(caretLine);	
 		
+		// testComplete included in dependencies so that the caret moves on the final letter that completes the test
 	}, [testWordsRef.current, testComplete]);
 
 	// is called whenever testInformation.words changes
-	const calculateCaretPosition = () => {
+	const calculateCaretPosition = (calculatedCaretLine: number) => {
 		const currentLetterIndex =	calculateCurrentLetterIndex(testInformation.words);
-		const caretLine = calculateCaretLine(testInformation.words); 
+		const caretLine = calculatedCaretLine;
 		const currentDistanceCovered = calculateCurrentDistanceCovered(currentLetterIndex, MARGIN_RIGHT, caretLine, letterWidths.current, inputWordsArray, actualLineWidths);
 
 		// set caret position accordingly
