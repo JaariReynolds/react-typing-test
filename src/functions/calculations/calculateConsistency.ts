@@ -1,6 +1,6 @@
 import { TestInformation } from "../../interfaces/WordStructure";
 
-// consistency = standard deviation from average wpm
+// consistency = 1 - (standard deviation / overall average wpm)
 export const calculateConsistency = (testInformation: TestInformation): number => {	
 	const wpmArray = testInformation.rawWPMArray.map(wpmInterval => wpmInterval.wpm);
 
@@ -13,6 +13,7 @@ export const calculateConsistency = (testInformation: TestInformation): number =
 	const standardDeviation = Math.sqrt(variance);
 
 	// expressed as a percentage (of 1)
+	// the lower the standard deviation, the smaller the mean. smaller mean = more consistent typing 
 	const consistency = 1 - (standardDeviation / testInformation.averageWPM);		
 	return consistency;
 };
