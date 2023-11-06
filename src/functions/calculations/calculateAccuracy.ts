@@ -1,9 +1,8 @@
 import { TestInformation } from "../../interfaces/WordStructure";
 
-// accuracy = (num characters in test - hard errors) / num characters in test
 export const calculateAccuracy = (testInformation: TestInformation): number => {
-	// NOTE: this doesnt feel quite right, will come back to at a later stage
-	const correctCharacters = testInformation.keyPressCount - testInformation.errorCountSoft;
-	const acc = correctCharacters / testInformation.keyPressCount;
+	// unsure if this is the most accurate way to calculate accuracy, but definitely better than the previous method
+	const correctCharacters = Math.max(0, testInformation.characterCount - testInformation.errorCountSoft - testInformation.errorCountHard);
+	const acc = correctCharacters / testInformation.characterCount;
 	return acc;
 };
