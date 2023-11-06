@@ -214,9 +214,9 @@ const TypingTest = ({
 	// every second, calculate and store in an array the WPM for THAT second only (not averaged yet)
 	const calculateCurrentSecondWPM = () => {
 		previousSecondCorrectCharactersRef.current = totalCorrectCharactersRef.current;
-		totalCorrectCharactersRef.current = calculateCorrectCharacters(testInformation) + inputWordsArray.length;
+		totalCorrectCharactersRef.current = calculateCorrectCharacters(testInformation) + inputWordsArray.length; // ( + spacebar count
 
-		const currentSecondCorrectCharacters = totalCorrectCharactersRef.current - previousSecondCorrectCharactersRef.current;
+		const currentSecondCorrectCharacters = Math.max(0, totalCorrectCharactersRef.current - previousSecondCorrectCharactersRef.current);
 		const currentSecondWPM = currentSecondCorrectCharacters / AVERAGE_WORD_LENGTH * 60;	
 		const elapsedTimeSeconds = testTimeMilliSeconds / 1000;
 	
