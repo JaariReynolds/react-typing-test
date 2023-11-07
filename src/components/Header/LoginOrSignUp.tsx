@@ -48,6 +48,11 @@ const LoginOrSignUp = () => {
 			return;
 		}
 
+		if (containsSpecialCharacters(usernameRef.current.value.trim())) {
+			setErrorMessage("invalid username");
+			return;
+		}
+
 		if (passwordRef.current.value.trim().length === 0) {
 			setErrorMessage("please enter a password");
 			return;
@@ -101,6 +106,12 @@ const LoginOrSignUp = () => {
 		} catch (error) {
 			console.error(error);
 		}
+	};
+
+	const containsSpecialCharacters = (inputString: string): boolean => {
+		// only allow a-z, 0-9, underscore, hyphen
+		const regex = /[^a-zA-Z0-9_-]/;
+		return regex.test(inputString);
 	};
 
 
