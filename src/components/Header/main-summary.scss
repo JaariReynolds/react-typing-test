@@ -1,4 +1,5 @@
 .main-summary-div {
+    overflow: hidden;
     display: grid;
     gap: 1rem;
     max-width: 100rem;
@@ -12,6 +13,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        text-align: center;
         flex-direction: column;
         font-size: 6rem;
         color: var(--primary-highlight-colour);
@@ -41,7 +43,6 @@
     }
 
     .experience-indicator {
-        height: 1.5rem;
         grid-column: 1 / -1;
         border: 2px solid var(--base-font-colour);
         border-radius: 2rem;
@@ -66,21 +67,37 @@
     }
 }
 
-@media (min-width: 1000px) {
+@media (min-width: 1400px) {
     .main-summary-div {
-        grid-template-columns: 15rem 1fr 1fr 1fr;
+        grid-template-columns: 15rem repeat(6, 1fr);
         grid-template-rows: 1fr 1fr 1.5rem;
+
+        .statistic {
+            grid-column: span 2;
+
+            &.first-row {
+                grid-column: span 3;
+            }
+        }
     }
 }
 
-@media (max-width: 1150px) {
+@media (max-width: 1399px) {
     .main-summary-div {
         grid-template-columns: 1fr 1fr 1fr;
         grid-template-rows: 1fr 1fr 1.5rem;
 
         .level {
-            display: none;
+            font-size: 2.5rem;
+            grid-column: 1 / span 1;
+            grid-row: 1 / span 1;
+
+            .level-label {
+                font-size: 1.3rem;
+            }
         }
+
+
     }
 }
 
@@ -88,6 +105,10 @@
     .main-summary-div {
         grid-template-columns: 1fr 1fr;
         grid-template-rows: 1fr 1fr 1fr 1.5rem;
+
+        .level {
+            font-size: 2rem;
+        }
 
         .statistic {
             font-size: 2rem;
@@ -102,7 +123,7 @@
 @media (max-width: 560px) {
     .main-summary-div {
         grid-template-columns: 1fr;
-        grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1.5rem;
+        grid-template-rows: repeat(6, 1fr) 1.5rem;
 
         .statistic {
             display: grid;
@@ -110,6 +131,17 @@
             font-size: 1.3rem;
 
             .statistic-label {
+                font-size: 1rem;
+                text-align: left;
+            }
+        }
+
+        .level {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            font-size: 1.3rem;
+
+            .level-label {
                 font-size: 1rem;
                 text-align: left;
             }
