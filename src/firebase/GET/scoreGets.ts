@@ -1,5 +1,5 @@
 import { getDocs, limit, orderBy, query, where } from "firebase/firestore";
-import { timedHighScoresCollectionRef, wordCountHighScoresCollectionRef } from "../firestoreConstants";
+import { timedLeaderboardCollectionRef, wordCountLeaderboardCollectionRef } from "../firestoreConstants";
 import { TimedScoreDocument, WordCountScoreDocument } from "../firestoreDocumentInterfaces";
 import { TestType } from "../../enums";
 
@@ -17,7 +17,7 @@ export const getLeaderboard = async (testType: TestType, testLength: number): Pr
 // gets the top (NUM_SCORES_FETCHED) leaderboard for word count tests
 const getLeaderboardForWordCountTest = async (wordCount: number) => {
 	try {
-		const leaderboardQuery = query(wordCountHighScoresCollectionRef, where("wordCount", "==", wordCount), orderBy("wpm", "desc"), limit(NUM_SCORES_FETCHED));
+		const leaderboardQuery = query(wordCountLeaderboardCollectionRef, where("wordCount", "==", wordCount), orderBy("wpm", "desc"), limit(NUM_SCORES_FETCHED));
 		const data = await getDocs(leaderboardQuery);
 
 		if (data.empty)
@@ -38,7 +38,7 @@ const getLeaderboardForWordCountTest = async (wordCount: number) => {
 // gets the top (NUM_SCORES_FETCHED) leaderboard for timed tests
 const getLeaderboardForTimedTest = async (testLengthSeconds: number) => {
 	try {
-		const leaderboardQuery = query(timedHighScoresCollectionRef, where("testLengthSeconds", "==", testLengthSeconds), orderBy("wpm", "desc"), limit(NUM_SCORES_FETCHED));
+		const leaderboardQuery = query(timedLeaderboardCollectionRef, where("testLengthSeconds", "==", testLengthSeconds), orderBy("wpm", "desc"), limit(NUM_SCORES_FETCHED));
 		const data = await getDocs(leaderboardQuery);
 
 		if (data.empty)
