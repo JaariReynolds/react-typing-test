@@ -23,12 +23,12 @@ const Leaderboard = () => {
 				<table>
 					<thead>
 						<tr>
-							<th>rank</th>
-							<th>username</th>
-							<th className="right-align">wpm</th>
-							<th className="right-align third">accuracy</th>
-							<th className="right-align forth">consistency</th>
-							<th className="right-align fifth">date</th>
+							<th >rank</th>
+							<th className="second">username</th>
+							<th className="right-align third">wpm</th>
+							<th className="right-align forth">accuracy</th>
+							<th className="right-align fifth">consistency</th>
+							<th className="right-align sixth">date</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -36,11 +36,11 @@ const Leaderboard = () => {
 							return (
 								<tr key={index}>
 									<td>{index + 1}</td>
-									<td>{score.username}</td>
-									<td className="right-align">{score.wpm}</td>
-									<td className="right-align third">{(score.accuracy * 100).toFixed(2)}%</td>
-									<td className="right-align forth">{(score.consistency * 100).toFixed(2)}%</td>
-									<td className="right-align fifth">{score.submissionDate.toDate().toLocaleDateString("en-AU")}</td>
+									<td className="second">{score.username}</td>
+									<td className="right-align third">{score.wpm}</td>
+									<td className="right-align forth">{(score.accuracy * 100).toFixed(2)}%</td>
+									<td className="right-align fifth">{(score.consistency * 100).toFixed(2)}%</td>
+									<td className="right-align sixth">{score.submissionDate.toDate().toLocaleDateString("en-AU")}</td>
 								</tr>
 							);
 						})}
