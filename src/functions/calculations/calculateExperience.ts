@@ -14,7 +14,6 @@ export const calculateExperience = (testInformation: TestInformation): number =>
 		* (testInformation.includeNumbers ? INCLUDE_NUMBERS_MULTIPLIER : 1)
 		* (testInformation.includePunctuation ? INCLUDE_PUNCTUATION_MULTIPLIER : 1));
 
-	console.log("total experience: ", totalExperience);
 	return totalExperience;
 };
 

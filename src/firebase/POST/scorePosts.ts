@@ -9,11 +9,11 @@ export const createScoreDocument = async (username: string, scoreObject: TestInf
 	switch (scoreObject.testType) {
 	case TestType.Time:
 		await createTimedScoreDocument(username, scoreObject);
-		console.log("timed score document created!");
+		//console.log("timed score document created!");
 		break;
 	case TestType.Words:
 		await createWordCountScoreDocument(username, scoreObject);
-		console.log("word count score document created!");
+		//console.log("word count score document created!");
 		break;
 	}
 };
@@ -73,14 +73,12 @@ const updateTimedHighScoreDocument = async (username: string, timedScoreObject: 
 		// create new highscore document for user if needed
 		if (data.empty) {
 			await addDoc(timedHighScoresCollectionRef, timedScoreObject);
-			console.log("timed highscore doc created!");
 			return;
 		}
 
 		// check if user has beaten their highscore 
 		const currentHighScoreDocument = data.docs[0].data() as TimedScoreDocument;
 		if (currentHighScoreDocument.wpm > timedScoreObject.wpm) {
-			console.log("highscore not beaten, no changes made to collection");
 			return;
 		}
 
@@ -92,8 +90,6 @@ const updateTimedHighScoreDocument = async (username: string, timedScoreObject: 
 			consistency: timedScoreObject.consistency,
 			submissionDate: timedScoreObject.submissionDate
 		});
-
-		console.log("highscore updated!");
 
 	} catch (error) {
 		console.error(error);
@@ -112,14 +108,12 @@ const updateWordCountHighScoreDocument = async (username: string, wordCountScore
 		// create new highscore document for user if needed
 		if (data.empty) {
 			await addDoc(wordCountHighScoresCollectionRef, wordCountScoreObject);
-			console.log("wordcount highscore doc created!");
 			return;
 		}
 
 		// check if user has beaten their highscore 
 		const currentHighScoreDocument = data.docs[0].data() as WordCountScoreDocument;
 		if (currentHighScoreDocument.wpm > wordCountScoreObject.wpm) {
-			console.log("highscore not beaten, no changes made to collection");
 			return;
 		}
 
@@ -131,8 +125,6 @@ const updateWordCountHighScoreDocument = async (username: string, wordCountScore
 			consistency: wordCountScoreObject.consistency,
 			submissionDate: wordCountScoreObject.submissionDate
 		});
-
-		console.log("highscore updated!");
 
 	} catch (error) {
 		console.error(error);
