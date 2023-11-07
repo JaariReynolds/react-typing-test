@@ -62,23 +62,21 @@ export const updateUserStatistics = async (userId: string, scoreObject: TestInfo
 		const experienceGained = scoreObject.experience;
 		const level = userDocument.level;
 
-		let newLevel = level.currentLevel;
-		let newCurrentExperience = level.experience.currentExperience;
+		let newCurrentLevel = level.currentLevel;
+		let newCurrentExperience = level.experience.currentExperience + experienceGained;
 		let newRequiredExperience = level.experience.requiredExperience;
 
 		// if more than enough experience to level up
-		if (experienceGained > level.experience.requiredExperience - level.experience.currentExperience) {
-			newLevel = level.currentLevel + 1;
-			newCurrentExperience = experienceGained - (level.experience.requiredExperience - level.experience.currentExperience);
-			newRequiredExperience = calculateRequiredExperience(newLevel);
-		}
-		// otherwise, add new experience to current
-		else {
-			newCurrentExperience = experienceGained + level.experience.currentExperience;
+		if (newCurrentExperience > newRequiredExperience) {
+			do {
+				newCurrentLevel += 1;
+				newCurrentExperience -= newRequiredExperience; // should read as "old required experience", as its being read before being overwritten
+				newRequiredExperience = calculateRequiredExperience(newCurrentLevel);
+			} while (newCurrentExperience > newRequiredExperience); 
 		}
 
 		const newLevelObject: Level = {
-			currentLevel: newLevel,
+			currentLevel: newCurrentLevel,
 			experience: {
 				currentExperience: newCurrentExperience,
 				requiredExperience: newRequiredExperience
