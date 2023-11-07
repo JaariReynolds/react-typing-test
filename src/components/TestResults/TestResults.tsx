@@ -20,17 +20,23 @@ enum ResultsTab {
 	Leaderboard = "leaderboard"
 }
 
+const ACCURACY_THRESHOLD = 0.4;
+const CONSISTENCY_THRESHOLD = 0.25;
+
 const TestResults = ({resultsComponentOpacity, resultsComponentDisplay}: TestResultsProps ) => {
 	const {user, userDocument, isHeaderOpen, setIsHeaderOpen} = useUserContext();
 	const {testInformation, showResultsComponent, isTestSubmitted, setIsTestSubmitted, isCalculationsComplete, leaderboard, fetchLeaderboard} = useTestInformationContext();
 	const [activeTab, setActiveTab] = useState<ResultsTab>(ResultsTab.Statistics);
+	const [scoreMessage, setScoreMessage] = useState<string>("");
 
 	const isHeaderOpenRef = useRef<boolean>();
 	isHeaderOpenRef.current = isHeaderOpen;
 
 	useEffect(() => {
-		if (showResultsComponent)
+		if (showResultsComponent) {
 			setActiveTab(ResultsTab.Statistics);
+			setScoreMessage("submitting test...");
+		}
 	}, [showResultsComponent]);
 
 	useEffect(() => {
@@ -40,8 +46,18 @@ const TestResults = ({resultsComponentOpacity, resultsComponentDisplay}: TestRes
 	
 	// submit score when test hasnt already been submitted, user is logged in, and all result calculations are done
 	useEffect(() => {
-		if (!isTestSubmitted && showResultsComponent && isCalculationsComplete && user && userDocument)
-			handleScoreSubmit();
+		if (!isTestSubmitted && showResultsComponent && isCalculationsComplete && user && userDocument) {
+			if (testInformation.accuracy < ACCURACY_THRESHOLD) {
+				setScoreMessage("unable to submit score: accuracy too low");
+				return;
+			} else if (testInformation.consistency < CONSISTENCY_THRESHOLD) {
+				setScoreMessage("unable to submit score: consistency too low");
+				return;
+
+			} else {
+				handleScoreSubmit();
+			}
+		}
 	}, [isCalculationsComplete, user, userDocument, isTestSubmitted]);
 
 	const handleScoreSubmit = async () => {
@@ -51,7 +67,9 @@ const TestResults = ({resultsComponentOpacity, resultsComponentDisplay}: TestRes
 			await updateUserStatistics(user!.uid, testInformation);
 			localStorage.setItem("isSubmitted", "true");
 			setIsTestSubmitted(true);
+			setScoreMessage("test submitted");
 		} catch (error) {
+			setScoreMessage("unable to submit score");
 			console.error(error);
 		}		
 	};
@@ -64,7 +82,7 @@ const TestResults = ({resultsComponentOpacity, resultsComponentDisplay}: TestRes
 		return (
 			<div className="score-submit-row"> 
 				{user ? 
-					<div>{isTestSubmitted ? "test submitted" : "submitting test..."} </div> 
+					<div>{scoreMessage}</div> 
 					:
 					<button className="login-prompt" onClick={handleOpenHeader}>login to submit score and view leaderboard</button>	
 				}
