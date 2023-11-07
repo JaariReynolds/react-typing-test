@@ -2,7 +2,7 @@ import { Timestamp, addDoc, collection, doc, getDocs, limit, query, updateDoc, w
 import { TestInformation } from "../../interfaces/WordStructure";
 import { database } from "../firebase";
 import { TimedScoreDocument, WordCountScoreDocument } from "../firestoreDocumentInterfaces";
-import { timedHighScoresCollectionRef, wordCountHighScoresCollectionRef } from "../firestoreConstants";
+import { timedLeaderboardCollectionRef, wordCountLeaderboardCollectionRef } from "../firestoreConstants";
 import { TestType } from "../../enums";
 
 export const createScoreDocument = async (username: string, scoreObject: TestInformation) => {
@@ -64,7 +64,7 @@ const createWordCountScoreDocument = async (username: string, scoreObject: TestI
 const updateTimedHighScoreDocument = async (username: string, timedScoreObject: TimedScoreDocument) => {
 	try {
 		const highScoreQuery = query(
-			timedHighScoresCollectionRef, 
+			timedLeaderboardCollectionRef, 
 			where("username", "==", username), 
 			where("testLengthSeconds", "==", timedScoreObject.testLengthSeconds), limit(1));
 
@@ -72,7 +72,7 @@ const updateTimedHighScoreDocument = async (username: string, timedScoreObject: 
 	
 		// create new highscore document for user if needed
 		if (data.empty) {
-			await addDoc(timedHighScoresCollectionRef, timedScoreObject);
+			await addDoc(timedLeaderboardCollectionRef, timedScoreObject);
 			return;
 		}
 
@@ -99,7 +99,7 @@ const updateTimedHighScoreDocument = async (username: string, timedScoreObject: 
 const updateWordCountHighScoreDocument = async (username: string, wordCountScoreObject: WordCountScoreDocument) => {
 	try {
 		const highScoreQuery = query(
-			wordCountHighScoresCollectionRef, 
+			wordCountLeaderboardCollectionRef, 
 			where("username", "==", username), 
 			where("wordCount", "==", wordCountScoreObject.wordCount), limit(1));
 
@@ -107,7 +107,7 @@ const updateWordCountHighScoreDocument = async (username: string, wordCountScore
 	
 		// create new highscore document for user if needed
 		if (data.empty) {
-			await addDoc(wordCountHighScoresCollectionRef, wordCountScoreObject);
+			await addDoc(wordCountLeaderboardCollectionRef, wordCountScoreObject);
 			return;
 		}
 
