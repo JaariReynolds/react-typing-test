@@ -5,7 +5,7 @@ export const calculateConsistency = (testInformation: TestInformation): number =
 	const wpmArray = testInformation.rawWPMArray.map(wpmInterval => wpmInterval.wpm);
 
 	if (wpmArray.length <= 1) 
-		return 100;
+		return 1; // consistency is perfect when the mean is from a single value
     
 	// calculate standard deviation of WPM values
 	const squaredDifferences = wpmArray.map(wpm => Math.pow(wpm - testInformation.averageWPM, 2));
