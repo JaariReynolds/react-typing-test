@@ -28,7 +28,7 @@ export const createUserDocument = async (userId: string, email: string, username
 	}
 };
 
-export const updateUserStatistics = async (userId: string, scoreObject: TestInformation) => {
+export const updateUserSummary = async (userId: string, scoreObject: TestInformation) => {
 	try {
 		const userRef = doc(database, "users", userId);
 		const data = await getDoc(userRef);
