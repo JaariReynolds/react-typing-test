@@ -70,10 +70,7 @@ export const isUsernameAvailable = async (username: string): Promise<boolean> =>
 		const userQuery = query(usersCollectionRef, where("username", "==", username));
 		const data = await getDocs(userQuery);
 		
-		if (data.empty)
-			return true;
-		else 
-			return false;
+		return data.empty;
 		
 	} catch (error) {
 		console.error(error);
