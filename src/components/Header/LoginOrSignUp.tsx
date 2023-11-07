@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import "./login-or-sign-up.scss";
 import {signUp, signIn} from "../../firebase/accountFunctions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -27,6 +27,7 @@ const LoginOrSignUp = () => {
 	const handleSignUp = async (e: React.FormEvent) => {
 		e.preventDefault();
 
+		//#region sign up validation
 		if (!emailRef.current || !usernameRef.current || !passwordRef.current || !confirmPasswordRef.current) {
 			console.error("refs not valid");
 			return;
@@ -61,6 +62,7 @@ const LoginOrSignUp = () => {
 			setErrorMessage("username already taken");
 			return;
 		}
+		//#endregion
 
 		try {
 			setLoading(true);
@@ -75,6 +77,7 @@ const LoginOrSignUp = () => {
 	const handleSignIn = async (e: React.FormEvent) => {
 		e.preventDefault();
 
+		//#region sign in validation
 		if (!emailRef.current || !passwordRef.current) {
 			console.error("refs not valid");
 			return;
@@ -89,6 +92,7 @@ const LoginOrSignUp = () => {
 			setErrorMessage("please enter a password");
 			return;
 		}
+		//#endregion
 
 		try {
 			setLoading(true);
@@ -137,6 +141,7 @@ const LoginOrSignUp = () => {
 						name="username"
 						ref={usernameRef}
 						spellCheck="false"
+						maxLength={15}
 						required
 					/>
 				</div>
