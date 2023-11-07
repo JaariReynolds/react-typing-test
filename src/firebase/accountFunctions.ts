@@ -12,7 +12,7 @@ export const signUp = (email: string, password: string, username: string): Promi
 		.then((userCredential) => {
 			createUserDocument(userCredential.user.uid, email, username)
 				.then(() => {
-					console.log("successfully created user document!");
+					//console.log("successfully created user document!");
 				}).catch((error) => {
 					console.error(error);
 					return "an error has occured somehwere";
@@ -27,7 +27,7 @@ export const signUp = (email: string, password: string, username: string): Promi
 export const signIn = (email: string, password: string): Promise<string> => {
 	return signInWithEmailAndPassword(auth, email, password)
 		.then((userCredential) => {
-			console.log(userCredential);
+			//console.log(userCredential);
 			return "";
 		}).catch((error) => {
 			return authErrorMessageUserFriendly(error.code);
@@ -39,22 +39,9 @@ export const signOut = () => {
 		.then(() => {
 			return "";
 		}).catch((error) => {
-			console.log("error signing out");
-			console.log(error);
+			//console.log("error signing out");
+			console.error(error);
 		});
-};
-
-export const updateDisplayName = (displayName: string) => {
-	if (!auth.currentUser) return;
-
-	updateProfile(auth.currentUser, {
-		displayName: displayName
-	}).then(() => {
-		console.log("display name updated");
-	}).catch((error) => {
-		console.log("couldn't update display name");
-		console.log(error);
-	});
 };
 
 
