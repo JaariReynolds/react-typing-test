@@ -73,12 +73,20 @@ function App() {
 		if (event.key == "Tab" && !isHeaderOpenRef.current) {
 			event.preventDefault();
 			resetButtonRef.current!.focus();
+			setTestFocused(false);
 			return;
 		}
 
+		// if reset button focused, can press "Esc" to set focus to test
+		if (event.key == "Escape" && document.activeElement === resetButtonRef.current) {
+			inputRef.current!.focus();
+			setTestFocused(true);
+			return;
+		}
 
 		if (event.key === "CapsLock") {
 			setCapsLockOpacity(event.getModifierState("CapsLock") ? 1 : 0);
+			return;
 		}
 	};
 	
