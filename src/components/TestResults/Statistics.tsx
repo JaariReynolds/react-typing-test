@@ -17,7 +17,7 @@ const Statistics = () => {
 			</div>
 			<div className="grid-item wpm-grid">
 				<div className="wpm">{testInformation.averageWPM}</div>
-				<div className="wpm-label">wpm</div>
+				<div className="label">wpm</div>
 			</div>
 			<div className="grid-item">
 				<div className="score">{testInformation.errorCountHard + testInformation.errorCountSoft}</div>					
@@ -26,7 +26,12 @@ const Statistics = () => {
 			<div className="grid-item">
 				<div className="score">{(testInformation.consistency * 100).toFixed(2)}%</div>					
 				<div className="label">consistency</div>
-			</div>		
+			</div>	
+			<div className="grid-item experience-grid">
+				<div className="experience">{testInformation.experience}</div>
+				<div className="label">experience</div>
+			</div>
+
 		</div>
 	);
 };
