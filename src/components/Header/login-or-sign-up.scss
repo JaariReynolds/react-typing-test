@@ -72,11 +72,15 @@
             color: constants.$incorrect-font-colour;
             height: 1.5rem;
             font-weight: 500;
+            -webkit-user-select: none;
+            user-select: none;
         }
 
         button {
             font-weight: 500;
             font-size: constants.$base-font-size;
+            -webkit-user-select: none;
+            user-select: none;
         }
     }
 }
