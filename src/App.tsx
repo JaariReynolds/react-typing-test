@@ -41,7 +41,7 @@ function App() {
 	const [componentOpacity, setComponentOpacity] = useState<number>(1);
 
 	const [pressedKeys, setPressedKeys] = useState<string[]>([]); 
-	const sitePressedKeysRef = useRef<Set<string>>(new Set());
+	
 
 	const [averageWPM, setAverageWPM] = useState<number>(0);
 
@@ -76,24 +76,11 @@ function App() {
 			return;
 		}
 
-		setCapsLockOpacity(event.getModifierState("CapsLock") ? 1 : 0);
 
-		if (sitePressedKeysRef.current.has(event.key))
-			return;
-
-		sitePressedKeysRef.current = new Set([...sitePressedKeysRef.current, event.key]);
-
-		//handleSiteKeyCombos();
-	};
-
-	const handleSiteKeyUp = (event: KeyboardEvent) => {
-		if (sitePressedKeysRef.current.has(event.key)) {
-			const newSitePressedKeys = new Set(sitePressedKeysRef.current);
-			newSitePressedKeys.delete(event.key);
-			sitePressedKeysRef.current = newSitePressedKeys;
+		if (event.key === "CapsLock") {
+			setCapsLockOpacity(event.getModifierState("CapsLock") ? 1 : 0);
 		}
 	};
-
 	
 	const handleOutsideClick = (event: any) => { 
 		// if clicked outside of the colourPalette div when opened, close it
@@ -115,12 +102,10 @@ function App() {
 	//#region useEffects
 	useEffect(() => {
 		window.addEventListener("keydown", handleSiteKeyDown);
-		window.addEventListener("keyup", handleSiteKeyUp);
 		window.addEventListener("mousedown", handleOutsideClick);
 
 		return () => {
 			window.removeEventListener("keydown", handleSiteKeyDown);
-			window.removeEventListener("keyup", handleSiteKeyUp);
 			window.removeEventListener("mousedown", handleOutsideClick);
 		};
 	}, []);
