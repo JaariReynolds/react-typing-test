@@ -105,7 +105,6 @@ export const TestInformationProvider = ({children}: any) => {
 	const leaderboardTestLength = testType === TestType.Words ? testLengthWords : testLengthSeconds;
 
 	const fetchLeaderboard = async () => {
-		console.log("leaderboard fetched");
 		try {
 			setLeaderboardLoading(true);		
 			setLeaderboard(await getLeaderboard(testType, leaderboardTestLength));		
@@ -137,7 +136,6 @@ export const TestInformationProvider = ({children}: any) => {
 
 
 	useEffect(() => {
-		console.log("TestInformationContext mounted");
 		setIsTestSubmitted(localStorage.getItem("isSubmitted") === "true");
 	}, []);
 	
@@ -158,14 +156,14 @@ export const TestInformationProvider = ({children}: any) => {
 	// once results screen shown, calculate final info for the TestInformation object
 	useEffect(() => {
 		if (showResultsComponent) {
-			console.log("calculating test results..");
+			//console.log("calculating test results..");
 			setIsCalculationsComplete(false);
 	
 			const newTestStatistics = finaliseTestStatistics(testInformation);
 			setTestInformation(newTestStatistics);
 
 			setIsCalculationsComplete(true);
-			console.log("test calculations done");
+			///console.log("test calculations done");
 		}
 		else {
 			setIsCalculationsComplete(false);

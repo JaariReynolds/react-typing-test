@@ -32,7 +32,7 @@ export const getUser = async (userId: string): Promise<UserDocument|null> => {
 		return userDocument;
 
 	} catch (error) {
-		console.log("error in getUserFromUserId");
+		console.error("error in getUserFromUserId");
 		throw error;
 	}
 };
