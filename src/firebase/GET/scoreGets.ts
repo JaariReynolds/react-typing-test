@@ -3,6 +3,8 @@ import { timedHighScoresCollectionRef, wordCountHighScoresCollectionRef } from "
 import { TimedScoreDocument, WordCountScoreDocument } from "../firestoreDocumentInterfaces";
 import { TestType } from "../../enums";
 
+const NUM_SCORES_FETCHED = 20;
+
 export const getLeaderboard = async (testType: TestType, testLength: number): Promise<TimedScoreDocument[] | WordCountScoreDocument[]> => {
 	switch (testType) {
 	case TestType.Time:
@@ -12,10 +14,10 @@ export const getLeaderboard = async (testType: TestType, testLength: number): Pr
 	}
 };
 
-// gets the top 10 leaderboard for word count tests
+// gets the top (NUM_SCORES_FETCHED) leaderboard for word count tests
 const getLeaderboardForWordCountTest = async (wordCount: number) => {
 	try {
-		const leaderboardQuery = query(wordCountHighScoresCollectionRef, where("wordCount", "==", wordCount), orderBy("wpm", "desc"), limit(10));
+		const leaderboardQuery = query(wordCountHighScoresCollectionRef, where("wordCount", "==", wordCount), orderBy("wpm", "desc"), limit(NUM_SCORES_FETCHED));
 		const data = await getDocs(leaderboardQuery);
 
 		if (data.empty)
@@ -33,10 +35,10 @@ const getLeaderboardForWordCountTest = async (wordCount: number) => {
 	}
 };
 
-// gets the top 10 leaderboard for timed tests
+// gets the top (NUM_SCORES_FETCHED) leaderboard for timed tests
 const getLeaderboardForTimedTest = async (testLengthSeconds: number) => {
 	try {
-		const leaderboardQuery = query(timedHighScoresCollectionRef, where("testLengthSeconds", "==", testLengthSeconds), orderBy("wpm", "desc"), limit(10));
+		const leaderboardQuery = query(timedHighScoresCollectionRef, where("testLengthSeconds", "==", testLengthSeconds), orderBy("wpm", "desc"), limit(NUM_SCORES_FETCHED));
 		const data = await getDocs(leaderboardQuery);
 
 		if (data.empty)
