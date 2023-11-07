@@ -110,6 +110,11 @@ body {
   transition: background-color 0.3s ease-in-out;
 }
 
+input::-ms-reveal,
+input::-ms-clear {
+  display: none;
+}
+
 @keyframes fa-spin-custom {
   from {
     transform: rotate(0deg);
