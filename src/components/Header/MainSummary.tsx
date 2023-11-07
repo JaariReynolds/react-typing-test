@@ -16,6 +16,7 @@ const MainSumary = ({sortedSummaries, userDocument, activeTab}: MainSummaryProps
 	const {isHeaderOpen} = useUserContext();
 	const [experienceBarWidth, setExperienceBarWidth] = useState<number>(0);
 
+	// experience bar animation
 	useEffect(() => {
 		if (activeTab === AccountTab.Main && isHeaderOpen) {
 			setExperienceBarWidth(0);
@@ -45,14 +46,15 @@ const MainSumary = ({sortedSummaries, userDocument, activeTab}: MainSummaryProps
 				<div className="level-label">level</div>
 			</div>
 			
-			<div className="statistic">
+			<div className="statistic first-row">
 				{peakWpm == 0 ? "-" : peakWpm}
 				<div className="statistic-label">peak wpm</div>
 			</div>
-			<div className="statistic">
+			<div className="statistic first-row">
 				{isNaN(parseFloat(averageWpm)) ? "-" : averageWpm}
-				<div className="statistic-label">wpm</div>
+				<div className="statistic-label">average wpm</div>
 			</div>
+		
 			<div className="statistic">
 				{isNaN(parseFloat(averageAccuracy)) ? "-" : averageAccuracy + "%"}
 				<div className="statistic-label">accuracy</div>
@@ -66,11 +68,7 @@ const MainSumary = ({sortedSummaries, userDocument, activeTab}: MainSummaryProps
 				{submissions == 0 ? "-" : submissions}
 				<div className="statistic-label">submissions</div>
 			</div>
-			<div className="statistic">
-				???
-				<div className="statistic-label">idk yet</div>
-			</div>
-			
+		
 			<div className="experience-indicator">
 				<div className="current-experience-text">{userDocument!.level.experience.currentExperience}/{userDocument!.level.experience.requiredExperience}xp</div>
 				<div className="current-experience-bar" style={{width: experienceBarWidth + "%"}}></div>
