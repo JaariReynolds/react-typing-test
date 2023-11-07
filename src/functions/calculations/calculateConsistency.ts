@@ -14,6 +14,11 @@ export const calculateConsistency = (testInformation: TestInformation): number =
 
 	// expressed as a percentage (of 1)
 	// the lower the standard deviation, the smaller the mean. smaller mean = more consistent typing 
-	const consistency = 1 - (standardDeviation / testInformation.averageWPM);		
-	return consistency;
+	const consistency = 1 - (standardDeviation / testInformation.averageWPM);
+	
+	if (consistency <= 0)
+		return 0;
+	else 
+		return consistency;
+		
 };
