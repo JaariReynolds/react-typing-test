@@ -5,7 +5,7 @@ import { getFirestore } from "firebase/firestore";
 let app: FirebaseApp;
 
 if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
-	console.log("development app");
+	console.log("development servers");
 	app = initializeApp({ 
 		apiKey: process.env.REACT_APP_DEVELOPMENT_FIREBASE_API_KEY,
 		authDomain: process.env.REACT_APP_DEVELOPMENT_FIREBASE_AUTH_DOMAIN,
@@ -15,7 +15,7 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
 		appId: process.env.REACT_APP_DEVELOPMENT_FIREBASE_APP_ID,
 	});
 } else {
-	console.log("production app");
+	console.log("production servers");
 	app = initializeApp({ 
 		apiKey: process.env.REACT_APP_PRODUCTION_FIREBASE_API_KEY,
 		authDomain: process.env.REACT_APP_PRODUCTION_FIREBASE_AUTH_DOMAIN,
