@@ -1,8 +1,8 @@
-import { Timestamp, addDoc, collection, doc, getDocs, limit, query, updateDoc, where } from "firebase/firestore";
+import { Timestamp, addDoc, doc, getDocs, limit, query, updateDoc, where } from "firebase/firestore";
 import { TestInformation } from "../../interfaces/WordStructure";
 import { database } from "../firebase";
 import { TimedScoreDocument, WordCountScoreDocument } from "../firestoreDocumentInterfaces";
-import { timedLeaderboardCollectionRef, wordCountLeaderboardCollectionRef } from "../firestoreConstants";
+import { TIMED_LEADERBOARD, WORDCOUNT_LEADERBOARD, timedLeaderboardCollectionRef, timedScoresCollectionRef, wordCountLeaderboardCollectionRef, wordCountScoresCollectionRef } from "../firestoreConstants";
 import { TestType } from "../../enums";
 
 export const createScoreDocument = async (username: string, scoreObject: TestInformation) => {
@@ -19,7 +19,6 @@ export const createScoreDocument = async (username: string, scoreObject: TestInf
 };
 
 const createTimedScoreDocument = async (username: string, scoreObject: TestInformation) => {
-	const timedScoresCollectionRef = collection(database, "timedScores");
 	const newTimedScoreObject: TimedScoreDocument = {
 		username: username,
 		testType: scoreObject.testType.toString(),
@@ -30,17 +29,16 @@ const createTimedScoreDocument = async (username: string, scoreObject: TestInfor
 		submissionDate: Timestamp.now()
 	};
 
-	// add score document, then check if highscore document needs to be overwritten
+	// add score document, then check if leaderboard document needs to be overwritten
 	try {
 		await addDoc(timedScoresCollectionRef, newTimedScoreObject);
-		await updateTimedHighScoreDocument(username, newTimedScoreObject);
+		await updateTimedLeaderboardDocument(username, newTimedScoreObject);
 	} catch (error) {
 		console.error(error);
 	}
 };
 
 const createWordCountScoreDocument = async (username: string, scoreObject: TestInformation) => {
-	const wordCountScoresCollectionRef = collection(database, "wordCountScores");
 	const newWordCountScoreObject: WordCountScoreDocument = {
 		username: username,
 		testType: scoreObject.testType.toString(),
@@ -52,38 +50,38 @@ const createWordCountScoreDocument = async (username: string, scoreObject: TestI
 		submissionDate: Timestamp.now()
 	};
 
-	// add score document, then check if highscore document needs to be overwritten
+	// add score document, then check if leaderboard document needs to be overwritten
 	try {
 		await addDoc(wordCountScoresCollectionRef, newWordCountScoreObject);
-		await updateWordCountHighScoreDocument(username, newWordCountScoreObject);
+		await updateWordCountLeaderboardDocument(username, newWordCountScoreObject);
 	} catch (error) {
 		console.error(error);
 	}
 };
 
-const updateTimedHighScoreDocument = async (username: string, timedScoreObject: TimedScoreDocument) => {
+const updateTimedLeaderboardDocument = async (username: string, timedScoreObject: TimedScoreDocument) => {
 	try {
-		const highScoreQuery = query(
+		const leaderboardQuery = query(
 			timedLeaderboardCollectionRef, 
 			where("username", "==", username), 
 			where("testLengthSeconds", "==", timedScoreObject.testLengthSeconds), limit(1));
 
-		const data = await getDocs(highScoreQuery);
+		const data = await getDocs(leaderboardQuery);
 	
-		// create new highscore document for user if needed
+		// create new leaderboard document for user if needed
 		if (data.empty) {
 			await addDoc(timedLeaderboardCollectionRef, timedScoreObject);
 			return;
 		}
 
 		// check if user has beaten their highscore 
-		const currentHighScoreDocument = data.docs[0].data() as TimedScoreDocument;
-		if (currentHighScoreDocument.wpm > timedScoreObject.wpm) {
+		const currentLeaderboardDocument = data.docs[0].data() as TimedScoreDocument;
+		if (currentLeaderboardDocument.wpm > timedScoreObject.wpm) {
 			return;
 		}
 
 		// if beaten, update document
-		const docRef = doc(database, "timedHighScores", data.docs[0].id);
+		const docRef = doc(database, TIMED_LEADERBOARD, data.docs[0].id);
 		await updateDoc(docRef, {
 			wpm: timedScoreObject.wpm,
 			accuracy: timedScoreObject.accuracy,
@@ -96,29 +94,29 @@ const updateTimedHighScoreDocument = async (username: string, timedScoreObject: 
 	}
 };
 
-const updateWordCountHighScoreDocument = async (username: string, wordCountScoreObject: WordCountScoreDocument) => {
+const updateWordCountLeaderboardDocument = async (username: string, wordCountScoreObject: WordCountScoreDocument) => {
 	try {
-		const highScoreQuery = query(
+		const leaderboardQuery = query(
 			wordCountLeaderboardCollectionRef, 
 			where("username", "==", username), 
 			where("wordCount", "==", wordCountScoreObject.wordCount), limit(1));
 
-		const data = await getDocs(highScoreQuery);
+		const data = await getDocs(leaderboardQuery);
 	
-		// create new highscore document for user if needed
+		// create new leaderboard document for user if needed
 		if (data.empty) {
 			await addDoc(wordCountLeaderboardCollectionRef, wordCountScoreObject);
 			return;
 		}
 
 		// check if user has beaten their highscore 
-		const currentHighScoreDocument = data.docs[0].data() as WordCountScoreDocument;
-		if (currentHighScoreDocument.wpm > wordCountScoreObject.wpm) {
+		const currentLeaderboardDocument = data.docs[0].data() as WordCountScoreDocument;
+		if (currentLeaderboardDocument.wpm > wordCountScoreObject.wpm) {
 			return;
 		}
 
 		// if beaten, update document
-		const docRef = doc(database, "wordCountHighScores", data.docs[0].id);
+		const docRef = doc(database, WORDCOUNT_LEADERBOARD, data.docs[0].id);
 		await updateDoc(docRef, {
 			wpm: wordCountScoreObject.wpm,
 			accuracy: wordCountScoreObject.accuracy,
