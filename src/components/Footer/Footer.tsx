@@ -25,7 +25,7 @@ const Footer = ({setShowColourPalettes, colourPaletteDivRef}: FooterProps) => {
 			</button>
 			<a href="https://github.com/JaariReynolds/react-typing-test" target="_blank" title="github.com/JaariReynolds/react-typing-test" className="footer-item" rel="noopener noreferrer">
 				<FontAwesomeIcon icon={faCodeBranch} className="icon"/>
-				<span>git</span>
+				<span>git v{process.env.REACT_APP_VERSION}</span>
 			</a>		
 		</div>
 	);
