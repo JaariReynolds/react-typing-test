@@ -39,8 +39,7 @@ export const testWordsGenerator = (testLengthWords: number, includeNumbers: bool
 	randomWordArray[0].active = true;
 	randomWordArray[0].word[0].active = LetterActiveStatus.Active;
 
-	// num of words - 1 = minimum number of 'spacebars' needed to complete the test
-	characterCount += randomWordArray.length - 1;
+	const initialTestInformation: TestInformation = {words: randomWordArray, errorCountHard: 0, errorCountSoft: 0, timeElapsedMilliSeconds: 0, characterCount: characterCount, keyPressCount: 0, rawWPMArray: [], currentAverageWPMArray: [], averageWPM: 0, accuracy: 0, consistency: 0, experience: 0, testType: testType, includeNumbers: includeNumbers, includePunctuation: includePunctuation};
 
-	return {words: randomWordArray, errorCountHard: 0, errorCountSoft: 0, timeElapsedMilliSeconds: 0, characterCount: characterCount, keyPressCount: 0, rawWPMArray: [], currentAverageWPMArray: [], averageWPM: 0, accuracy: 0, consistency: 0, experience: 0, testType: testType, includeNumbers: includeNumbers, includePunctuation: includePunctuation};
+	return initialTestInformation;
 };

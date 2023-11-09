@@ -165,7 +165,7 @@ const TypingTest = ({
 			// for stored words, return the original length regardless if the user-pressed character count is different
 			const totalInputLetters = inputWordsArray.reduce((total, word, wordIndex) => {
 				return total + testInformation.words[wordIndex].originalLength; 
-			}, currentWordLength + inputWordsArray.length); // inputwordsarray.length = spacebar presses (included in keypresscount)
+			}, currentWordLength); 
 			setTestCompletionPercentage(totalInputLetters / testInformation.characterCount * 100);
 		}
 
@@ -214,7 +214,7 @@ const TypingTest = ({
 	// every second, calculate and store in an array the WPM for THAT second only (not averaged yet)
 	const calculateCurrentSecondWPM = () => {
 		previousSecondCorrectCharactersRef.current = totalCorrectCharactersRef.current;
-		totalCorrectCharactersRef.current = calculateCorrectCharacters(testInformation) + inputWordsArray.length; // ( + spacebar count
+		totalCorrectCharactersRef.current = calculateCorrectCharacters(testInformation);
 
 		const currentSecondCorrectCharacters = Math.max(0, totalCorrectCharactersRef.current - previousSecondCorrectCharactersRef.current);
 		const currentSecondWPM = currentSecondCorrectCharacters / AVERAGE_WORD_LENGTH * 60;	
@@ -244,7 +244,7 @@ const TypingTest = ({
 	// forcing WPM calculation for the final (< 1 second) stretch of a NON-TIMED test
 	const calculateFinalSecondWPM = () => {
 		previousSecondCorrectCharactersRef.current = totalCorrectCharactersRef.current;
-		totalCorrectCharactersRef.current = calculateCorrectCharacters(testInformation) + inputWordsArray.length;
+		totalCorrectCharactersRef.current = calculateCorrectCharacters(testInformation);
 
 		const currentSecondCorrectCharacters = totalCorrectCharactersRef.current - previousSecondCorrectCharactersRef.current;
 		const elapsedTimeSeconds = testTimeMilliSeconds / 1000;

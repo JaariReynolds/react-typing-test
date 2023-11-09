@@ -45,10 +45,8 @@ export const TypingTestWords = ({testRunning, testComplete, testFocused, inputWo
 	testWordIndividualLettersRef.current = [];
 
 	const letterWidths = useRef<number[]>([]);
-	const spaceBarRef = useRef<number>(0); // related to inputWordsArray.length
-	spaceBarRef.current = inputWordsArray.length;
-
 	const wordWidths = useRef<number[]>([]);
+	
 	const [testWordsMaxHeight, setTestWordsMaxHeight] = useState<number>(0);
 
 	const [windowSize, setWindowSize] = useState<NumberPair>({width: window.innerWidth, height: window.innerHeight});
