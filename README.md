@@ -1,6 +1,9 @@
+https://JaariReynolds.github.io/react-typing-test
+-
+
 README.md last updated: 9/11/2023
 
-Authentication branch not yet live.
+Authentication branch merged!
 
 Monkeytype-inspired minimal typing test app created with React and Typescript. Still a work in progress.
 
