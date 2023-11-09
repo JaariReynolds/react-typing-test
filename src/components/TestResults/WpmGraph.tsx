@@ -44,23 +44,26 @@ const WpmGraph = () => {
 	return (
 		<div className="results-chart">
 			<ResponsiveContainer width="90%" height={300}>
-				<LineChart data={graphData}>
+				<LineChart data={graphData} width={90} margin={{top: 5, right: 50, bottom: 30, left: 15}}>
 					<XAxis 
-						tick={{fill: colourPalette.baseFontColour}}
-						//interval={"preserveEnd"}						
+						tick={{fill: colourPalette.baseFontColour}}					
 						dataKey="interval" 
 						height={30}
-						
+						label={{
+							value: "seconds",
+							dy: 25,
+							fill: colourPalette.baseFontColour
+						}}
 					/>
 					<YAxis 
 						tick={{fill:colourPalette.baseFontColour}} 
 						dataKey="rawWPM"
-						domain={[0, yAxisMax.current]}						
+						domain={[0, yAxisMax.current]}			
 						label={{
 							value: "words per minute", 
-							dx: -25, 
+							dx: -35,
 							angle: -90,
-							fill: colourPalette.baseFontColour
+							fill: colourPalette.baseFontColour,
 						}}
 					/>
 					<CartesianGrid stroke={colourPalette.baseFontColour} strokeWidth={0.7} fill={colourPalette.baseFontColour} fillOpacity={0.2} />

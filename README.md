@@ -5,6 +5,7 @@ README.md last updated: 9/11/2023
 <details>
  <summary>Updates</summary>
 
+- v2.1.1 - wpm graph x axis label added, y axis label moved more left, left and right graph margins equal
 - v2.1.0 - removed 'spacebar' from wpm calculation - wpm now purely based on correct letters per second * 5
 - v2.0.2 - reduced transition time for test letter colour change - flows better when resetting test
 - v2.0.1 - fixed component opacity issue when refocusing to the test after focus was on the reset button
