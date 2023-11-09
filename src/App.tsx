@@ -81,6 +81,7 @@ function App() {
 		if (event.key == "Escape" && document.activeElement === resetButtonRef.current) {
 			inputRef.current!.focus();
 			setTestFocused(true);
+			setComponentOpacity(0);
 			return;
 		}
 
