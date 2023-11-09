@@ -5,6 +5,7 @@ README.md last updated: 9/11/2023
 <details>
  <summary>Updates</summary>
  
+- v2.0.2 - reduced transition time for test letter colour change - flows better when resetting test
 - v2.0.1 - fixed component opacity issue when refocusing to the test after focus was on the reset button
 - v2.0.0 - authentication branch merged with master
 
