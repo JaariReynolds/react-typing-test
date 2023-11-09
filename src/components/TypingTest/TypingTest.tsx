@@ -2,12 +2,11 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable react/jsx-key */
 /* eslint-disable linebreak-style */
-import "../../styles/componentStyles/typing-test.scss";
+import "./typing-test.scss";
 
-import React, { useEffect, useState, useRef, RefObject } from "react"; 
+import React, { useEffect, useState, useRef, RefObject, memo } from "react"; 
 import { testWordsGenerator } from "../../functions/wordGeneration/testWordsGenerators";
-import { CompletionStatus, TestWords, NumberPair } from "../../interfaces/WordStructure";
-import { TestType } from "../../App";
+import { CompletionStatus, NumberPair } from "../../interfaces/WordStructure";
 import { calculateCorrectCharacters } from "../../functions/calculations/calculateCorrectCharacters";
 import { calculateTotalErrorsHard, calculateTotalErrorsSoft, calculateWordErrorsHard } from "../../functions/calculations/calculateErrors";
 import { removeAdditionalLetter, removeExistingLetter} from "../../functions/letterHandling/removeLetter";
@@ -18,34 +17,22 @@ import { updateActiveLetter } from "../../functions/letterHandling/updateActiveL
 import { TRANSITION_DELAY } from "../../App";
 import { TypingTestWords, TypingTestWordsProps } from "./TypingTestWords";
 import { TypingTestInput, TypingTestInputProps } from "./TypingTestInput";
-import UpdateCssVariable from "../HelperComponents/UpdateCssVariable";
-
+import { TestType } from "../../enums";
+import { useTestInformationContext } from "../../contexts/TestInformationContext";
 
 const SPACEBAR = "Spacebar";
-const TIMED_TEST_LENGTH = 50;
-const WORDS_TO_ADD = 15;
+const TIMED_TEST_LENGTH = 70; // starting length of test (in words) for a timed test
+const WORDS_TO_ADD = 20;
 const AVERAGE_WORD_LENGTH = 5; // standard length used to calculate WPM
 const AFK_SECONDS_THRESHOLD = 7;
 const EXCLUDED_FINAL_MILLISECONDS = 400;
 
 export interface TypingTestProps {
-    testWords: TestWords,
-    setTestWords: React.Dispatch<React.SetStateAction<TestWords>>,	
-    testLengthWords: number,
-	testLengthSeconds: number,
-	testType: TestType,
-    includeNumbers: boolean,
-    includePunctuation: boolean,
-    reset: boolean,
+	reset: boolean,
 	setReset: React.Dispatch<React.SetStateAction<boolean>>,
 	inputRef: RefObject<HTMLInputElement>,
-	showResultsComponent: boolean,
-	setShowResultsComponent: React.Dispatch<React.SetStateAction<boolean>>,
 	testRunning: boolean,
 	setTestRunning: React.Dispatch<React.SetStateAction<boolean>>,
-	testTimeMilliSeconds: number,
-	setTestTimeMilliSeconds: React.Dispatch<React.SetStateAction<number>>,
-	setTestCompletionPercentage: React.Dispatch<React.SetStateAction<number>>,
 	testComplete: boolean,
 	setTestComplete: React.Dispatch<React.SetStateAction<boolean>>,
 	testFocused: boolean,
@@ -56,26 +43,17 @@ export interface TypingTestProps {
 	setAverageWPM: React.Dispatch<React.SetStateAction<number>>,
 	setWPMOpacity: React.Dispatch<React.SetStateAction<number>>,
 	setComponentOpacity: React.Dispatch<React.SetStateAction<number>>,
-	setIsAfkMidTest: React.Dispatch<React.SetStateAction<boolean>>
+	setIsAfkMidTest: React.Dispatch<React.SetStateAction<boolean>>,
+	caretVisible: boolean,
+	setCaretVisible: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const TypingTest = ({testWords,
-	setTestWords,
-	testLengthWords,
-	testLengthSeconds,
-	testType,
-	includeNumbers,
-	includePunctuation,
+const TypingTest = ({
 	reset,
 	setReset,
 	inputRef,
-	showResultsComponent,
-	setShowResultsComponent,
 	testRunning,
 	setTestRunning,
-	testTimeMilliSeconds,
-	setTestTimeMilliSeconds,
-	setTestCompletionPercentage,
 	testComplete,
 	setTestComplete,
 	testFocused,
@@ -86,7 +64,12 @@ const TypingTest = ({testWords,
 	setAverageWPM,
 	setWPMOpacity,
 	setComponentOpacity,
-	setIsAfkMidTest}: TypingTestProps) => {
+	setIsAfkMidTest,
+	caretVisible,
+	setCaretVisible}: TypingTestProps) => {
+	const {testInformation, setTestInformation, setShowResultsComponent, testLengthWords, testLengthSeconds, testType, includeNumbers, includePunctuation, setTestCompletionPercentage} = useTestInformationContext();
+
+	const [testTimeMilliSeconds, setTestTimeMilliSeconds] = useState<number>(0);
 	const [currentInputWord, setCurrentInputWord] = useState<string>("");
 	const [inputWordsArray, setInputWordsArray] = useState<string[]>([]);
 	const [intervalId, setIntervalId] = useState<NodeJS.Timer|null>(null);	
@@ -124,6 +107,8 @@ const TypingTest = ({testWords,
 		setGeneralKeyPressCount(0);
 		setGeneralKeyPressCountArray([]);
 
+		localStorage.setItem("isSubmitted", "false");
+
 		switch (testType) {
 		case TestType.Words:
 			setTestTimeMilliSeconds(0);
@@ -139,10 +124,10 @@ const TypingTest = ({testWords,
 		setTimeout(() => {
 			switch (testType) {
 			case TestType.Words:
-				setTestWords(testWordsGenerator(testLengthWords, includeNumbers, includePunctuation, TestType.Words));
+				setTestInformation(testWordsGenerator(testLengthWords, includeNumbers, includePunctuation, TestType.Words));
 				break;
 			case TestType.Time:
-				setTestWords(testWordsGenerator(TIMED_TEST_LENGTH, includeNumbers, includePunctuation, TestType.Time));
+				setTestInformation(testWordsGenerator(TIMED_TEST_LENGTH, includeNumbers, includePunctuation, TestType.Time));
 				break;
 			}
 
@@ -171,23 +156,23 @@ const TypingTest = ({testWords,
 
 	// calculates percentage of test completed (FOR WORD-LENGTH TEST) whenever the test is updated
 	useEffect(() => {
-		if (inputWordsArray.length == testWords.words.length) return; // dont run effect if last word has been submitted
+		if (inputWordsArray.length == testInformation.words.length) return; // dont run effect if last word has been submitted
 
 		if (testType === TestType.Words && testRunning) {			
-			const currentOriginalWordLength = testWords.words[inputWordsArray.length].originalLength;
+			const currentOriginalWordLength = testInformation.words[inputWordsArray.length].originalLength;
 			const currentWordLength = (currentInputWord.length > currentOriginalWordLength) ? currentOriginalWordLength : currentInputWord.length;
 
 			// for stored words, return the original length regardless if the user-pressed character count is different
 			const totalInputLetters = inputWordsArray.reduce((total, word, wordIndex) => {
-				return total + testWords.words[wordIndex].originalLength; 
+				return total + testInformation.words[wordIndex].originalLength; 
 			}, currentWordLength + inputWordsArray.length); // inputwordsarray.length = spacebar presses (included in keypresscount)
-			setTestCompletionPercentage(totalInputLetters / testWords.characterCount * 100);
+			setTestCompletionPercentage(totalInputLetters / testInformation.characterCount * 100);
 		}
 
 		// setting the currently active letter, used for the text caret	
-		const newTestWords = updateActiveLetter(testWords, currentInputWord, inputWordsArray);
+		const newTestWords = updateActiveLetter(testInformation, currentInputWord, inputWordsArray);
 
-		setTestWords({...testWords, words: newTestWords});
+		setTestInformation({...testInformation, words: newTestWords});
 	}, [inputWordsArray, currentInputWord]);
 
 	useEffect(() => {
@@ -213,6 +198,7 @@ const TypingTest = ({testWords,
 		}	
 	}, [testTimeMilliSeconds]);
 
+	
 	const afkDetection = (keyPressArray: number[]) => {
 		// if the last few seconds (AFK_SECONDS_THRESHOLD) all have the same key press count, force reset 
 		const lastFewSeconds = keyPressArray.slice(-AFK_SECONDS_THRESHOLD);
@@ -228,9 +214,9 @@ const TypingTest = ({testWords,
 	// every second, calculate and store in an array the WPM for THAT second only (not averaged yet)
 	const calculateCurrentSecondWPM = () => {
 		previousSecondCorrectCharactersRef.current = totalCorrectCharactersRef.current;
-		totalCorrectCharactersRef.current = calculateCorrectCharacters(testWords) + inputWordsArray.length;
+		totalCorrectCharactersRef.current = calculateCorrectCharacters(testInformation) + inputWordsArray.length; // ( + spacebar count
 
-		const currentSecondCorrectCharacters = totalCorrectCharactersRef.current - previousSecondCorrectCharactersRef.current;
+		const currentSecondCorrectCharacters = Math.max(0, totalCorrectCharactersRef.current - previousSecondCorrectCharactersRef.current);
 		const currentSecondWPM = currentSecondCorrectCharacters / AVERAGE_WORD_LENGTH * 60;	
 		const elapsedTimeSeconds = testTimeMilliSeconds / 1000;
 	
@@ -258,7 +244,7 @@ const TypingTest = ({testWords,
 	// forcing WPM calculation for the final (< 1 second) stretch of a NON-TIMED test
 	const calculateFinalSecondWPM = () => {
 		previousSecondCorrectCharactersRef.current = totalCorrectCharactersRef.current;
-		totalCorrectCharactersRef.current = calculateCorrectCharacters(testWords) + inputWordsArray.length;
+		totalCorrectCharactersRef.current = calculateCorrectCharacters(testInformation) + inputWordsArray.length;
 
 		const currentSecondCorrectCharacters = totalCorrectCharactersRef.current - previousSecondCorrectCharactersRef.current;
 		const elapsedTimeSeconds = testTimeMilliSeconds / 1000;
@@ -281,21 +267,21 @@ const TypingTest = ({testWords,
 	useEffect(() => {
 		if (testRunning && testType === TestType.Words) {
 			// test is finished when pressing space on last word (FOR WORD-LENGTH TEST) - one of two ways to finish a word length test
-			if (inputWordsArray.length === testWords.words.length) {
+			if (inputWordsArray.length === testInformation.words.length) {
 				setTestComplete(true);
 				return;
 			}
 
-			if (inputWordsArray.length === testWords.words.length - 1) 
+			if (inputWordsArray.length === testInformation.words.length - 1) 
 				setLastWord(true);			
 			else 
 				setLastWord(false);		
 		}
 		else if (testRunning && testType === TestType.Time) {
 			// add words to the end of the word array if almost reaching the current limit (FOR TIME-LENGTH TEST)
-			if (inputWordsArray.length === testWords.words.length - WORDS_TO_ADD) {
+			if (inputWordsArray.length === testInformation.words.length - WORDS_TO_ADD) {
 				const extraTestWords = testWordsGenerator(WORDS_TO_ADD, includeNumbers, includePunctuation, TestType.Time);
-				setTestWords(prevTestWords => ({ 
+				setTestInformation(prevTestWords => ({ 
 					...prevTestWords,
 					words: [...prevTestWords.words, ...extraTestWords.words],
 					characterCount: prevTestWords.characterCount + extraTestWords.characterCount
@@ -324,10 +310,10 @@ const TypingTest = ({testWords,
 	const finaliseTest = (updatedRaw?: NumberPair[], updatedCurrent?: NumberPair[], updatedAverage?: number): void => {
 		
 		// parameters only provided to this function if test finished on a partial second, otherwise, use respective state variable
-		setTestWords({
-			...testWords,
-			errorCountHard: calculateTotalErrorsHard(testWords),
-			errorCountSoft: calculateTotalErrorsSoft(testWords),
+		setTestInformation({
+			...testInformation,
+			errorCountHard: calculateTotalErrorsHard(testInformation),
+			errorCountSoft: calculateTotalErrorsSoft(testInformation),
 			timeElapsedMilliSeconds: (testType === TestType.Time ? testLengthSeconds * 1000 : testTimeMilliSeconds),
 			keyPressCount: keyPressCount,
 			rawWPMArray: updatedRaw ?? rawWPMArray,
@@ -339,7 +325,7 @@ const TypingTest = ({testWords,
 	// test can also be finished if last word in the test is fully correct (FOR WORD-LENGTH TEST)
 	const checkLastWord = (): void => {
 		if (testType !== TestType.Words) return;
-		const lastWord = testWords.words[testWords.words.length - 1];
+		const lastWord = testInformation.words[testInformation.words.length - 1];
 		if (lastWord.status === CompletionStatus.Correct) {
 			setTestComplete(true);
 		}
@@ -380,24 +366,24 @@ const TypingTest = ({testWords,
 
 	// calculate the total num of hard errors in a word after pressing 'space'
 	const updateWordErrorsHard = (wordIndex: number) => {
-		const newTestWords = testWords.words;
-		newTestWords[wordIndex] = calculateWordErrorsHard(wordIndex, testWords);
-		setTestWords(previousState => ({
+		const newTestWords = testInformation.words;
+		newTestWords[wordIndex] = calculateWordErrorsHard(wordIndex, testInformation);
+		setTestInformation(previousState => ({
 			...previousState, words: newTestWords
 		}));
 	};
 
 	// when going back to the previous incorrect word, recalculate the letter statuses IF less letters than the word
 	const recalculateLettersStatus = (inputWord: string, wordIndex: number) => {
-		setTestWords(previousState => ({
-			...previousState, words: calculateLettersStatus(inputWord, wordIndex, testWords)
+		setTestInformation(previousState => ({
+			...previousState, words: calculateLettersStatus(inputWord, wordIndex, testInformation)
 		}));
 	};
 
 	// should clear every character's status in the current word + remove additional letters
 	const handleCtrlBackspace = () => {
 		setCurrentInputWord("");
-		setTestWords({...testWords, words: ctrlBackspace(testWords, inputWordsArray)});
+		setTestInformation({...testInformation, words: ctrlBackspace(testInformation, inputWordsArray)});
 	};
 
 	// figure out what to do based on input
@@ -434,32 +420,32 @@ const TypingTest = ({testWords,
 
 		setCurrentInputWord(e.target.value);
         
-		let currentTestWord = testWords.words[inputWordsArray.length];
+		let currentTestWord = testInformation.words[inputWordsArray.length];
 
 		// #region Character Handling Block
 		// if backspacing an existing character
-		if (pressedKeys[pressedKeys.length - 1] === "Backspace" && currentInputWord.length > 0 && currentInputWord.length <= testWords.words[inputWordsArray.length].originalLength) {
+		if (pressedKeys[pressedKeys.length - 1] === "Backspace" && currentInputWord.length > 0 && currentInputWord.length <= testInformation.words[inputWordsArray.length].originalLength) {
 			currentTestWord = removeExistingLetter(currentTestWord, e.target.value);
 		} 
 		// if backspacing an additional character    
-		else if (pressedKeys[pressedKeys.length - 1] === "Backspace" && currentInputWord.length > testWords.words[inputWordsArray.length].originalLength) {
+		else if (pressedKeys[pressedKeys.length - 1] === "Backspace" && currentInputWord.length > testInformation.words[inputWordsArray.length].originalLength) {
 			currentTestWord = removeAdditionalLetter(currentTestWord);
 		} 
 		// if updating an existing character
-		else if (e.target.value.length <= testWords.words[inputWordsArray.length].originalLength) {
+		else if (e.target.value.length <= testInformation.words[inputWordsArray.length].originalLength) {
 			currentTestWord = addExistingLetter(currentTestWord, e.target.value);
 			setKeyPressCount(prev => prev + 1);
 		} 
 		// if adding/updating an additional character
-		else if (e.target.value.length > testWords.words[inputWordsArray.length].originalLength) {
+		else if (e.target.value.length > testInformation.words[inputWordsArray.length].originalLength) {
 			currentTestWord = addAdditionalLetter(currentTestWord, e.target.value.slice(-1));
 			setKeyPressCount(prev => prev + 1);
 		}
 
-		const newTestWords = testWords.words;
+		const newTestWords = testInformation.words;
 		newTestWords[inputWordsArray.length] = currentTestWord;
 
-		setTestWords(previousState => (
+		setTestInformation(previousState => (
 			{...previousState, words: newTestWords}
 		));
 		// #endregion
@@ -491,14 +477,14 @@ const TypingTest = ({testWords,
 		} 
 		
 		// if backspace when input is empty, bring back previous word as the current word IF that word is incorrect
-		if (e.key === "Backspace" && currentInputWord.length === 0 && inputWordsArray.length > 0 && testWords.words[inputWordsArray.length-1].status === CompletionStatus.Incorrect) {
+		if (e.key === "Backspace" && currentInputWord.length === 0 && inputWordsArray.length > 0 && testInformation.words[inputWordsArray.length-1].status === CompletionStatus.Incorrect) {
 			const inputWordsCopy = inputWordsArray;
 			const recoveredWord: string = inputWordsCopy.pop()!;
 			setInputWordsArray([...inputWordsCopy]);
 			setCurrentInputWord(recoveredWord);
 			setLastWord(false);
 
-			if (recoveredWord.length < testWords.words[inputWordsCopy.length].originalLength) 
+			if (recoveredWord.length < testInformation.words[inputWordsCopy.length].originalLength) 
 				recalculateLettersStatus(recoveredWord, inputWordsCopy.length);		
 
 			e.preventDefault(); // disable backspace to not also delete the last letter of the inserted word
@@ -524,21 +510,19 @@ const TypingTest = ({testWords,
 	};
 
 	const typingTestInputProps: TypingTestInputProps = {
-		inputRef, currentInputWord, handleChange, handleKeyDown, handleKeyUp, testComplete, setTestFocused
+		inputRef, currentInputWord, handleChange, handleKeyDown, handleKeyUp, testComplete, setTestFocused, setCaretVisible
 	};
 
 	const typingTestWordsProps: TypingTestWordsProps = {
-		testWords, setTestWords, testRunning, testComplete, testFocused, inputWordsArray, reset, caretPosition, setCaretPosition, currentInputWord, inputRef, opacity
+		testRunning, testComplete, testFocused, inputWordsArray, reset, caretPosition, setCaretPosition, currentInputWord, inputRef, opacity, caretVisible
 	};
 
-	return (    
-	
+	return (    	
 		<div className="typing-test">
 			<TypingTestInput {...typingTestInputProps}/>
 			<TypingTestWords {...typingTestWordsProps}/>		
 		</div>  
-		
 	);
 };
 
-export default TypingTest;
+export default memo(TypingTest);

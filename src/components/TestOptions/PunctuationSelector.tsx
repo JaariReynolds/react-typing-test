@@ -1,21 +1,25 @@
+import React from "react";
 import { faAt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import { useTestInformationContext } from "../../contexts/TestInformationContext";
 
-interface IProps {
-    punctuation: boolean,
-    setPunctuation: (prop: boolean) => void,
-}
 
-const PunctuationSelector = ({punctuation, setPunctuation}: IProps) => {
+const PunctuationSelector = () => {
+	const {includePunctuation, setIncludePunctuation} = useTestInformationContext();
+
+	const handleOptionChange = () => {
+		setIncludePunctuation(!includePunctuation);
+		localStorage.setItem("testIncludePunctuation", (!includePunctuation).toString());
+	};
+
 	return (
 		<div className="test-option-selector">
 			<span className="option-text">
 				<input
 					type="checkbox"
 					id="punctuation"
-					checked={punctuation}
-					onChange={() => setPunctuation(!punctuation)}
+					checked={includePunctuation}
+					onChange={handleOptionChange}
 					className="hidden peer"
 				/>
 				<label htmlFor="punctuation" className="selectable-label">

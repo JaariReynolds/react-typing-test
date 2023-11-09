@@ -1,24 +1,35 @@
+README.md last updated: 9/11/2023
 
-## https://jaarireynolds.github.io/react-typing-test/ ##
+Authentication branch not yet live.
 
 Monkeytype-inspired minimal typing test app created with React and Typescript. Still a work in progress.
 
 - Currently contains:
   * Colour palette selector! More palettes to come
   * Word length and timed tests
+  * Number and punctuation inclusions/additions to the test
   * WPM counter that updates dynamically during the test
   * Completion/progress bar that updates dynamically during the test
-  * Number and Punctuation inclusions/additions to the test
-  * General smooth transitions for a more fluid experience
   * Smooth caret during the test
   * WPM graph and general typing test statistics on completion
-  * Test words scroll to reveal more words as the test is progressed (mostly only noticeable on smaller screen widths)
-
-- Work in progress:
-  * Login and highscores
+    * (wpm, accuracy, consistency, errors)
+  * Test words scroll to reveal more words as the test is progressed
   * LocalStorage user preferences
-  * Punctuation option overhaul, currently feels too random/inconsistent
-  * A few bugs 
+  * Login and user dashboard 
+  * per-testType summaries of statistics
+  * Per-testType leaderboards
+  * Loading states for fetches/waiting periods
+  * Levelling/experience system
+    * experience per test based on overall performance
+  * Clean up styling of results screen wpm graph
+
+- Work in progress:  
+  * Results screen statistics hover for additional information
+  * User dashboard tab to show wpm/accuracy/consistency progression over x amount of games 
+  * Firestore/firebase retries
+  * Number and punctuation option overhaul, currently feels too random/inconsistent
+  * A few visual bugs 
+  * Rendering optimisations
   
 
 

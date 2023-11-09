@@ -8,7 +8,6 @@
 @mixin general-color-and-opacity-transition() {
     transition:
         background-color 0.3s ease-in-out,
-        color 0.3s ease-in-out,
         opacity constants.$component-opacity-fade-duration ease-in-out;
 
 }
@@ -40,4 +39,10 @@
     transition-property: color;
     transition-timing-function: ease-in-out;
     transition-duration: constants.$text-colour-transition-duration;
+}
+
+@mixin transition-hover-button() {
+    transition-property: color;
+    transition-timing-function: ease-in-out;
+    transition-duration: 0.15s;
 }

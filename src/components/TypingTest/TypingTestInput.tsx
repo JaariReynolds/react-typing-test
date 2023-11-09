@@ -1,4 +1,5 @@
 import React from "react";
+import "./typing-test-input.scss";
 
 export interface TypingTestInputProps {
     inputRef: React.RefObject<HTMLInputElement>,
@@ -7,10 +8,11 @@ export interface TypingTestInputProps {
     handleKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void,
     handleKeyUp: (e: React.KeyboardEvent<HTMLInputElement>) => void,
     testComplete: boolean,
-    setTestFocused: React.Dispatch<React.SetStateAction<boolean>>
+    setTestFocused: React.Dispatch<React.SetStateAction<boolean>>,
+	setCaretVisible: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export const TypingTestInput = ({inputRef, currentInputWord, handleChange, handleKeyDown, handleKeyUp, testComplete, setTestFocused}: TypingTestInputProps) => {
+export const TypingTestInput = ({inputRef, currentInputWord, handleChange, handleKeyDown, handleKeyUp, testComplete, setTestFocused, setCaretVisible}: TypingTestInputProps) => {
 
 	const testFocus = () => {
 		if (inputRef.current) {
@@ -39,6 +41,7 @@ export const TypingTestInput = ({inputRef, currentInputWord, handleChange, handl
 				className="text-field"
 				disabled={testComplete}
 				onBlur={testBlur}
+				onFocus={() => setCaretVisible(true)}
 				onClick={testFocus}
 				tabIndex={-1}
 				onMouseDown={(event) => {event.preventDefault();}} // disable select/highlight of input field 

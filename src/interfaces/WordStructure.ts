@@ -1,6 +1,7 @@
 /* eslint-disable linebreak-style */
 
-import { TestType } from "../App";
+import { TestType } from "../enums";
+
 
 // each letter/word can have an associated completion status
 export enum CompletionStatus {
@@ -57,7 +58,7 @@ export interface NumberPair {
 }
 
 // can add the test results to this e.g. accuracy, wpm, errors, typing consistency, etc.
-export interface TestWords {
+export interface TestInformation {
     words: Word[]
     errorCountHard: number // ONLY submitted incorrect character strokes
     errorCountSoft: number // submitted AND backspaced incorrect character strokes
@@ -68,7 +69,11 @@ export interface TestWords {
 	currentAverageWPMArray: NumberPair[]
 	averageWPM: number // wpmArray averaged
 	accuracy: number // (characterCount - errorCountHard) / characterCount
+	consistency: number
+	experience: number
 	testType: TestType
+	includeNumbers: boolean,
+	includePunctuation: boolean
 } 
 
 

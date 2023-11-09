@@ -1,0 +1,65 @@
+@use "../../styles/mixins";
+@use "../../styles/constants";
+
+.test-options {
+    display: grid;
+    font-size: constants.$base-font-size;
+    min-width: constants.$min-width;
+    @include mixins.transition-opacity(var(--component-opacity));
+
+    .test-options-icon {
+        margin-right: 0.25rem;
+    }
+
+    .test-option-selector {
+        grid-column: span 1 / span 1;
+        text-align: center;
+        -webkit-user-select: none;
+        user-select: none;
+        margin-bottom: 1rem;
+        @include mixins.transition-opacity(var(--component-opacity)); // used for switching between words/time
+
+        &.uninteractable-selector {
+            pointer-events: none;
+        }
+
+        &.test-type-words {
+            opacity: 0;
+            grid-area: 2 / 1;
+        }
+
+        &.test-type-time {
+            opacity: 0;
+            grid-area: 2 / 1;
+        }
+
+        .option-text {
+            color: var(--base-font-colour);
+            @include mixins.transition-hover-button();
+
+            :hover {
+                cursor: pointer;
+                color: var(--secondary-highlight-colour);
+                @include mixins.transition-hover-button();
+            }
+
+            .selectable-label {
+                padding: 0.5rem;
+                margin: 0.25rem;
+                font-weight: constants.$bold-font-weight;
+            }
+        }
+    }
+}
+
+@media (max-width: 670px) {
+    .test-options {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+@media (min-width: 671px) {
+    .test-options {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

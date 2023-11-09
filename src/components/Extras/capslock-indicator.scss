@@ -1,0 +1,30 @@
+@use "../../styles/constants";
+
+.capslock-indicator-container {
+  opacity: 0;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  height: 40px;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  font-size: constants.$base-font-size;
+  cursor: default;
+  transition: opacity 0.1s ease-in-out;
+  z-index: -1;
+
+  .capslock-indicator-contents {
+    align-items: center;
+    width: 10.5rem;
+    border-radius: 0.5rem;
+    justify-content: center;
+    background-color: var(--primary-highlight-colour);
+    color: var(--background-colour);
+    display: flex;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+
+    .capslock-icon {
+      margin-right: 0.5rem;
+    }
+  }
+}

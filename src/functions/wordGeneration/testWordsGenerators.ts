@@ -1,5 +1,5 @@
-import { TestType } from "../../App";
-import { LetterActiveStatus, TestWords, Word } from "../../interfaces/WordStructure";
+import { TestType } from "../../enums";
+import { LetterActiveStatus, TestInformation, Word } from "../../interfaces/WordStructure";
 import { wordsArray } from "../../wordsArray";
 import { punctuationGenerator } from "./punctuationGenerator";
 
@@ -13,7 +13,7 @@ const getRandomInt = (max: number): number => {
 };
 
 // function to randomise the words array 
-export const testWordsGenerator = (testLengthWords: number, numbers: boolean, punctuation: boolean, testType: TestType): TestWords => {
+export const testWordsGenerator = (testLengthWords: number, includeNumbers: boolean, includePunctuation: boolean, testType: TestType): TestInformation => {
 	const randomWordArray: Word[] = [];
 	let randomWord: string | number;
 	let characterCount = 0;
@@ -21,10 +21,10 @@ export const testWordsGenerator = (testLengthWords: number, numbers: boolean, pu
 		const randomInt: number = getRandomInt(numberOfRandomWords); // get index for word list
 		const randomNum: number = Math.random();
 
-		if (numbers && randomNum <= numbersPercentage) {
+		if (includeNumbers && randomNum <= numbersPercentage) {
 			// randomly add numbers to wordArray if needed 
 			randomWord = randomInt.toString();
-		} else if (punctuation && randomNum > numbersPercentage && randomNum <= numbersPercentage + punctuationPercentage) {
+		} else if (includePunctuation && randomNum > numbersPercentage && randomNum <= numbersPercentage + punctuationPercentage) {
 			// randomly add punctuation to strings if needed 
 			randomWord = punctuationGenerator(wordsArray[randomInt]);
 		} else {
@@ -42,5 +42,5 @@ export const testWordsGenerator = (testLengthWords: number, numbers: boolean, pu
 	// num of words - 1 = minimum number of 'spacebars' needed to complete the test
 	characterCount += randomWordArray.length - 1;
 
-	return {words: randomWordArray, errorCountHard: 0, errorCountSoft: 0, timeElapsedMilliSeconds: 0, characterCount: characterCount, keyPressCount: 0, rawWPMArray: [], currentAverageWPMArray: [], averageWPM: 0, accuracy: 0, testType: testType};
+	return {words: randomWordArray, errorCountHard: 0, errorCountSoft: 0, timeElapsedMilliSeconds: 0, characterCount: characterCount, keyPressCount: 0, rawWPMArray: [], currentAverageWPMArray: [], averageWPM: 0, accuracy: 0, consistency: 0, experience: 0, testType: testType, includeNumbers: includeNumbers, includePunctuation: includePunctuation};
 };

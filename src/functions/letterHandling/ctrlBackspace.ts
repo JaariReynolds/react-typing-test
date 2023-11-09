@@ -1,8 +1,8 @@
-import { TestWords, Word, CompletionStatus } from "../../interfaces/WordStructure";
+import { TestInformation, Word, CompletionStatus } from "../../interfaces/WordStructure";
 
 // should clear every character's status in the current word + remove additional letters
-export const ctrlBackspace = (testWords: TestWords, inputWordsArray: string[]): Word[] => {
-	const updatedTestWords = testWords.words.map((wordObject, wordIndex) => {
+export const ctrlBackspace = (testInformation: TestInformation, inputWordsArray: string[]): Word[] => {
+	const updatedTestWords = testInformation.words.map((wordObject, wordIndex) => {
 		if (wordIndex !== inputWordsArray.length) {
 			return wordObject;
 		}

@@ -1,0 +1,86 @@
+@use "../../styles/mixins";
+@use "../../styles/constants";
+
+.account-container {
+    margin-left: auto;
+    margin-right: auto;
+    width: 20rem;
+    border: 4px solid var(--base-font-colour);
+    border-radius: 0.75rem;
+    padding: 1rem;
+    box-shadow: 0 0 8px black;
+    transition:
+        border 0.3s ease-in-out,
+        height 0.1s ease-in-out;
+
+    button {
+        &:hover {
+            color: var(--secondary-highlight-colour);
+            @include mixins.transition-hover-button();
+        }
+
+        &.submit-button:hover {
+            color: var(--primary-highlight-colour);
+        }
+    }
+
+    .form-container {
+        display: grid;
+        row-gap: 0.5rem;
+        align-content: space-between;
+        justify-content: center;
+        position: relative;
+        margin-top: 0.5rem;
+        transition: height 0.3s ease-in-out;
+
+        .form-field {
+            width: 18rem;
+
+            label {
+                display: block;
+                -webkit-user-select: none;
+                user-select: none;
+            }
+
+            input {
+                width: 100%;
+                outline: none;
+                padding-left: 0.4rem;
+                border-radius: 0.4rem;
+                background-color: var(--base-font-colour);
+                color: var(--background-colour);
+            }
+
+            .password-field {
+                display: grid;
+                grid-template-columns: 16.5rem 1fr;
+
+                input {
+                    border-radius: 0.4rem 0 0 0.4rem;
+                }
+
+                .password-icon {
+                    color: var(--background-colour);
+                    background-color: var(--base-font-colour);
+                    border-radius: 0 0.4rem 0.4rem 0;
+                }
+            }
+        }
+
+        .error-message {
+            text-align: center;
+            color: constants.$incorrect-font-colour;
+            height: 1.5rem;
+            font-weight: 500;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        button {
+            font-weight: 500;
+            font-size: constants.$base-font-size;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+    }
+}

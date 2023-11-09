@@ -1,0 +1,60 @@
+.secondary-summary-div {
+    .overflow-table {
+
+        overflow-x: scroll;
+
+
+
+        &::-webkit-scrollbar {
+            height: 0.7rem;
+        }
+
+        .horizontal-table {
+            width: 100%;
+            table-layout: fixed;
+            min-width: 50rem;
+            max-width: 100rem;
+            margin: auto;
+            border-spacing: 0;
+
+            .right-align {
+                text-align: right;
+            }
+
+            .sticky {
+                position: -webkit-sticky;
+                position: sticky;
+                background-color: var(--background-colour);
+
+                &.first-column {
+                    left: 0;
+                    width: 6.5rem;
+                }
+
+                &.second-column {
+                    left: 6.5rem;
+                    width: 3rem;
+                }
+            }
+
+            thead {
+                font-size: 1.1rem;
+                border-bottom: 0.25rem solid transparent;
+            }
+
+            tbody {
+
+                tr:nth-child(5) th,
+                tr:nth-child(5) td,
+                tr:last-child td,
+                tr:last-child th {
+                    border-bottom: 1rem solid transparent;
+                }
+            }
+        }
+
+        .test-type-label {
+            font-size: 1.5rem;
+        }
+    }
+}

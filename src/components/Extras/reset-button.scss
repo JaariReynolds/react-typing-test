@@ -1,0 +1,59 @@
+@use "../../styles/mixins";
+@use "../../styles/constants";
+
+.reset-container {
+    display: block;
+    align-content: center;
+    height: 6.5rem;
+    opacity: var(--component-opacity);
+    min-width: constants.$min-width;
+    @include mixins.transition-margin-opacity();
+    margin-bottom: 3rem;
+
+    .reset-button-text {
+        transition: opacity 0.15s ease-in-out;
+        text-align: center;
+        margin-top: -0.1rem;
+        width: 100%;
+        font-weight: 500;
+        font-size: constants.$base-font-size;
+        height: 20%;
+    }
+
+    .reset-button {
+        transition: background-color 0.15s ease-in-out;
+        width: 150px;
+        border-radius: 0.5rem;
+        height: 80%;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+
+        &:focus {
+            background-color: var(--base-font-colour);
+            outline: none;
+
+            .reset-icon {
+                color: var(--background-colour);
+            }
+        }
+
+        &:hover {
+            background-color: var(--base-font-colour);
+
+            .reset-icon {
+                color: var(--background-colour);
+            }
+        }
+
+        .reset-icon {
+            font-size: 3rem;
+            @include mixins.general-color-transition();
+            color: var(--base-font-colour);
+
+            &.spinning-icon {
+                animation: fa-spin-custom 3s infinite;
+            }
+        }
+    }
+}

@@ -1,0 +1,27 @@
+@use "../../styles/mixins";
+@use "../../styles/constants";
+
+.key-tips {
+    @include mixins.general-color-and-opacity-transition();
+    position: relative;
+    opacity: var(--component-opacity);
+    font-weight: constants.$bold-font-weight;
+    margin-bottom: 2rem;
+    text-align: center;
+    letter-spacing: 0.1rem;
+    justify-content: center;
+    display: block;
+    min-width: constants.$min-width;
+
+    .key-tip {
+        margin-top: 0.7rem;
+    }
+
+    .key-highlight {
+        @include mixins.general-color-transition();
+        background-color: var(--base-font-colour);
+        color: var(--background-colour);
+        border-radius: 0.3rem;
+        padding: 0.2rem 0.5rem;
+    }
+}

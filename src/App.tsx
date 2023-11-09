@@ -4,41 +4,34 @@
 import React, { useEffect, useState, useRef } from "react";
 import "./App.scss";
 import TypingTest, { TypingTestProps } from "./components/TypingTest/TypingTest";
-import TypingTestResults, { TypingTestResultsProps } from "./components/TestResults/TypingTestResults";
-import { TestWords } from "./interfaces/WordStructure";
-import ResetButton, { ResetButtonProps } from "./components/ResetButton";
-import TestOptions, { TestOptionsProps } from "./components/TestOptions/TestOptions";
-import CompletionBar, { CompletionBarProps } from "./components/CompletionBar";
-import WordsPerMinute, { WordsPerMinuteProps } from "./components/WordsPerMinute";
-import CapsLockIndicator, { CapsLockIndicatorProps } from "./components/CapsLockIndicator";
-import AfkDetectedIndicator, { AfkDetectedIndicatorProps } from "./components/AfkDetectedIndicator";
-import Footer, { FooterProps } from "./components/Footer";
-import KeyTips from "./components/KeyTips";
-import ColourPaletteSelector, { ColourPaletteSelectorProps } from "./components/ColourPaletteSelector";
-
+import TestResults, { TestResultsProps } from "./components/TestResults/TestResults";
+import ResetButton, { ResetButtonProps } from "./components/Extras/ResetButton";
+import TestOptions from "./components/TestOptions/TestOptions";
+import CompletionBar from "./components/Extras/CompletionBar";
+import WordsPerMinute, { WordsPerMinuteProps } from "./components/Extras/WordsPerMinute";
+import CapsLockIndicator, { CapsLockIndicatorProps } from "./components/Extras/CapsLockIndicator";
+import AfkDetectedIndicator, { AfkDetectedIndicatorProps } from "./components/Extras/AfkDetectedIndicator";
+import Footer, { FooterProps } from "./components/Footer/Footer";
+import KeyTips from "./components/Footer/KeyTips";
+import ColourPaletteSelector, { ColourPaletteSelectorProps } from "./components/Extras/ColourPaletteSelector";
 import UpdateCssVariable from "./components/HelperComponents/UpdateCssVariable";
-import UpdateCssVariablePaletteObject from "./components/HelperComponents/UpdateCssVariablePaletteObject";
+import Header, { HeaderProps } from "./components/Header/Header";
+import { useUserContext } from "./contexts/UserContext";
+import { useTestInformationContext } from "./contexts/TestInformationContext";
 
-export enum TestType {
-	Words = "words",
-	Time = "time"
-}
 
 export const TRANSITION_DELAY = 200;
 
 function App() {
+	const {isHeaderOpen, setIsHeaderOpen} = useUserContext();
+	const {setShowResultsComponent} = useTestInformationContext();
 
-	const [testWords, setTestWords] = useState<TestWords>({words: [], errorCountHard: 0, errorCountSoft: 0, timeElapsedMilliSeconds: 0, characterCount: 0, keyPressCount: 0, rawWPMArray: [], currentAverageWPMArray: [], averageWPM: 0, accuracy: 0, testType: TestType.Words});
-	const [testLengthWords, setTestLengthWords] = useState<number>(25);
-	const [testLengthSeconds, setTestLengthSeconds] = useState<number>(15);
-	const [testType, setTestType] = useState<TestType>(TestType.Words);
-	const [includePunctuation, setIncludePunctuation] = useState<boolean>(false);
-	const [includeNumbers, setIncludeNumbers] = useState<boolean>(false);
+	const isHeaderOpenRef = useRef<boolean>();
+	isHeaderOpenRef.current = isHeaderOpen;
 
 	const [reset, setReset] = useState<boolean>(false);
 	const [resetDivMargin, setResetDivMargin] = useState<string>("0rem");
 
-	const [showResultsComponent, setShowResultsComponent] = useState<boolean>(false);
 	const [resultsComponentOpacity, setResultsComponentOpacity] = useState<number>(0);
 	const [resultsComponentDisplay, setResultsComponentDisplay] = useState<string>("none");
 
@@ -47,11 +40,8 @@ function App() {
 	const [testComplete, setTestComplete] = useState<boolean>(false);
 	const [componentOpacity, setComponentOpacity] = useState<number>(1);
 
-	const [testTimeMilliSeconds, setTestTimeMilliSeconds] = useState<number>(0);
-	const [testCompletionPercentage, setTestCompletionPercentage] = useState<number>(0);
 	const [pressedKeys, setPressedKeys] = useState<string[]>([]); 
-	const sitePressedKeysRef = useRef<Set<string>>(new Set());
-
+	
 
 	const [averageWPM, setAverageWPM] = useState<number>(0);
 
@@ -65,8 +55,6 @@ function App() {
 	const currentWPM = averageWPM == null || isNaN(averageWPM) || !Number.isFinite(averageWPM) ? 0 : averageWPM;
 
 	const [isAfkMidTest, setIsAfkMidTest] = useState<boolean>(false);
-
-	const [selectedPaletteId, setSelectedPaletteId] = useState<number>(0);
 	const [showColourPalettes, setShowColourPalettes] = useState<boolean>(false);
 
 	const colourPaletteDivRef = useRef<HTMLDivElement>(null);
@@ -75,65 +63,57 @@ function App() {
 	const showColourPaletteStateRef = useRef<boolean>(showColourPalettes);
 	showColourPaletteStateRef.current = showColourPalettes;
 
-	UpdateCssVariablePaletteObject(selectedPaletteId);
+	const headerRef = useRef<HTMLDivElement>(null);
+	const [caretVisible, setCaretVisible] = useState<boolean>(true);
+
 	UpdateCssVariable("--component-opacity", componentOpacity);
 
 	const handleSiteKeyDown = (event: KeyboardEvent) => {
 		// prevent default tab functionality, set focus instead to the 'reset' button
-		if (event.key == "Tab") {
+		if (event.key == "Tab" && !isHeaderOpenRef.current) {
 			event.preventDefault();
 			resetButtonRef.current!.focus();
+			setTestFocused(false);
 			return;
 		}
 
-		setCapsLockOpacity(event.getModifierState("CapsLock") ? 1 : 0);
-
-		if (sitePressedKeysRef.current.has(event.key))
+		// if reset button focused, can press "Esc" to set focus to test
+		if (event.key == "Escape" && document.activeElement === resetButtonRef.current) {
+			inputRef.current!.focus();
+			setTestFocused(true);
 			return;
+		}
 
-		sitePressedKeysRef.current = new Set([...sitePressedKeysRef.current, event.key]);
-
-		handleSiteKeyCombos();
-	};
-
-	const handleSiteKeyUp = (event: KeyboardEvent) => {
-		if (sitePressedKeysRef.current.has(event.key)) {
-			const newSitePressedKeys = new Set(sitePressedKeysRef.current);
-			newSitePressedKeys.delete(event.key);
-			sitePressedKeysRef.current = newSitePressedKeys;
+		if (event.key === "CapsLock") {
+			setCapsLockOpacity(event.getModifierState("CapsLock") ? 1 : 0);
+			return;
 		}
 	};
-
 	
-	const handleOutsideClick = (event: any) => { // if clicked outside of the colourPalette div when opened, close it
+	const handleOutsideClick = (event: any) => { 
+		// if clicked outside of the colourPalette div when opened, close it
 		if (showColourPaletteStateRef.current && colourPaletteDivRef.current && !colourPaletteDivRef.current.contains(event.target)) {
 			setShowColourPalettes(!showColourPaletteStateRef.current);
 		}
-	};
+		
+		// if clicked outside of header div when opened, close it
+		else if (isHeaderOpenRef.current && headerRef.current && !headerRef.current.contains(event.target)) {
+			setIsHeaderOpen(false);
+		}
 
-	const handleSiteKeyCombos = () => {
-		if (sitePressedKeysRef.current.has("Control") && sitePressedKeysRef.current.has("q")) { // shortcut: shift + q to show themes overlay
-			if (!showColourPaletteStateRef.current) {
-				setShowColourPalettes(true);
-				return;
-			}
-			else if (showColourPaletteStateRef.current && inputRef.current) { // give focus to input field once closed
-				setShowColourPalettes(false);
-				inputRef.current.focus();
-				return;
-			}
+		// if clicked outside of input field, hide caret
+		else if (inputRef.current && !inputRef.current.contains(event.target)) {
+			setCaretVisible(false);
 		}
 	};
 
 	//#region useEffects
 	useEffect(() => {
 		window.addEventListener("keydown", handleSiteKeyDown);
-		window.addEventListener("keyup", handleSiteKeyUp);
 		window.addEventListener("mousedown", handleOutsideClick);
 
 		return () => {
 			window.removeEventListener("keydown", handleSiteKeyDown);
-			window.removeEventListener("keyup", handleSiteKeyUp);
 			window.removeEventListener("mousedown", handleOutsideClick);
 		};
 	}, []);
@@ -161,7 +141,7 @@ function App() {
 	useEffect(() => {
 		if (testComplete) { // show results, hide wpm, set opacity after delay
 			setResultsComponentDisplay("block");
-			setResetDivMargin("11rem");
+			setResetDivMargin("17rem");
 			setShowResultsComponent(true);
 			setWPMOpacity(0);
 
@@ -190,32 +170,28 @@ function App() {
 	};
 
 	//#region Component Props
+	const headerProps: HeaderProps = {
+		headerRef
+	};
+
 	const colourPaletteSelectorProps: ColourPaletteSelectorProps = {
-		selectedPaletteId, setSelectedPaletteId, showColourPalettes, colourPaletteDivRef
+		showColourPalettes, colourPaletteDivRef
 	};
 
 	const afkDetectedIndicatorProps: AfkDetectedIndicatorProps = {
 		isAfkMidTest
 	};
 
-	const testOptionsProps: TestOptionsProps = {
-		testType, setTestType, includeNumbers, setIncludeNumbers, includePunctuation, setIncludePunctuation, testLengthWords, setTestLengthWords, testLengthSeconds, setTestLengthSeconds
-	};	
-
 	const capsLockIndicatorProps: CapsLockIndicatorProps = {
 		testComplete, capsLockOpacity
 	};
 
-	const completionBarProps: CompletionBarProps = {
-		testCompletionPercentage
-	};
-
 	const typingTestProps: TypingTestProps = {
-		testWords, setTestWords, testLengthWords, testLengthSeconds, testType, includeNumbers, includePunctuation, reset, setReset, inputRef, showResultsComponent, setShowResultsComponent, testRunning, setTestRunning, testTimeMilliSeconds, setTestTimeMilliSeconds, setTestCompletionPercentage, testComplete, setTestComplete, testFocused, setTestFocused, pressedKeys, setPressedKeys, averageWPM, setAverageWPM, setWPMOpacity, setComponentOpacity, setIsAfkMidTest
+		reset, setReset, inputRef, testRunning, setTestRunning, testComplete, setTestComplete, testFocused, setTestFocused, pressedKeys, setPressedKeys, averageWPM, setAverageWPM, setWPMOpacity, setComponentOpacity, setIsAfkMidTest, caretVisible, setCaretVisible
 	};
 
-	const typingTestResultsProps: TypingTestResultsProps = {
-		testWords, setTestWords, showResultsComponent, selectedPaletteId, resultsComponentOpacity, resultsComponentDisplay
+	const typingTestResultsProps: TestResultsProps = {
+		resultsComponentOpacity, resultsComponentDisplay
 	};
 
 	const wordsPerMinuteProps: WordsPerMinuteProps = {
@@ -234,15 +210,16 @@ function App() {
 	return (
 		<div className="App">
 			<div className="main-container" onMouseMove={handleMouseMove}>
+				<Header {...headerProps}/>
 				<div className="inner-container">
 					<AfkDetectedIndicator {...afkDetectedIndicatorProps}/>
-					<TestOptions {...testOptionsProps}/>
+					<TestOptions />
 					<CapsLockIndicator {...capsLockIndicatorProps}/>
-					<CompletionBar {...completionBarProps}/>		
+					<CompletionBar />		
 
 					<div className="results-overlap-container">
 						<TypingTest {...typingTestProps}/>
-						<TypingTestResults {...typingTestResultsProps}/>	
+						<TestResults {...typingTestResultsProps}/>	
 						<WordsPerMinute {...wordsPerMinuteProps}/>
 					</div>
 
@@ -255,7 +232,6 @@ function App() {
 				<Footer {...footerProps}/>
 			</div>
 		</div>
-   
 	);
 }
 

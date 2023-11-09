@@ -1,0 +1,78 @@
+@use "../../styles/constants";
+
+.test-results-statistics {
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 6rem 6rem 6rem;
+    height: 18rem;
+
+    .grid-item {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+
+        .score {
+            color: var(--primary-highlight-colour);
+            font-size: 2.3rem;
+            line-height: 2.3rem;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .label {
+            color: var(--base-font-colour);
+            transition: color 0.3s ease-in-out;
+        }
+
+        &.wpm-grid {
+            grid-row: span 2;
+
+            .wpm {
+                font-size: 5.5rem;
+                line-height: 5.4rem;
+                color: var(--primary-highlight-colour);
+                transition: color 0.3s ease-in-out;
+            }
+        }
+
+        &.experience-grid {
+            grid-column: 1 / -1;
+            border-top: 2px solid var(--base-font-colour);
+            transition: border-top 0.3s ease-in-out;
+
+            .experience {
+                font-size: 2.3rem;
+                line-height: 2.3rem;
+                color: var(--primary-highlight-colour);
+                transition: color 0.3s ease-in-out;
+
+            }
+        }
+    }
+}
+
+@media (max-width: 830px) {
+    .test-results-statistics {
+        grid-template-columns: 1fr 1fr;
+
+        .grid-item {
+            &.wpm-grid {
+                grid-row: 1 / span 1;
+                grid-column: 1;
+                justify-content: center;
+
+                .wpm {
+                    font-size: 2.3rem;
+                    line-height: 2.3rem;
+                }
+            }
+
+            &.experience-grid {
+                grid-row: 1 / span 1;
+                grid-column: 2;
+                border-top: none;
+            }
+        }
+    }
+}

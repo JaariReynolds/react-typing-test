@@ -1,8 +1,8 @@
-import { TestWords, Word, LetterActiveStatus} from "../../interfaces/WordStructure";
+import { TestInformation, Word, LetterActiveStatus} from "../../interfaces/WordStructure";
 
 // setting the currently active letter, used for the text caret
-export const updateActiveLetter = (testWords: TestWords, currentInputWord: string, inputWordsArray: string[]): Word[] => {
-	const newTestWords = testWords.words.map((wordObject, wordIndex) => {
+export const updateActiveLetter = (testInformation: TestInformation, currentInputWord: string, inputWordsArray: string[]): Word[] => {
+	const newTestWords = testInformation.words.map((wordObject, wordIndex) => {
 		const newTestWord = wordObject.word.map((letterObject, letterIndex) => {
 			if (letterIndex === currentInputWord.length && wordIndex === inputWordsArray.length) {
 				return {...letterObject, active: LetterActiveStatus.Active}; // caret on left of letter

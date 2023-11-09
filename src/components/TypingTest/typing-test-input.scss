@@ -1,0 +1,20 @@
+.text-field-container {
+    position: absolute;
+    display: flex;
+    width: 100%;
+    height: var(--test-words-max-height);
+    margin-bottom: 5rem;
+    z-index: 10;
+
+    .text-field {
+        width: 100%;
+        background-color: transparent;
+        color: transparent;
+        border: none;
+        font-size: 1px;
+    }
+
+    input:focus {
+        outline: none;
+    }
+}

@@ -1,21 +1,25 @@
+import React from "react";
 import { faHashtag } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import { useTestInformationContext } from "../../contexts/TestInformationContext";
 
-interface IProps {
-    numbers: boolean,
-    setNumbers: (prop: boolean) => void,
-}
 
-const NumberSelector = ({numbers, setNumbers}: IProps) => {
+const NumberSelector = () => {
+	const {includeNumbers, setIncludeNumbers} = useTestInformationContext();
+
+	const handleOptionChange = () => {
+		setIncludeNumbers(!includeNumbers);
+		localStorage.setItem("testIncludeNumbers", (!includeNumbers).toString());
+	};
+
 	return (
 		<div className="test-option-selector">
 			<span className="option-text">
 				<input
 					type="checkbox"
 					id="numbers"
-					checked={numbers}
-					onChange={() => setNumbers(!numbers)} 
+					checked={includeNumbers}
+					onChange={handleOptionChange} 
 					className="hidden peer"
 				/>
 				<label htmlFor="numbers" className="selectable-label">

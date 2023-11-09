@@ -1,18 +1,16 @@
 /* eslint-disable react/jsx-key */
 import React from "react";
-import { TestType } from "../../App";
+import { TestType } from "../../enums";
+import { useTestInformationContext } from "../../contexts/TestInformationContext";
 
-interface IProps {
-    testLengthSeconds: number,
-    setTestLengthSeconds: (prop: number) => void,
-	testType: TestType
-}
 
-const TestLengthSecondsSelector = ({testLengthSeconds, setTestLengthSeconds, testType}: IProps) => {
+const TestLengthSecondsSelector = () => {
 	const testLengthWords: number[] = [15, 30, 45, 60, 120];
+	const {testLengthSeconds, setTestLengthSeconds, testType} = useTestInformationContext(); 
 
 	const handleOptionChange = (event:React.ChangeEvent<HTMLInputElement>) => {
 		setTestLengthSeconds(parseInt(event.target.value));
+		localStorage.setItem("testLengthSeconds", event.target.value);
 	};
 
 	const interactableStyle = (testType === TestType.Time) ? "" : "uninteractable-selector"; // css class

@@ -1,0 +1,38 @@
+@use "../../styles/mixins";
+@use "../../styles/constants";
+
+.test-results-div {
+    transition-property: opacity;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: constants.$component-opacity-fade-duration;
+    max-width: 100%;
+    min-width: constants.$min-width;
+    font-size: constants.$base-font-size;
+    margin-top: -4rem;
+
+    .score-submit-row {
+        text-align: center;
+        color: var(--base-font-colour);
+        transition: color 0.3s ease-in-out;
+
+        .login-prompt {
+
+            &:hover {
+                @include mixins.transition-hover-button();
+                color: var(--primary-highlight-colour);
+            }
+        }
+    }
+
+    .tab-selector {
+        margin: auto;
+        padding-top: 1rem;
+        width: 90%;
+    }
+
+    .tabbed-content {
+        width: 90%;
+        margin: auto;
+        height: 20rem;
+    }
+}
