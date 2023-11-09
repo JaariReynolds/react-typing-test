@@ -3,10 +3,14 @@ https://JaariReynolds.github.io/react-typing-test
 
 README.md last updated: 9/11/2023
 <details>
-<summary>Updates</summary>
-* v2.0.1 - fixed component opacity issue when refocusing to the test after focus was on the reset button
-* v2.0.0 - authentication branch merged with master
-* v1.0.0 - minimum viable product with functional typing test and results screen
+ <summary>Updates</summary>
+ 
+- v2.0.1 - fixed component opacity issue when refocusing to the test after focus was on the reset button
+- v2.0.0 - authentication branch merged with master
+
+ <br/>
+ 
+- v1.0.0 - minimum viable product with functional typing test and results screen
 </details>
 
 Monkeytype-inspired minimal typing test app created with Typscript, React, Firebase, Firestore. Still a work in progress.
