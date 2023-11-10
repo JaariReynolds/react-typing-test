@@ -3,20 +3,27 @@
 
 .test-options {
     display: grid;
+    width: 70%;
+    max-width: 1000px;
+    margin: auto;
     font-size: constants.$base-font-size;
     min-width: constants.$min-width;
     @include mixins.transition-opacity(var(--component-opacity));
+    border: 4px solid var(--base-font-colour);
+    border-radius: 0.5rem;
+    box-shadow: 0 0 8px black;
+    transition: border 0.3s ease-in-out;
 
     .test-options-icon {
         margin-right: 0.25rem;
     }
 
     .test-option-selector {
-        grid-column: span 1 / span 1;
         text-align: center;
         -webkit-user-select: none;
         user-select: none;
-        margin-bottom: 1rem;
+        padding: 0.6rem 0;
+        margin: 0 1rem;
         @include mixins.transition-opacity(var(--component-opacity)); // used for switching between words/time
 
         &.uninteractable-selector {
@@ -52,13 +59,7 @@
     }
 }
 
-@media (max-width: 670px) {
-    .test-options {
-        grid-template-columns: repeat(1, 1fr);
-    }
-}
-
-@media (min-width: 671px) {
+@media (min-width: 1060px) {
     .test-options {
         grid-template-columns: repeat(2, 1fr);
     }
