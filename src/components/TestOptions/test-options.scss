@@ -8,11 +8,13 @@
     margin: auto;
     font-size: constants.$base-font-size;
     min-width: constants.$min-width;
-    @include mixins.transition-opacity(var(--component-opacity));
     border: 4px solid var(--base-font-colour);
     border-radius: 0.5rem;
     box-shadow: 0 0 8px black;
-    transition: border 0.3s ease-in-out;
+    opacity: var(--component-opacity);
+    transition:
+        opacity constants.$component-opacity-fade-duration ease-in-out,
+        border 0.3s ease-in-out;
 
     .test-options-icon {
         margin-right: 0.25rem;
@@ -30,13 +32,8 @@
             pointer-events: none;
         }
 
-        &.test-type-words {
-            opacity: 0;
-            grid-area: 2 / 1;
-        }
-
+        &.test-type-words,
         &.test-type-time {
-            opacity: 0;
             grid-area: 2 / 1;
         }
 
