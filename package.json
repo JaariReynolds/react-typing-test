@@ -1,7 +1,7 @@
 {
   "homepage": "https://JaariReynolds.github.io/react-typing-test",
   "name": "typing-test",
-  "version": "2.1.4",
+  "version": "2.1.5",
   "private": true,
   "dependencies": {
     "@fortawesome/free-regular-svg-icons": "^6.4.0",

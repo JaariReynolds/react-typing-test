@@ -3,7 +3,8 @@
 
 .test-options {
     display: grid;
-    width: 70%;
+    grid-template-columns: repeat(2, 1fr);
+    width: max(70%, 34.5rem);
     max-width: 1000px;
     margin: auto;
     font-size: constants.$base-font-size;
@@ -20,21 +21,38 @@
         margin-right: 0.25rem;
     }
 
+    .test-type-and-length-container {
+        display: grid;
+        width: 20rem;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 0.2rem 0;
+
+        .test-type-words,
+        .test-type-time {
+            @include mixins.transition-opacity(var(--component-opacity));
+            grid-area: 2 / 1;
+        }
+    }
+
+    .extra-options-container {
+        display: grid;
+        padding: 0.2rem 0;
+        border-top: 4px solid var(--base-font-colour);
+        border-top-style: none;
+        border-left: 4px solid var(--base-font-colour);
+        transition: border-color 0.3s ease-in-out;
+    }
+
     .test-option-selector {
         text-align: center;
         -webkit-user-select: none;
         user-select: none;
-        padding: 0.6rem 0;
-        margin: 0 1rem;
-        @include mixins.transition-opacity(var(--component-opacity)); // used for switching between words/time
+        margin: 0.2rem 1rem;
 
         &.uninteractable-selector {
             pointer-events: none;
-        }
-
-        &.test-type-words,
-        &.test-type-time {
-            grid-area: 2 / 1;
         }
 
         .option-text {
@@ -56,8 +74,14 @@
     }
 }
 
-@media (min-width: 1060px) {
+@media (max-width: 800px) {
     .test-options {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 1fr;
+        width: constants.$min-width;
+    }
+
+    .extra-options-container {
+        border-top-style: solid !important;
+        border-left-style: none !important;
     }
 }

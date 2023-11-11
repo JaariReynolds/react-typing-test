@@ -4,7 +4,8 @@ https://JaariReynolds.github.io/react-typing-test
 README.md last updated: 9/11/2023
 <details>
  <summary>Updates</summary>
-
+* v2.1.5
+  * more visually defined and appropriately responsive test options
 * v2.1.4
   * selected colour palette now shown in the footer
 * v2.1.3 

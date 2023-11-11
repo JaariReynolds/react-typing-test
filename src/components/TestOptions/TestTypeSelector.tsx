@@ -1,11 +1,10 @@
 /* eslint-disable react/jsx-key */
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
 import { faFont } from "@fortawesome/free-solid-svg-icons";
 import { TestType } from "../../enums";
 import { useTestInformationContext } from "../../contexts/TestInformationContext";
-
 
 const TestTypeSelector = () => {
 	const {testType, setTestType} = useTestInformationContext();
@@ -16,8 +15,8 @@ const TestTypeSelector = () => {
 	};
 
 	return (
-		<div className="test-option-selector">
-			<span className="option-text">
+		<div className="tab-selector test-option-selector">
+			<div className={`option-text ${testType === TestType.Words ? "tab-selected" : ""}`}>
 				<input
 					type="radio"
 					id="words"
@@ -31,8 +30,8 @@ const TestTypeSelector = () => {
 					<FontAwesomeIcon icon={faFont} className="test-options-icon"/>
 					{TestType.Words.toString()}
 				</label>
-			</span>
-			<span className="option-text">
+			</div>
+			<div className="option-text">
 				<input
 					type="radio"
 					id="time"
@@ -48,7 +47,8 @@ const TestTypeSelector = () => {
                    		{TestType.Time.toString()}
 					</span>
 				</label>
-			</span>
+			</div>
+			<div className="tab-selected-underline" style={{transform: testType === TestType.Words ? "translateX(0%)" : "translateX(100%)"}}></div>
 		</div>
 	);
 };

@@ -67,7 +67,7 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   border-bottom: 2px solid var(--base-font-colour);
-  transition: color 0.3s ease-in-out;
+  transition: border-color 0.3s ease-in-out;
 
   .tab-selected {
     color: var(--primary-highlight-colour);
@@ -91,7 +91,7 @@ body {
     background-color: var(--base-font-colour);
     transition:
       transform 0.2s ease-in-out,
-      color 0.3s ease-in-out;
+      background-color 0.3s ease-in-out;
   }
 }
 

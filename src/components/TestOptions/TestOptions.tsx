@@ -1,21 +1,16 @@
 import React, { memo } from "react";
-import TestTypeSelector from "./TestTypeSelector";
-import NumberSelector from "./NumberSelector";
-import PunctuationSelector from "./PunctuationSelector";
-import TestLengthSecondsSelector from "./TestLengthSecondsSelector";
-import TestLengthWordsSelector from "./TestLengthWordsSelector";
+
 import "./test-options.scss";
+import TestTypeAndLengthSelector from "./TestTypeAndLengthSelector";
+import ExtraOptions from "./ExtraOptions";
 
 
 
 const TestOptions = () => {
 	return (
 		<div className="test-options">
-			<TestTypeSelector />
-			<NumberSelector />
-			<PunctuationSelector />
-			<TestLengthWordsSelector />
-			<TestLengthSecondsSelector />
+			<TestTypeAndLengthSelector />
+			<ExtraOptions />
 		</div>
 	);
 };
