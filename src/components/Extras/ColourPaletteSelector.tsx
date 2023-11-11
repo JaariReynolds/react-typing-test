@@ -3,6 +3,7 @@ import "./colour-palette-selector.scss";
 import React, { RefObject, useEffect, useState, memo } from "react";
 import { colourPalettes, ColourPaletteStructure } from "../../interfaces/ColourPalettes";
 import { useUserContext } from "../../contexts/UserContext";
+import ColourPaletteLabel from "./ColourPaletteLabel";
 
 export interface ColourPaletteSelectorProps {
 
@@ -39,15 +40,6 @@ const ColourPaletteSelector = ({showColourPalettes, colourPaletteDivRef}: Colour
 		opacity: showColourPalettes ? 1 : 0
 	} as React.CSSProperties;
 
-	const colourPaletteLayout = (colourPalette: ColourPaletteStructure) => {
-		return (
-			<div style={{backgroundColor: colourPalette.backgroundColour}} className="selectable-colour-palette-label">
-				<div style={{backgroundColor: colourPalette.baseFontColour}} className="colour-preview"></div>
-				<div style={{backgroundColor: colourPalette.primaryHighlightColour}} className="colour-preview"></div>
-				<div style={{backgroundColor: colourPalette.secondaryHighlightColour}} className="colour-preview"></div>
-			</div>
-		);
-	};
 
 	return (
 		<div style={colourPaletteStyling} ref={colourPaletteDivRef} className="colour-palette-container">
@@ -64,7 +56,7 @@ const ColourPaletteSelector = ({showColourPalettes, colourPaletteDivRef}: Colour
 									onChange={handleOptionChange}
 									className="hidden-radio-button"
 								/>
-								{colourPaletteLayout(palette)}
+								<ColourPaletteLabel colourPalette={palette} backgroundColour={true}/>
 							</label>
 						</div>	
 					);

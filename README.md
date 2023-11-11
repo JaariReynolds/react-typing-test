@@ -5,6 +5,8 @@ README.md last updated: 9/11/2023
 <details>
  <summary>Updates</summary>
 
+* v2.1.4
+  * selected colour palette now shown in the footer
 * v2.1.3 
   * significantly reduced rerenders by syncing completion bar width changes to its width transition duration
   * swapped test types options around to match the transition of the completion bar

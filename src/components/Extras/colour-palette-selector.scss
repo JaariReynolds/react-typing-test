@@ -39,20 +39,6 @@
                 cursor: pointer;
                 outline: 3px solid var(--base-font-colour);
             }
-
-            .selectable-colour-palette-label {
-                height: 2.5rem;
-                border-radius: 2rem;
-                display: flex;
-                justify-content: space-evenly;
-                align-items: center;
-
-                .colour-preview {
-                    width: 1.5rem;
-                    height: 1.5rem;
-                    border-radius: 0.75rem;
-                }
-            }
         }
     }
 }
