@@ -179,7 +179,8 @@ const TypingTest = ({
 		if (!testRunning) return;
 		// calculates percentage of test completed (FOR TIME-LENGTH TEST)
 		if (testType === TestType.Time) {
-			setTestCompletionPercentage(testTimeMilliSeconds / (testLengthSeconds * 1000) * 100);
+			if (testTimeMilliSeconds % 200 === 0)
+				setTestCompletionPercentage(testTimeMilliSeconds / (testLengthSeconds * 1000) * 100);
 
 			if (testTimeMilliSeconds <= 0) {
 				stopTestStopWatch();

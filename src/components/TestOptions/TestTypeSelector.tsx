@@ -20,6 +20,21 @@ const TestTypeSelector = () => {
 			<span className="option-text">
 				<input
 					type="radio"
+					id="words"
+					value={TestType.Words}
+					name="testType"
+					checked={testType === TestType.Words}
+					onChange={handleOptionChange}
+					className="hidden-radio-button"
+				/>
+				<label htmlFor="words" className="selectable-label">
+					<FontAwesomeIcon icon={faFont} className="test-options-icon"/>
+					{TestType.Words.toString()}
+				</label>
+			</span>
+			<span className="option-text">
+				<input
+					type="radio"
 					id="time"
 					value={TestType.Time}
 					name="testType"
@@ -34,24 +49,6 @@ const TestTypeSelector = () => {
 					</span>
 				</label>
 			</span>
-			
-			<span className="option-text">
-				<input
-					type="radio"
-					id="words"
-					value={TestType.Words}
-					name="testType"
-					checked={testType === TestType.Words}
-					onChange={handleOptionChange}
-					className="hidden-radio-button"
-				/>
-				<label htmlFor="words" className="selectable-label">
-					<FontAwesomeIcon icon={faFont} className="test-options-icon"/>
-					{TestType.Words.toString()}
-				</label>
-			</span>
-
-			
 		</div>
 	);
 };
