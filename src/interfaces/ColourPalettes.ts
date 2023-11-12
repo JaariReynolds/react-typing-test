@@ -278,4 +278,16 @@ export const colourPalettes: ColourPaletteStructure[] = [
 		primaryHighlightColour: "#F0B86E",
 		secondaryHighlightColour: "#EBE76C"
 	},
+	{
+		backgroundColour: "#537E58",
+		baseFontColour: "#264B29",
+		primaryHighlightColour: "#2CB460",
+		secondaryHighlightColour: "#087F30"
+	},
+	{
+		backgroundColour: "#945D33",
+		baseFontColour: "#C99361",
+		primaryHighlightColour: "#B17747",
+		secondaryHighlightColour: "#E9B985"
+	}
 ];
