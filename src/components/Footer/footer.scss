@@ -2,7 +2,7 @@
 @use "../../styles/constants";
 
 .footer {
-    box-shadow: 0 0 12px black;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: space-between;
     min-width: constants.$min-width;

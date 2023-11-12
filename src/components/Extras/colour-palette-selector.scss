@@ -13,7 +13,7 @@
     border-radius: 0.5rem;
     border: 4px solid var(--base-font-colour);
     max-height: max-content;
-    box-shadow: 0 0 8px black;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
     transition:
         opacity 0.15s ease-in-out,
         background-color 0.3s ease-in-out,
