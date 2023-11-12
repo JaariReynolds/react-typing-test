@@ -1,9 +1,6 @@
 .secondary-summary-div {
     .overflow-table {
-
         overflow-x: scroll;
-
-
 
         &::-webkit-scrollbar {
             height: 0.7rem;
@@ -49,6 +46,11 @@
                 tr:last-child td,
                 tr:last-child th {
                     border-bottom: 1rem solid transparent;
+                }
+
+                td,
+                th.second-column {
+                    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
                 }
             }
         }
