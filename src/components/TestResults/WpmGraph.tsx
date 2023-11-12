@@ -50,7 +50,7 @@ const WpmGraph = () => {
 						dataKey="interval" 
 						height={30}
 						label={{
-							value: "seconds",
+							value: "time",
 							dy: 25,
 							fill: colourPalette.baseFontColour
 						}}
