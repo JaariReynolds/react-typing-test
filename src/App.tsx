@@ -19,7 +19,6 @@ import Header, { HeaderProps } from "./components/Header/Header";
 import { useUserContext } from "./contexts/UserContext";
 import { useTestInformationContext } from "./contexts/TestInformationContext";
 
-
 export const TRANSITION_DELAY = 200;
 
 function App() {
@@ -142,7 +141,7 @@ function App() {
 	useEffect(() => {
 		if (testComplete) { // show results, hide wpm, set opacity after delay
 			setResultsComponentDisplay("block");
-			setResetDivMargin("17rem");
+			setResetDivMargin("14rem");
 			setShowResultsComponent(true);
 			setWPMOpacity(0);
 
@@ -212,6 +211,8 @@ function App() {
 		<div className="App">
 			<div className="main-container" onMouseMove={handleMouseMove}>
 				<Header {...headerProps}/>
+				<div className="app-name">typi</div>
+				<img src={process.env.PUBLIC_URL + "/typi.png"} className="app-logo"/>
 				<div className="inner-container">
 					<AfkDetectedIndicator {...afkDetectedIndicatorProps}/>
 					<TestOptions />
