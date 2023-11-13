@@ -286,8 +286,8 @@ export const colourPalettes: ColourPaletteStructure[] = [
 	},
 	{
 		backgroundColour: "#945D33",
-		baseFontColour: "#C99361",
-		primaryHighlightColour: "#B17747",
+		baseFontColour: "#B17747",
+		primaryHighlightColour: "#C99361",
 		secondaryHighlightColour: "#E9B985"
 	}
 ];
