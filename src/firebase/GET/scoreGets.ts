@@ -1,9 +1,8 @@
 import { getDocs, limit, orderBy, query, where } from "firebase/firestore";
-import { timedLeaderboardCollectionRef, wordCountLeaderboardCollectionRef } from "../firestoreConstants";
+import { NUM_SCORES_FETCHED, timedLeaderboardCollectionRef, wordCountLeaderboardCollectionRef } from "../firestoreConstants";
 import { TimedScoreDocument, WordCountScoreDocument } from "../firestoreDocumentInterfaces";
 import { TestType } from "../../enums";
 
-const NUM_SCORES_FETCHED = 20;
 
 export const getLeaderboard = async (testType: TestType, testLength: number): Promise<TimedScoreDocument[] | WordCountScoreDocument[]> => {
 	switch (testType) {
