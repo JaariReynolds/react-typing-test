@@ -9,6 +9,7 @@ import { calculateConsistency } from "../functions/calculations/calculateConsist
 import { useUserContext } from "./UserContext";
 import { getUser } from "../firebase/GET/userGets";
 import { calculateExperience } from "../functions/calculations/calculateExperience";
+import { getFunboxLeaderboard } from "../firebase/GET/funboxScoreGets";
 
 interface TestInformationContextProps {
     leaderboard: TimedScoreDocument[] | WordCountScoreDocument[],
@@ -113,8 +114,16 @@ export const TestInformationProvider = ({children}: any) => {
 
 	const fetchLeaderboard = async () => {
 		try {
-			setLeaderboardLoading(true);		
-			setLeaderboard(await getLeaderboard(testType, leaderboardTestLength));		
+			setLeaderboardLoading(true);
+
+			switch (testInformation.testMode) {
+			case TestMode.Standard:
+				setLeaderboard(await getLeaderboard(testType, leaderboardTestLength));		
+				break;
+			default:
+				setLeaderboard(await getFunboxLeaderboard(testType, leaderboardTestLength, testMode));
+				break;
+			}
 			
 		} catch (error) {
 			console.error(error);
@@ -183,7 +192,7 @@ export const TestInformationProvider = ({children}: any) => {
 		leaderboardLoading,
 		fetchLeaderboard,
 		isTestSubmitted,
-		setIsTestSubmitted,
+		setIsTestSubmitted,	
 		testInformation, 
 		setTestInformation,
 		showResultsComponent,

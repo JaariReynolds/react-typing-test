@@ -9,6 +9,8 @@ import Statistics from "./Statistics";
 import Leaderboard from "./Leaderboard";
 import { updateUserSummary } from "../../firebase/POST/userPosts";
 import { useTestInformationContext } from "../../contexts/TestInformationContext";
+import { TestMode } from "../../enums";
+import { updateFunboxLeaderboardDocument } from "../../firebase/POST/funboxScorePosts";
 
 export interface TestResultsProps {
 	resultsComponentOpacity: number,
@@ -47,11 +49,11 @@ const TestResults = ({resultsComponentOpacity, resultsComponentDisplay}: TestRes
 	// submit score when test hasnt already been submitted, user is logged in, and all result calculations are done
 	useEffect(() => {
 		if (!isTestSubmitted && showResultsComponent && isCalculationsComplete && user && userDocument) {
-			if (testInformation.accuracy < ACCURACY_THRESHOLD) {
-				setScoreMessage("unable to submit score: accuracy too low");
+			if (testInformation.testMode === TestMode.Standard && testInformation.accuracy < ACCURACY_THRESHOLD) {
+				setScoreMessage("unable to submit standard score: accuracy too low");
 				return;
-			} else if (testInformation.consistency < CONSISTENCY_THRESHOLD) {
-				setScoreMessage("unable to submit score: consistency too low");
+			} else if (testInformation.testMode === TestMode.Standard && testInformation.consistency < CONSISTENCY_THRESHOLD) {
+				setScoreMessage("unable to submit standard score: consistency too low");
 				return;
 
 			} else {
@@ -63,8 +65,17 @@ const TestResults = ({resultsComponentOpacity, resultsComponentDisplay}: TestRes
 	const handleScoreSubmit = async () => {
 		try {
 			setIsTestSubmitted(false);
-			await createScoreDocument(userDocument!.username, testInformation);
-			await updateUserSummary(user!.uid, testInformation);
+
+			switch (testInformation.testMode) {
+			case TestMode.Standard: 
+				await createScoreDocument(userDocument!.username, testInformation);
+				await updateUserSummary(user!.uid, testInformation);
+				break;
+			default: 
+				await updateFunboxLeaderboardDocument(userDocument!.username, testInformation);
+				break;
+			}
+			
 			localStorage.setItem("isSubmitted", "true");
 			setIsTestSubmitted(true);
 			setScoreMessage("test submitted");
