@@ -1,56 +1,27 @@
-import React from "react";
-import { useTestInformationContext } from "../../../contexts/TestInformationContext";
-import { TestMode } from "../../../enums";
+import React, {useState} from "react";
+import TestModeSelector from "./TestModeSelector";
+import InclusionOptions from "./InclusionOptions";
+import FunboxModesSelector from "./FunboxModesSelector";
 
-
-enum TestModeTabs {
+export enum TestModeTabs {
 	Standard = "standard",
 	Funbox = "funbox"
 }
 
-const ModeOptions = () => {
-	const {testMode, setTestMode} = useTestInformationContext();
 
-	const handleOptionChange = (event:React.ChangeEvent<HTMLInputElement>) => {
-		setTestMode(event.target.value as TestMode);
-		localStorage.setItem("testMode", event.target.value);
-	};
+
+
+const ModeOptions = () => {
+	const [activeTab, setActiveTab] = useState<TestModeTabs>(localStorage.getItem("testModeTab") as TestModeTabs ?? TestModeTabs.Standard);
 
 	return (
-		<div className="extra-options-container">
-			<div className="test-option-selector">
-				<span className="option-text">
-					<input
-						type="radio"	
-						id="standard"
-						value={TestMode.Standard.toString()}							
-						checked={testMode===TestMode.Standard}
-						onChange={handleOptionChange}
-						className="hidden-radio-button"
-					/>
-					<label htmlFor={TestMode.Standard.toString()} className="selectable-label">							
-						{TestModeTabs.Standard.toString()}
-					</label>
-				</span>	
-			</div>
+		<div className="mode-options-container">
 			
-			<div className="test-option-selector">
-				<span className="option-text">
-					<input
-						type="radio"
-						id="emojis"
-						value={TestMode.Emojis.toString()}							
-						checked={testMode===TestMode.Emojis}
-						onChange={handleOptionChange}
-						className="hidden-radio-button"
-					/>
-					<label htmlFor={TestMode.Emojis.toString()} className="selectable-label">							
-						{TestMode.Emojis.toString()}
-					</label>
-				</span>		
-			</div>
+
+			<TestModeSelector activeTab={activeTab} setActiveTab={setActiveTab}/>
+			<InclusionOptions activeTab={activeTab}/>
+			<FunboxModesSelector activeTab={activeTab} />
 		</div>
-		
 	);
 };
 

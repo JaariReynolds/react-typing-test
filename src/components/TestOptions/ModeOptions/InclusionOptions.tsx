@@ -2,10 +2,10 @@ import React from "react";
 import { faAt, faHashtag } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTestInformationContext } from "../../../contexts/TestInformationContext";
-import { TestMode } from "../../../enums";
+import { TestModeTabs } from "./ModeOptions";
 
 
-const InclusionOptions = () => {
+const InclusionOptions = ({activeTab}: {activeTab: TestModeTabs}) => {
 	const {includeNumbers, setIncludeNumbers, includePunctuation, setIncludePunctuation} = useTestInformationContext();
 
 	const handleNumbersOptionChange = () => {
@@ -18,8 +18,11 @@ const InclusionOptions = () => {
 		localStorage.setItem("testIncludePunctuation", (!includePunctuation).toString());
 	};
 
+	const interactableStyle = (activeTab === TestModeTabs.Standard) ? "" : "uninteractable-selector"; // css class
+
+
 	return (
-		<div className="test-option-selector">
+		<div style={{opacity: activeTab === TestModeTabs.Standard ? 1 : 0}} className={`test-option-selector test-mode-standard ${interactableStyle}`}>
 			<span className="option-text">
 				<input
 					type="checkbox"
