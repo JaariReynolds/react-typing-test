@@ -67,7 +67,7 @@ const TypingTest = ({
 	setIsAfkMidTest,
 	caretVisible,
 	setCaretVisible}: TypingTestProps) => {
-	const {testInformation, setTestInformation, setShowResultsComponent, testLengthWords, testLengthSeconds, testType, includeNumbers, includePunctuation, setTestCompletionPercentage} = useTestInformationContext();
+	const {testInformation, setTestInformation, setShowResultsComponent, testLengthWords, testLengthSeconds, testType, testMode, includeNumbers, includePunctuation, setTestCompletionPercentage} = useTestInformationContext();
 
 	const [testTimeMilliSeconds, setTestTimeMilliSeconds] = useState<number>(0);
 	const [currentInputWord, setCurrentInputWord] = useState<string>("");
@@ -124,10 +124,10 @@ const TypingTest = ({
 		setTimeout(() => {
 			switch (testType) {
 			case TestType.Words:
-				setTestInformation(testWordsGenerator(testLengthWords, includeNumbers, includePunctuation, TestType.Words));
+				setTestInformation(testWordsGenerator(testLengthWords, includeNumbers, includePunctuation, TestType.Words, testMode));
 				break;
 			case TestType.Time:
-				setTestInformation(testWordsGenerator(TIMED_TEST_LENGTH, includeNumbers, includePunctuation, TestType.Time));
+				setTestInformation(testWordsGenerator(TIMED_TEST_LENGTH, includeNumbers, includePunctuation, TestType.Time, testMode));
 				break;
 			}
 
@@ -152,7 +152,7 @@ const TypingTest = ({
 			setIsAfkMidTest(false);	
 		}, 5000);
 	
-	}, [testLengthWords, testLengthSeconds, testType, includeNumbers, includePunctuation, reset]);
+	}, [testLengthWords, testLengthSeconds, testType, testMode, includeNumbers, includePunctuation, reset]);
 
 	// calculates percentage of test completed (FOR WORD-LENGTH TEST) whenever the test is updated
 	useEffect(() => {
@@ -281,7 +281,7 @@ const TypingTest = ({
 		else if (testRunning && testType === TestType.Time) {
 			// add words to the end of the word array if almost reaching the current limit (FOR TIME-LENGTH TEST)
 			if (inputWordsArray.length === testInformation.words.length - WORDS_TO_ADD) {
-				const extraTestWords = testWordsGenerator(WORDS_TO_ADD, includeNumbers, includePunctuation, TestType.Time);
+				const extraTestWords = testWordsGenerator(WORDS_TO_ADD, includeNumbers, includePunctuation, TestType.Time, testMode);
 				setTestInformation(prevTestWords => ({ 
 					...prevTestWords,
 					words: [...prevTestWords.words, ...extraTestWords.words],
