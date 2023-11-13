@@ -8,16 +8,11 @@ export enum TestModeTabs {
 	Funbox = "funbox"
 }
 
-
-
-
 const ModeOptions = () => {
 	const [activeTab, setActiveTab] = useState<TestModeTabs>(localStorage.getItem("testModeTab") as TestModeTabs ?? TestModeTabs.Standard);
 
 	return (
 		<div className="mode-options-container">
-			
-
 			<TestModeSelector activeTab={activeTab} setActiveTab={setActiveTab}/>
 			<InclusionOptions activeTab={activeTab}/>
 			<FunboxModesSelector activeTab={activeTab} />
