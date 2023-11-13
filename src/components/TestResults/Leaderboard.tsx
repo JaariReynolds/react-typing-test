@@ -50,7 +50,7 @@ const Leaderboard = () => {
 		} 
 		else {
 			return (
-				<div className="leaderboard-login-prompt">log in... or else... &#x1f44a;&#128064;</div>
+				<div className="leaderboard-login-prompt">leaderboard currently not available</div>
 			);
 		}
 	};

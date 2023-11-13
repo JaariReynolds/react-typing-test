@@ -27,7 +27,7 @@ export const testWordsGenerator = (testLengthWords: number, includeNumbers: bool
 	switch (testMode) {
 	case TestMode.Standard:
 	case TestMode.Emojis:
-		return regularTestWordGenerator(testLengthWords, includeNumbers, includeNumbers, testType, testMode);
+		return regularTestWordGenerator(testLengthWords, includeNumbers, includePunctuation, testType, testMode);
 	case TestMode.Alphabet:
 		return alphabetTestWordGenerator();
 	}
@@ -40,6 +40,8 @@ const regularTestWordGenerator = (testLengthWords: number, includeNumbers: boole
 	let characterCount = 0;
 	numberOfRandomWords = wordsArray.length;
 
+	
+
 	for (let i = 0; i < testLengthWords; i++) {
 		const randomInt: number = getRandomInt(numberOfRandomWords); // get index for word list
 		const randomNum: number = Math.random();
@@ -47,7 +49,7 @@ const regularTestWordGenerator = (testLengthWords: number, includeNumbers: boole
 		if (includeNumbers && testMode === TestMode.Standard && randomNum <= numbersPercentage) {
 			// randomly add numbers to wordArray if needed 
 			randomWord = randomInt.toString();
-		} else if (includePunctuation && testMode === TestMode.Standard && randomNum > numbersPercentage && randomNum <= numbersPercentage + punctuationPercentage) {
+		} else if (includePunctuation && testMode === TestMode.Standard && randomNum > numbersPercentage && randomNum <= punctuationPercentage + numbersPercentage) {
 			// randomly add punctuation to strings if needed 
 			randomWord = punctuationGenerator(wordsArray[randomInt]);
 		} else {
