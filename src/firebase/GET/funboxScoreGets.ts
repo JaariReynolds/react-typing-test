@@ -17,7 +17,7 @@ const getFunboxLeaderboardForWordCountTest = async (wordCount: number, testMode:
 	try {
 		const leaderboardQuery = query(
 			funboxWordCountLeaderboardCollectionRef, 
-			where("wordCount", "==", wordCount),
+			where("wordCount", "==", (testMode === TestMode.Alphabet ? 1 : wordCount)),
 			where("testMode", "==", testMode),
 			orderBy("wpm", "desc"), 
 			limit(NUM_SCORES_FETCHED));

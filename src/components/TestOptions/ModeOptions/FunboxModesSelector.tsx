@@ -1,20 +1,28 @@
 import React from "react";
-import { TestMode } from "../../../enums";
+import { TestMode, TestType } from "../../../enums";
 import { useTestInformationContext } from "../../../contexts/TestInformationContext";
 import { TestModeTabs } from "./ModeOptions";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowDownAZ, faFaceSmile, faSmile } from "@fortawesome/free-solid-svg-icons";
+import { faSmileBeam } from "@fortawesome/free-regular-svg-icons";
 
 
 
 const FunboxModesSelector = ({activeTab}: {activeTab: TestModeTabs}) => {
-	const {testMode, setTestMode} = useTestInformationContext();
+	const {testMode, setTestMode, setTestType} = useTestInformationContext();
 
 	const handleOptionChange = (event:React.ChangeEvent<HTMLInputElement>) => {
-		setTestMode(event.target.value as TestMode);
+		const newTestMode: TestMode = event.target.value as TestMode;
+		setTestMode(newTestMode);
 		localStorage.setItem("testMode", event.target.value);
+
+		if (newTestMode === TestMode.Alphabet) {
+			setTestType(TestType.Words);
+			localStorage.setItem("testType", TestType.Words.toString());
+		}
 	};
 
 	const interactableStyle = (activeTab === TestModeTabs.Funbox) ? "" : "uninteractable-selector"; // css class
-
 
 	return (
 		<div style={{opacity: activeTab === TestModeTabs.Funbox ? 1 : 0}} className={` test-option-selector test-mode-funbox ${interactableStyle}`}>
@@ -27,8 +35,24 @@ const FunboxModesSelector = ({activeTab}: {activeTab: TestModeTabs}) => {
 					onChange={handleOptionChange}
 					className="hidden-radio-button"
 				/>
-				<label htmlFor="emojis" className="selectable-label">							
+				<label htmlFor="emojis" className="selectable-label">			
+					<FontAwesomeIcon icon={faSmileBeam} className="test-options-icon"/>				
 					emojis
+				</label>
+			</span>		
+			<span className="option-text">
+				<input
+					type="radio"
+					id="alphabet"
+					value={TestMode.Alphabet}							
+					checked={testMode===TestMode.Alphabet}
+					onChange={handleOptionChange}
+					className="hidden-radio-button"
+				/>
+				<label htmlFor="alphabet" className="selectable-label">			
+					<FontAwesomeIcon icon={faArrowDownAZ} className="test-options-icon"/>				
+
+					alphabet
 				</label>
 			</span>		
 		</div>

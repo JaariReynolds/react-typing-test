@@ -17,7 +17,7 @@ import { updateActiveLetter } from "../../functions/letterHandling/updateActiveL
 import { TRANSITION_DELAY } from "../../App";
 import { TypingTestWords, TypingTestWordsProps } from "./TypingTestWords";
 import { TypingTestInput, TypingTestInputProps } from "./TypingTestInput";
-import { TestType } from "../../enums";
+import { TestMode, TestType } from "../../enums";
 import { useTestInformationContext } from "../../contexts/TestInformationContext";
 
 const SPACEBAR = "Spacebar";
@@ -136,7 +136,10 @@ const TypingTest = ({
 			setRawWPMArray([]);
 			setCurrentAverageWPMArray([]);
 			setShowResultsComponent(false);
-
+			
+			if (testMode === TestMode.Alphabet) {
+				setLastWord(true);
+			}
 
 			if (inputRef.current) {
 				inputRef.current.focus();
@@ -409,7 +412,7 @@ const TypingTest = ({
 		}
 
 		// hard limit on word length to not clog up the screen with incorrect letters
-		if (e.target.value.length == 15) { 
+		if (testMode !== TestMode.Alphabet && e.target.value.length == 15) { 
 			return;
 		}
 

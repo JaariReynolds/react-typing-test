@@ -1,11 +1,11 @@
 /* eslint-disable react/jsx-key */
 import React from "react";
-import { TestType } from "../../../enums";
+import { TestMode, TestType } from "../../../enums";
 import { useTestInformationContext } from "../../../contexts/TestInformationContext";
 
 const TestLengthWordsSelector = () => {
 	const numWords: number[] = [10, 25, 50, 75, 100];
-	const {testLengthWords, setTestLengthWords, testType} = useTestInformationContext();
+	const {testLengthWords, setTestLengthWords, testType, testMode} = useTestInformationContext();
 
 	const handleOptionChange = (event:React.ChangeEvent<HTMLInputElement>) => {
 		setTestLengthWords(parseInt(event.target.value));
@@ -26,6 +26,7 @@ const TestLengthWordsSelector = () => {
 							checked={testLengthWords===length}
 							onChange={handleOptionChange}
 							className="hidden-radio-button"
+							disabled={testMode === TestMode.Alphabet}
 						/>
 						<label htmlFor={length.toString()} className="selectable-label">							
 							{length}

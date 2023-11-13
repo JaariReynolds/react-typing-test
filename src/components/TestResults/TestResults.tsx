@@ -52,11 +52,16 @@ const TestResults = ({resultsComponentOpacity, resultsComponentDisplay}: TestRes
 			if (testInformation.testMode === TestMode.Standard && testInformation.accuracy < ACCURACY_THRESHOLD) {
 				setScoreMessage("unable to submit standard score: accuracy too low");
 				return;
-			} else if (testInformation.testMode === TestMode.Standard && testInformation.consistency < CONSISTENCY_THRESHOLD) {
+			} 
+			else if (testInformation.testMode === TestMode.Standard && testInformation.consistency < CONSISTENCY_THRESHOLD) {
 				setScoreMessage("unable to submit standard score: consistency too low");
 				return;
-
-			} else {
+			}
+			else if (testInformation.testMode === TestMode.Alphabet && testInformation.accuracy < 1) {
+				setScoreMessage("unable to submit alphabet score: 100% accuracy required");
+				return;
+			}
+			else {
 				handleScoreSubmit();
 			}
 		}
