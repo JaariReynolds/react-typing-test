@@ -1,9 +1,26 @@
 https://JaariReynolds.github.io/react-typing-test
 -
 
-README.md last updated: 9/11/2023
+# Typi
+### Monkeytype-inspired minimal typing test app created with Typscript, React, Firebase, Firestore. Still a work in progress.
+
+
+README.md last updated: 13/11/2023
+
 <details>
- <summary>Updates</summary>
+ <summary>Updates (click to view)</summary>
+
+* v2.2.0
+  * app name: Typi
+  * app logo/mascott: frog on keyboard
+    * logo shown at low opacity in background of app 
+  * added funbox modes: "emojis" and "alphabet" modes added
+    * currently only submits to a leaderboard
+    * does not update user average statistics or experience level 
+  * test options styling overhaul 
+  * styling changes to "averages" tab on dashboard - rows more defined
+  * box shadow opacity reduced - much softer appearance
+  * some component cleanups and refactors
 * v2.1.5
   * more visually defined and appropriately responsive test options
 * v2.1.4
@@ -29,34 +46,33 @@ README.md last updated: 9/11/2023
 - v1.0.0 - minimum viable product with functional typing test and results screen
 </details>
 
-Monkeytype-inspired minimal typing test app created with Typscript, React, Firebase, Firestore. Still a work in progress.
+<br/>
 
-* Currently contains:
-  * Colour palette selector! More palettes to come
-  * Word length and timed tests
-  * Number and punctuation inclusions/additions to the test
-  * WPM counter that updates dynamically during the test
-  * Completion/progress bar that updates dynamically during the test
-  * Smooth caret during the test
-  * WPM graph and general typing test statistics on completion
-    * (wpm, accuracy, consistency, errors)
-  * Test words scroll to reveal more words as the test is progressed
-  * LocalStorage user preferences
-  * Login and user dashboard 
-  * per-testType summaries of statistics
-  * Per-testType leaderboards
-  * Loading states for fetches/waiting periods
-  * Levelling/experience system
-    * experience per test based on overall performance
-  * Clean up styling of results screen wpm graph
+Currently contains:
+* Standard randomised word-length and timed tests
+  * checkboxes to include punctuation and numbers
+* Funbox modes
+  * currently includes: "emojis" and "alphabet"
+* Colour palette selector! More lapettes to come
+* Live WPM counter
+* Live progress bar
+* Smooth caret 
+* WPM graph and statistics on results screen
+* Leaderboards per test type and length on results screen
+* Login and user dashboard
+  * levelling and experience system (with currently no purpose)
+  * overall and per-test averaged statistics
+* LocalStorage user preferences
+* Loading states for fetches/waiting periods
 
-- Work in progress:  
-  * Results screen statistics hover for additional information
-  * User dashboard tab to show wpm/accuracy/consistency progression over x amount of games 
-  * Firestore/firebase retries
-  * Number and punctuation option overhaul, currently feels too random/inconsistent
-  * A few visual bugs 
-  * Rendering optimisations
+Work in progress:  
+* Hover statistics for additional information
+* User dashboard tab to show wpm/accuracy/consistency progression over x amount of games 
+* Number and punctuation option overhaul, currently feels too random/inconsistent
+* Firestore/firebase retries
+* More funbox modes
+* Rendering optimisations
+  
   
 
 
