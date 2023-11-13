@@ -3,7 +3,7 @@ import React, { useContext, useState, useEffect, createContext } from "react";
 import { Experience, Level, TimedScoreDocument, WordCountScoreDocument } from "../firebase/firestoreDocumentInterfaces";
 import { getLeaderboard as getLeaderboard } from "../firebase/GET/scoreGets";
 import { TestInformation } from "../interfaces/WordStructure";
-import { TestType } from "../enums";
+import { TestMode, TestType } from "../enums";
 import { calculateAccuracy } from "../functions/calculations/calculateAccuracy";
 import { calculateConsistency } from "../functions/calculations/calculateConsistency";
 import { useUserContext } from "./UserContext";
@@ -31,6 +31,8 @@ interface TestInformationContextProps {
 	setIncludePunctuation: (bool: boolean) => void
 	includeNumbers: boolean,
 	setIncludeNumbers: (bool: boolean) => void,
+	testMode: TestMode,
+	setTestMode: (testMode: TestMode) => void,
 	testCompletionPercentage: number,
 	setTestCompletionPercentage: (completionPercentage: number) => void
 }
@@ -74,6 +76,8 @@ export const TestInformationContext = createContext<TestInformationContextProps|
 	setIncludePunctuation: () => {},
 	includeNumbers: false,
 	setIncludeNumbers: () => {},
+	testMode: TestMode.Standard,
+	setTestMode: () => {},
 	testCompletionPercentage: 0,
 	setTestCompletionPercentage: () => {}
 });
@@ -102,6 +106,8 @@ export const TestInformationProvider = ({children}: any) => {
 	const [testType, setTestType] = useState<TestType>(localStorage.getItem("testType") as TestType ?? TestType.Time);
 	const [includePunctuation, setIncludePunctuation] = useState<boolean>(localStorage.getItem("testIncludePunctuation") === "true" ?? false);
 	const [includeNumbers, setIncludeNumbers] = useState<boolean>(localStorage.getItem("testIncludeNumbers") === "true" ?? false);
+	const [testMode, setTestMode] = useState<TestMode>(localStorage.getItem("testMode") as TestMode ?? TestMode.Standard);
+
 	const leaderboardTestLength = testType === TestType.Words ? testLengthWords : testLengthSeconds;
 
 	const fetchLeaderboard = async () => {
@@ -192,6 +198,8 @@ export const TestInformationProvider = ({children}: any) => {
 		setIncludePunctuation,
 		includeNumbers,
 		setIncludeNumbers,
+		testMode,
+		setTestMode,
 		testCompletionPercentage,
 		setTestCompletionPercentage
 	};
