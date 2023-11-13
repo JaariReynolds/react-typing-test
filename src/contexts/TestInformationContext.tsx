@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import React, { useContext, useState, useEffect, createContext } from "react";
-import { Experience, Level, TimedScoreDocument, WordCountScoreDocument } from "../firebase/firestoreDocumentInterfaces";
+import { TimedScoreDocument, WordCountScoreDocument } from "../firebase/firestoreDocumentInterfaces";
 import { getLeaderboard as getLeaderboard } from "../firebase/GET/scoreGets";
 import { TestInformation } from "../interfaces/WordStructure";
 import { TestMode, TestType } from "../enums";
@@ -51,6 +51,7 @@ const testInformationInitialState: TestInformation = {
 	consistency: 0, 
 	experience: 0,
 	testType: TestType.Words,
+	testMode: TestMode.Standard,
 	includeNumbers: false,
 	includePunctuation: false
 };
