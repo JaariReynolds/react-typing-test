@@ -3,9 +3,9 @@ import TestTypeSelector from "./TestTypeSelector";
 import TestLengthSecondsSelector from "./TestLengthSecondsSelector";
 import TestLengthWordsSelector from "./TestLengthWordsSelector";
 
-const TestTypeAndLengthSelector = () => {
+const StandardOptions = () => {
 	return (
-		<div className="test-type-and-length-container">
+		<div className="standard-options-container">
 			<TestTypeSelector />
 			<TestLengthWordsSelector />
 			<TestLengthSecondsSelector />
@@ -13,4 +13,4 @@ const TestTypeAndLengthSelector = () => {
 	);
 };
 
-export default TestTypeAndLengthSelector;
+export default StandardOptions;

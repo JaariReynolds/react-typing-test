@@ -1,11 +1,12 @@
 import React from "react";
 import { faHashtag } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useTestInformationContext } from "../../contexts/TestInformationContext";
+import { useTestInformationContext } from "../../../contexts/TestInformationContext";
+import { TestMode } from "../../../enums";
 
 
 const NumberSelector = () => {
-	const {includeNumbers, setIncludeNumbers} = useTestInformationContext();
+	const {includeNumbers, setIncludeNumbers, testMode} = useTestInformationContext();
 
 	const handleOptionChange = () => {
 		setIncludeNumbers(!includeNumbers);
@@ -20,7 +21,8 @@ const NumberSelector = () => {
 					id="numbers"
 					checked={includeNumbers}
 					onChange={handleOptionChange} 
-					className="hidden peer"
+					className="hidden"
+					disabled={testMode !== TestMode.Standard}
 				/>
 				<label htmlFor="numbers" className="selectable-label">
 					<FontAwesomeIcon icon={faHashtag} className="test-options-icon" />

@@ -1,16 +1,18 @@
 import React, { memo } from "react";
 
 import "./test-options.scss";
-import TestTypeAndLengthSelector from "./TestTypeAndLengthSelector";
-import ExtraOptions from "./ExtraOptions";
+import StandardOptions from "./StandardOptions/StandardOptions";
+import InclusionOptions from "./InclusionOptions/InclusionOptions";
+import ModeOptions from "./ModeOptions/ModeOptions";
 
 
 
 const TestOptions = () => {
 	return (
 		<div className="test-options">
-			<TestTypeAndLengthSelector />
-			<ExtraOptions />
+			<StandardOptions />
+			<ModeOptions />
+			<InclusionOptions />
 		</div>
 	);
 };

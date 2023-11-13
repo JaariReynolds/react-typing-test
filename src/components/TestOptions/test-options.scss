@@ -3,7 +3,7 @@
 
 .test-options {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr 1fr 1fr;
     width: max(70%, 34.5rem);
     max-width: 1000px;
     margin: auto;
@@ -21,7 +21,7 @@
         margin-right: 0.25rem;
     }
 
-    .test-type-and-length-container {
+    .standard-options-container {
         display: grid;
         width: 20rem;
         position: relative;
@@ -40,8 +40,8 @@
         display: grid;
         padding: 0.2rem 0;
         border-top: 4px solid var(--base-font-colour);
-        border-top-style: none;
         border-left: 4px solid var(--base-font-colour);
+        border-top-style: none;
         transition: border-color 0.3s ease-in-out;
     }
 
@@ -57,27 +57,39 @@
 
         .option-text {
             color: var(--base-font-colour);
+
+            input:disabled+label {
+                color: rgba(0, 0, 0, 0.2);
+                pointer-events: none;
+            }
+        }
+
+        .selectable-label {
+            padding: 0.5rem;
+            margin: 0.25rem;
+            font-weight: constants.$bold-font-weight;
             @include mixins.transition-hover-button();
 
-            :hover {
+            &:hover {
                 cursor: pointer;
                 color: var(--secondary-highlight-colour);
                 @include mixins.transition-hover-button();
-            }
-
-            .selectable-label {
-                padding: 0.5rem;
-                margin: 0.25rem;
-                font-weight: constants.$bold-font-weight;
             }
         }
     }
 }
 
-@media (max-width: 800px) {
+
+@media (max-width: 1580px) {
     .test-options {
         grid-template-columns: 1fr;
         width: constants.$min-width;
+
+        .extra-options-container {
+            font-size: 1rem;
+            display: flex;
+            justify-content: space-between;
+        }
     }
 
     .extra-options-container {

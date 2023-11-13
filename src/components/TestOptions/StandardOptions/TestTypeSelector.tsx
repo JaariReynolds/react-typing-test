@@ -3,8 +3,8 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
 import { faFont } from "@fortawesome/free-solid-svg-icons";
-import { TestType } from "../../enums";
-import { useTestInformationContext } from "../../contexts/TestInformationContext";
+import { TestType } from "../../../enums";
+import { useTestInformationContext } from "../../../contexts/TestInformationContext";
 
 const TestTypeSelector = () => {
 	const {testType, setTestType} = useTestInformationContext();
@@ -16,7 +16,7 @@ const TestTypeSelector = () => {
 
 	return (
 		<div className="tab-selector test-option-selector">
-			<div className={`option-text ${testType === TestType.Words ? "tab-selected" : ""}`}>
+			<div className="option-text">
 				<input
 					type="radio"
 					id="words"

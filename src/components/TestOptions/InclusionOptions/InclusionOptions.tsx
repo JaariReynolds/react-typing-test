@@ -2,7 +2,8 @@ import React from "react";
 import NumberSelector from "./NumberSelector";
 import PunctuationSelector from "./PunctuationSelector";
 
-const ExtraOptions = () => {
+
+const InclusionOptions = () => {
 	return (
 		<div className="extra-options-container">
 			<NumberSelector />
@@ -11,4 +12,4 @@ const ExtraOptions = () => {
 	);
 };
 
-export default ExtraOptions;
+export default InclusionOptions;

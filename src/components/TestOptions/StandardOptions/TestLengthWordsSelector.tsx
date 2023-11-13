@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-key */
 import React from "react";
-import { TestType } from "../../enums";
-import { useTestInformationContext } from "../../contexts/TestInformationContext";
+import { TestType } from "../../../enums";
+import { useTestInformationContext } from "../../../contexts/TestInformationContext";
 
 const TestLengthWordsSelector = () => {
 	const numWords: number[] = [10, 25, 50, 75, 100];
