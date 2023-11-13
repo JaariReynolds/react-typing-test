@@ -113,10 +113,10 @@ body {
 .app-logo {
   position: absolute;
   left: 50%;
-  top: 21rem;
+  top: 22rem;
   transform: translateX(-50%);
   z-index: -1;
-  opacity: 0.04;
+  opacity: 0.05;
   width: 28rem;
   min-width: 28rem;
   -webkit-user-select: none;
@@ -131,6 +131,10 @@ body {
   @include mixins.transition-opacity(var(--component-opacity));
   -webkit-user-select: none;
   user-select: none;
+}
+
+.larger-icon {
+  margin-right: constants.$larger-icon-spacing;
 }
 
 .loading-icon {

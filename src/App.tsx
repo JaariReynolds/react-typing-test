@@ -18,6 +18,8 @@ import UpdateCssVariable from "./components/HelperComponents/UpdateCssVariable";
 import Header, { HeaderProps } from "./components/Header/Header";
 import { useUserContext } from "./contexts/UserContext";
 import { useTestInformationContext } from "./contexts/TestInformationContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faKeyboard } from "@fortawesome/free-solid-svg-icons";
 
 export const TRANSITION_DELAY = 200;
 
@@ -211,7 +213,10 @@ function App() {
 		<div className="App">
 			<div className="main-container" onMouseMove={handleMouseMove}>
 				<Header {...headerProps}/>
-				<div className="app-name">typi</div>
+				<div className="app-name">
+					<FontAwesomeIcon icon={faKeyboard} className="larger-icon"/>
+					typi
+				</div>
 				<img src={process.env.PUBLIC_URL + "/typi.png"} className="app-logo"/>
 				<div className="inner-container">
 					<AfkDetectedIndicator {...afkDetectedIndicatorProps}/>
