@@ -3,9 +3,15 @@ import { TestInformation } from "../../interfaces/WordStructure";
 import { database } from "../firebase";
 import { TimedScoreDocument, WordCountScoreDocument } from "../firestoreDocumentInterfaces";
 import { TIMED_LEADERBOARD, WORDCOUNT_LEADERBOARD, timedLeaderboardCollectionRef, timedScoresCollectionRef, wordCountLeaderboardCollectionRef, wordCountScoresCollectionRef } from "../firestoreConstants";
-import { TestType } from "../../enums";
+import { TestMode, TestType } from "../../enums";
 
 export const createScoreDocument = async (username: string, scoreObject: TestInformation) => {
+	// extra check just in case
+	if (scoreObject.testMode !== TestMode.Standard) {
+		console.error("unable to submit funbox mode score to standard score collection");
+		return;
+	}
+
 	switch (scoreObject.testType) {
 	case TestType.Time:
 		await createTimedScoreDocument(username, scoreObject);
