@@ -30,7 +30,7 @@ export interface Experience {
 
 export interface TimedScoreDocument {
     username: string,
-    testType: string
+    testType: string,
     testLengthSeconds: number,
     wpm: number,
     accuracy: number,
@@ -41,6 +41,29 @@ export interface TimedScoreDocument {
 export interface WordCountScoreDocument {
     username: string,
     testType: string,
+    wordCount: number,
+    testLengthSeconds: number,
+    wpm: number,
+    accuracy: number,
+    consistency: number,
+    submissionDate: Timestamp
+}
+
+export interface FunboxTimedScoreDocument {
+    username: string,
+    testType: string,
+    testMode: string,
+    testLengthSeconds: number,
+    wpm: number,
+    accuracy: number,
+    consistency: number,
+    submissionDate: Timestamp,
+}
+
+export interface FunboxWordCountScoreDocument {
+    username: string,
+    testType: string,
+    testMode: string,
     wordCount: number,
     testLengthSeconds: number,
     wpm: number,
