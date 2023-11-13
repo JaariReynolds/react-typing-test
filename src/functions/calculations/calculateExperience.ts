@@ -1,3 +1,4 @@
+import { TestMode } from "../../enums";
 import { TestInformation, Word } from "../../interfaces/WordStructure";
 import { calculateCorrectWords } from "./calculateCorrectWords";
 
@@ -11,9 +12,9 @@ export const calculateExperience = (testInformation: TestInformation): number =>
 		Math.round(baseExperience(testInformation.words) 
 		* testInformation.accuracy 
 		* testInformation.consistency
-		* (testInformation.includeNumbers ? INCLUDE_NUMBERS_MULTIPLIER : 1)
-		* (testInformation.includePunctuation ? INCLUDE_PUNCTUATION_MULTIPLIER : 1));
-
+		* (testInformation.includeNumbers && testInformation.testMode === TestMode.Standard ? INCLUDE_NUMBERS_MULTIPLIER : 1)
+		* (testInformation.includePunctuation && testInformation.testMode === TestMode.Standard ? INCLUDE_PUNCTUATION_MULTIPLIER : 1));
+		
 	return totalExperience;
 };
 
