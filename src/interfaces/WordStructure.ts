@@ -1,6 +1,6 @@
 /* eslint-disable linebreak-style */
 
-import { TestType } from "../enums";
+import { TestMode, TestType } from "../enums";
 
 
 // each letter/word can have an associated completion status
@@ -71,7 +71,8 @@ export interface TestInformation {
 	accuracy: number // (characterCount - errorCountHard) / characterCount
 	consistency: number
 	experience: number
-	testType: TestType
+	testType: TestType,
+	testMode: TestMode,
 	includeNumbers: boolean,
 	includePunctuation: boolean
 } 
