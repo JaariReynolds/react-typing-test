@@ -16,8 +16,6 @@
         opacity constants.$component-opacity-fade-duration ease-in-out,
         border 0.3s ease-in-out;
 
-
-
     .uninteractable-selector {
         pointer-events: none;
     }
@@ -83,11 +81,7 @@
                 cursor: pointer;
                 color: var(--secondary-highlight-colour);
                 @include mixins.transition-hover-button();
-
-                &.words {}
             }
-
-
         }
     }
 }
