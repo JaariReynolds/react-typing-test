@@ -32,7 +32,7 @@ const InclusionOptions = ({activeTab}: {activeTab: TestModeTabs}) => {
 					className="hidden"
 				/>
 				<label htmlFor="numbers" className="selectable-label">
-					<FontAwesomeIcon icon={faHashtag} className="test-options-icon" />
+					<FontAwesomeIcon icon={faHashtag} className="standard-icon-left" />
 						numbers
 				</label>
 			</span>
@@ -46,7 +46,7 @@ const InclusionOptions = ({activeTab}: {activeTab: TestModeTabs}) => {
 					className="hidden peer"
 				/>
 				<label htmlFor="punctuation" className="selectable-label">
-					<FontAwesomeIcon icon={faAt} className="test-options-icon"/>
+					<FontAwesomeIcon icon={faAt} className="standard-icon-left"/>
 					punctuation
 				</label>
 				

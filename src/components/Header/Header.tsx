@@ -16,7 +16,7 @@ const Header = ({headerRef}: HeaderProps) => {
 	return (
 		<div ref={headerRef} style={{height: headerHeight}} className="header">
 			<button onClick={() => setIsHeaderOpen(current => !current)} className="account-button">
-			    <FontAwesomeIcon icon={faUser} className="icon"/>
+			    <FontAwesomeIcon icon={faUser} className="standard-icon-left"/>
 				{userDocument ? userDocument.username : "account"}
 			</button>
 			

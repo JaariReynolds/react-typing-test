@@ -37,7 +37,7 @@ const TestModeSelector = ({activeTab, setActiveTab}: TestModeTabProps) => {
 					className="hidden-radio-button"
 				/>
 				<label htmlFor="standard" className="selectable-label">
-					<FontAwesomeIcon icon={faKeyboard} className="test-options-icon"/>
+					<FontAwesomeIcon icon={faKeyboard} className="standard-icon-left"/>
 					{TestModeTabs.Standard.toString()}
 				</label>
 			</div>
@@ -53,7 +53,7 @@ const TestModeSelector = ({activeTab, setActiveTab}: TestModeTabProps) => {
 				/>
 				<label htmlFor="funbox" className="selectable-label">
 					<span>
-						<FontAwesomeIcon icon={faGamepad} className="test-options-icon"/>
+						<FontAwesomeIcon icon={faGamepad} className="standard-icon-left"/>
                    		{TestModeTabs.Funbox.toString()}
 					</span>
 				</label>

@@ -25,12 +25,12 @@ const Footer = ({setShowColourPalettes, colourPaletteDivRef}: FooterProps) => {
 	return (
 		<div className="footer">
 			<button className="footer-item palette" onClick={handleShowColourPalettes} tabIndex={-1}>
-				<FontAwesomeIcon icon={faPalette} className="palette-icon icon"/>
+				<FontAwesomeIcon icon={faPalette} className="palette-icon standard-icon-left"/>
 				palette
 				<ColourPaletteLabel colourPalette={colourPalettes[selectedPaletteId]} backgroundColour={false} />
 			</button>
 			<a href="https://github.com/JaariReynolds/react-typing-test" target="_blank" title="github.com/JaariReynolds/react-typing-test" className="footer-item" rel="noopener noreferrer">
-				<FontAwesomeIcon icon={faCodeBranch} className="icon"/>
+				<FontAwesomeIcon icon={faCodeBranch} className="standard-icon-left"/>
 				<span>git v{process.env.REACT_APP_VERSION}</span>
 			</a>		
 		</div>

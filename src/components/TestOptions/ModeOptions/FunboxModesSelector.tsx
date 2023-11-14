@@ -36,7 +36,7 @@ const FunboxModesSelector = ({activeTab}: {activeTab: TestModeTabs}) => {
 					className="hidden-radio-button"
 				/>
 				<label htmlFor="emojis" className="selectable-label">			
-					<FontAwesomeIcon icon={faSmileBeam} className="test-options-icon"/>				
+					<FontAwesomeIcon icon={faSmileBeam} className="standard-icon-left"/>				
 					emojis
 				</label>
 			</span>		
@@ -50,8 +50,7 @@ const FunboxModesSelector = ({activeTab}: {activeTab: TestModeTabs}) => {
 					className="hidden-radio-button"
 				/>
 				<label htmlFor="alphabet" className="selectable-label">			
-					<FontAwesomeIcon icon={faArrowDownAZ} className="test-options-icon"/>				
-
+					<FontAwesomeIcon icon={faArrowDownAZ} className="standard-icon-left"/>				
 					alphabet
 				</label>
 			</span>		

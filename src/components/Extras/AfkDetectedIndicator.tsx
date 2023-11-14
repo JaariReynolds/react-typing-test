@@ -13,7 +13,7 @@ export const AfkDetectedIndicator = ({isAfkMidTest}: AfkDetectedIndicatorProps) 
 	return (
 		<div style={{"opacity": isAfkMidTest ? 1 : 0}} className="afk-indicator-container">
 			<div className="afk-indicator-contents">
-				<FontAwesomeIcon icon={faKeyboard} className="afk-icon"/>
+				<FontAwesomeIcon icon={faKeyboard} className="larger-icon-left"/>
 				AFK dectected last test
 			</div>
 		</div>

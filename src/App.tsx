@@ -214,7 +214,7 @@ function App() {
 			<div className="main-container" onMouseMove={handleMouseMove}>
 				<Header {...headerProps}/>
 				<div className="app-name">
-					<FontAwesomeIcon icon={faKeyboard} className="larger-icon"/>
+					<FontAwesomeIcon icon={faKeyboard} className="larger-icon-left"/>
 					typi
 				</div>
 				<img src={process.env.PUBLIC_URL + "/typi.png"} className="app-logo"/>

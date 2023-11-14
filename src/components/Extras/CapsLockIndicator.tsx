@@ -12,7 +12,7 @@ const CapsLockIndicator = ({testComplete, capsLockOpacity}: CapsLockIndicatorPro
 	return (
 		<div style={{opacity: testComplete ? 0 : capsLockOpacity}} className="capslock-indicator-container">
 			<div className="capslock-indicator-contents">
-				<FontAwesomeIcon icon={faLock} className="capslock-icon"/>
+				<FontAwesomeIcon icon={faLock} className="larger-icon-left"/>
 				Caps Lock
 			</div>
 		</div>

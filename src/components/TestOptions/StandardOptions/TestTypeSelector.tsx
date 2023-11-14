@@ -28,7 +28,7 @@ const TestTypeSelector = () => {
 					disabled={testMode === TestMode.Alphabet}
 				/>
 				<label htmlFor="words" className="selectable-label">
-					<FontAwesomeIcon icon={faFont} className="test-options-icon words"/>
+					<FontAwesomeIcon icon={faFont} className="standard-icon-left words-icon"/>
 					{TestType.Words.toString()}
 				</label>
 			</div>
@@ -45,7 +45,7 @@ const TestTypeSelector = () => {
 				/>
 				<label htmlFor="time" className="selectable-label">
 					<span>
-						<FontAwesomeIcon icon={faClock} className="test-options-icon"/>
+						<FontAwesomeIcon icon={faClock} className="standard-icon-left"/>
                    		{TestType.Time.toString()}
 					</span>
 				</label>

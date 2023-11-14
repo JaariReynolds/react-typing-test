@@ -69,7 +69,7 @@ const AccountDashboard = () => {
 			</div>
 
 			<button onClick={() => signOut()}>
-				<FontAwesomeIcon icon={faDoorOpen} className="icon"/>
+				<FontAwesomeIcon icon={faDoorOpen} className="standard-icon-left"/>
 						log out
 			</button>					
 		</div>
