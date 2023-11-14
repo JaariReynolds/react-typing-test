@@ -5,11 +5,15 @@ https://JaariReynolds.github.io/react-typing-test
 ### Monkeytype-inspired minimal typing test app created with Typscript, React, Firebase, Firestore. Still a work in progress.
 
 
-README.md last updated: 14/11/2023
+README.md last updated: 15/11/2023
 
 <details>
  <summary>Updates (click to view)</summary>
 
+* v2.2.3
+  * "time" column added to the leaderboard table
+  * both x and y scrollbars now appear for the leaderboard table instead of hiding columns based on screenwidth
+  * wordCount score posts now properly updating the test length property in the leaderboard collection
 * v2.2.2
   * added a palette randomise button
   * added a few new palettes, shifted newer ones towards to the front
