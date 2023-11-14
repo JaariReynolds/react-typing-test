@@ -3,16 +3,13 @@ import { LetterActiveStatus, TestInformation, Word } from "../../interfaces/Word
 import { alphabetArray } from "../../WordArrays/alphabetArray";
 import { emoticonsArray } from "../../WordArrays/emoticonsArray";
 import { standardWordsArray } from "../../WordArrays/standardWordsArray";
+import { randomIntegerInclusive } from "../helperFunctions";
 import { punctuationGenerator } from "./punctuationGenerator";
 
 // percentages shouldn't add to more than 1.0 or else you get no "normal" words
 const punctuationPercentage = 0.3;
 const numbersPercentage = 0.15;
 let numberOfRandomWords = 0;
-
-const getRandomInt = (max: number): number => {
-	return Math.floor(Math.random() * max);
-};
 
 const getWordsArray = (testMode: TestMode): string[] => {
 	switch (testMode) {
@@ -40,10 +37,8 @@ const regularTestWordGenerator = (testLengthWords: number, includeNumbers: boole
 	let characterCount = 0;
 	numberOfRandomWords = wordsArray.length;
 
-	
-
 	for (let i = 0; i < testLengthWords; i++) {
-		const randomInt: number = getRandomInt(numberOfRandomWords); // get index for word list
+		const randomInt: number = randomIntegerInclusive(0, numberOfRandomWords-1); // get index for word list
 		const randomNum: number = Math.random();
 
 		if (includeNumbers && testMode === TestMode.Standard && randomNum <= numbersPercentage) {
