@@ -50,7 +50,7 @@ const Leaderboard = () => {
 		} 
 		else {
 			return (
-				<div className="leaderboard-login-prompt">leaderboard currently not available</div>
+				<div className="leaderboard-login-prompt">leaderboard currently not available - please login or try submit a new score</div>
 			);
 		}
 	};
