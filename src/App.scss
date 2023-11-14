@@ -111,7 +111,7 @@ body {
   }
 }
 
-.app-logo {
+.background-logo {
   position: absolute;
   left: 50%;
   top: 22rem;
@@ -126,13 +126,19 @@ body {
 
 .app-name {
   position: absolute;
-  width: 15rem;
-  left: 2rem;
-  top: 1.7rem;
+  display: flex;
+  left: 1.3rem;
+  top: 3.5rem;
   font-size: 4rem;
   @include mixins.transition-opacity(var(--component-opacity));
   -webkit-user-select: none;
   user-select: none;
+
+  .app-name-logo {
+    opacity: 0.5;
+    width: 6rem;
+    margin-right: 0.5rem;
+  }
 }
 
 .standard-icon-left {
@@ -197,7 +203,7 @@ input:-webkit-autofill:focus {
   }
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1400px) {
   .app-name {
     display: none;
   }
