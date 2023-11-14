@@ -1,5 +1,4 @@
 import "./colour-palette-selector.scss";
-
 import React, { RefObject, useEffect, useState, memo } from "react";
 import { colourPalettes } from "../../interfaces/ColourPalettes";
 import { useUserContext } from "../../contexts/UserContext";
@@ -9,7 +8,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faQuestion } from "@fortawesome/free-solid-svg-icons";
 
 export interface ColourPaletteSelectorProps {
-
 	showColourPalettes: boolean,
 	colourPaletteDivRef: RefObject<HTMLDivElement>
 }
@@ -43,7 +41,6 @@ const ColourPaletteSelector = ({showColourPalettes, colourPaletteDivRef}: Colour
 		return (paletteId === selectedPaletteId ? "selected" : "");
 	};
 
-
 	const colourPaletteStyling = {
 		maxHeight: containerMaxHeight,
 		opacity: showColourPalettes ? 1 : 0
@@ -52,9 +49,11 @@ const ColourPaletteSelector = ({showColourPalettes, colourPaletteDivRef}: Colour
 	return (
 		<div style={colourPaletteStyling} ref={colourPaletteDivRef} className="colour-palette-container">
 			<div className="colour-palette-div">
+
 				<button style={{backgroundColor: "black"}} className="colour-palette-option" onClick={handleRandomise}>	
 					<FontAwesomeIcon icon={faQuestion} style={{fontSize: "1.7rem", color: "white"}} />							
 				</button>
+
 				{colourPalettes.map((palette, index) => {
 					return (
 						<div key={index} className={`colour-palette-option ${selectedStylingClass(index)}`}>
@@ -72,7 +71,6 @@ const ColourPaletteSelector = ({showColourPalettes, colourPaletteDivRef}: Colour
 						</div>	
 					);
 				})}
-				
 			</div>
 		</div>
 	);

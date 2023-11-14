@@ -10,6 +10,11 @@ README.md last updated: 14/11/2023
 <details>
  <summary>Updates (click to view)</summary>
 
+* v2.2.2
+  * added a palette randomise button
+  * added a few new palettes, shifted newer ones towards to the front
+  * added a border to the "words" test option icon
+  * added app logo next to app name 
 * v2.2.1
   * fixed bug where punctuation checkbox was not working
   * updated more appropriate empty leaderboard text
