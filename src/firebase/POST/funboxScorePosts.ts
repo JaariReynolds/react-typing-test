@@ -109,6 +109,7 @@ const updateFunboxWordCountLeaderboardDocument = async (username: string, scoreO
 		const docRef = doc(database, FUNBOX_WORDCOUNT_LEADERBOARD, data.docs[0].id);
 		await updateDoc(docRef, {
 			wpm: funboxWordCountScoreObject.wpm,
+			testLengthSeconds: funboxWordCountScoreObject.testLengthSeconds,
 			accuracy: funboxWordCountScoreObject.accuracy,
 			consistency: funboxWordCountScoreObject.consistency,
 			submissionDate: funboxWordCountScoreObject.submissionDate

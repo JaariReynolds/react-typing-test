@@ -125,6 +125,7 @@ const updateWordCountLeaderboardDocument = async (username: string, wordCountSco
 		const docRef = doc(database, WORDCOUNT_LEADERBOARD, data.docs[0].id);
 		await updateDoc(docRef, {
 			wpm: wordCountScoreObject.wpm,
+			testLengthSeconds: wordCountScoreObject.testLengthSeconds,
 			accuracy: wordCountScoreObject.accuracy,
 			consistency: wordCountScoreObject.consistency,
 			submissionDate: wordCountScoreObject.submissionDate
