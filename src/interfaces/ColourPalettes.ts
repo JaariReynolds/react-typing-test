@@ -14,6 +14,48 @@ export const colourPalettes: ColourPaletteStructure[] = [
 		secondaryHighlightColour: "#040D12"
 	},
 	{
+		backgroundColour: "#A75D5D",
+		baseFontColour: "#FFC3A1",
+		primaryHighlightColour: "#D3756B",
+		secondaryHighlightColour: "#F0997D"
+	},
+	{
+		backgroundColour: "#537E58",
+		baseFontColour: "#264B29",
+		primaryHighlightColour: "#2CB460",
+		secondaryHighlightColour: "#087F30"
+	},
+	{
+		backgroundColour: "#915333",
+		baseFontColour: "#C4855D",
+		primaryHighlightColour: "#DEC486",
+		secondaryHighlightColour: "#E3A97F"
+	},
+	{
+		backgroundColour: "#3D739A",
+		baseFontColour: "#75ACCD",
+		primaryHighlightColour: "#EAEAEA",
+		secondaryHighlightColour: "#D5D5D5"
+	},
+	{
+		backgroundColour: "#5E1E68",
+		baseFontColour: "#91B1A5",
+		primaryHighlightColour: "#E6F6F1",
+		secondaryHighlightColour: "#B060B7"
+	},
+	{
+		backgroundColour: "#692635",
+		baseFontColour: "#A05067",
+		primaryHighlightColour: "#EFCEC8",
+		secondaryHighlightColour: "#CAA59F"
+	},
+	{
+		backgroundColour: "#1A090E",
+		baseFontColour: "#935A36",
+		primaryHighlightColour: "#AD7248",
+		secondaryHighlightColour: "#381F2E"
+	},
+	{
 		backgroundColour: "#252525",
 		baseFontColour: "#AF0404",
 		primaryHighlightColour: "#FF0000",
@@ -48,67 +90,6 @@ export const colourPalettes: ColourPaletteStructure[] = [
 		baseFontColour: "#826F66",
 		primaryHighlightColour: "#C69B7B",
 		secondaryHighlightColour: "#F7CCAC"
-	},
-	{
-		backgroundColour: "#79155B",
-		baseFontColour: "#C23373",
-		primaryHighlightColour: "#FFBA86",
-		secondaryHighlightColour: "#F6635C"
-	},
-	{
-		backgroundColour: "#663211",
-		baseFontColour: "#b9e9cb",
-		primaryHighlightColour: "#6e4ea2",
-		secondaryHighlightColour: "#534865"
-	},
-	{
-		backgroundColour: "#b03531",
-		baseFontColour: "#cceacd",
-		primaryHighlightColour: "#464479",
-		secondaryHighlightColour: "#3a394c"
-	},
-	
-	{
-		backgroundColour: "#a9c6c1",
-		baseFontColour: "#F3F2ED",
-		primaryHighlightColour: "#946c9d",
-		secondaryHighlightColour: "#252218"
-	},
-	{
-		backgroundColour: "#c34882",
-		baseFontColour: "#e3e5ae",
-		primaryHighlightColour: "#c9eddd",
-		secondaryHighlightColour: "#b0aee5"
-	},
-	{
-		backgroundColour: "#F18C8E",
-		baseFontColour: "#305F72",
-		primaryHighlightColour: "#F1D1B5",
-		secondaryHighlightColour: "#F0B7A4"
-	},
-	{
-		backgroundColour: "#3f386c",
-		baseFontColour: "#f9f9f6",
-		primaryHighlightColour: "#9d6a62",
-		secondaryHighlightColour: "#2f3730"
-	},
-	{
-		backgroundColour: "#654E92",
-		baseFontColour: "#EBD8B2",
-		primaryHighlightColour: "#A5C0DD",
-		secondaryHighlightColour: "#6C9BCF"
-	},
-	{
-		backgroundColour: "#468b5a",
-		baseFontColour: "#66cc83",
-		primaryHighlightColour: "#2b3b2f",
-		secondaryHighlightColour: "#20a646"
-	},
-	{
-		backgroundColour: "#A75D5D",
-		baseFontColour: "#FFC3A1",
-		primaryHighlightColour: "#D3756B",
-		secondaryHighlightColour: "#F0997D"
 	},
 	{
 		backgroundColour: "#AD8B73",
@@ -279,15 +260,73 @@ export const colourPalettes: ColourPaletteStructure[] = [
 		secondaryHighlightColour: "#EBE76C"
 	},
 	{
-		backgroundColour: "#537E58",
-		baseFontColour: "#264B29",
-		primaryHighlightColour: "#2CB460",
-		secondaryHighlightColour: "#087F30"
+		backgroundColour: "#6D554E",
+		baseFontColour: "#B49B92",
+		primaryHighlightColour: "#203136",
+		secondaryHighlightColour: "#121A22"
 	},
 	{
+		backgroundColour: "#79155B",
+		baseFontColour: "#C23373",
+		primaryHighlightColour: "#FFBA86",
+		secondaryHighlightColour: "#F6635C"
+	},
+	{
+		backgroundColour: "#663211",
+		baseFontColour: "#b9e9cb",
+		primaryHighlightColour: "#6e4ea2",
+		secondaryHighlightColour: "#534865"
+	},
+	{
+		backgroundColour: "#b03531",
+		baseFontColour: "#cceacd",
+		primaryHighlightColour: "#464479",
+		secondaryHighlightColour: "#3a394c"
+	},
+	
+	{
+		backgroundColour: "#a9c6c1",
+		baseFontColour: "#F3F2ED",
+		primaryHighlightColour: "#946c9d",
+		secondaryHighlightColour: "#252218"
+	},
+	{
+		backgroundColour: "#c34882",
+		baseFontColour: "#e3e5ae",
+		primaryHighlightColour: "#c9eddd",
+		secondaryHighlightColour: "#b0aee5"
+	},
+	{
+		backgroundColour: "#F18C8E",
+		baseFontColour: "#305F72",
+		primaryHighlightColour: "#F1D1B5",
+		secondaryHighlightColour: "#F0B7A4"
+	},
+	{
+		backgroundColour: "#3f386c",
+		baseFontColour: "#f9f9f6",
+		primaryHighlightColour: "#9d6a62",
+		secondaryHighlightColour: "#2f3730"
+	},
+	{
+		backgroundColour: "#654E92",
+		baseFontColour: "#EBD8B2",
+		primaryHighlightColour: "#A5C0DD",
+		secondaryHighlightColour: "#6C9BCF"
+	},
+	{
+		backgroundColour: "#468b5a",
+		baseFontColour: "#66cc83",
+		primaryHighlightColour: "#2b3b2f",
+		secondaryHighlightColour: "#20a646"
+	},
+	
+	{
 		backgroundColour: "#945D33",
-		baseFontColour: "#B17747",
-		primaryHighlightColour: "#C99361",
-		secondaryHighlightColour: "#E9B985"
-	}
+		baseFontColour: "#E9B985",
+		primaryHighlightColour: "#B17747",
+		secondaryHighlightColour: "#C99361"
+	},
+	
+
 ];
