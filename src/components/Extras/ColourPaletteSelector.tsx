@@ -1,9 +1,12 @@
 import "./colour-palette-selector.scss";
 
 import React, { RefObject, useEffect, useState, memo } from "react";
-import { colourPalettes, ColourPaletteStructure } from "../../interfaces/ColourPalettes";
+import { colourPalettes } from "../../interfaces/ColourPalettes";
 import { useUserContext } from "../../contexts/UserContext";
 import ColourPaletteLabel from "./ColourPaletteLabel";
+import { randomIntegerInclusive } from "../../functions/helperFunctions";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faQuestion } from "@fortawesome/free-solid-svg-icons";
 
 export interface ColourPaletteSelectorProps {
 
@@ -31,15 +34,23 @@ const ColourPaletteSelector = ({showColourPalettes, colourPaletteDivRef}: Colour
 		setSelectedPaletteId(parseInt(event.target.value));
 	};
 
+	
+
+	const handleRandomise = () => {
+		const randomPaletteIndex = randomIntegerInclusive(0, colourPalettes.length-1);
+		console.log(randomPaletteIndex);
+		setSelectedPaletteId(randomPaletteIndex);
+	};
+
 	const selectedStylingClass = (paletteId: number) => {
 		return (paletteId === selectedPaletteId ? "selected" : "");
 	};
+
 
 	const colourPaletteStyling = {
 		maxHeight: containerMaxHeight,
 		opacity: showColourPalettes ? 1 : 0
 	} as React.CSSProperties;
-
 
 	return (
 		<div style={colourPaletteStyling} ref={colourPaletteDivRef} className="colour-palette-container">
@@ -61,6 +72,9 @@ const ColourPaletteSelector = ({showColourPalettes, colourPaletteDivRef}: Colour
 						</div>	
 					);
 				})}
+				<button style={{backgroundColor: "black"}} className="colour-palette-option" onClick={handleRandomise}>	
+					<FontAwesomeIcon icon={faQuestion} style={{fontSize: "1.7rem", color: "white"}} />							
+				</button>
 			</div>
 		</div>
 	);
