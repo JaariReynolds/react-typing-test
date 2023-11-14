@@ -16,9 +16,7 @@
         opacity constants.$component-opacity-fade-duration ease-in-out,
         border 0.3s ease-in-out;
 
-    .test-options-icon {
-        margin-right: 0.25rem;
-    }
+
 
     .uninteractable-selector {
         pointer-events: none;
@@ -69,11 +67,27 @@
             font-weight: constants.$bold-font-weight;
             @include mixins.transition-hover-button();
 
+            .test-options-icon {
+                margin-right: 0.25rem;
+
+                &.words {
+                    padding: 1px 2px;
+                    font-size: 0.9rem;
+                    border-radius: 0.2rem;
+                    margin-bottom: -1px;
+                    border: 2px solid;
+                }
+            }
+
             &:hover {
                 cursor: pointer;
                 color: var(--secondary-highlight-colour);
                 @include mixins.transition-hover-button();
+
+                &.words {}
             }
+
+
         }
     }
 }
