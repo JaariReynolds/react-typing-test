@@ -34,11 +34,8 @@ const ColourPaletteSelector = ({showColourPalettes, colourPaletteDivRef}: Colour
 		setSelectedPaletteId(parseInt(event.target.value));
 	};
 
-	
-
 	const handleRandomise = () => {
 		const randomPaletteIndex = randomIntegerInclusive(0, colourPalettes.length-1);
-		console.log(randomPaletteIndex);
 		setSelectedPaletteId(randomPaletteIndex);
 	};
 
@@ -55,6 +52,9 @@ const ColourPaletteSelector = ({showColourPalettes, colourPaletteDivRef}: Colour
 	return (
 		<div style={colourPaletteStyling} ref={colourPaletteDivRef} className="colour-palette-container">
 			<div className="colour-palette-div">
+				<button style={{backgroundColor: "black"}} className="colour-palette-option" onClick={handleRandomise}>	
+					<FontAwesomeIcon icon={faQuestion} style={{fontSize: "1.7rem", color: "white"}} />							
+				</button>
 				{colourPalettes.map((palette, index) => {
 					return (
 						<div key={index} className={`colour-palette-option ${selectedStylingClass(index)}`}>
@@ -72,9 +72,7 @@ const ColourPaletteSelector = ({showColourPalettes, colourPaletteDivRef}: Colour
 						</div>	
 					);
 				})}
-				<button style={{backgroundColor: "black"}} className="colour-palette-option" onClick={handleRandomise}>	
-					<FontAwesomeIcon icon={faQuestion} style={{fontSize: "1.7rem", color: "white"}} />							
-				</button>
+				
 			</div>
 		</div>
 	);
