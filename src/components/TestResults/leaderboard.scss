@@ -1,11 +1,8 @@
 .leaderboard-div {
     margin-top: 1rem;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-    overflow-x: hidden;
-    overflow-y: scroll;
-    scrollbar-gutter: stable both-edges;
-
+    overflow: scroll;
+    overflow-y: auto;
+    height: 18rem;
 
     &::-webkit-scrollbar {
         height: 0.7rem;
@@ -20,6 +17,7 @@
     table {
         width: 100%;
         margin: auto;
+        min-width: 50rem;
         max-width: 80rem;
 
         thead {
@@ -38,11 +36,10 @@
                 text-align: right;
             }
 
-            &.second {
-                width: 15rem;
+            &.username-column {
+                width: 13rem;
                 overflow: hidden;
                 display: inline-block;
-
             }
         }
     }
@@ -52,32 +49,5 @@
         color: var(--base-font-colour);
         transition: color 0.3s ease-in-out;
         font-size: 30px;
-    }
-}
-
-@media (max-width: 1500px) {
-
-    .sixth {
-        display: none;
-    }
-}
-
-@media (max-width: 1100px) {
-
-    .fifth {
-        display: none;
-    }
-}
-
-@media (max-width: 900px) {
-
-    .forth {
-        display: none;
-    }
-}
-
-@media (max-width: 670px) {
-    .third {
-        display: none;
     }
 }
