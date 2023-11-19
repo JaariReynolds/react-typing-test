@@ -5,8 +5,8 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     margin: auto;
-    max-width: 40rem;
-    min-width: 20rem;
+    max-width: 44rem;
+    min-width: 22rem;
     border: 4px solid var(--base-font-colour);
     border-radius: 0.5rem;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
@@ -85,7 +85,7 @@
 @media (max-width: 1000px) {
     .test-options {
         grid-template-columns: 1fr;
-        width: 20rem;
+        width: 22rem;
     }
 
     .mode-options-container {
