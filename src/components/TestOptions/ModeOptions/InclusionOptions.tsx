@@ -1,5 +1,5 @@
 import React from "react";
-import { faAt, faHashtag } from "@fortawesome/free-solid-svg-icons";
+import { faAt, faHashtag, faQuoteLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTestInformationContext } from "../../../contexts/TestInformationContext";
 import { TestModeTabs } from "./ModeOptions";
@@ -46,7 +46,7 @@ const InclusionOptions = ({activeTab}: {activeTab: TestModeTabs}) => {
 					className="hidden peer"
 				/>
 				<label htmlFor="punctuation" className="selectable-label">
-					<FontAwesomeIcon icon={faAt} className="standard-icon-left"/>
+					<FontAwesomeIcon icon={faQuoteLeft} className="standard-icon-left"/>
 					punctuation
 				</label>
 				
