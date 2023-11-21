@@ -1,48 +1,12 @@
 @use "../../styles/mixins";
 @use "../../styles/constants";
 
-.test-options {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    margin: auto;
-    max-width: 44rem;
-    min-width: 22rem;
-    border: 4px solid var(--base-font-colour);
-    border-radius: 0.5rem;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+.test-options-container {
     opacity: var(--component-opacity);
+    transition: opacity constants.$component-opacity-fade-duration ease-in-out;
     font-size: 1.1rem;
-    transition:
-        opacity constants.$component-opacity-fade-duration ease-in-out,
-        border 0.3s ease-in-out;
+    min-width: 22rem;
 
-    .uninteractable-selector {
-        pointer-events: none;
-    }
-
-    .standard-options-container {
-        display: grid;
-        padding: 0.2rem 0;
-
-        .test-type-words,
-        .test-type-time {
-            @include mixins.transition-opacity(var(--component-opacity));
-            grid-area: 2 / 1;
-        }
-    }
-
-    .mode-options-container {
-        display: grid;
-        padding: 0.2rem 0;
-        border-left: 4px solid var(--base-font-colour);
-        transition: border-color 0.3s ease-in-out;
-
-        .test-mode-standard,
-        .test-mode-funbox {
-            @include mixins.transition-opacity(var(--component-opacity));
-            grid-area: 2 / 1;
-        }
-    }
 
     .test-option-selector {
         text-align: center;
@@ -57,35 +21,100 @@
 
         .option-text {
             color: var(--base-font-colour);
-        }
 
-        .selectable-label {
-            padding: 0.5rem;
-            margin: 0.25rem;
-            font-weight: constants.$bold-font-weight;
-            @include mixins.transition-hover-button();
-
-            .words-icon {
-                padding: 1px 2px;
-                font-size: 0.9rem;
-                border-radius: 0.2rem;
-                margin-bottom: -1px;
-                border: 2px solid;
-            }
-
-            &:hover {
-                cursor: pointer;
-                color: var(--secondary-highlight-colour);
+            .selectable-label {
+                padding: 0.25rem 0.5rem;
+                margin: 0.25rem;
+                font-weight: constants.$bold-font-weight;
                 @include mixins.transition-hover-button();
+
+                .words-icon {
+                    padding: 1px 2px;
+                    font-size: 0.9rem;
+                    border-radius: 0.2rem;
+                    margin-bottom: -1px;
+                    border: 2px solid;
+                }
+
+                &:hover {
+                    cursor: pointer;
+                    color: var(--secondary-highlight-colour);
+                    @include mixins.transition-hover-button();
+                }
             }
         }
     }
+
+    .test-options {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        margin: auto;
+        max-width: 44rem;
+        min-width: 22rem;
+        border: 4px solid var(--base-font-colour);
+        border-radius: 0.5rem;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+
+        transition:
+
+            border 0.3s ease-in-out;
+
+        .uninteractable-selector {
+            pointer-events: none;
+        }
+
+        .standard-options-container {
+            display: grid;
+            padding: 0.2rem 0;
+
+            .test-type-words,
+            .test-type-time {
+                @include mixins.transition-opacity(var(--component-opacity));
+                grid-area: 2 / 1;
+            }
+        }
+
+        .mode-options-container {
+            display: grid;
+            padding: 0.2rem 0;
+            border-left: 4px solid var(--base-font-colour);
+            transition: border-color 0.3s ease-in-out;
+
+            .test-mode-standard,
+            .test-mode-funbox {
+                @include mixins.transition-opacity(var(--component-opacity));
+                grid-area: 2 / 1;
+            }
+
+            .test-mode-standard {
+                display: flex;
+                margin: auto;
+            }
+
+
+            .test-mode-funbox {
+
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                text-align: left;
+
+                .selectable-label {
+                    margin: 0;
+                    padding: 0.5rem 0.2rem;
+                }
+            }
+        }
+
+    }
 }
+
 
 @media (max-width: 1000px) {
     .test-options {
         grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr;
         width: 22rem;
+
     }
 
     .mode-options-container {

@@ -3,7 +3,7 @@ import { TestMode, TestType } from "../../../enums";
 import { useTestInformationContext } from "../../../contexts/TestInformationContext";
 import { TestModeTabs } from "./ModeOptions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowDownAZ, faFaceSmile, faSmile } from "@fortawesome/free-solid-svg-icons";
+import { faArrowDownAZ } from "@fortawesome/free-solid-svg-icons";
 import { faSmileBeam } from "@fortawesome/free-regular-svg-icons";
 
 
@@ -53,7 +53,22 @@ const FunboxModesSelector = ({activeTab}: {activeTab: TestModeTabs}) => {
 					<FontAwesomeIcon icon={faArrowDownAZ} className="standard-icon-left"/>				
 					alphabet
 				</label>
-			</span>		
+			</span>
+			<span className="option-text">
+				<input
+					type="radio"
+					id="alphabet"
+					value={TestMode.Alphabet}							
+					checked={testMode===TestMode.Alphabet}
+					onChange={handleOptionChange}
+					className="hidden-radio-button"
+				/>
+				<label htmlFor="alphabet" className="selectable-label">			
+					<FontAwesomeIcon icon={faArrowDownAZ} className="standard-icon-left"/>				
+					alphabet
+				</label>
+			</span>				
+			
 		</div>
 	);
 };
