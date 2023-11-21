@@ -77,7 +77,6 @@
         .mode-options-container {
             display: grid;
             padding: 0.2rem 0;
-            border-left: 4px solid var(--base-font-colour);
             transition: border-color 0.3s ease-in-out;
 
             .test-mode-standard,
@@ -108,6 +107,12 @@
     }
 }
 
+@media (min-width: 1001px) {
+    .mode-options-container {
+        border-top: none;
+        border-left: 4px solid var(--base-font-colour);
+    }
+}
 
 @media (max-width: 1000px) {
     .test-options-container .test-options {
@@ -119,7 +124,6 @@
 
     .mode-options-container {
         border-top: 4px solid var(--base-font-colour);
-        border-top-style: solid !important;
-        border-left-style: none !important;
+        border-left: none;
     }
 }
