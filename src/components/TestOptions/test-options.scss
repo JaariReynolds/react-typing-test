@@ -110,7 +110,7 @@
 
 
 @media (max-width: 1000px) {
-    .test-options {
+    .test-options-container .test-options {
         grid-template-columns: 1fr;
         grid-template-rows: 1fr 1fr;
         width: 22rem;
