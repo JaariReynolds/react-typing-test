@@ -1,5 +1,4 @@
-import React, {useState} from "react";
-// import TestModeSelector from "./TestModeSelector";
+import React from "react";
 import InclusionOptions from "./InclusionOptions";
 import FunboxModesSelector from "./FunboxModesSelector";
 
@@ -11,7 +10,6 @@ export enum TestModeTabs {
 const ModeOptions = ({activeTab}: {activeTab: TestModeTabs}) => {
 	return (
 		<div className="mode-options-container">
-			{/* <TestModeSelector activeTab={activeTab} setActiveTab={setActiveTab}/> */}
 			<InclusionOptions activeTab={activeTab}/>
 			<FunboxModesSelector activeTab={activeTab} />
 		</div>

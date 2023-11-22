@@ -1,5 +1,5 @@
 import React from "react";
-import { faAt, faHashtag, faQuoteLeft } from "@fortawesome/free-solid-svg-icons";
+import { faHashtag, faQuoteLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTestInformationContext } from "../../../contexts/TestInformationContext";
 import { TestModeTabs } from "./ModeOptions";
