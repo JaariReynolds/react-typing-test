@@ -7,7 +7,6 @@
     font-size: 1.1rem;
     min-width: 22rem;
 
-
     .test-option-selector {
         text-align: center;
         -webkit-user-select: none;
@@ -54,9 +53,7 @@
         border: 4px solid var(--base-font-colour);
         border-radius: 0.5rem;
         box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
-
         transition:
-
             border 0.3s ease-in-out;
 
         .uninteractable-selector {
@@ -90,12 +87,9 @@
                 margin: auto;
             }
 
-
             .test-mode-funbox {
-
                 display: grid;
                 grid-template-columns: 1fr 1fr;
-                text-align: left;
 
                 .selectable-label {
                     margin: 0;
@@ -103,7 +97,6 @@
                 }
             }
         }
-
     }
 }
 
@@ -119,7 +112,6 @@
         grid-template-columns: 1fr;
         grid-template-rows: 1fr 1fr;
         width: 22rem;
-
     }
 
     .mode-options-container {
