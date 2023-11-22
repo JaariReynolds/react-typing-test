@@ -1,5 +1,7 @@
 import React from "react";
 import "./typing-test-input.scss";
+import { useTestInformationContext } from "../../contexts/TestInformationContext";
+import { TestMode } from "../../enums";
 
 export interface TypingTestInputProps {
     inputRef: React.RefObject<HTMLInputElement>,
@@ -13,6 +15,8 @@ export interface TypingTestInputProps {
 }
 
 export const TypingTestInput = ({inputRef, currentInputWord, handleChange, handleKeyDown, handleKeyUp, testComplete, setTestFocused, setCaretVisible}: TypingTestInputProps) => {
+	const {testMode} = useTestInformationContext();
+
 
 	const testFocus = () => {
 		if (inputRef.current) {
@@ -28,6 +32,14 @@ export const TypingTestInput = ({inputRef, currentInputWord, handleChange, handl
 		}
 	};
 
+	const maxInputFieldLength = (): number => {
+		switch (testMode) {
+		case TestMode.Standard: return 15;
+		case TestMode.Emojis: return 15;
+		case TestMode.Alphabet: return 26;
+		}
+	};
+
 	return (
 		<div className="text-field-container">
 			<input 
@@ -38,6 +50,7 @@ export const TypingTestInput = ({inputRef, currentInputWord, handleChange, handl
 				onChange={handleChange}
 				onKeyDown={handleKeyDown}
 				onKeyUp={handleKeyUp}
+				maxLength={maxInputFieldLength()}
 				className="text-field"
 				disabled={testComplete}
 				onBlur={testBlur}

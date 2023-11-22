@@ -392,12 +392,15 @@ const TypingTest = ({
 
 	// figure out what to do based on input
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+		const inputWord = e.target.value.trim();
+
 		if (!testRunning) {
 			startTestStopWatch();
 		}     
 		
 		// if spacebar pressed, insert current word to array, clear current word, clear pressed keys just in case
-		if (pressedKeys[pressedKeys.length-1] === SPACEBAR && e.target.value.trim().length > 0) { // (.length - 1) means its the only character currently pressed at the time
+		if (pressedKeys[pressedKeys.length-1] === SPACEBAR && inputWord.length > 0) { // (.length - 1) means its the only character currently pressed at the time
 			updateWordErrorsHard(inputWordsArray.length);
 			setInputWordsArray([...inputWordsArray, currentInputWord]);
 			setCurrentInputWord("");
@@ -407,12 +410,7 @@ const TypingTest = ({
 		}     
 
 		// if i still somehow get passed the previous check, do another check :) 
-		if (e.target.value.slice(-1) === " ") { 
-			return;
-		}
-
-		// hard limit on word length to not clog up the screen with incorrect letters
-		if (testMode !== TestMode.Alphabet && e.target.value.length == 15) { 
+		if (inputWord.slice(-1) === " ") { 
 			return;
 		}
 
@@ -422,27 +420,27 @@ const TypingTest = ({
 			return;
 		}
 
-		setCurrentInputWord(e.target.value);
+		setCurrentInputWord(inputWord);
         
 		let currentTestWord = testInformation.words[inputWordsArray.length];
 
 		// #region Character Handling Block
 		// if backspacing an existing character
 		if (pressedKeys[pressedKeys.length - 1] === "Backspace" && currentInputWord.length > 0 && currentInputWord.length <= testInformation.words[inputWordsArray.length].originalLength) {
-			currentTestWord = removeExistingLetter(currentTestWord, e.target.value);
+			currentTestWord = removeExistingLetter(currentTestWord, inputWord);
 		} 
 		// if backspacing an additional character    
 		else if (pressedKeys[pressedKeys.length - 1] === "Backspace" && currentInputWord.length > testInformation.words[inputWordsArray.length].originalLength) {
 			currentTestWord = removeAdditionalLetter(currentTestWord);
 		} 
 		// if updating an existing character
-		else if (e.target.value.length <= testInformation.words[inputWordsArray.length].originalLength) {
-			currentTestWord = addExistingLetter(currentTestWord, e.target.value);
+		else if (inputWord.length <= testInformation.words[inputWordsArray.length].originalLength) {
+			currentTestWord = addExistingLetter(currentTestWord, inputWord);
 			setKeyPressCount(prev => prev + 1);
 		} 
 		// if adding/updating an additional character
-		else if (e.target.value.length > testInformation.words[inputWordsArray.length].originalLength) {
-			currentTestWord = addAdditionalLetter(currentTestWord, e.target.value.slice(-1));
+		else if (inputWord.length > testInformation.words[inputWordsArray.length].originalLength) {
+			currentTestWord = addAdditionalLetter(currentTestWord, inputWord.slice(-1));
 			setKeyPressCount(prev => prev + 1);
 		}
 
