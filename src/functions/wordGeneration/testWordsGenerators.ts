@@ -1,6 +1,7 @@
 import { TestMode, TestType } from "../../enums";
 import { LetterActiveStatus, TestInformation, Word } from "../../interfaces/WordStructure";
 import { alphabetArray } from "../../WordArrays/alphabetArray";
+import { countryArray } from "../../WordArrays/countryArray";
 import { emoticonsArray } from "../../WordArrays/emoticonsArray";
 import { medicineArray } from "../../WordArrays/medicineArray";
 import { standardWordsArray } from "../../WordArrays/standardWordsArray";
@@ -38,6 +39,7 @@ const getWordsArray = (testMode: TestMode): string[] => {
 	case TestMode.Emojis: return emoticonsArray;
 	case TestMode.Alphabet: return alphabetArray;
 	case TestMode.Medicine: return medicineArray;
+	case TestMode.Countries:return countryArray;
 	}
 };
 

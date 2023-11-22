@@ -38,6 +38,7 @@ export const TypingTestInput = ({inputRef, currentInputWord, handleChange, handl
 		case TestMode.Emojis: return 15;
 		case TestMode.Alphabet: return 26;
 		case TestMode.Medicine: return 17;
+		case TestMode.Countries: return 24;
 		}
 	};
 

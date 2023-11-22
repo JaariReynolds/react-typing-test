@@ -3,7 +3,7 @@ import { TestMode, TestType } from "../../../enums";
 import { useTestInformationContext } from "../../../contexts/TestInformationContext";
 import { TestModeTabs } from "./ModeOptions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowDownAZ, faPrescriptionBottleMedical } from "@fortawesome/free-solid-svg-icons";
+import { faArrowDownAZ, faEarthAmericas, faPrescriptionBottleMedical } from "@fortawesome/free-solid-svg-icons";
 import { faSmileBeam } from "@fortawesome/free-regular-svg-icons";
 
 
@@ -55,7 +55,7 @@ const FunboxModesSelector = ({activeTab}: {activeTab: TestModeTabs}) => {
 					alphabet
 				</label>
 			</span>
-			
+
 			<span className="option-text">
 				<input
 					type="radio"
@@ -70,7 +70,21 @@ const FunboxModesSelector = ({activeTab}: {activeTab: TestModeTabs}) => {
 					emojis
 				</label>
 			</span>	
-			
+
+			<span className="option-text">
+				<input
+					type="radio"
+					id="countries"
+					value={TestMode.Countries}							
+					checked={testMode===TestMode.Countries}
+					onChange={handleOptionChange}
+					className="hidden-radio-button"
+				/>
+				<label htmlFor="countries" className="selectable-label">			
+					<FontAwesomeIcon icon={faEarthAmericas} className="standard-icon-left"/>				
+					countries
+				</label>
+			</span>				
 		</div>
 	);
 };
