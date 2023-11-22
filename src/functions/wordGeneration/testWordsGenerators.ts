@@ -2,6 +2,7 @@ import { TestMode, TestType } from "../../enums";
 import { LetterActiveStatus, TestInformation, Word } from "../../interfaces/WordStructure";
 import { alphabetArray } from "../../WordArrays/alphabetArray";
 import { emoticonsArray } from "../../WordArrays/emoticonsArray";
+import { medicineArray } from "../../WordArrays/medicineArray";
 import { standardWordsArray } from "../../WordArrays/standardWordsArray";
 import { randomIntegerInclusive } from "../helperFunctions";
 import { punctuationGenerator } from "./punctuationGenerator";
@@ -36,6 +37,7 @@ const getWordsArray = (testMode: TestMode): string[] => {
 	case TestMode.Standard: return standardWordsArray;
 	case TestMode.Emojis: return emoticonsArray;
 	case TestMode.Alphabet: return alphabetArray;
+	case TestMode.Medicine: return medicineArray;
 	}
 };
 
@@ -46,7 +48,7 @@ export const testWordsGenerator = (testLengthWords: number, includeNumbers: bool
 		return standardTestWordGenerator(testLengthWords, includeNumbers, includePunctuation, testType, testMode);
 	case TestMode.Alphabet:
 		return alphabetTestWordGenerator();
-	case TestMode.Emojis:
+	default: // every other funbox mode
 		return noInclusionsTestWordGenerator(testLengthWords, testType, testMode);
 	}
 }; 

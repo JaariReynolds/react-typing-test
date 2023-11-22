@@ -6,5 +6,6 @@ export enum TestType {
 export enum TestMode {
 	Standard = "standard",
 	Emojis = "emojis",
-	Alphabet = "alphabet"
+	Alphabet = "alphabet",
+	Medicine = "medicine"
 }
