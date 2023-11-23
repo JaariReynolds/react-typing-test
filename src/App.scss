@@ -162,6 +162,11 @@ button:disabled {
   width: 0.7rem;
 }
 
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 0.25rem;
+}
+
 ::-webkit-scrollbar-corner {
   display: none;
 }

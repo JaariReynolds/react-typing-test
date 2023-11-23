@@ -1,6 +1,6 @@
 .secondary-summary-div {
     .overflow-table {
-        overflow-x: scroll;
+        overflow-x: auto;
 
         &::-webkit-scrollbar {
             height: 0.7rem;

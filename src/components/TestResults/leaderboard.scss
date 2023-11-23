@@ -1,7 +1,6 @@
 .leaderboard-div {
     margin-top: 1rem;
-    overflow: scroll;
-    overflow-y: auto;
+    overflow: auto;
     height: 18rem;
 
     &::-webkit-scrollbar {
