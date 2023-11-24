@@ -5,11 +5,25 @@ https://JaariReynolds.github.io/react-typing-test
 ### Monkeytype-inspired minimal typing test app created with Typscript, React, Firebase, Firestore. Still a work in progress.
 
 
-README.md last updated: 15/11/2023
+README.md last updated: 25/11/2023
 
 <details>
  <summary>Updates (click to view)</summary>
 
+* v2.3.0
+  * added 30% weighting to the first 50 words in standard mode 
+    * i.e. first 50 words have 30% chance to roll, remaining 950 words have 70% chance to roll 
+  * test options redesign (surely the last time..) to fit more funbox modes
+    * new modes!
+      * "medicine" funbox mode added
+      * "countries" funbox mode added
+      * "gen z slang" funbox mode added
+    * most recent funbox mode now remembered in localstorage, will select mode when changing to funbox tab
+  * "phrases" in funbox mode word arrays are now split to individual words so that word limit can be enforced
+    * previously, the word limit could be breached by having a phrase as the final word (e.g. making a 10 word limit test include 13 words if the final phrase is 4 words long)
+    * phrases will therefore be cut short to enforce limit
+  * added a much needed scrollbar track
+    * added padding around scrollbar divs in the funbox mode selector and palette selector
 * v2.2.3
   * "time" column added to the leaderboard table
   * both x and y scrollbars now appear for the leaderboard table instead of hiding columns based on screenwidth
