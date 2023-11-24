@@ -36,9 +36,9 @@ export const TypingTestInput = ({inputRef, currentInputWord, handleChange, handl
 		switch (testMode) {
 		case TestMode.Standard: return 15;
 		case TestMode.Emojis: return 15;
-		case TestMode.Alphabet: return 26;
-		case TestMode.Medicine: return 17;
-		case TestMode.Countries: return 24;
+		case TestMode.Alphabet: return 27;
+		case TestMode.Medicine: return 18;
+		case TestMode.Countries: return 15;
 		case TestMode.GenZSlang: return 15;
 		}
 	};
