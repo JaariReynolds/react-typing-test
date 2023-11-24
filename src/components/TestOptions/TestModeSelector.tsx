@@ -12,15 +12,18 @@ interface TestModeSelectorProps {
 }
 
 const TestModeSelector = ({activeTab, setActiveTab}: TestModeSelectorProps) => {
-	const {setTestMode} = useTestInformationContext();
-
+	const {setTestMode, funboxMode} = useTestInformationContext();
 
 	const handleOptionChange = (event:React.ChangeEvent<HTMLInputElement>) => {
 		setActiveTab(event.target.value as TestModeTabs);
 		localStorage.setItem("testModeTab", event.target.value);
+
 		if (event.target.value as TestModeTabs === TestModeTabs.Standard) {
 			setTestMode(TestMode.Standard);
 			localStorage.setItem("testMode", event.target.value);
+		} else {	
+			setTestMode(funboxMode);
+			localStorage.setItem("testMode", funboxMode);
 		}
 	};
 		

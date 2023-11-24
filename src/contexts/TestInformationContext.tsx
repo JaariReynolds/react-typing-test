@@ -34,6 +34,8 @@ interface TestInformationContextProps {
 	setIncludeNumbers: (bool: boolean) => void,
 	testMode: TestMode,
 	setTestMode: (testMode: TestMode) => void,
+	funboxMode: TestMode,
+	setFunboxMode: (testMode: TestMode) => void,
 	testCompletionPercentage: number,
 	setTestCompletionPercentage: (completionPercentage: number) => void
 }
@@ -80,6 +82,8 @@ export const TestInformationContext = createContext<TestInformationContextProps|
 	setIncludeNumbers: () => {},
 	testMode: TestMode.Standard,
 	setTestMode: () => {},
+	funboxMode: TestMode.Alphabet,
+	setFunboxMode: () => {},
 	testCompletionPercentage: 0,
 	setTestCompletionPercentage: () => {}
 });
@@ -109,6 +113,7 @@ export const TestInformationProvider = ({children}: any) => {
 	const [includePunctuation, setIncludePunctuation] = useState<boolean>(localStorage.getItem("testIncludePunctuation") === "true" ?? false);
 	const [includeNumbers, setIncludeNumbers] = useState<boolean>(localStorage.getItem("testIncludeNumbers") === "true" ?? false);
 	const [testMode, setTestMode] = useState<TestMode>(localStorage.getItem("testMode") as TestMode ?? TestMode.Standard);
+	const [funboxMode, setFunboxMode] = useState<TestMode>(localStorage.getItem("funboxMode") as TestMode ?? TestMode.Alphabet);
 
 	const leaderboardTestLength = testType === TestType.Words ? testLengthWords : testLengthSeconds;
 
@@ -210,6 +215,8 @@ export const TestInformationProvider = ({children}: any) => {
 		setIncludeNumbers,
 		testMode,
 		setTestMode,
+		funboxMode, 
+		setFunboxMode,
 		testCompletionPercentage,
 		setTestCompletionPercentage
 	};

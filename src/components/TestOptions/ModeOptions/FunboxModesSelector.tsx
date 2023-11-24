@@ -9,11 +9,12 @@ import { faSmileBeam } from "@fortawesome/free-regular-svg-icons";
 
 
 const FunboxModesSelector = ({activeTab}: {activeTab: TestModeTabs}) => {
-	const {testMode, setTestMode, setTestType} = useTestInformationContext();
+	const {testMode, setTestMode, setTestType, setFunboxMode} = useTestInformationContext();
 
 	const handleOptionChange = (event:React.ChangeEvent<HTMLInputElement>) => {
 		const newTestMode: TestMode = event.target.value as TestMode;
 		setTestMode(newTestMode);
+		setFunboxMode(newTestMode);
 		localStorage.setItem("testMode", event.target.value);
 
 		if (newTestMode === TestMode.Alphabet) {
