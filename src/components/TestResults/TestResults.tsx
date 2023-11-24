@@ -46,24 +46,31 @@ const TestResults = ({resultsComponentOpacity, resultsComponentDisplay}: TestRes
 			fetchLeaderboard();
 	}, [activeTab]);
 	
-	// submit score when test hasnt already been submitted, user is logged in, and all result calculations are done
+	// submit score when test hasnt already been submitted, user is logged in, all result calculations are done
 	useEffect(() => {
 		if (!isTestSubmitted && showResultsComponent && isCalculationsComplete && user && userDocument) {
-			if (testInformation.testMode === TestMode.Standard && testInformation.accuracy < ACCURACY_THRESHOLD) {
-				setScoreMessage("unable to submit standard score: accuracy too low");
-				return;
-			} 
-			else if (testInformation.testMode === TestMode.Standard && testInformation.consistency < CONSISTENCY_THRESHOLD) {
+			// threshold validation
+			switch (testInformation.testMode) {
+			case TestMode.Alphabet:
+				if (testInformation.accuracy < 1) {
+					setScoreMessage("unable to submit alphabet score: 100% accuracy required");
+					return;
+				}
+				break;
+			default: 
+				if (testInformation.accuracy < ACCURACY_THRESHOLD) {
+					setScoreMessage("unable to submit standard score: accuracy too low");
+					return;
+				} 
+			}
+
+			if (testInformation.consistency < CONSISTENCY_THRESHOLD) {
 				setScoreMessage("unable to submit standard score: consistency too low");
 				return;
 			}
-			else if (testInformation.testMode === TestMode.Alphabet && testInformation.accuracy < 1) {
-				setScoreMessage("unable to submit alphabet score: 100% accuracy required");
-				return;
-			}
-			else {
-				handleScoreSubmit();
-			}
+
+			handleScoreSubmit();
+			
 		}
 	}, [isCalculationsComplete, user, userDocument, isTestSubmitted]);
 
@@ -116,9 +123,20 @@ const TestResults = ({resultsComponentOpacity, resultsComponentDisplay}: TestRes
 				{scoreSubmittedResponse()}
 				{showResultsComponent && <WpmGraph />}			
 				<div className="tab-selector">
-					<button className={activeTab === ResultsTab.Statistics ? "tab-selected" : ""} onClick={() => handleTabClick(ResultsTab.Statistics)}>{ResultsTab.Statistics.toString()}</button>
-					<button className={activeTab === ResultsTab.Leaderboard ? "tab-selected" : ""} onClick={() => handleTabClick(ResultsTab.Leaderboard)}>{ResultsTab.Leaderboard.toString()}</button>
-					<div className="tab-selected-underline" style={{transform: activeTab === ResultsTab.Statistics ? "translateX(0%)" : "translateX(100%)"}}></div>
+					<button 
+						className={activeTab === ResultsTab.Statistics ? "tab-selected" : ""} 
+						onClick={() => handleTabClick(ResultsTab.Statistics)}>
+						{ResultsTab.Statistics.toString()}
+					</button>
+					<button 
+						className={activeTab === ResultsTab.Leaderboard ? "tab-selected" : ""} 
+						onClick={() => handleTabClick(ResultsTab.Leaderboard)}>
+						{ResultsTab.Leaderboard.toString()}
+					</button>
+					<div 
+						className="tab-selected-underline" 
+						style={{transform: activeTab === ResultsTab.Statistics ? "translateX(0%)" : "translateX(100%)"}}>
+					</div>
 				</div>
 				<div className="tabbed-content">
 					{activeTab === ResultsTab.Statistics && <Statistics />}
