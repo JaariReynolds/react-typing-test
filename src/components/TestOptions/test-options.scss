@@ -11,7 +11,6 @@
         text-align: center;
         -webkit-user-select: none;
         user-select: none;
-        margin: 0.2rem 1rem;
 
         input:disabled+label {
             color: rgba(0, 0, 0, 0.2);
@@ -47,6 +46,8 @@
     .test-options {
         display: grid;
         grid-template-columns: 1fr 1fr;
+
+
         margin: auto;
         max-width: 44rem;
         min-width: 22rem;
@@ -62,43 +63,49 @@
 
         .standard-options-container {
             display: grid;
-            padding: 0.2rem 0;
-
-            .test-type-words,
-            .test-type-time {
-                @include mixins.transition-opacity(var(--component-opacity));
-                grid-area: 2 / 1;
-            }
+            margin: auto 2rem auto 2rem;
         }
 
-        .mode-options-container {
+        .test-type-words,
+        .test-type-time {
+            @include mixins.transition-opacity(var(--component-opacity));
+            grid-area: 2 / 1;
+            margin-top: 0.2rem;
+        }
+    }
+
+    .mode-options-container {
+        display: grid;
+        transition: border-color 0.3s ease-in-out;
+
+        .test-mode-standard,
+        .test-mode-funbox {
+            @include mixins.transition-opacity(var(--component-opacity));
+            grid-area: 1 / 1;
+        }
+
+        .test-mode-standard {
+            display: flex;
+            margin: auto;
+        }
+
+        .funbox-scrolling-container {
             display: grid;
+            grid-template-columns: 1fr 1fr;
+            height: 4.5rem;
+
+            overflow: auto;
             padding: 0.2rem 0;
-            transition: border-color 0.3s ease-in-out;
+            border: 2px solid transparent;
 
-            .test-mode-standard,
-            .test-mode-funbox {
-                @include mixins.transition-opacity(var(--component-opacity));
-                grid-area: 2 / 1;
-            }
-
-            .test-mode-standard {
-                display: flex;
-                margin: auto;
-            }
-
-            .test-mode-funbox {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-
-                .selectable-label {
-                    margin: 0;
-                    padding: 0.5rem 0.2rem;
-                }
+            .selectable-label {
+                margin: 0;
             }
         }
     }
 }
+
+
 
 @media (min-width: 1001px) {
     .mode-options-container {

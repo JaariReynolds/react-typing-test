@@ -46,11 +46,16 @@ const TestTypeSelector = () => {
 				<label htmlFor="time" className="selectable-label">
 					<span>
 						<FontAwesomeIcon icon={faClock} className="standard-icon-left"/>
-                   		{TestType.Time.toString()}
+						{TestType.Time.toString()}
 					</span>
 				</label>
 			</div>
-			<div className="tab-selected-underline" style={{transform: testType === TestType.Words ? "translateX(0%)" : "translateX(100%)", backgroundColor: testMode === TestMode.Alphabet ? "rgba(0, 0, 0, 0.2" : ""}}></div>
+			<div 
+				className="tab-selected-underline" 
+				style={{
+					transform: testType === TestType.Words ? "translateX(0%)" : "translateX(100%)", 
+					borderColor: testMode === TestMode.Alphabet ? "rgba(0, 0, 0, 0.2" : ""}}>
+			</div>
 		</div>
 	);
 };
