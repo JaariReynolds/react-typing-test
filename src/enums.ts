@@ -8,5 +8,6 @@ export enum TestMode {
 	Emojis = "emojis",
 	Alphabet = "alphabet",
 	Medicine = "medicine",
-	Countries = "countries"
+	Countries = "countries",
+	GenZSlang = "gen z slang"
 }

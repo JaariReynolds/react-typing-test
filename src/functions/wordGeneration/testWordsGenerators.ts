@@ -3,6 +3,7 @@ import { LetterActiveStatus, TestInformation, Word } from "../../interfaces/Word
 import { alphabetArray } from "../../WordArrays/alphabetArray";
 import { countryArray } from "../../WordArrays/countryArray";
 import { emoticonsArray } from "../../WordArrays/emoticonsArray";
+import { genZSlangArray } from "../../WordArrays/genZSlangArray";
 import { medicineArray } from "../../WordArrays/medicineArray";
 import { standardWordsArray } from "../../WordArrays/standardWordsArray";
 import { randomIntegerInclusive } from "../helperFunctions";
@@ -39,7 +40,8 @@ const getWordsArray = (testMode: TestMode): string[] => {
 	case TestMode.Emojis: return emoticonsArray;
 	case TestMode.Alphabet: return alphabetArray;
 	case TestMode.Medicine: return medicineArray;
-	case TestMode.Countries:return countryArray;
+	case TestMode.Countries: return countryArray;
+	case TestMode.GenZSlang: return genZSlangArray;
 	}
 };
 
@@ -119,8 +121,17 @@ const noInclusionsTestWordGenerator = (testLengthWords: number, testType: TestTy
 	for (let i = 0; i < testLengthWords; i++) {
 		const randomInt = randomIntegerInclusive(0, numberOfRandomWords-1); 
 		randomWord = wordsArray[randomInt];		
-		characterCount += randomWord.length;
-		randomWordArray.push(new Word(randomWord));
+		const potentialArrayOfWords = randomWord.split(" ");
+		if (potentialArrayOfWords.length === 1) {
+			characterCount += randomWord.length;
+			randomWordArray.push(new Word(randomWord));
+		}
+		else {
+			potentialArrayOfWords.map(word => {
+				characterCount += word.length;
+				randomWordArray.push(new Word(word));
+			});
+		}
 	}
 
 	randomWordArray[0].active = true;
