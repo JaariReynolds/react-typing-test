@@ -113,24 +113,31 @@ const alphabetTestWordGenerator = (): TestInformation => {
 const noInclusionsTestWordGenerator = (testLengthWords: number, testType: TestType, testMode: TestMode): TestInformation => {
 	const wordsArray = getWordsArray(testMode);
 	const numberOfRandomWords = wordsArray.length;
-	
 	const randomWordArray: Word[] = [];
-	let randomWord: string;
+	
 	let characterCount = 0;
+	let numWordsLeft = testLengthWords;
 
-	for (let i = 0; i < testLengthWords; i++) {
-		const randomInt = randomIntegerInclusive(0, numberOfRandomWords-1); 
-		randomWord = wordsArray[randomInt];		
+	// funbox mode "words" can sometimes be phrases or a couple of words instead of an array of singular words
+	// phrases are split into an array of strings and treated as separate words (while still maintaining the phrase) in order to not breach the word limit
+	// this will sometimes mean a phrase can be cut short so that the word limit is enforced
+	while (numWordsLeft > 0) {
+		const randomWord = wordsArray[randomIntegerInclusive(0, numberOfRandomWords-1)];		
 		const potentialArrayOfWords = randomWord.split(" ");
 		if (potentialArrayOfWords.length === 1) {
 			characterCount += randomWord.length;
 			randomWordArray.push(new Word(randomWord));
+			numWordsLeft -= 1;
 		}
 		else {
-			potentialArrayOfWords.map(word => {
-				characterCount += word.length;
-				randomWordArray.push(new Word(word));
-			});
+			for (let i = 0; i < potentialArrayOfWords.length; i++) {
+				characterCount += potentialArrayOfWords[i].length;
+				randomWordArray.push(new Word(potentialArrayOfWords[i]));
+				numWordsLeft -= 1;
+				if (numWordsLeft == 0) {
+					break;
+				}
+			}		
 		}
 	}
 
