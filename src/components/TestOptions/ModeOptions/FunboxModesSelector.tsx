@@ -3,7 +3,7 @@ import { TestMode, TestType } from "../../../enums";
 import { useTestInformationContext } from "../../../contexts/TestInformationContext";
 import { TestModeTabs } from "./ModeOptions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowDownAZ, faEarthAmericas, faFire, faPrescriptionBottleMedical } from "@fortawesome/free-solid-svg-icons";
+import { faArrowDownAZ, faEarthAmericas, faFire, faFlask, faPrescriptionBottleMedical } from "@fortawesome/free-solid-svg-icons";
 import { faSmileBeam } from "@fortawesome/free-regular-svg-icons";
 
 
@@ -56,38 +56,22 @@ const FunboxModesSelector = ({activeTab}: {activeTab: TestModeTabs}) => {
 						<FontAwesomeIcon icon={faPrescriptionBottleMedical} className="standard-icon-left"/>				
 						{TestMode.Medicine.toString()}
 					</label>
+				</span>		
+
+				<span className="option-text">
+					<input
+						type="radio"
+						id="chemicalElements"
+						value={TestMode.ChemicalElements}							
+						checked={testMode===TestMode.ChemicalElements}
+						onChange={handleOptionChange}
+						className="hidden-radio-button"
+					/>
+					<label htmlFor="chemicalElements" className="selectable-label">			
+						<FontAwesomeIcon icon={faFlask} className="standard-icon-left"/>				
+						{TestMode.ChemicalElements.toString()}
+					</label>
 				</span>				
-
-				<span className="option-text">
-					<input
-						type="radio"
-						id="emojis"
-						value={TestMode.Emojis}							
-						checked={testMode===TestMode.Emojis}
-						onChange={handleOptionChange}
-						className="hidden-radio-button"
-					/>
-					<label htmlFor="emojis" className="selectable-label">			
-						<FontAwesomeIcon icon={faSmileBeam} className="standard-icon-left"/>				
-						{TestMode.Emojis.toString()}
-					</label>
-				</span>	
-
-				<span className="option-text">
-					<input
-						type="radio"
-						id="countries"
-						value={TestMode.Countries}							
-						checked={testMode===TestMode.Countries}
-						onChange={handleOptionChange}
-						className="hidden-radio-button"
-					/>
-					<label htmlFor="countries" className="selectable-label">			
-						<FontAwesomeIcon icon={faEarthAmericas} className="standard-icon-left"/>				
-						{TestMode.Countries.toString()}
-					</label>
-				</span>	
-
 				<span className="option-text">
 					<input
 						type="radio"
@@ -103,8 +87,40 @@ const FunboxModesSelector = ({activeTab}: {activeTab: TestModeTabs}) => {
 					</label>
 				</span>		
 
-			</div>
+			
+				<span className="option-text">
+					<input
+						type="radio"
+						id="countries"
+						value={TestMode.Countries}							
+						checked={testMode===TestMode.Countries}
+						onChange={handleOptionChange}
+						className="hidden-radio-button"
+					/>
+					<label htmlFor="countries" className="selectable-label">			
+						<FontAwesomeIcon icon={faEarthAmericas} className="standard-icon-left"/>				
+						{TestMode.Countries.toString()}
+					</label>
+				</span>	
+
 				
+				<span className="option-text">
+					<input
+						type="radio"
+						id="emojis"
+						value={TestMode.Emojis}							
+						checked={testMode===TestMode.Emojis}
+						onChange={handleOptionChange}
+						className="hidden-radio-button"
+					/>
+					<label htmlFor="emojis" className="selectable-label">			
+						<FontAwesomeIcon icon={faSmileBeam} className="standard-icon-left"/>				
+						{TestMode.Emojis.toString()}
+					</label>
+				</span>	
+
+
+			</div>				
 		</div>
 	);
 };

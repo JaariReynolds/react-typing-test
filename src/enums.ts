@@ -9,5 +9,6 @@ export enum TestMode {
 	Alphabet = "alphabet",
 	Medicine = "medicine",
 	Countries = "countries",
-	GenZSlang = "gen z slang"
+	GenZSlang = "gen z slang",
+	ChemicalElements = "elements"
 }

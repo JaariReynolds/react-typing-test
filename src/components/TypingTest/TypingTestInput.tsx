@@ -34,12 +34,14 @@ export const TypingTestInput = ({inputRef, currentInputWord, handleChange, handl
 
 	const maxInputFieldLength = (): number => {
 		switch (testMode) {
-		case TestMode.Standard: return 15;
-		case TestMode.Emojis: return 15;
 		case TestMode.Alphabet: return 27;
 		case TestMode.Medicine: return 18;
-		case TestMode.Countries: return 15;
-		case TestMode.GenZSlang: return 15;
+
+		case TestMode.Standard: 
+		case TestMode.Emojis:
+		case TestMode.Countries:
+		case TestMode.GenZSlang: 
+		case TestMode.ChemicalElements: return 15;
 		}
 	};
 
