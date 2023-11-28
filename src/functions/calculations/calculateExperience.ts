@@ -5,6 +5,7 @@ import { calculateCorrectWords } from "./calculateCorrectWords";
 const EXPERIENCE_LEVELLING_EXPONENT = 1.2;
 const INCLUDE_NUMBERS_MULTIPLIER = 1.05;
 const INCLUDE_PUNCTUATION_MULTIPLIER = 1.05;
+const FUNBOX_MODE_MULTIPLIER = 2;
 
 // amount of experience gained from completing the test provided
 export const calculateExperience = (testInformation: TestInformation): number => {
@@ -13,8 +14,9 @@ export const calculateExperience = (testInformation: TestInformation): number =>
 		* testInformation.accuracy 
 		* testInformation.consistency
 		* (testInformation.includeNumbers && testInformation.testMode === TestMode.Standard ? INCLUDE_NUMBERS_MULTIPLIER : 1)
-		* (testInformation.includePunctuation && testInformation.testMode === TestMode.Standard ? INCLUDE_PUNCTUATION_MULTIPLIER : 1));
-		
+		* (testInformation.includePunctuation && testInformation.testMode === TestMode.Standard ? INCLUDE_PUNCTUATION_MULTIPLIER : 1)
+		* (testInformation.testMode !== TestMode.Standard ? FUNBOX_MODE_MULTIPLIER : 1));
+
 	return totalExperience;
 };
 
