@@ -66,6 +66,7 @@ function App() {
 	const [caretVisible, setCaretVisible] = useState<boolean>(true);
 
 	UpdateCssVariable("--component-opacity", componentOpacity);
+	UpdateCssVariable("--cursor-display", componentOpacity ? "auto" : "none");
 
 	const handleSiteKeyDown = (event: KeyboardEvent) => {
 		// prevent default tab functionality, set focus instead to the 'reset' button
