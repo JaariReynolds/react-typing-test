@@ -5,11 +5,22 @@ https://JaariReynolds.github.io/react-typing-test
 ### Monkeytype-inspired minimal typing test app created with Typscript, React, Firebase, Firestore. Still a work in progress.
 
 
-README.md last updated: 25/11/2023
+README.md last updated: 28/11/2023
 
 <details>
  <summary>Updates (click to view)</summary>
 
+* v2.4.0
+  * new funbox mode - chemical elements (labelled as "elements")
+  * cursor now hides/shows with components when test is running 
+  * removed many colour palettes that lacked contrast
+  * added more (than before) colour palettes with better contrast 
+  * funbox modes now contribute to user experience/levelling 
+    * funbox modes currently have a 2x experience multiplier on them
+    * these modes still do not contribute to user summaries/stats, though
+  * funbox mode now remembered in localStorage
+  * fix - now remembers the TestType before selecting alphabet
+    * sets back to this TestType after changing from alphabet
 * v2.3.0
   * added 30% weighting to the first 50 words in standard mode 
     * i.e. first 50 words have 30% chance to roll, remaining 950 words have 70% chance to roll 
