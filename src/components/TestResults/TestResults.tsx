@@ -81,12 +81,14 @@ const TestResults = ({resultsComponentOpacity, resultsComponentDisplay}: TestRes
 			switch (testInformation.testMode) {
 			case TestMode.Standard: 
 				await createScoreDocument(userDocument!.username, testInformation);
-				await updateUserSummary(user!.uid, testInformation);
 				break;
 			default: 
 				await updateFunboxLeaderboardDocument(userDocument!.username, testInformation);
 				break;
 			}
+
+			await updateUserSummary(user!.uid, testInformation);
+
 			
 			localStorage.setItem("isSubmitted", "true");
 			setIsTestSubmitted(true);
