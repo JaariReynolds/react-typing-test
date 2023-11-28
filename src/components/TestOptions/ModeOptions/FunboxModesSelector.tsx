@@ -1,30 +1,23 @@
 import React from "react";
-import { TestMode, TestType } from "../../../enums";
+import { TestMode } from "../../../enums";
 import { useTestInformationContext } from "../../../contexts/TestInformationContext";
 import { TestModeTabs } from "./ModeOptions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowDownAZ, faEarthAmericas, faFire, faFlask, faPrescriptionBottleMedical } from "@fortawesome/free-solid-svg-icons";
 import { faSmileBeam } from "@fortawesome/free-regular-svg-icons";
 
-
-
 const FunboxModesSelector = ({activeTab}: {activeTab: TestModeTabs}) => {
-	const {testMode, setTestMode, setTestType, setFunboxMode} = useTestInformationContext();
+	const {testMode, setTestMode, setFunboxMode} = useTestInformationContext();
 
 	const handleOptionChange = (event:React.ChangeEvent<HTMLInputElement>) => {
 		const newTestMode: TestMode = event.target.value as TestMode;
 		setTestMode(newTestMode);
 		setFunboxMode(newTestMode);
 		localStorage.setItem("testMode", event.target.value);
-
-		if (newTestMode === TestMode.Alphabet) {
-			setTestType(TestType.Words);
-			localStorage.setItem("testType", TestType.Words.toString());
-		}
+		localStorage.setItem("funboxMode", newTestMode);
 	};
 
-	const interactableStyle = (activeTab === TestModeTabs.Funbox) ? "" : "uninteractable-selector"; // css class
-
+	const interactableStyle = (activeTab === TestModeTabs.Funbox) ? "" : "uninteractable-selector"; 
 	return (
 		<div style={{opacity: activeTab === TestModeTabs.Funbox ? 1 : 0}} className={` test-option-selector test-mode-funbox ${interactableStyle}`}>
 			<div className="funbox-scrolling-container">
@@ -41,8 +34,7 @@ const FunboxModesSelector = ({activeTab}: {activeTab: TestModeTabs}) => {
 						<FontAwesomeIcon icon={faArrowDownAZ} className="standard-icon-left"/>				
 						{TestMode.Alphabet.toString()}
 					</label>
-				</span>
-				
+				</span>				
 				<span className="option-text">
 					<input
 						type="radio"
@@ -57,7 +49,6 @@ const FunboxModesSelector = ({activeTab}: {activeTab: TestModeTabs}) => {
 						{TestMode.Medicine.toString()}
 					</label>
 				</span>		
-
 				<span className="option-text">
 					<input
 						type="radio"
@@ -86,8 +77,6 @@ const FunboxModesSelector = ({activeTab}: {activeTab: TestModeTabs}) => {
 						{TestMode.GenZSlang.toString()}
 					</label>
 				</span>		
-
-			
 				<span className="option-text">
 					<input
 						type="radio"
@@ -101,9 +90,7 @@ const FunboxModesSelector = ({activeTab}: {activeTab: TestModeTabs}) => {
 						<FontAwesomeIcon icon={faEarthAmericas} className="standard-icon-left"/>				
 						{TestMode.Countries.toString()}
 					</label>
-				</span>	
-
-				
+				</span>			
 				<span className="option-text">
 					<input
 						type="radio"
@@ -118,8 +105,6 @@ const FunboxModesSelector = ({activeTab}: {activeTab: TestModeTabs}) => {
 						{TestMode.Emojis.toString()}
 					</label>
 				</span>	
-
-
 			</div>				
 		</div>
 	);
