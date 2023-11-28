@@ -55,10 +55,8 @@ const TestModeSelector = ({activeTab, setActiveTab}: TestModeSelectorProps) => {
  					className="hidden-radio-button"
  				/>
  				<label htmlFor="funbox" className="selectable-label">
- 					<span>
- 						<FontAwesomeIcon icon={faGamepad} className="standard-icon-left"/>
-                    		{TestModeTabs.Funbox.toString()}
- 					</span>
+					<FontAwesomeIcon icon={faGamepad} className="standard-icon-left"/>
+					{TestModeTabs.Funbox.toString()}			
  				</label>
  			</div>
 			<div style={{left: activeTab === TestModeTabs.Standard ? "" : "50%"}} className="option-selected-bar"></div>

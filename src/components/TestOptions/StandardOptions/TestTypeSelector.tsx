@@ -44,10 +44,8 @@ const TestTypeSelector = () => {
 					disabled={testMode === TestMode.Alphabet}
 				/>
 				<label htmlFor="time" className="selectable-label">
-					<span>
-						<FontAwesomeIcon icon={faClock} className="standard-icon-left"/>
-						{TestType.Time.toString()}
-					</span>
+					<FontAwesomeIcon icon={faClock} className="standard-icon-left"/>
+					{TestType.Time.toString()}				
 				</label>
 			</div>
 			<div 
