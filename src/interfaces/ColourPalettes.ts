@@ -8,10 +8,22 @@ export interface ColourPaletteStructure {
 
 export const colourPalettes: ColourPaletteStructure[] = [
 	{
-		backgroundColour: "#2f3234",
-		baseFontColour: "#a1a1aa",
-		primaryHighlightColour: "#fde047",
+		backgroundColour: "#2F3234",
+		baseFontColour: "#A1A1AA",
+		primaryHighlightColour: "#FDE047",
 		secondaryHighlightColour: "#040D12"
+	},
+	{
+		backgroundColour: "#915333",
+		baseFontColour: "#C4855D",
+		primaryHighlightColour: "#DEC486",
+		secondaryHighlightColour: "#E3A97F"
+	},
+	{
+		backgroundColour: "#3A3845",
+		baseFontColour: "#826F66",
+		primaryHighlightColour: "#C69B7B",
+		secondaryHighlightColour: "#F7CCAC"
 	},
 	{
 		backgroundColour: "#A75D5D",
@@ -24,18 +36,6 @@ export const colourPalettes: ColourPaletteStructure[] = [
 		baseFontColour: "#264B29",
 		primaryHighlightColour: "#2CB460",
 		secondaryHighlightColour: "#087F30"
-	},
-	{
-		backgroundColour: "#915333",
-		baseFontColour: "#C4855D",
-		primaryHighlightColour: "#DEC486",
-		secondaryHighlightColour: "#E3A97F"
-	},
-	{
-		backgroundColour: "#000",
-		baseFontColour: "#75ACCD",
-		primaryHighlightColour: "#EAEAEA",
-		secondaryHighlightColour: "#D5D5D5"
 	},
 	{
 		backgroundColour: "#5E1E68",
@@ -55,18 +55,11 @@ export const colourPalettes: ColourPaletteStructure[] = [
 		primaryHighlightColour: "#944757",
 		secondaryHighlightColour: "#944757"
 	},
-	
 	{
 		backgroundColour: "#644A7F",
 		baseFontColour: "#EDF3B7",
 		primaryHighlightColour: "#9268A5",
 		secondaryHighlightColour: "#E5C890"
-	},
-	{
-		backgroundColour: "#3A3845",
-		baseFontColour: "#826F66",
-		primaryHighlightColour: "#C69B7B",
-		secondaryHighlightColour: "#F7CCAC"
 	},
 	{
 		backgroundColour: "#AD8B73",
@@ -206,4 +199,166 @@ export const colourPalettes: ColourPaletteStructure[] = [
 		primaryHighlightColour: "#2b3b2f",
 		secondaryHighlightColour: "#20a646"
 	},
+	{
+		backgroundColour: "#233651",
+		baseFontColour: "#FCB09C",
+		primaryHighlightColour: "#B64E3A",
+		secondaryHighlightColour: "#49637D"
+	},
+	{
+		backgroundColour: "#573948",
+		baseFontColour: "#ECA4B7",
+		primaryHighlightColour: "#9B4D5D",
+		secondaryHighlightColour: "#8B677C"
+	},
+	{
+		backgroundColour: "#795E96",
+		baseFontColour: "#AA9597",
+		primaryHighlightColour: "#FFFEFE",
+		secondaryHighlightColour: "#D0B9E8"
+	},
+	{
+		backgroundColour: "#A44F44",
+		baseFontColour: "#D68376",
+		primaryHighlightColour: "#FCDBC0",
+		secondaryHighlightColour: "#572C68"
+	},
+	{
+		backgroundColour: "#834930",
+		baseFontColour: "#2A2F2E",
+		primaryHighlightColour: "#CF9370",
+		secondaryHighlightColour: "#454B4A"
+	},
+	{
+		backgroundColour: "#602E6E",
+		baseFontColour: "#F3D4B1",
+		primaryHighlightColour: "#A77C57",
+		secondaryHighlightColour: "#9B5DA7"
+	},
+	{
+		backgroundColour: "#EC7671",
+		baseFontColour: "#BB413D",
+		primaryHighlightColour: "#633974",
+		secondaryHighlightColour: "#895699"
+	},
+	{
+		backgroundColour: "#1A2956",
+		baseFontColour: "#E9C6CD",
+		primaryHighlightColour: "#9D7077",
+		secondaryHighlightColour: "#4D6795"
+	},
+	{
+		backgroundColour: "#C38D62",
+		baseFontColour: "#7C5E59",
+		primaryHighlightColour: "#4E3532",
+		secondaryHighlightColour: "#7B4528"
+	},
+	{
+		backgroundColour: "#311B2B",
+		baseFontColour: "#D39AB0",
+		primaryHighlightColour: "#864E60",
+		secondaryHighlightColour: "#593C54"
+	},
+	{
+		backgroundColour: "#3C2D2D",
+		baseFontColour: "#DE7978",
+		primaryHighlightColour: "#953534",
+		secondaryHighlightColour: "#756161"
+	},
+	{
+		backgroundColour: "#954C57",
+		baseFontColour: "#583846",
+		primaryHighlightColour: "#E49FAC",
+		secondaryHighlightColour: "#AE626F"
+	},
+	{
+		backgroundColour: "#0d1821",
+		baseFontColour: "#bfcc94",
+		primaryHighlightColour: "#f0f4ef",
+		secondaryHighlightColour: "#344966"
+	},
+	{
+		backgroundColour: "#453643",
+		baseFontColour: "#28112B",
+		primaryHighlightColour: "#5E5D5C",
+		secondaryHighlightColour: "#788475"
+	},
+	{
+		backgroundColour: "#775144",
+		baseFontColour: "#2A0800",
+		primaryHighlightColour: "#f4dbd8",
+		secondaryHighlightColour: "#c09891"
+	},
+	{
+		backgroundColour: "#FCA17D",
+		baseFontColour: "#DA627D",
+		primaryHighlightColour: "#9A348E",
+		secondaryHighlightColour: "#F9DBBD"
+	},
+	{
+		backgroundColour: "#523249",
+		baseFontColour: "#C3B299",
+		primaryHighlightColour: "#815355",
+		secondaryHighlightColour: "#DBEBC0"
+	},
+	{
+		backgroundColour: "#C6EBBE",
+		baseFontColour: "#647AA3",
+		primaryHighlightColour: "#020887",
+		secondaryHighlightColour: "#95B2B0"
+	},
+	{
+		backgroundColour: "#846B8A",
+		baseFontColour: "#CFA5B4",
+		primaryHighlightColour: "#F7D4BC",
+		secondaryHighlightColour: "#C98BB9"
+	},
+	{
+		backgroundColour: "#546D64",
+		baseFontColour: "#4FB286",
+		primaryHighlightColour: "#011627",
+		secondaryHighlightColour: "#50ffb1"
+	},
+	{
+		backgroundColour: "#2C3167",
+		baseFontColour: "#F5D493",
+		primaryHighlightColour: "#997035",
+		secondaryHighlightColour: "#454B84"
+	},
+	{
+		backgroundColour: "#F59781",
+		baseFontColour: "#666995",
+		primaryHighlightColour: "#393B61",
+		secondaryHighlightColour: "#A54332"
+	},
+	{
+		backgroundColour: "#522E37",
+		baseFontColour: "#DE7266",
+		primaryHighlightColour: "#AD4036",
+		secondaryHighlightColour: "#805563"
+	},
+	{
+		backgroundColour: "#282E76",
+		baseFontColour: "#A46A15",
+		primaryHighlightColour: "#F2C063",
+		secondaryHighlightColour: "#747DC3"
+	},
+	{
+		backgroundColour: "#03401E",
+		baseFontColour: "#49BD54",
+		primaryHighlightColour: "#0C8616",
+		secondaryHighlightColour: "#388164"
+	},
+	{
+		backgroundColour: "#3C4127",
+		baseFontColour: "#9ABC64",
+		primaryHighlightColour: "#628534",
+		secondaryHighlightColour: "#6A6E4F"
+	},
+	{
+		backgroundColour: "#A4545C",
+		baseFontColour: "#FCF7D9",
+		primaryHighlightColour: "#A99F71",
+		secondaryHighlightColour: "#F8B5BD"
+	}
 ];
