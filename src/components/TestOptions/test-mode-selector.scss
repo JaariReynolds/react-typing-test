@@ -2,13 +2,9 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     margin: 0 auto 1rem auto !important; // to overwrite .test-option-selector
-
     text-align: left !important;
     width: 18rem;
     border: 4px solid var(--base-font-colour);
-
-
-
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
     padding: 0.2rem;
     border-radius: 0.5rem;
