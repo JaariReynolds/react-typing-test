@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/react-typing-test/static/css/main.83829fca.css",
-    "main.js": "/react-typing-test/static/js/main.043d837f.js",
-    "static/js/453.f859020e.chunk.js": "/react-typing-test/static/js/453.f859020e.chunk.js",
+    "main.css": "/react-typing-test/static/css/main.a834b5c2.css",
+    "main.js": "/react-typing-test/static/js/main.4214bafb.js",
+    "static/js/206.c507c794.chunk.js": "/react-typing-test/static/js/206.c507c794.chunk.js",
     "static/media/roboto-mono-v22-latin-200.woff2": "/react-typing-test/static/media/roboto-mono-v22-latin-200.3abfa0226a3d9fd27daf.woff2",
     "static/media/roboto-mono-v22-latin-300.woff2": "/react-typing-test/static/media/roboto-mono-v22-latin-300.4049410be22872fc5317.woff2",
     "static/media/roboto-mono-v22-latin-500.woff2": "/react-typing-test/static/media/roboto-mono-v22-latin-500.f115e285a8c5ddd183d3.woff2",
@@ -10,13 +10,10 @@
     "static/media/roboto-mono-v22-latin-600.woff2": "/react-typing-test/static/media/roboto-mono-v22-latin-600.3a6344be94af104d64b2.woff2",
     "static/media/roboto-mono-v22-latin-regular.woff2": "/react-typing-test/static/media/roboto-mono-v22-latin-regular.d3026ee29728abffa752.woff2",
     "static/media/roboto-mono-v22-latin-700.woff2": "/react-typing-test/static/media/roboto-mono-v22-latin-700.7df391d199f8754a3efd.woff2",
-    "index.html": "/react-typing-test/index.html",
-    "main.83829fca.css.map": "/react-typing-test/static/css/main.83829fca.css.map",
-    "main.043d837f.js.map": "/react-typing-test/static/js/main.043d837f.js.map",
-    "453.f859020e.chunk.js.map": "/react-typing-test/static/js/453.f859020e.chunk.js.map"
+    "index.html": "/react-typing-test/index.html"
   },
   "entrypoints": [
-    "static/css/main.83829fca.css",
-    "static/js/main.043d837f.js"
+    "static/css/main.a834b5c2.css",
+    "static/js/main.4214bafb.js"
   ]
 }
