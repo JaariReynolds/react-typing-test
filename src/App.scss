@@ -105,6 +105,11 @@ a {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  cursor: pointer;
+
+  * {
+    cursor: pointer;
+  }
 
   .colour-preview {
     width: 1.5rem;
