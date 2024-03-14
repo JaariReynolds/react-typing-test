@@ -12,33 +12,24 @@
     -webkit-user-select: none;
     user-select: none;
 
-    input:disabled + label {
-      color: rgba(0, 0, 0, 0.2);
-      pointer-events: none;
+    .words-icon {
+      padding: 1px 2px;
+      font-size: 0.9rem;
+      border-radius: 0.2rem;
+      margin-bottom: -1px;
+      border: 2px solid;
     }
 
-    .option-text {
-      color: var(--base-font-colour);
+    .selectable-label {
+      padding: 0.25rem 0.75rem;
 
-      .selectable-label {
-        padding: 0.25rem 0.75rem;
+      font-weight: constants.$bold-font-weight;
+      @include mixins.transition-hover-button();
 
-        font-weight: constants.$bold-font-weight;
+      &:hover {
+        cursor: pointer;
+        color: var(--secondary-highlight-colour);
         @include mixins.transition-hover-button();
-
-        .words-icon {
-          padding: 1px 2px;
-          font-size: 0.9rem;
-          border-radius: 0.2rem;
-          margin-bottom: -1px;
-          border: 2px solid;
-        }
-
-        &:hover {
-          cursor: pointer;
-          color: var(--secondary-highlight-colour);
-          @include mixins.transition-hover-button();
-        }
       }
     }
   }
@@ -62,6 +53,14 @@
     .standard-options-container {
       display: grid;
       margin: auto 2rem auto 2rem;
+
+      &.disabled-container {
+        pointer-events: none;
+        * {
+          color: rgba(0, 0, 0, 0.2);
+          border-color: rgba(0, 0, 0, 0.2);
+        }
+      }
     }
 
     .test-type-words,
