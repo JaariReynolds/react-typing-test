@@ -34,7 +34,7 @@ a {
   color: var(--base-font-colour);
 
   &:hover {
-    color: var(--secondary-highlight-colour);
+    color: var(--secondary-highlight-colour) !important;
 
     * {
       cursor: pointer;
