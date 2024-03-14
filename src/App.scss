@@ -27,6 +27,21 @@ body {
   transition: color 0.3s ease-in-out;
 }
 
+button,
+a {
+  @include mixins.transition-hover-button();
+  font-weight: constants.$bold-font-weight;
+  color: var(--base-font-colour);
+
+  &:hover {
+    color: var(--secondary-highlight-colour);
+
+    * {
+      cursor: pointer;
+    }
+  }
+}
+
 .main-container {
   display: flex;
   align-items: center;
@@ -73,16 +88,6 @@ body {
 
   .tab-selected {
     color: var(--primary-highlight-colour);
-  }
-
-  button {
-    @include mixins.transition-hover-button();
-    font-weight: constants.$bold-font-weight;
-    color: var(--base-font-colour);
-
-    &:hover {
-      color: var(--secondary-highlight-colour);
-    }
   }
 
   .tab-selected-underline {
