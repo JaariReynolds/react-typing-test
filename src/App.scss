@@ -24,8 +24,7 @@ body {
   color: var(--base-font-colour);
   height: 100vh;
 
-  transition:
-    color 0.3s ease-in-out,
+  transition: color 0.3s ease-in-out;
 }
 
 .main-container {
@@ -48,12 +47,12 @@ body {
     display: none;
   }
 
-  input[type="radio"]:checked+label {
+  input[type="radio"]:checked + label {
     @include mixins.general-color-transition();
     color: var(--primary-highlight-colour);
   }
 
-  input[type="checkbox"]:checked+label {
+  input[type="checkbox"]:checked + label {
     @include mixins.general-color-transition();
     color: var(--primary-highlight-colour);
   }
@@ -91,13 +90,9 @@ body {
     z-index: -1;
     width: 50%;
     border-bottom: 4px solid var(--base-font-colour);
-    transition:
-      transform 0.2s ease-in-out,
-      border-bottom 0.3s ease-in-out;
+    transition: transform 0.2s ease-in-out, border-bottom 0.3s ease-in-out;
   }
 }
-
-
 
 .selectable-colour-palette-label {
   height: 2.5rem;
@@ -105,7 +100,6 @@ body {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-
 
   .colour-preview {
     width: 1.5rem;
