@@ -7,61 +7,53 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGamepad, faKeyboard } from "@fortawesome/free-solid-svg-icons";
 
 interface TestModeSelectorProps {
-    activeTab: TestModeTabs,
-    setActiveTab: React.Dispatch<React.SetStateAction<TestModeTabs>>
+  activeTab: TestModeTabs;
+  setActiveTab: React.Dispatch<React.SetStateAction<TestModeTabs>>;
 }
 
-const TestModeSelector = ({activeTab, setActiveTab}: TestModeSelectorProps) => {
-	const {setTestMode, funboxMode} = useTestInformationContext();
+const TestModeSelector = ({
+  activeTab,
+  setActiveTab,
+}: TestModeSelectorProps) => {
+  const { setTestMode, funboxMode } = useTestInformationContext();
 
-	const handleOptionChange = (event:React.ChangeEvent<HTMLInputElement>) => {
-		setActiveTab(event.target.value as TestModeTabs);
-		localStorage.setItem("testModeTab", event.target.value);
+  const handleTabClick = (tab: TestModeTabs) => {
+    setActiveTab(tab);
+    localStorage.setItem("testModeTab", tab);
 
-		if (event.target.value as TestModeTabs === TestModeTabs.Standard) {
-			setTestMode(TestMode.Standard);
-			localStorage.setItem("testMode", event.target.value);
-		} else {	
-			setTestMode(funboxMode);
-			localStorage.setItem("testMode", funboxMode);
-		}
-	};
-		
-	return (
-		<div className="test-mode-selector test-option-selector">
-			<div className="option-text">
- 				<input
- 					type="radio"
- 					id="standard"
- 					value={TestModeTabs.Standard}
- 					name="testMode"
- 					checked={activeTab === TestModeTabs.Standard}
- 					onChange={handleOptionChange}
- 					className="hidden-radio-button"
- 				/>
- 				<label htmlFor="standard" className="selectable-label">
- 					<FontAwesomeIcon icon={faKeyboard} className="standard-icon-left"/>
- 					{TestModeTabs.Standard.toString()}
- 				</label>
- 			</div>
-			 <div className="option-text">
- 				<input
- 					type="radio"
- 					id="funbox"
- 					value={TestModeTabs.Funbox}
- 					name="testMode"
- 					checked={activeTab === TestModeTabs.Funbox}
- 					onChange={handleOptionChange}
- 					className="hidden-radio-button"
- 				/>
- 				<label htmlFor="funbox" className="selectable-label">
-					<FontAwesomeIcon icon={faGamepad} className="standard-icon-left"/>
-					{TestModeTabs.Funbox.toString()}			
- 				</label>
- 			</div>
-			<div style={{left: activeTab === TestModeTabs.Standard ? "" : "50%"}} className="option-selected-bar"></div>
-		</div>
-	);
+    if (tab === TestModeTabs.Standard) {
+      setTestMode(TestMode.Standard);
+      localStorage.setItem("testMode", TestModeTabs.Standard);
+    } else {
+      setTestMode(funboxMode);
+      localStorage.setItem("testMode", funboxMode);
+    }
+  };
+
+  return (
+    <div className="test-mode-container">
+      <div className="tab-selector no-underline">
+        <button
+          className={activeTab === TestModeTabs.Standard ? "tab-selected" : ""}
+          onClick={() => handleTabClick(TestModeTabs.Standard)}
+        >
+          <FontAwesomeIcon icon={faKeyboard} className="standard-icon-left" />
+          {TestModeTabs.Standard.toString()}
+        </button>
+        <button
+          className={activeTab === TestModeTabs.Funbox ? "tab-selected" : ""}
+          onClick={() => handleTabClick(TestModeTabs.Funbox)}
+        >
+          <FontAwesomeIcon icon={faGamepad} className="standard-icon-left" />
+          {TestModeTabs.Funbox.toString()}
+        </button>
+        <div
+          style={{ left: activeTab === TestModeTabs.Standard ? "" : "50%" }}
+          className="option-selected-bar"
+        ></div>
+      </div>
+    </div>
+  );
 };
 
 export default TestModeSelector;

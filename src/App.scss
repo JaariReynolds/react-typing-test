@@ -90,6 +90,10 @@ a {
     color: var(--primary-highlight-colour);
   }
 
+  &.no-underline {
+    border-bottom: none;
+  }
+
   .tab-selected-underline {
     grid-column: span 2;
     z-index: -1;

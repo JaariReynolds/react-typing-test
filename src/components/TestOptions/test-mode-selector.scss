@@ -1,6 +1,4 @@
-.test-mode-selector {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+.test-mode-container {
   margin: 0 auto 1rem auto !important; // to overwrite .test-option-selector
   text-align: left !important;
   width: 18rem;
@@ -19,6 +17,7 @@
     position: absolute;
     z-index: -1;
     width: 50%;
+    top: 0;
     left: 0;
     height: 100%;
     background-color: var(--base-font-colour);
