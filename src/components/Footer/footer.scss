@@ -5,7 +5,6 @@
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: space-between;
-  min-width: constants.$min-width;
   align-items: center;
   margin-top: auto;
   width: 100%;
@@ -21,23 +20,14 @@
   .footer-item {
     cursor: pointer;
     margin: 0rem 0.5rem;
-    padding: 0.5rem 1.5rem;
-
-    &:hover {
-      color: var(--secondary-highlight-colour);
-      @include mixins.transition-hover-button();
-
-      * {
-        cursor: pointer;
-      }
-    }
+    padding: 0.3rem 1.5rem;
 
     &.palette {
       display: flex;
       align-items: center;
 
       .selectable-colour-palette-label {
-        margin-left: 0.4rem;
+        margin-left: 0.2rem;
         height: 2rem;
         width: 4rem;
 
