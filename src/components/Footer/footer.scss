@@ -2,54 +2,50 @@
 @use "../../styles/constants";
 
 .footer {
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: space-between;
-    min-width: constants.$min-width;
-    align-items: center;
-    margin-top: auto;
-    width: 100%;
-    border-top: 3px solid var(--base-font-colour);
-    height: 2.5rem;
-    opacity: var(--component-opacity);
-    font-weight: constants.$bold-font-weight;
-    background-color: var(--background-colour);
-    transition:
-        background-color 0.3s ease-in-out,
-        opacity constants.$component-opacity-fade-duration ease-in-out,
-        border-top 0.3s ease-in-out;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: space-between;
+  min-width: constants.$min-width;
+  align-items: center;
+  margin-top: auto;
+  width: 100%;
+  border-top: 3px solid var(--base-font-colour);
+  height: 2.5rem;
+  opacity: var(--component-opacity);
+  font-weight: constants.$bold-font-weight;
+  background-color: var(--background-colour);
+  transition: background-color 0.3s ease-in-out,
+    opacity constants.$component-opacity-fade-duration ease-in-out,
+    border-top 0.3s ease-in-out;
 
-    .footer-item {
+  .footer-item {
+    cursor: pointer;
+    margin: 0rem 0.5rem;
+    padding: 0.5rem 1.5rem;
 
-        &:first-child {
-            padding-left: 2rem;
-        }
+    &:hover {
+      color: var(--secondary-highlight-colour);
+      @include mixins.transition-hover-button();
 
-        &:last-child {
-            padding-right: 2rem;
-        }
-
-        &:hover {
-            color: var(--secondary-highlight-colour);
-            @include mixins.transition-hover-button();
-        }
-
-        &.palette {
-            display: flex;
-            align-items: center;
-
-            .selectable-colour-palette-label {
-                margin-left: 0.4rem;
-                height: 2rem;
-                width: 4rem;
-
-                .colour-preview {
-                    width: 1rem;
-                    height: 1rem;
-                }
-            }
-        }
+      * {
+        cursor: pointer;
+      }
     }
 
+    &.palette {
+      display: flex;
+      align-items: center;
 
+      .selectable-colour-palette-label {
+        margin-left: 0.4rem;
+        height: 2rem;
+        width: 4rem;
+
+        .colour-preview {
+          width: 1rem;
+          height: 1rem;
+        }
+      }
+    }
+  }
 }
