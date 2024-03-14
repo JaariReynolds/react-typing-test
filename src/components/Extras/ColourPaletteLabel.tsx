@@ -4,11 +4,13 @@ import { ColourPaletteStructure } from "../../interfaces/ColourPalettes";
 export interface ColourPaletteLabelProps {
   colourPalette: ColourPaletteStructure;
   backgroundColour: boolean;
+  footerButtonHovered?: boolean;
 }
 
 const ColourPaletteLabel = ({
   colourPalette,
   backgroundColour,
+  footerButtonHovered,
 }: ColourPaletteLabelProps) => {
   return (
     <div
@@ -20,15 +22,25 @@ const ColourPaletteLabel = ({
       className="selectable-colour-palette-label"
     >
       <div
-        style={{ backgroundColor: colourPalette.baseFontColour }}
+        style={{
+          backgroundColor: footerButtonHovered
+            ? colourPalette.secondaryHighlightColour
+            : colourPalette.baseFontColour,
+        }}
         className="colour-preview"
       ></div>
       <div
-        style={{ backgroundColor: colourPalette.primaryHighlightColour }}
+        style={{
+          backgroundColor: footerButtonHovered
+            ? colourPalette.secondaryHighlightColour
+            : colourPalette.primaryHighlightColour,
+        }}
         className="colour-preview"
       ></div>
       <div
-        style={{ backgroundColor: colourPalette.secondaryHighlightColour }}
+        style={{
+          backgroundColor: colourPalette.secondaryHighlightColour,
+        }}
         className="colour-preview"
       ></div>
     </div>

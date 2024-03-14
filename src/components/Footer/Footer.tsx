@@ -1,5 +1,5 @@
 import "./footer.scss";
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCodeBranch, faPalette } from "@fortawesome/free-solid-svg-icons";
 import ColourPaletteLabel from "../Extras/ColourPaletteLabel";
@@ -16,6 +16,7 @@ const Footer = ({
   colourPaletteDivRef,
 }: FooterProps) => {
   const { selectedPaletteId } = useUserContext();
+  const [paletteButtonHover, setPaletteButtonHover] = useState<boolean>(false);
 
   const handleShowColourPalettes = () => {
     if (colourPaletteDivRef.current?.style.maxHeight == "max-content") return;
@@ -29,6 +30,8 @@ const Footer = ({
         className="footer-item palette"
         onClick={handleShowColourPalettes}
         tabIndex={-1}
+        onMouseEnter={() => setPaletteButtonHover(true)}
+        onMouseLeave={() => setPaletteButtonHover(false)}
       >
         <FontAwesomeIcon
           icon={faPalette}
@@ -38,6 +41,7 @@ const Footer = ({
         <ColourPaletteLabel
           colourPalette={colourPalettes[selectedPaletteId]}
           backgroundColour={false}
+          footerButtonHovered={paletteButtonHover}
         />
       </button>
       <a
